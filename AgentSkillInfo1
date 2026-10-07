@@ -1,0 +1,65 @@
+/*
+ * Copyright 2026 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+
+package com.calian.paradigm.service.aiservice.cohere;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * Represents skill information associated with an AI agent.
+ *
+ * @author F. Nkutu
+ * @company SimFront a Calian Company
+ * Created 2026
+ */
+public final class AgentSkillInfo {
+
+    private final String id;
+    private final String name;
+    private final String description;
+    private final List<String> tags;
+    private final List<String> examples;
+
+    public AgentSkillInfo(String id, String name, String description, List<String> tags, List<String> examples) {
+        this.id = safe(id);
+        this.name = safe(name);
+        this.description = safe(description);
+        this.tags = immutableCopy(tags);
+        this.examples = immutableCopy(examples);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public List<String> getExamples() {
+        return examples;
+    }
+
+    private static List<String> immutableCopy(List<String> values) {
+        if (values == null) {
+            return Collections.emptyList();
+        }
+        return Collections.unmodifiableList(new ArrayList<>(values));
+    }
+
+    private static String safe(String value) {
+        return value == null ? "" : value;
+    }
+}
