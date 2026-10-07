@@ -1,0 +1,46 @@
+/*
+ * Copyright 2026 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+
+package com.calian.paradigm.service.aiservice.resources;
+
+import java.io.InputStream;
+import java.util.Map;
+import org.yaml.snakeyaml.Yaml;
+
+/**
+ * AI Service configuration constants.
+ *
+ * @author F. Nkutu
+ * @company SimFront a Calian Company
+ * Created 2026
+ */
+public final class AIServiceConstants {
+
+    public static final String ROUTER_URL = loadRouterURL();
+
+    private AIServiceConstants() {
+    }
+
+    private static String loadRouterURL() {
+        try (InputStream input = AIServiceConstants.class.getClassLoader().getResourceAsStream("application.yml")) {
+            if (input == null) {
+                throw new IllegalStateException("application.yml not found on classpath.");
+            }
+            Map<String, Object> config = new Yaml().load(input);
+            Object value = config == null ? null : config.get("ROUTER_URL");
+            if (value == null || value.toString().isBlank()) {
+                throw new IllegalStateException("ROUTER_URL is missing from application.yml.");
+            }
+            return value.toString().trim();
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to load ROUTER_URL from application.yml.", ex);
+        }
+    }
+}
+
+
+then
+import com.calian.paradigm.service.aiservice.resources.AIServiceConstants;
+private static final String ROUTER_URL = AIServiceConstants.ROUTER_URL;
