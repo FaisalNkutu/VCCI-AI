@@ -1,0 +1,91 @@
+        System.out.println("DEBUG VCCI: processResponse() called.");            
+        if (frr == null) {
+            System.out.println("DEBUG VCCI: FRR is NULL.");         
+            return;
+        }
+        System.out.println("DEBUG VCCI: Feature ID = "+ frr.getComponentFeatureID());
+
+        System.out.println(
+                "DEBUG VCCI: State = "
+                + frr.getStateString());
+
+        BTO params =
+                frr.getFeatureParameters();
+
+        if (params == null) {
+
+            System.out.println(
+                    "DEBUG VCCI: Feature parameters are NULL.");
+
+            return;
+        }
+
+        System.out.println(
+                "DEBUG VCCI: Response object class = "
+                + params.getClass().getName());
+
+        if (params instanceof AISGetCommandsRequest) {
+
+            System.out.println( "DEBUG VCCI: AISGetCommandsRequest DISPATCHED");
+            AISGetCommandsRequest response =
+                    (AISGetCommandsRequest) params;
+            HashMap<String, String> agentURLs = response.getAgentURLs();
+            System.out.println("\n========================================");
+            System.out.println( "DEBUG VCCI: AGENT URL MAP = " + agentURLs);        
+            System.out.println( "DEBUG VCCI: AISGetCommandsRequest RECEIVED");
+            System.out.println( "DEBUG VCCI: AI CORE RESPONSE RECEIVED");
+                    
+
+            System.out.println(
+                    "========================================");
+
+
+            HashMap<String, List<String>> commandData =
+                    response.getCommandList();
+            
+
+            if (commandData == null) {
+
+                System.out.println(
+                        "DEBUG VCCI: AI Core commandData is NULL");
+
+                return;
+            }
+
+
+            System.out.println(
+                    "DEBUG VCCI: AI Core returned "
+                            + commandData.size()
+                            + " agent(s)");
+
+
+            synchronized (jAIServiceAgents) {
+
+                jAIServiceAgents.clear();
+
+                jAIServiceAgents.putAll(
+                        commandData);
+                jAIServiceAgentURLs.clear();
+
+                jAIServiceAgentURLs.putAll(
+                        agentURLs);
+            }
+
+
+            for (Map.Entry<String, List<String>> entry
+                    : commandData.entrySet()) {
+
+                System.out.println(
+                        "DEBUG VCCI: AI CORE AGENT -> "
+                                + entry.getKey()
+                                + " | Commands = "
+                                + entry.getValue());
+            }
+
+
+            System.out.println(
+                    "DEBUG VCCI: AI Core agents cached successfully");
+
+            System.out.println(
+                    "========================================\n");
+        }
