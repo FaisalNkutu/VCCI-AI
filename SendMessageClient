@@ -1,0 +1,392 @@
+package com.calian.paradigm.service.aiservice.cohere;
+
+import com.calian.paradigm.service.aiservice.cohere.AgentInfo;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+import java.time.Duration;
+import java.util.UUID;
+
+public final class SendMessageClient {
+
+    private static final ObjectMapper MAPPER =
+            new ObjectMapper();
+
+    private static final HttpClient CLIENT =
+            HttpClient.newBuilder()
+                    .connectTimeout(
+                            Duration.ofSeconds(10))
+                    .build();
+
+    private SendMessageClient() {
+    }
+
+    // =========================================================
+    // SEND MESSAGE
+    // =========================================================
+
+    public static String sendMessage(
+            AgentInfo agent,
+            String message,
+            String contextId)
+            throws Exception {
+
+        if (agent == null) {
+
+            throw new IllegalArgumentException(
+                    "No AI agent was selected.");
+        }
+
+        if (message == null
+                || message.isBlank()) {
+
+            throw new IllegalArgumentException(
+                    "Message cannot be empty.");
+        }
+
+        String endpoint =
+                agent.getEndpoint();
+
+        if (endpoint == null
+                || endpoint.isBlank()) {
+
+            throw new IllegalArgumentException(
+                    "No endpoint is configured for agent: "
+                    + agent.getName());
+        }
+
+        /*
+         * Make sure endpoint has HTTP scheme.
+         */
+
+        if (!endpoint.startsWith("http://")
+                && !endpoint.startsWith("https://")) {
+
+            endpoint =
+                    "http://" + endpoint;
+        }
+
+        // =====================================================
+        // CREATE JSON-RPC REQUEST
+        // =====================================================
+
+        ObjectNode root =
+                MAPPER.createObjectNode();
+
+        root.put(
+                "jsonrpc",
+                "2.0");
+
+        root.put(
+                "id",
+                UUID.randomUUID()
+                        .toString());
+
+        /*
+         * A2A SendStreamingMessage
+         *
+         * Depending on the a2a-sdk version,
+         * the wire method is typically message/stream.
+         */
+
+        root.put(
+                "method",
+                "SendMessage");
+
+        ObjectNode params =
+                root.putObject(
+                        "params");
+
+        ObjectNode messageNode =
+                params.putObject(
+                        "message");
+
+        messageNode.put(
+                "role",
+                "ROLE_USER");
+
+        messageNode.put(
+                "messageId",
+                UUID.randomUUID()
+                        .toString());
+
+        if (contextId != null
+                && !contextId.isBlank()) {
+
+            messageNode.put(
+                    "contextId",
+                    contextId);
+        }
+
+        ArrayNode parts =
+                messageNode.putArray(
+                        "parts");
+
+        ObjectNode textPart =
+                parts.addObject();
+
+
+        textPart.put(
+                "text",
+                message);
+
+        String requestBody =
+                MAPPER.writeValueAsString(
+                        root);
+
+        // =====================================================
+        // DEBUG INFORMATION
+        // =====================================================
+
+        System.out.println();
+        System.out.println(
+                "========================================");
+
+        System.out.println(
+                "VCCI -> A2A REQUEST");
+
+        System.out.println(
+                "Agent Name : "
+                + agent.getName());
+
+        System.out.println(
+                "Agent ID   : "
+                + agent.getId());
+
+        System.out.println(
+                "Endpoint   : "
+                + endpoint);
+
+        System.out.println(
+                "Context ID : "
+                + contextId);
+
+        System.out.println(
+                "Message    : "
+                + message);
+
+        System.out.println(
+                "JSON       : "
+                + requestBody);
+
+        System.out.println(
+                "========================================");
+
+        // =====================================================
+        // HTTP REQUEST
+        // =====================================================
+
+        HttpRequest request =
+                HttpRequest.newBuilder()
+                        .uri(URI.create(endpoint))
+                        .timeout(Duration.ofSeconds(120))
+                        .header(
+                                "Content-Type",
+                                "application/json")
+                        .header(
+                                "Accept",
+                                "application/json")
+                        .header(
+                                "A2A-Version",
+                                "1.0")
+                        .POST(
+                                HttpRequest.BodyPublishers
+                                        .ofString(requestBody))
+                        .build();
+
+        HttpResponse<String> response =
+                CLIENT.send(
+                        request,
+                        HttpResponse
+                                .BodyHandlers
+                                .ofString());
+
+        System.out.println(
+                "HTTP Status: "
+                + response.statusCode());
+
+        System.out.println(
+                "Raw response:");
+
+        System.out.println(
+                response.body());
+
+        // =====================================================
+        // VALIDATE HTTP RESPONSE
+        // =====================================================
+
+        if (response.statusCode() < 200
+                || response.statusCode() >= 300) {
+
+            throw new RuntimeException(
+                    "A2A request failed. HTTP "
+                    + response.statusCode()
+                    + "\n\n"
+                    + response.body());
+        }
+
+        // =====================================================
+        // EXTRACT AI TEXT
+        // =====================================================
+
+        return extractText(
+                response.body());
+    }
+
+    // =========================================================
+    // EXTRACT RESPONSE TEXT
+    // =========================================================
+
+    private static String extractText(
+            String responseBody)
+            throws Exception {
+
+        if (responseBody == null
+                || responseBody.isBlank()) {
+
+            return "";
+        }
+
+        StringBuilder result =
+                new StringBuilder();
+
+        /*
+         * Streaming responses may contain:
+         *
+         * data: {...}
+         * data: {...}
+         *
+         * or normal JSON.
+         */
+
+        String[] lines =
+                responseBody.split("\\R");
+
+        for (String line : lines) {
+
+            if (line == null
+                    || line.isBlank()) {
+
+                continue;
+            }
+
+            String value =
+                    line.trim();
+
+            if (value.startsWith("data:")) {
+
+                value =
+                        value.substring(5)
+                                .trim();
+            }
+
+            if (value.isBlank()) {
+
+                continue;
+            }
+
+            try {
+
+                JsonNode root =
+                        MAPPER.readTree(
+                                value);
+
+                collectResponseText(
+                        root,
+                        result);
+
+            } catch (Exception ignored) {
+
+                /*
+                 * Ignore SSE framing or
+                 * non-JSON stream lines.
+                 */
+            }
+        }
+
+        if (result.length() == 0) {
+
+            /*
+             * If we could not identify text,
+             * return the raw response so that
+             * debugging information is not lost.
+             */
+
+            return responseBody;
+        }
+
+        return result.toString();
+    }
+
+    // =========================================================
+    // RECURSIVE TEXT EXTRACTION
+    // =========================================================
+
+    private static void collectResponseText(
+            JsonNode node,
+            StringBuilder result) {
+
+        if (node == null
+                || node.isNull()) {
+
+            return;
+        }
+
+        if (node.isObject()) {
+
+            node.fields()
+                    .forEachRemaining(
+                            entry -> {
+
+                                String key =
+                                        entry.getKey();
+
+                                JsonNode value =
+                                        entry.getValue();
+
+                                /*
+                                 * A2A text parts normally look like:
+                                 *
+                                 * {
+                                 *     "kind": "text",
+                                 *     "text": "..."
+                                 * }
+                                 */
+
+                                if ("text".equals(key)
+                                        && value.isTextual()) {
+
+                                    String text =
+                                            value.asText();
+
+                                    if (!text.isBlank()) {
+
+                                        result.append(text);
+                                    }
+
+                                } else {
+
+                                    collectResponseText(
+                                            value,
+                                            result);
+                                }
+                            });
+
+        } else if (node.isArray()) {
+
+            for (JsonNode child : node) {
+
+                collectResponseText(
+                        child,
+                        result);
+            }
+        }
+    }
+}
