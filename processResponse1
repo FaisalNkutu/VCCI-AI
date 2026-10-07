@@ -1,0 +1,52 @@
+jL.debug("DEBUG VCCI: processResponse() called.");
+
+if (frr == null) {
+    jL.debug("DEBUG VCCI: FRR is NULL.");
+    return;
+}
+
+jL.debug("DEBUG VCCI: Feature ID = " + frr.getComponentFeatureID());
+jL.debug("DEBUG VCCI: State = " + frr.getStateString());
+
+BTO params = frr.getFeatureParameters();
+
+if (params == null) {
+    jL.debug("DEBUG VCCI: Feature parameters are NULL.");
+    return;
+}
+
+jL.debug("DEBUG VCCI: Response object class = " + params.getClass().getName());
+
+if (params instanceof AISGetCommandsRequest) {
+    jL.debug("DEBUG VCCI: AISGetCommandsRequest DISPATCHED");
+    AISGetCommandsRequest response = (AISGetCommandsRequest) params;
+    HashMap<String, String> agentURLs = response.getAgentURLs();
+    jL.debug("========================================");
+    jL.debug("DEBUG VCCI: AGENT URL MAP = " + agentURLs);
+    jL.debug("DEBUG VCCI: AISGetCommandsRequest RECEIVED");
+    jL.debug("DEBUG VCCI: AI CORE RESPONSE RECEIVED");
+    jL.debug("========================================");
+
+    HashMap<String, List<String>> commandData = response.getCommandList();
+
+    if (commandData == null) {
+        jL.debug("DEBUG VCCI: AI Core commandData is NULL");
+        return;
+    }
+
+    jL.debug("DEBUG VCCI: AI Core returned " + commandData.size() + " agent(s)");
+
+    synchronized (jAIServiceAgents) {
+        jAIServiceAgents.clear();
+        jAIServiceAgents.putAll(commandData);
+        jAIServiceAgentURLs.clear();
+        jAIServiceAgentURLs.putAll(agentURLs);
+    }
+
+    for (Map.Entry<String, List<String>> entry : commandData.entrySet()) {
+        jL.debug("DEBUG VCCI: AI CORE AGENT -> " + entry.getKey() + " | Commands = " + entry.getValue());
+    }
+
+    jL.debug("DEBUG VCCI: AI Core agents cached successfully");
+    jL.debug("========================================");
+}
