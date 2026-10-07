@@ -1,0 +1,73 @@
+    public static HashMap<String, List<String>>getAIServiceAgents() {
+        synchronized (jAIServiceAgents) {
+
+            return new HashMap<>(
+                    jAIServiceAgents);
+        }
+    }
+    public static HashMap<String, String> getAIServiceAgentURLs() {
+        synchronized (jAIServiceAgentURLs) {
+
+            return new HashMap<>(jAIServiceAgentURLs);
+        }
+    }   
+    //end of cohere changes
+    //added cohere integration changes
+ 
+         private void sendMessageButtonPressed() {
+
+            System.out.println(
+                    "DEBUG VCCI: sendMessageButtonPressed() ENTERED");
+
+            // FIRST ask AI Core for its available agents.
+            requestAIServiceAgents();
+
+            System.out.println(
+                    "DEBUG VCCI: requestAIServiceAgents() issued");
+
+            Window window =
+                    SwingUtilities.getWindowAncestor(this);
+
+            Frame owner = null;
+
+            if (window instanceof Frame) {
+                owner = (Frame) window;
+            }
+
+            AIChatbotClient chatbot =
+                    new AIChatbotClient(owner);
+
+            chatbot.setLocationRelativeTo(owner);
+
+            chatbot.setVisible(true);
+        }
+        private void requestAIServiceAgents() {
+
+        try {
+
+            System.out.println(
+                    "DEBUG VCCI: Sending AIService.LIST request...");
+
+            AISGetCommandsRequest request =
+                    new AISGetCommandsRequest();
+
+            ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(
+                    this,
+                    VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                    VCCIControlPanel.class.getCanonicalName(),
+                    AIService.class.getCanonicalName(),
+                    AIService.LIST,
+                    request,
+                    true);
+
+            System.out.println(
+                    "DEBUG VCCI: AIService.LIST request issued.");
+
+        } catch (Exception ex) {
+
+            System.err.println(
+                    "DEBUG VCCI: Failed to issue AIService.LIST request.");
+
+            ex.printStackTrace();
+        }
+        }
