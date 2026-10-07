@@ -1,0 +1,174 @@
+/*
+ * Copyright 2026 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+
+package com.calian.paradigm.service.aiservice.cohere;
+
+import com.calian.common.lib.log.Log;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.slf4j.Logger;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.UUID;
+
+/**
+ * Client responsible for sending messages to AI agents using the A2A protocol.
+ *
+ * @author F. Nkutu
+ * @company SimFront a Calian Company
+ * Created 2026
+ */
+public final class SendMessageClient {
+
+    private static final Logger jL = Log.getLogger(SendMessageClient.class);
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final HttpClient CLIENT = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build();
+
+    private SendMessageClient() {
+    }
+
+    public static String sendMessage(AgentInfo agent, String message, String contextId) throws Exception {
+
+        if (agent == null) {
+            throw new IllegalArgumentException("No AI agent was selected.");
+        }
+
+        if (message == null || message.isBlank()) {
+            throw new IllegalArgumentException("Message cannot be empty.");
+        }
+
+        String endpoint = agent.getEndpoint();
+
+        if (endpoint == null || endpoint.isBlank()) {
+            throw new IllegalArgumentException("No endpoint is configured for agent: " + agent.getName());
+        }
+
+        if (!endpoint.startsWith("http://") && !endpoint.startsWith("https://")) {
+            endpoint = "http://" + endpoint;
+        }
+
+        ObjectNode root = MAPPER.createObjectNode();
+        root.put("jsonrpc", "2.0");
+        root.put("id", UUID.randomUUID().toString());
+        root.put("method", "SendMessage");
+
+        ObjectNode params = root.putObject("params");
+        ObjectNode messageNode = params.putObject("message");
+
+        messageNode.put("role", "ROLE_USER");
+        messageNode.put("messageId", UUID.randomUUID().toString());
+
+        if (contextId != null && !contextId.isBlank()) {
+            messageNode.put("contextId", contextId);
+        }
+
+        ArrayNode parts = messageNode.putArray("parts");
+        ObjectNode textPart = parts.addObject();
+
+        textPart.put("text", message);
+
+        String requestBody = MAPPER.writeValueAsString(root);
+
+        jL.debug("========================================");
+        jL.debug("VCCI -> A2A REQUEST");
+        jL.debug("Agent Name : " + agent.getName());
+        jL.debug("Agent ID   : " + agent.getId());
+        jL.debug("Endpoint   : " + endpoint);
+        jL.debug("Context ID : " + contextId);
+        jL.debug("Message    : " + message);
+        jL.debug("JSON       : " + requestBody);
+        jL.debug("========================================");
+
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(endpoint)).timeout(Duration.ofSeconds(120)).header("Content-Type", "application/json").header("Accept", "application/json").header("A2A-Version", "1.0").POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
+
+        HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+        jL.debug("HTTP Status: " + response.statusCode());
+        jL.debug("Raw response:");
+        jL.debug(response.body());
+
+        if (response.statusCode() < 200 || response.statusCode() >= 300) {
+            throw new RuntimeException("A2A request failed. HTTP " + response.statusCode() + "\n\n" + response.body());
+        }
+
+        return extractText(response.body());
+    }
+
+    private static String extractText(String responseBody) throws Exception {
+
+        if (responseBody == null || responseBody.isBlank()) {
+            return "";
+        }
+
+        StringBuilder result = new StringBuilder();
+        String[] lines = responseBody.split("\\R");
+
+        for (String line : lines) {
+
+            if (line == null || line.isBlank()) {
+                continue;
+            }
+
+            String value = line.trim();
+
+            if (value.startsWith("data:")) {
+                value = value.substring(5).trim();
+            }
+
+            if (value.isBlank()) {
+                continue;
+            }
+
+            try {
+                JsonNode root = MAPPER.readTree(value);
+                collectResponseText(root, result);
+            } catch (Exception ignored) {
+                jL.debug("Ignoring non-JSON response line: " + value);
+            }
+        }
+
+        if (result.length() == 0) {
+            return responseBody;
+        }
+
+        return result.toString();
+    }
+
+    private static void collectResponseText(JsonNode node, StringBuilder result) {
+
+        if (node == null || node.isNull()) {
+            return;
+        }
+
+        if (node.isObject()) {
+
+            node.fields().forEachRemaining(entry -> {
+                String key = entry.getKey();
+                JsonNode value = entry.getValue();
+
+                if ("text".equals(key) && value.isTextual()) {
+                    String text = value.asText();
+                    if (!text.isBlank()) {
+                        result.append(text);
+                    }
+                } else {
+                    collectResponseText(value, result);
+                }
+            });
+
+        } else if (node.isArray()) {
+
+            for (JsonNode child : node) {
+                collectResponseText(child, result);
+            }
+        }
+    }
+}
