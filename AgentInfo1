@@ -1,0 +1,86 @@
+/*
+ * Copyright 2026 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+
+package com.calian.paradigm.service.aiservice.cohere;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * Represents information describing an available AI agent.
+ *
+ * @author F. Nkutu
+ * @company SimFront a Calian Company
+ * Created 2026
+ */
+public class AgentInfo {
+
+    private final String id;
+    private final String name;
+    private final String description;
+    private final String endpoint;
+    private final boolean streaming;
+    private final String type;
+    private final List<AgentSkillInfo> skills;
+
+    public AgentInfo(String id, String name, String description, String endpoint, boolean streaming, String type) {
+        this(id, name, description, endpoint, streaming, type, Collections.emptyList());
+    }
+
+    public AgentInfo(String id, String name, String description, String endpoint, boolean streaming, String type, List<AgentSkillInfo> skills) {
+        this.id = safe(id);
+        this.name = safe(name);
+        this.description = safe(description);
+        this.endpoint = safe(endpoint);
+        this.streaming = streaming;
+        this.type = safe(type);
+        if (skills == null) {
+            this.skills = Collections.emptyList();
+        } else {
+            this.skills = Collections.unmodifiableList(new ArrayList<>(skills));
+        }
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    public boolean isStreaming() {
+        return streaming;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public List<AgentSkillInfo> getSkills() {
+        return skills;
+    }
+
+    @Override
+    public String toString() {
+        if (name != null && !name.isBlank()) {
+            return name;
+        }
+        return id;
+    }
+
+    private static String safe(String value) {
+        return value == null ? "" : value;
+    }
+}
