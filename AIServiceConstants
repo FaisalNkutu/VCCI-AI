@@ -3,11 +3,17 @@
  *                   All rights reserved.
  */
 
+/*
+ * Copyright 2026 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+
 package com.calian.paradigm.service.aiservice.resources;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
-import java.util.Map;
-import org.yaml.snakeyaml.Yaml;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 /**
  * AI Service configuration constants.
@@ -25,21 +31,39 @@ public final class AIServiceConstants {
 
     private static String loadRouterURL() {
         try (InputStream input = AIServiceConstants.class.getClassLoader().getResourceAsStream("application.yml")) {
+
             if (input == null) {
                 throw new IllegalStateException("application.yml not found on classpath.");
             }
-            Map<String, Object> config = new Yaml().load(input);
-            Object value = config == null ? null : config.get("ROUTER_URL");
-            if (value == null || value.toString().isBlank()) {
-                throw new IllegalStateException("ROUTER_URL is missing from application.yml.");
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
+
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+
+                    String trimmedLine = line.trim();
+
+                    if (trimmedLine.startsWith("ROUTER_URL:")) {
+
+                        String value = trimmedLine.substring("ROUTER_URL:".length()).trim();
+
+                        if (value.isBlank()) {
+                            throw new IllegalStateException("ROUTER_URL is empty in application.yml.");
+                        }
+
+                        return value;
+                    }
+                }
             }
-            return value.toString().trim();
+
+            throw new IllegalStateException("ROUTER_URL is missing from application.yml.");
+
         } catch (Exception ex) {
             throw new IllegalStateException("Failed to load ROUTER_URL from application.yml.", ex);
         }
     }
 }
-
 
 then
 import com.calian.paradigm.service.aiservice.resources.AIServiceConstants;
