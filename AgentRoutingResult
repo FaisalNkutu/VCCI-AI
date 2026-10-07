@@ -1,0 +1,135 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.calian.paradigm.service.aiservice.cohere;
+
+/**
+ * Represents the result of automatic AI agent routing.
+ *
+ * A routing result contains:
+ *  - the selected AgentInfo, if an agent was selected
+ *  - the router confidence score
+ *  - the reason for the routing decision
+ */
+public class AgentRoutingResult {
+
+    private final AgentInfo agent;
+    private final double confidence;
+    private final String reason;
+
+
+    /**
+     * Creates a routing result.
+     *
+     * @param agent       selected agent, or null if no agent was selected
+     * @param confidence  routing confidence from 0.0 to 1.0
+     * @param reason      human-readable explanation of the decision
+     */
+    public AgentRoutingResult(
+            AgentInfo agent,
+            double confidence,
+            String reason) {
+
+        this.agent = agent;
+        this.confidence = confidence;
+        this.reason = reason;
+    }
+
+
+    /**
+     * Returns the selected agent.
+     *
+     * @return selected AgentInfo, or null when no agent was selected
+     */
+    public AgentInfo getAgent() {
+        return agent;
+    }
+
+
+    /**
+     * Returns the selected agent ID.
+     *
+     * @return agent ID, or null if no agent was selected
+     */
+    public String getAgentId() {
+
+        if (agent == null) {
+            return null;
+        }
+
+        return agent.getId();
+    }
+
+
+    /**
+     * Returns the selected agent name.
+     *
+     * @return agent name, or null if no agent was selected
+     */
+    public String getAgentName() {
+
+        if (agent == null) {
+            return null;
+        }
+
+        return agent.getName();
+    }
+
+
+    /**
+     * Returns the router confidence.
+     */
+    public double getConfidence() {
+        return confidence;
+    }
+
+
+    /**
+     * Returns the explanation for the routing decision.
+     */
+    public String getReason() {
+        return reason;
+    }
+
+
+    /**
+     * Returns true when the router successfully selected
+     * an agent.
+     */
+    public boolean hasAgent() {
+        return agent != null;
+    }
+
+
+    /**
+     * Alias used by code that checks whether an agent
+     * was successfully selected.
+     */
+    public boolean isSelected() {
+        return agent != null;
+    }
+
+
+    /**
+     * Returns true when the routing result did not
+     * contain an agent.
+     */
+    public boolean hasNoAgent() {
+        return agent == null;
+    }
+
+
+    @Override
+    public String toString() {
+
+        return "AgentRoutingResult{" +
+                "agent=" +
+                (agent != null
+                        ? agent.getName()
+                        : "null") +
+                ", confidence=" + confidence +
+                ", reason='" + reason + '\'' +
+                '}';
+    }
+}
