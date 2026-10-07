@@ -1,0 +1,200 @@
+package com.calian.paradigm.service.aiservice.cohere;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+import java.time.Duration;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public final class AgentRegistryClient {
+
+    private static final ObjectMapper MAPPER =
+            new ObjectMapper();
+
+    private static final HttpClient CLIENT =
+            HttpClient.newBuilder()
+                    .connectTimeout(
+                            Duration.ofSeconds(10))
+                    .build();
+
+    private AgentRegistryClient() {
+    }
+
+    public static List<AgentInfo> getAgents(
+            String aiServiceAddress)
+            throws Exception {
+
+        if (aiServiceAddress == null
+                || aiServiceAddress.isBlank()) {
+
+            throw new IllegalArgumentException(
+                    "AI Service address cannot be empty.");
+        }
+
+        String baseAddress =
+                aiServiceAddress.trim();
+
+        /*
+         * Allow caller to supply:
+         *
+         * 127.0.0.1:9999
+         *
+         * OR
+         *
+         * http://127.0.0.1:9999
+         */
+
+        if (!baseAddress.startsWith("http://")
+                && !baseAddress.startsWith("https://")) {
+
+            baseAddress =
+                    "http://" + baseAddress;
+        }
+
+        /*
+         * Python AIService should expose:
+         *
+         * GET /agents
+         */
+
+        String url =
+                baseAddress + "/agents";
+
+        System.out.println(
+                "Discovering AI agents from: "
+                + url);
+
+        HttpRequest request =
+                HttpRequest.newBuilder()
+                        .uri(URI.create(url))
+                        .timeout(
+                                Duration.ofSeconds(20))
+                        .header(
+                                "Accept",
+                                "application/json")
+                        .GET()
+                        .build();
+
+        HttpResponse<String> response =
+                CLIENT.send(
+                        request,
+                        HttpResponse.BodyHandlers
+                                .ofString());
+
+        if (response.statusCode() < 200
+                || response.statusCode() >= 300) {
+
+            throw new RuntimeException(
+                    "Agent discovery failed. HTTP "
+                    + response.statusCode()
+                    + "\n"
+                    + response.body());
+        }
+
+        JsonNode root =
+                MAPPER.readTree(
+                        response.body());
+
+        /*
+         * Support either:
+         *
+         * {
+         *    "agents": [...]
+         * }
+         *
+         * OR simply:
+         *
+         * [...]
+         */
+
+        JsonNode agentsNode;
+
+        if (root.isArray()) {
+
+            agentsNode = root;
+
+        } else {
+
+            agentsNode =
+                    root.path("agents");
+        }
+
+        List<AgentInfo> agents =
+                new ArrayList<>();
+
+        if (!agentsNode.isArray()) {
+
+            throw new RuntimeException(
+                    "AI Service returned an invalid "
+                    + "agent list:\n"
+                    + response.body());
+        }
+
+        for (JsonNode node : agentsNode) {
+
+            String id =
+                    node.path("id")
+                            .asText("");
+
+            String name =
+                    node.path("name")
+                            .asText(id);
+
+            String description =
+                    node.path("description")
+                            .asText("");
+
+String endpoint =
+        node.path("endpoint")
+                .asText("");
+
+if (endpoint == null
+        || endpoint.isBlank()) {
+
+    endpoint = baseAddress;
+}
+
+            boolean streaming =
+                    node.path("streaming")
+                            .asBoolean(true);
+
+            String type =
+                    node.path("type")
+                            .asText("a2a");
+
+            AgentInfo agent =
+                    new AgentInfo(
+                            id,
+                            name,
+                            description,
+                            endpoint,
+                            streaming,
+                            type);
+
+            agents.add(agent);
+        }
+
+        System.out.println(
+                "Discovered "
+                + agents.size()
+                + " AI agent(s).");
+
+        for (AgentInfo agent : agents) {
+
+            System.out.println(
+                    "  "
+                    + agent.getName()
+                    + " -> "
+                    + agent.getEndpoint());
+        }
+
+        return agents;
+    }
+}
