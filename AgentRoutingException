@@ -1,0 +1,57 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.calian.paradigm.service.aiservice.cohere;
+
+/**
+ *
+ * @author f.nkutu
+ */
+
+/**
+ * Exception thrown when automatic AI agent routing fails.
+ *
+ * This is a checked exception so callers of AgentRouterClient
+ * must explicitly handle routing/communication failures.
+ */
+public class AgentRoutingException extends Exception {
+
+    private static final long serialVersionUID = 1L;
+
+
+    /**
+     * Creates an AgentRoutingException with an error message.
+     *
+     * @param message description of the routing failure
+     */
+    public AgentRoutingException(String message) {
+        super(message);
+    }
+
+
+    /**
+     * Creates an AgentRoutingException with an error message
+     * and the original exception that caused the failure.
+     *
+     * @param message description of the routing failure
+     * @param cause original exception
+     */
+    public AgentRoutingException(
+            String message,
+            Throwable cause) {
+
+        super(message, cause);
+    }
+
+
+    /**
+     * Creates an AgentRoutingException from an underlying
+     * exception.
+     *
+     * @param cause original exception
+     */
+    public AgentRoutingException(Throwable cause) {
+        super(cause);
+    }
+}
