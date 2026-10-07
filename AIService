@@ -1,0 +1,433 @@
+/*
+ * Copyright 2025 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+/**
+ * **************************************
+ * TimeService.java
+ * Created on June 1, 2009
+ *
+ * <p>
+ * Copyright: Copyright(c) 2009 </p>
+ * <p>
+ * Company: SimFront </p>
+ *
+ * @author L. Tardioli
+ */
+package com.calian.paradigm.service.aiservice;
+
+import com.calian.aicoredata.ClearCacheRequest;
+import com.calian.aicoredata.CommandObject;
+import com.calian.aicoredata.EndRegistrationRequest;
+import com.calian.aicoredata.GetCommandsRequest;
+import com.calian.aicoredata.RegistrationRequest;
+import com.calian.aicoredata.UserRequest;
+import com.calian.aicoredata.comms.RabbitMQComm;
+import com.calian.rabbitmq.comms.DataTransferObject;
+import com.calian.paradigm.core.DBWriter;
+import com.calian.paradigm.core.DBWriterConnectResult;
+import com.calian.paradigm.core.components.OMAdaptor;
+import com.calian.paradigm.core.Service;
+import com.calian.paradigm.core.bto.BTO;
+import com.calian.paradigm.core.bto.model.*;
+import com.calian.paradigm.core.bto.notifications.DBWriterChangeNotification;
+import com.calian.paradigm.core.controller.ComponentGroup;
+import com.calian.paradigm.service.aiservice.objs.*;
+import com.calian.paradigm.service.aiservice.test.AIServiceTester;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.UUID;
+//VCCI-Cohere Changes
+import java.util.HashMap;
+//End VCCI-Cohere changes
+
+/**
+ * This class serves as the time management service of the system.
+ */
+public class AIService extends Service {
+
+    public final static UUID jUUID = UUID.randomUUID();
+
+    private static final String MODEL_VERSION = "7.0.0";
+    // Default Parameters
+    public static final String CONNECT = "CONNECT";
+    public static final String REGISTER = "REGISTER";
+    public static final String DEREGISTER = "DEREGISTER";
+    public static final String LIST = "LIST";
+    public static final String USER_REQUEST = "USER_REQUEST";
+    public static final String CLEAR = "CLEAR";
+    
+    private DBWriter jDBWriter = null;
+    private RabbitMQComm jRabbitMQComm;
+    private DTOProcessor jDTOProcessor;
+    public LinkedHashMap<String, AIClient> jClients = new LinkedHashMap<>();
+    public LinkedHashMap<String, AIClient> jRequestClient = new LinkedHashMap<>();
+    //VCCI-Cohere changes
+    private volatile HashMap<String, List<String>> availableAICommands = new HashMap<>();
+    private volatile HashMap<String, String> availableAgentURLs = new HashMap<>();
+    //end VCCI-Cohere changes
+    /**
+     * Constructor.
+     */
+    public AIService() {
+        super(false);
+        processConnect();
+    }
+
+    /**
+     * The method will initialize the component.
+     *
+     * @param componentGroup The component group to which this component belongs
+     * @param id The id of the Component
+     * @param type The type of Component
+     * @param componentParameters A reference to a ComponentParameters object
+     */
+    @Override
+    public void initialize(ComponentGroup componentGroup, String id,
+            String type, ComponentParameters componentParameters) {
+        super.initialize(componentGroup, id, type, componentParameters);
+        addSupportedFeature(CONNECT);
+        addSupportedFeature(REGISTER);
+        addSupportedFeature(DEREGISTER);
+        addSupportedFeature(LIST);
+        addSupportedFeature(USER_REQUEST);
+        addSupportedFeature(CLEAR);
+        updateComponentConfiguration(componentParameters);
+    }
+
+    /**
+     * This method is used to update the configuration of the component
+     *
+     * @param componentParameters A reference to a ComponentParameters object
+     */
+    @Override
+    public void updateComponentConfiguration(ComponentParameters componentParameters) {
+        super.updateComponentConfiguration(componentParameters);
+        if (componentParameters == null) {
+            return;
+        }
+
+        // Set the supported features
+        resetSupportedFeatures(componentParameters.getFeatures());
+
+        // Configure the component with the supplied parameters
+//        LinkedHashMap<String, Object> parameters = componentParameters.getParameters();
+//
+//        jClockSpeed = ComponentParameters.parseLong(
+//                (String) parameters.get(CLOCK_SPEED), jClockSpeed);
+//        if (jClockSpeed <= 0L || jClockSpeed > 1000L) {
+//            jL.error(
+//                    "Clock speed must be a value between 1 and 1000. "
+//                    + "A default value of 1 is being used.");
+//            jClockSpeed = 1L;
+//        }
+    }
+
+    /**
+     * This method is called when all dependents have entered into a ready
+     * state.
+     */
+    @Override
+    protected void dependentsReadyNotification() {
+        jL.info("The Time service is initializing .........");
+        audit("Received dependents ready notification. Issuing READ_TIME feature request to OMAdaptor ... ", Audit.Filter.OTHER, null);
+        if (connectToOMDBDatabase()) {
+            setReadyToRun();
+            //new AIServiceTester().setVisible(true);
+        } else {
+            setFailedToGetReady();
+        }
+    }
+
+    /**
+     * This method is used to execute time service feature requests
+     *
+     * @param frr A reference to the feature request response object
+     */
+    @Override
+    public void executeFeatureRequest(FeatureRequestResponse frr) {
+        try {
+            switch (frr.getComponentFeatureID()) {
+                case CONNECT:
+                    processConnect(frr);
+                    break;
+
+                case REGISTER:
+                    processRegister(frr);
+                    break;
+
+                case DEREGISTER:
+                    processDeregister(frr);
+                    break;
+
+                case LIST:
+                    processList(frr);
+                    break;
+
+                case USER_REQUEST:
+                    processUserRequest(frr);
+                    break;
+
+                case CLEAR:
+                    processClear(frr);
+                    break;
+
+                default: {
+                    throw new Exception("Unknown component feature ID : " + frr);
+                }
+            }
+        } catch (Throwable th) {
+            frr.setState(FeatureRequestResponse.State.EXECUTE_FAILED);
+            deliverFeatureResponse(frr);
+            jL.error("Error processing Execute Feature Request", th);
+        }
+    }
+
+    private AIClient getClient(FeatureRequestResponse frr) {
+        String clientName = frr.getSrcClientName();
+        AIClient client = jClients.get(clientName);
+        if (client == null) {
+            client = new AIClient();
+            client.jClientName = clientName;
+        }
+        return client;
+    }
+
+    private void processConnect(FeatureRequestResponse frr) {
+        if (jRabbitMQComm == null) {
+            jRabbitMQComm = new RabbitMQComm(null);
+            jDTOProcessor = new DTOProcessor(this);
+            jRabbitMQComm.establishCommunication(MODEL_VERSION, jDTOProcessor);
+        }
+        frr.setState(FeatureRequestResponse.State.EXECUTED);
+        deliverFeatureResponse(frr);
+    }
+
+    private void processConnect() {
+        if (jRabbitMQComm == null) {
+            jRabbitMQComm = new RabbitMQComm(null);
+            jDTOProcessor = new DTOProcessor(this);
+            jRabbitMQComm.establishCommunication(MODEL_VERSION, jDTOProcessor);
+        }
+    }
+
+    private void prepRequest(com.calian.rabbitmq.comms.BTO request, FeatureRequestResponse frr) {
+        request.setMessageTracker(UUID.randomUUID().toString());
+        AIClient client = getClient(frr);
+        jRequestClient.put(request.getMessageTracker(), client);
+        client.jPendingRequests.put(request.getMessageTracker(), frr);
+    }
+
+    private void processRegister(FeatureRequestResponse frr) throws IOException {
+        RegistrationRequest request = new RegistrationRequest();
+        prepRequest(request, frr);
+        sendData(request);
+    }
+
+    public void completeRegister(RegistrationRequest req) throws IOException {
+        AIClient client = jRequestClient.remove(req.getMessageTracker());
+        client.jClientRegistration = req.getClientID();
+        FeatureRequestResponse frr = client.jPendingRequests.remove(req.getMessageTracker());
+        AISRegistrationRequest aiReq = (AISRegistrationRequest) frr.getFeatureParameters();
+        aiReq.setClientID(req.getClientID());
+        frr.setFeatureResult(aiReq);
+        frr.setState(FeatureRequestResponse.State.EXECUTED);
+        deliverFeatureResponse(frr);
+    }
+
+    private void processDeregister(FeatureRequestResponse frr) throws IOException {
+        EndRegistrationRequest request = new EndRegistrationRequest();
+        prepRequest(request, frr);
+        sendData(request);
+    }
+
+    public void completeDeregister(EndRegistrationRequest req) throws IOException {
+        AIClient client = jRequestClient.remove(req.getMessageTracker());
+        client.jClientRegistration = null;
+        FeatureRequestResponse frr = client.jPendingRequests.remove(req.getMessageTracker());
+        AISEndRegistrationRequest frrResponse = (AISEndRegistrationRequest) frr.getFeatureParameters();
+        frr.setFeatureResult(frrResponse);
+        frr.setState(FeatureRequestResponse.State.EXECUTED);
+        deliverFeatureResponse(frr);
+    }
+
+    //commented for VCCI-Cohere Debug
+    private void processList(FeatureRequestResponse frr) throws IOException {
+        GetCommandsRequest request = new GetCommandsRequest();
+        prepRequest(request, frr);
+        sendData(request);
+
+    }
+
+    public void completeList(GetCommandsRequest req) throws IOException {
+
+        AIClient client = jRequestClient.remove(req.getMessageTracker());
+        FeatureRequestResponse frr = client.jPendingRequests.remove(req.getMessageTracker());
+        AISGetCommandsRequest frrResponse = (AISGetCommandsRequest) frr.getFeatureParameters();
+        frrResponse.setCommandData(req.getCommandData());
+        frrResponse.setAgentURLs(req.getAgentURLs());
+        frr.setFeatureResult(frrResponse);
+        frr.setState(FeatureRequestResponse.State.EXECUTED);
+        deliverFeatureResponse(frr);
+        //VCCI-Cohere changes
+        HashMap<String, List<String>> commandData = req.getCommandData();       
+                
+        // Store the returned AI Service data
+        if (commandData != null) {
+            availableAICommands =
+                    new HashMap<>(commandData);
+        } else {
+            availableAICommands =
+                    new HashMap<>();
+        }
+        //End VCCI-Cohere changes
+
+    }
+    
+    //VCCI-Cohere changes
+    public HashMap<String, List<String>> getAvailableAICommands() {
+
+        return new HashMap<>(availableAICommands);
+    }
+    public HashMap<String, String> getAvailableAgentURLs() {
+
+        return new HashMap<>(availableAgentURLs);
+    }
+    //End VCCI-Cohere changes    
+    
+    
+ 
+    //End VCCI-Cohere changes
+    private void processUserRequest(FeatureRequestResponse frr) throws IOException {
+        AISUserRequest air = (AISUserRequest) frr.getFeatureParameters();
+        UserRequest request = new UserRequest();
+        request.setSendOneResponse(air.isSingleResponse());
+        request.setClientID(air.getClientID());
+        ArrayList<CommandObject> obj = new ArrayList<>();
+        for (String cmd : air.getCommands()) {
+            CommandObject co = new CommandObject(cmd);
+            co.addDataObject(air.getDataType(cmd));
+            co.setSchema(air.getSchema(cmd));
+            obj.add(co);
+        }
+        request.setCommands(obj);
+        prepRequest(request, frr);
+        sendData(request);
+    }
+
+    public void completeUserRequest(UserRequest request) {
+        AIClient client = jRequestClient.remove(request.getMessageTracker());
+        FeatureRequestResponse frr = client.jPendingRequests.remove(request.getMessageTracker());
+        AISUserRequest frrResponse = (AISUserRequest) frr.getFeatureParameters();
+        for (CommandObject cmd : request.getCommands()) {
+            List<? extends com.calian.rabbitmq.comms.BTO> response = request.getResponse(cmd.getCommand());
+            for (com.calian.rabbitmq.comms.BTO bto : response) {
+                frrResponse.addResponse(cmd.getCommand(), bto);
+            }
+        }
+        frr.setFeatureResult(frrResponse);
+        frr.setState(FeatureRequestResponse.State.EXECUTED);
+        deliverFeatureResponse(frr);
+
+    }
+
+    private void processClear(FeatureRequestResponse frr) throws IOException {
+        AISClearCacheRequest feat = (AISClearCacheRequest) frr.getFeatureParameters();
+        ClearCacheRequest request = new ClearCacheRequest(feat.getClientID());
+        prepRequest(request, frr);
+        sendData(request);
+
+    }
+
+    public void completeClearCacheRequest(ClearCacheRequest request) {
+        AIClient client = jRequestClient.remove(request.getMessageTracker());
+        FeatureRequestResponse frr = client.jPendingRequests.remove(request.getMessageTracker());
+        AISClearCacheRequest frrResponse = (AISClearCacheRequest) frr.getFeatureParameters();
+        frrResponse.setClientID(request.getClientID());
+        frr.setFeatureResult(frrResponse);
+        frr.setState(FeatureRequestResponse.State.EXECUTED);
+        deliverFeatureResponse(frr);
+
+    }
+
+    /**
+     * This method processes a component feature response
+     *
+     * @param frr A reference to a feature request response object
+     */
+    @Override
+    public void processFeatureResponse(FeatureRequestResponse frr) {
+        if (processError(frr, true, true)) {
+            return;
+        }
+
+    }
+
+    /**
+     * This method called when another component in the System publishes an
+     * object that is of interest to this component.
+     *
+     * @param brokerKey The key of the broker from which the object was
+     * published
+     * @param srcComponentID The component ID that published the object
+     * @param clazz The class name of the object that was published
+     * @param obj A reference to the object that was published
+     */
+    @Override
+    public void processPublishedObjectNotification(
+            BrokerKey brokerKey, String srcComponentID,
+            Class<?> clazz, BTO obj) {
+        if (!(obj instanceof SystemState)) {
+            super.processPublishedObjectNotification(brokerKey, srcComponentID, clazz, obj);
+            //dont suspend the component
+        }
+    }
+
+    /**
+     * This method will create a DB Writer to the OMDB so that data can be
+     * inserted and cached as required
+     *
+     * @return true if the DB Writer could be created, false otherwise
+     */
+    protected boolean connectToOMDBDatabase() {
+        DBWriterConnectResult result = OMAdaptor.getDBWriter(this);
+        if (result.jSuccessful) {
+            jDBWriter = result.jWriter;
+        }
+        return result.jSuccessful;
+    }
+
+    /**
+     * Called when the configuration of the db writer needs to change
+     *
+     * @param notification, the DB writer change notification
+     */
+    protected void processDBWriterChangeNotification(DBWriterChangeNotification notification) {
+        if (jDBWriter != null) {
+            jDBWriter.processDBWriterChangeNotification(notification);
+        }
+    }
+
+    public String getIdentificationId() {
+        return jRabbitMQComm.getRabbitMQConfig().APP_IDENT_ID;
+    }
+
+    public void sendData(DataTransferObject dto) throws IOException {
+        jRabbitMQComm.sendData(dto);
+    }
+
+    public void sendData(com.calian.rabbitmq.comms.BTO bto) throws IOException {
+
+        DataTransferObject.Header header = jRabbitMQComm.getDTOHeader();
+        header.setBindingKey(bto.getClass().getCanonicalName());
+        header.setRoundTrip(true);
+        header.setTarget("aicore");
+        header.setTargetSegment("clientagent");
+        header.setSourceSegment(null);
+        DataTransferObject dto = new DataTransferObject(header, bto, MODEL_VERSION);
+        // send the info to rabbit or some sender
+        jRabbitMQComm.sendData(dto);
+    }
+}
