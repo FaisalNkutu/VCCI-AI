@@ -1,0 +1,39 @@
+public static HashMap<String, List<String>> getAIServiceAgents() {
+    synchronized (jAIServiceAgents) {
+        return new HashMap<>(jAIServiceAgents);
+    }
+}
+
+public static HashMap<String, String> getAIServiceAgentURLs() {
+    synchronized (jAIServiceAgentURLs) {
+        return new HashMap<>(jAIServiceAgentURLs);
+    }
+}
+
+// End of Cohere changes.
+// Added Cohere integration changes.
+
+private void sendMessageButtonPressed() {
+    jL.debug("DEBUG VCCI: sendMessageButtonPressed() ENTERED");
+    requestAIServiceAgents();
+    jL.debug("DEBUG VCCI: requestAIServiceAgents() issued");
+    Window window = SwingUtilities.getWindowAncestor(this);
+    Frame owner = null;
+    if (window instanceof Frame) {
+        owner = (Frame) window;
+    }
+    AIChatbotClient chatbot = new AIChatbotClient(owner);
+    chatbot.setLocationRelativeTo(owner);
+    chatbot.setVisible(true);
+}
+
+private void requestAIServiceAgents() {
+    try {
+        jL.debug("DEBUG VCCI: Sending AIService.LIST request...");
+        AISGetCommandsRequest request = new AISGetCommandsRequest();
+        ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this, VCCIDashBoard.getCurrentExercise().getBrokerKey(), VCCIControlPanel.class.getCanonicalName(), AIService.class.getCanonicalName(), AIService.LIST, request, true);
+        jL.debug("DEBUG VCCI: AIService.LIST request issued.");
+    } catch (Exception ex) {
+        jL.error("DEBUG VCCI: Failed to issue AIService.LIST request.", ex);
+    }
+}
