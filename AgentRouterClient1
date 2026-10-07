@@ -1,0 +1,289 @@
+/*
+ * Copyright 2026 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+
+package com.calian.paradigm.service.aiservice.cohere;
+
+import com.calian.common.lib.log.Log;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Client responsible for calling the Python AI agent router.
+ *
+ * @author F. Nkutu
+ * @company SimFront a Calian Company
+ * Created 2026
+ */
+public class AgentRouterClient {
+
+    private static final Logger jL = Log.getLogger(AgentRouterClient.class);
+    private static final String ROUTER_URL = "http://127.0.0.1:9999/router/select";
+    private static final Duration CONNECT_TIMEOUT = Duration.ofSeconds(10);
+    private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(20);
+
+    private final HttpClient httpClient;
+    private final ObjectMapper objectMapper;
+
+    public AgentRouterClient() {
+        this.httpClient = HttpClient.newBuilder().connectTimeout(CONNECT_TIMEOUT).build();
+        this.objectMapper = new ObjectMapper();
+    }
+
+    public AgentRoutingResult route(String message, String contextId, String previousAgentId, List<AgentInfo> availableAgents) throws AgentRoutingException {
+
+        jL.debug("========================================");
+        jL.debug("DEBUG ROUTER: route() ENTERED");
+        jL.debug("DEBUG ROUTER: message = " + message);
+        jL.debug("DEBUG ROUTER: contextId = " + contextId);
+        jL.debug("DEBUG ROUTER: previousAgentId = " + previousAgentId);
+        jL.debug("DEBUG ROUTER: supplied agents = " + (availableAgents == null ? 0 : availableAgents.size()));
+        jL.debug("========================================");
+
+        if (message == null || message.isBlank()) {
+            throw new IllegalArgumentException("Message cannot be empty.");
+        }
+
+        if (availableAgents == null || availableAgents.isEmpty()) {
+            jL.debug("DEBUG ROUTER: NO AVAILABLE AGENTS");
+            return new AgentRoutingResult(null, 0.0, "No AI agents are currently available.");
+        }
+
+        List<AgentInfo> validAgents = new ArrayList<>();
+
+        for (AgentInfo agent : availableAgents) {
+            if (agent == null) {
+                continue;
+            }
+            validAgents.add(agent);
+            jL.debug("DEBUG ROUTER LOCAL AGENT: id=" + agent.getId() + " | name=" + agent.getName() + " | endpoint=" + agent.getEndpoint());
+        }
+
+        if (validAgents.isEmpty()) {
+            jL.debug("DEBUG ROUTER: NO VALID AGENTS");
+            return new AgentRoutingResult(null, 0.0, "No valid AI agents are currently available.");
+        }
+
+        if (validAgents.size() == 1) {
+            AgentInfo agent = validAgents.get(0);
+            jL.debug("DEBUG ROUTER: Only one agent -> " + agent.getName());
+            return new AgentRoutingResult(agent, 1.0, "Only one AI agent is currently available.");
+        }
+
+        try {
+
+            Map<String, Object> request = new HashMap<>();
+            request.put("message", message);
+            request.put("contextId", contextId);
+            request.put("previousAgentId", previousAgentId);
+
+            List<Map<String, Object>> agentsJson = new ArrayList<>();
+
+            for (AgentInfo agent : validAgents) {
+
+                Map<String, Object> agentJson = new HashMap<>();
+                agentJson.put("id", safeString(agent.getId()));
+                agentJson.put("name", safeString(agent.getName()));
+                agentJson.put("description", safeString(agent.getDescription()));
+
+                List<Map<String, Object>> skillsJson = new ArrayList<>();
+
+                if (agent.getSkills() != null) {
+                    for (AgentSkillInfo skill : agent.getSkills()) {
+                        if (skill == null) {
+                            continue;
+                        }
+                        Map<String, Object> skillJson = new HashMap<>();
+                        skillJson.put("id", safeString(skill.getId()));
+                        skillJson.put("name", safeString(skill.getName()));
+                        skillJson.put("description", safeString(skill.getDescription()));
+                        skillJson.put("tags", skill.getTags() != null ? skill.getTags() : List.of());
+                        skillJson.put("examples", skill.getExamples() != null ? skill.getExamples() : List.of());
+                        skillsJson.add(skillJson);
+                    }
+                }
+
+                agentJson.put("skills", skillsJson);
+                agentsJson.add(agentJson);
+            }
+
+            request.put("agents", agentsJson);
+
+            String requestBody = objectMapper.writeValueAsString(request);
+
+            jL.debug("========================================");
+            jL.debug("DEBUG ROUTER REQUEST:");
+            jL.debug(requestBody);
+            jL.debug("========================================");
+
+            HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(ROUTER_URL)).timeout(REQUEST_TIMEOUT).header("Content-Type", "application/json").header("Accept", "application/json").POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
+
+            jL.debug("DEBUG ROUTER: POST " + ROUTER_URL);
+
+            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            jL.debug("========================================");
+            jL.debug("DEBUG ROUTER HTTP STATUS: " + response.statusCode());
+            jL.debug("DEBUG ROUTER RAW RESPONSE:");
+            jL.debug(response.body());
+            jL.debug("========================================");
+
+            if (response.statusCode() < 200 || response.statusCode() >= 300) {
+                throw new AgentRoutingException("Agent Router returned HTTP " + response.statusCode() + ": " + response.body());
+            }
+
+            JsonNode root = objectMapper.readTree(response.body());
+
+            if (root == null) {
+                jL.debug("DEBUG ROUTER: Parsed root is NULL");
+                return new AgentRoutingResult(null, 0.0, "Router returned an empty response.");
+            }
+
+            JsonNode agentNode = root.get("agent");
+
+            jL.debug("DEBUG ROUTER: agent node = " + agentNode);
+
+            String selectedAgentId = null;
+            String selectedAgentName = null;
+
+            if (agentNode != null && !agentNode.isNull()) {
+                selectedAgentId = getText(agentNode, "id");
+                selectedAgentName = getText(agentNode, "name");
+            }
+
+            if (selectedAgentId == null || selectedAgentId.isBlank()) {
+                selectedAgentId = getText(root, "agentId");
+            }
+
+            if (selectedAgentName == null || selectedAgentName.isBlank()) {
+                selectedAgentName = getText(root, "agentName");
+            }
+
+            String reason = getText(root, "reason");
+            double confidence = root.path("confidence").asDouble(0.0);
+
+            jL.debug("DEBUG ROUTER SELECTED ID: " + selectedAgentId);
+            jL.debug("DEBUG ROUTER SELECTED NAME: " + selectedAgentName);
+            jL.debug("DEBUG ROUTER CONFIDENCE: " + confidence);
+            jL.debug("DEBUG ROUTER REASON: " + reason);
+
+            if ((selectedAgentId == null || selectedAgentId.isBlank()) && (selectedAgentName == null || selectedAgentName.isBlank())) {
+                jL.debug("DEBUG ROUTER: Python returned NO SELECTED AGENT");
+                return new AgentRoutingResult(null, confidence, reason != null ? reason : "No suitable AI agent was selected.");
+            }
+
+            AgentInfo selectedAgent = findAgent(validAgents, selectedAgentId, selectedAgentName);
+
+            if (selectedAgent == null) {
+
+                jL.debug("DEBUG ROUTER: FAILED TO MATCH PYTHON AGENT LOCALLY");
+                jL.debug("DEBUG ROUTER: Looking for ID = " + selectedAgentId);
+                jL.debug("DEBUG ROUTER: Looking for NAME = " + selectedAgentName);
+
+                for (AgentInfo agent : validAgents) {
+                    jL.debug("DEBUG ROUTER: LOCAL -> ID=" + agent.getId() + " | NAME=" + agent.getName() + " | ENDPOINT=" + agent.getEndpoint());
+                }
+
+                return new AgentRoutingResult(null, confidence, "The router selected agent '" + (selectedAgentName != null ? selectedAgentName : selectedAgentId) + "', but that agent is not in the current available-agent list.");
+            }
+
+            jL.debug("========================================");
+            jL.debug("DEBUG ROUTER SUCCESS");
+            jL.debug("DEBUG ROUTER Agent Name = " + selectedAgent.getName());
+            jL.debug("DEBUG ROUTER Agent ID = " + selectedAgent.getId());
+            jL.debug("DEBUG ROUTER Endpoint = " + selectedAgent.getEndpoint());
+            jL.debug("DEBUG ROUTER Confidence = " + confidence);
+            jL.debug("========================================");
+
+            return new AgentRoutingResult(selectedAgent, confidence, reason != null ? reason : "Agent selected successfully.");
+
+        } catch (AgentRoutingException e) {
+
+            jL.error("DEBUG ROUTER ERROR: " + e.getMessage(), e);
+            throw e;
+
+        } catch (InterruptedException e) {
+
+            Thread.currentThread().interrupt();
+            jL.error("DEBUG ROUTER INTERRUPTED: " + e.getMessage(), e);
+            throw new AgentRoutingException("Agent routing request was interrupted: " + e.getMessage());
+
+        } catch (Exception e) {
+
+            jL.error("DEBUG ROUTER EXCEPTION: " + e.getClass().getName() + ": " + e.getMessage(), e);
+            throw new AgentRoutingException("Unable to route request to an AI agent: " + e.getMessage());
+        }
+    }
+
+    private AgentInfo findAgent(List<AgentInfo> agents, String agentId, String agentName) {
+
+        if (agents == null) {
+            return null;
+        }
+
+        if (agentId != null && !agentId.isBlank()) {
+            for (AgentInfo agent : agents) {
+                if (agent == null) {
+                    continue;
+                }
+                String currentId = agent.getId();
+                if (currentId != null && currentId.equalsIgnoreCase(agentId)) {
+                    jL.debug("DEBUG ROUTER MATCHED BY ID: " + currentId);
+                    return agent;
+                }
+            }
+        }
+
+        if (agentName != null && !agentName.isBlank()) {
+            for (AgentInfo agent : agents) {
+                if (agent == null) {
+                    continue;
+                }
+                String currentName = agent.getName();
+                if (currentName != null && currentName.equalsIgnoreCase(agentName)) {
+                    jL.debug("DEBUG ROUTER MATCHED BY NAME: " + currentName);
+                    return agent;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private String getText(JsonNode root, String fieldName) {
+
+        if (root == null || root.isNull() || fieldName == null) {
+            return null;
+        }
+
+        JsonNode value = root.get(fieldName);
+
+        if (value == null || value.isNull()) {
+            return null;
+        }
+
+        String text = value.asText();
+
+        if (text == null || text.isBlank()) {
+            return null;
+        }
+
+        return text;
+    }
+
+    private String safeString(String value) {
+        return value != null ? value : "";
+    }
+}
