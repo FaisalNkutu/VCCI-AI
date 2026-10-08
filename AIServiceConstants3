@@ -1,0 +1,45 @@
+ */
+public final class AIServiceConstants {
+
+    public static final String AI_SERVICE_URL = loadProperty("AI_SERVICE_URL");
+    public static final String ROUTER_URL = loadProperty("ROUTER_URL");
+
+    private AIServiceConstants() {
+    }
+
+    private static String loadProperty(String propertyName) {
+
+        try (InputStream input = AIServiceConstants.class.getClassLoader().getResourceAsStream("application.yml")) {
+
+            if (input == null) {
+                throw new IllegalStateException("application.yml not found on classpath.");
+            }
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
+
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+
+                    String trimmedLine = line.trim();
+
+                    if (trimmedLine.startsWith(propertyName + ":")) {
+
+                        String value = trimmedLine.substring((propertyName + ":").length()).trim();
+
+                        if (value.isBlank()) {
+                            throw new IllegalStateException(propertyName + " is empty in application.yml.");
+                        }
+
+                        return value;
+                    }
+                }
+            }
+
+            throw new IllegalStateException(propertyName + " is missing from application.yml.");
+
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to load " + propertyName + " from application.yml.", ex);
+        }
+    }
+}
