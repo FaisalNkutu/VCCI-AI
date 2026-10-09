@@ -1,0 +1,64 @@
+We'll start with Step 1: Fix `SendMessageClient.java` so that the agent selected in VCCI is explicitly identified in the A2A request.
+
+We will leave `AIChatbotClient.java`, `AIService.java`, RabbitMQ, and the Python code unchanged for now.
+
+### 1. Open `SendMessageClient.java`
+
+Find this section inside `sendMessage()`:
+
+```
+ObjectNode params = root.putObject("params");
+ObjectNode messageNode = params.putObject("message");
+
+messageNode.put("role", "ROLE_USER");
+messageNode.put("messageId", UUID.randomUUID().toString());
+```
+
+### 2. Add these two lines immediately after `messageId`
+
+```
+ObjectNode metadata = messageNode.putObject("metadata");
+metadata.put("agent_id", agent.getId());
+```
+
+The complete section should now look like this:
+
+```
+ObjectNode params = root.putObject("params");
+ObjectNode messageNode = params.putObject("message");
+
+messageNode.put("role", "ROLE_USER");
+messageNode.put("messageId", UUID.randomUUID().toString());
+
+// VCCI-Cohere: Pass the selected agent ID to Python
+ObjectNode metadata = messageNode.putObject("metadata");
+metadata.put("agent_id", agent.getId());
+
+if (contextId != null && !contextId.isBlank()) {
+    messageNode.put("contextId", contextId);
+}
+
+ArrayNode parts = messageNode.putArray();
+```
+
+Important correction: Keep your existing `parts` statement as:
+
+```
+ArrayNode parts = messageNode.putArray("parts");
+```
+
+### 3. Save and build
+
+This change requires no new imports because `ObjectNode` is already imported.
+
+After building, inspect the `VCCI -> A2A REQUEST` log. It should contain:
+
+```
+"metadata": {
+  "agent_id": "YOUR_SELECTED_AGENT_ID"
+}
+```
+
+This confirms that Java includes the selected agent ID. It does not yet prove that Python receives or honors it.
+
+Stop here and tell me whether the build succeeds. Then we'll verify agent selection before touching the next file.
