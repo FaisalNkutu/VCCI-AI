@@ -1,0 +1,399 @@
+cd C:\dev - Copy\ai-core\aicore; "JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.10.7-hotspot" M2_HOME=C:\\Users\\f.nkutu\\sf-ci-tools\\maven cmd /c "\"C:\\Users\\f.nkutu\\sf-ci-tools\\maven\\bin\\mvn.cmd\" -Dexec.vmArgs=--enable-preview \"-Dexec.args=${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}\" \"-Dexec.executable=C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.10.7-hotspot\\bin\\java.exe\" -Dexec.mainClass=com.calian.aicore.AiCoreServiceApplication -Dexec.classpathScope=runtime -DskipTests=true -Dexec.appArgs= \"-Dmaven.ext.class.path=C:\\Program Files\\NetBeans-19\\netbeans\\java\\maven-nblib\\netbeans-eventspy.jar\" --no-transfer-progress process-classes org.codehaus.mojo:exec-maven-plugin:3.1.0:exec"
+Scanning for projects...
+
+------------------------< com.calian:aicoreapp >------------------------
+Building AI Core App 1.0.0-SNAPSHOT
+  from pom.xml
+--------------------------------[ jar ]---------------------------------
+
+--- git-commit-id:9.0.2:revision (get-the-git-infos) @ aicoreapp ---
+
+--- enforcer:3.5.0:enforce (enforce-sf-build-standards) @ aicoreapp ---
+Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+Rule 3: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+Rule 4: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+Rule 5: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+Rule 6: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+Rule 7: org.apache.maven.enforcer.rules.BannedPlugins passed
+
+--- enforcer:3.5.0:enforce (enforce-sf-package-standards) @ aicoreapp ---
+Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+Rule 3: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+Rule 4: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+Rule 5: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+Rule 6: org.apache.maven.enforcer.rules.BannedPlugins passed
+
+--- artifactory:3.7.0:publish (attach-properties) @ aicoreapp ---
+
+--- git-commit-id:9.0.2:revision (write-git-commit-properties-to-file) @ aicoreapp ---
+
+--- git-commit-id:9.0.2:revision (write-all-git-properties-to-file) @ aicoreapp ---
+
+--- build-helper:3.6.0:parse-version (parse-version) @ aicoreapp ---
+
+--- build-helper:3.6.0:timestamp-property (set-date-for-application-version) @ aicoreapp ---
+
+--- remote-resources:3.3.0:process (process-license-resource) @ aicoreapp ---
+Preparing remote bundle com.simfront.ott.license:ott_v1:1.0
+Copying 1 resource from 1 bundle.
+
+--- resources:3.3.1:resources (default-resources) @ aicoreapp ---
+Copying 1 resource from src\main\resources to target\classes
+Copying 1 resource from target\maven-shared-archive-resources to target\classes
+
+--- compiler:3.14.0:compile (default-compile) @ aicoreapp ---
+Nothing to compile - all classes are up to date.
+
+--- exec:3.1.0:exec (default-cli) @ aicoreapp ---
+ __  __ _                                  _   
+|  \/  (_) ___ _ __ ___  _ __   __ _ _   _| |_ 
+| |\/| | |/ __| '__/ _ \| '_ \ / _` | | | | __|
+| |  | | | (__| | | (_) | | | | (_| | |_| | |_ 
+|_|  |_|_|\___|_|  \___/|_| |_|\__,_|\__,_|\__|
+18:35:58.532 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Environment deduction is using the default of: true
+18:35:58.539 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Starting environment io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment@548a102f for active names []
+18:35:58.546 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Reading property sources from loader: io.micronaut.context.env.PropertiesPropertySourceLoader@53ca01a2
+18:35:58.551 [main] DEBUG io.micronaut.context.env.PropertiesPropertySourceLoader -- No PropertySource found for file name: application.properties
+18:35:58.551 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Reading property sources from loader: io.micronaut.context.env.yaml.YamlPropertySourceLoader@21507a04
+18:35:58.552 [main] DEBUG io.micronaut.context.env.yaml.YamlPropertySourceLoader -- No PropertySource found for file name: application.yml
+18:35:58.553 [main] DEBUG io.micronaut.context.env.yaml.YamlPropertySourceLoader -- No PropertySource found for file name: application.yaml
+18:35:58.553 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Reading property sources from loader: io.micronaut.jackson.core.env.CloudFoundryVcapApplicationPropertySourceLoader@436a4e4b
+18:35:58.553 [main] DEBUG io.micronaut.jackson.core.env.CloudFoundryVcapApplicationPropertySourceLoader -- No PropertySource found for file name: application.VCAP_APPLICATION
+18:35:58.553 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Reading property sources from loader: io.micronaut.jackson.core.env.JsonPropertySourceLoader@f2f2cc1
+18:35:58.554 [main] DEBUG io.micronaut.jackson.core.env.JsonPropertySourceLoader -- No PropertySource found for file name: application.json
+18:35:58.554 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Reading property sources from loader: io.micronaut.jackson.core.env.EnvJsonPropertySourceLoader@3a079870
+18:35:58.554 [main] DEBUG io.micronaut.jackson.core.env.EnvJsonPropertySourceLoader -- No PropertySource found for file name: application.json
+18:35:58.554 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Reading property sources from loader: io.micronaut.jackson.core.env.CloudFoundryVcapServicesPropertySourceLoader@3b2cf7ab
+18:35:58.554 [main] DEBUG io.micronaut.jackson.core.env.CloudFoundryVcapServicesPropertySourceLoader -- No PropertySource found for file name: application.VCAP_SERVICES
+18:35:58.554 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Reading property sources from loader: io.micronaut.context.env.PropertiesPropertySourceLoader@53ca01a2
+18:35:58.554 [main] DEBUG io.micronaut.context.env.PropertiesPropertySourceLoader -- No PropertySource found for file name: application.properties
+18:35:58.554 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Reading property sources from loader: io.micronaut.context.env.yaml.YamlPropertySourceLoader@21507a04
+18:35:58.556 [main] DEBUG io.micronaut.context.env.yaml.YamlPropertySourceLoader -- Found PropertySource for file name: application.yml
+18:35:58.605 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Reading property sources from loader: io.micronaut.jackson.core.env.CloudFoundryVcapApplicationPropertySourceLoader@436a4e4b
+18:35:58.605 [main] DEBUG io.micronaut.jackson.core.env.CloudFoundryVcapApplicationPropertySourceLoader -- No PropertySource found for file name: application.VCAP_APPLICATION
+18:35:58.605 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Reading property sources from loader: io.micronaut.jackson.core.env.JsonPropertySourceLoader@f2f2cc1
+18:35:58.606 [main] DEBUG io.micronaut.jackson.core.env.JsonPropertySourceLoader -- No PropertySource found for file name: application.json
+18:35:58.606 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Reading property sources from loader: io.micronaut.jackson.core.env.EnvJsonPropertySourceLoader@3a079870
+18:35:58.606 [main] DEBUG io.micronaut.jackson.core.env.EnvJsonPropertySourceLoader -- No PropertySource found for file name: application.json
+18:35:58.606 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Reading property sources from loader: io.micronaut.jackson.core.env.CloudFoundryVcapServicesPropertySourceLoader@3b2cf7ab
+18:35:58.606 [main] DEBUG io.micronaut.jackson.core.env.CloudFoundryVcapServicesPropertySourceLoader -- No PropertySource found for file name: application.VCAP_SERVICES
+18:35:58.607 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Processing property source: application
+18:35:58.608 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Processing property source: env
+18:35:58.611 [main] DEBUG io.micronaut.context.DefaultApplicationContext$RuntimeConfiguredEnvironment -- Processing property source: system
+18:35:58.619 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: DefaultEnvironment
+18:35:58.619 [main] DEBUG io.micronaut.context.DefaultBeanContext -- No bean candidates found for type: DefaultEnvironment
+18:35:58.622 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Starting BeanContext
+18:35:58.626 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: HttpClientRegistry
+18:35:58.627 [main] DEBUG io.micronaut.context.DefaultBeanContext --   class io.micronaut.http.client.netty.DefaultNettyHttpClientRegistry null Definition: io.micronaut.http.client.netty.DefaultNettyHttpClientRegistry
+18:35:58.631 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: BeanCreatedEventListener
+18:35:58.631 [main] DEBUG io.micronaut.context.condition.Condition -- Bean [Definition: io.micronaut.web.router.version.VersionAwareRouterListener] will not be loaded due to failing conditions:
+18:35:58.631 [main] DEBUG io.micronaut.context.condition.Condition -- * Required property [micronaut.router.versioning.enabled] with value [true] not present
+18:35:58.632 [main] DEBUG io.micronaut.context.DefaultBeanContext --   class io.micronaut.context.propagation.instrument.execution.ExecutorServiceInstrumenter null Definition: io.micronaut.context.propagation.instrument.execution.ExecutorServiceInstrumenter
+18:35:58.635 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: BeanInitializedEventListener
+18:35:58.635 [main] DEBUG io.micronaut.context.DefaultBeanContext -- No bean candidates found for type: BeanInitializedEventListener
+18:35:58.635 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Resolving beans for type: io.micronaut.core.convert.TypeConverter
+18:35:58.635 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: TypeConverter
+18:35:58.635 [main] DEBUG io.micronaut.context.DefaultBeanContext --   interface io.micronaut.core.convert.TypeConverter null Definition: com.calian.sharedmodel.base.Converters
+18:35:58.641 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: Converters
+18:35:58.642 [main] DEBUG io.micronaut.context.DefaultBeanContext --   class com.calian.sharedmodel.base.Converters null Definition: com.calian.sharedmodel.base.Converters
+18:35:58.642 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found concrete candidate [Definition: com.calian.sharedmodel.base.Converters] for type: converters 
+18:35:58.642 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [com.calian.sharedmodel.base.Converters@5aebe890] from definition [Definition: com.calian.sharedmodel.base.Converters] with qualifier [null]
+18:35:58.643 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [com.calian.sharedmodel.base.Converters$$Lambda/0x000002202c325558@6a2f6f80] from definition [Definition: com.calian.sharedmodel.base.Converters] with qualifier [null]
+18:35:58.643 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found a registration BeanRegistration: com.calian.sharedmodel.base.Converters$$Lambda/0x000002202c325558@6a2f6f80 for candidate: Definition: com.calian.sharedmodel.base.Converters with qualifier: null
+18:35:58.643 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Resolving beans for type: io.micronaut.core.convert.TypeConverterRegistrar
+18:35:58.643 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: TypeConverterRegistrar
+18:35:58.643 [main] DEBUG io.micronaut.context.condition.Condition -- Bean [Definition: io.micronaut.reactor.convert.ReactorToRxJava2ConverterRegistrar] will not be loaded due to failing conditions:
+18:35:58.643 [main] DEBUG io.micronaut.context.condition.Condition -- * Class [io.reactivex.Maybe] is not present
+18:35:58.644 [main] DEBUG io.micronaut.context.condition.Condition -- Bean [Definition: io.micronaut.reactor.convert.ReactorToRxJava3ConverterRegistrar] will not be loaded due to failing conditions:
+18:35:58.644 [main] DEBUG io.micronaut.context.condition.Condition -- * Class [io.reactivex.rxjava3.core.Maybe] is not present
+18:35:58.644 [main] DEBUG io.micronaut.context.condition.Condition -- Bean [Definition: io.micronaut.http.netty.channel.converters.KQueueChannelOptionFactory] will not be loaded due to failing conditions:
+18:35:58.644 [main] DEBUG io.micronaut.context.condition.Condition -- * Class [io.netty.channel.kqueue.KQueue] is not present
+18:35:58.644 [main] DEBUG io.micronaut.context.DefaultBeanContext --   class io.micronaut.http.converters.HttpConverterRegistrar null Definition: io.micronaut.http.converters.HttpConverterRegistrar
+18:35:58.644 [main] DEBUG io.micronaut.context.DefaultBeanContext --   class io.micronaut.json.convert.JsonConverterRegistrar null Definition: io.micronaut.json.convert.JsonConverterRegistrar
+18:35:58.644 [main] DEBUG io.micronaut.context.DefaultBeanContext --   class io.micronaut.jackson.databind.convert.JacksonConverterRegistrar null Definition: io.micronaut.jackson.databind.convert.JacksonConverterRegistrar
+18:35:58.644 [main] DEBUG io.micronaut.context.DefaultBeanContext --   class io.micronaut.http.server.netty.converters.NettyConverters null Definition: io.micronaut.http.server.netty.converters.NettyConverters
+18:35:58.644 [main] DEBUG io.micronaut.core.reflect.ClassUtils -- Attempting to dynamically load class io.micronaut.context.annotation.Prototype
+18:35:58.644 [main] DEBUG io.micronaut.core.reflect.ClassUtils -- Successfully loaded class io.micronaut.context.annotation.Prototype
+18:35:58.645 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: BeanProvider<ResourceResolver T> resourceResolver
+18:35:58.645 [main] DEBUG io.micronaut.context.DefaultBeanContext --   interface io.micronaut.context.BeanProvider null io.micronaut.inject.provider.BeanProviderDefinition@57725d7a
+18:35:58.645 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found concrete candidate [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] for type: resourceResolver 
+18:35:58.646 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [Provider(ResourceResolver T)] from definition [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] with qualifier [null]
+18:35:58.646 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [io.micronaut.http.converters.HttpConverterRegistrar@10aa41f2] from definition [Definition: io.micronaut.http.converters.HttpConverterRegistrar] with qualifier [null]
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found a registration BeanRegistration: io.micronaut.http.converters.HttpConverterRegistrar@10aa41f2 for candidate: Definition: io.micronaut.http.converters.HttpConverterRegistrar with qualifier: null
+18:35:58.646 [main] DEBUG io.micronaut.core.reflect.ClassUtils -- Attempting to dynamically load class io.micronaut.context.annotation.Prototype
+18:35:58.646 [main] DEBUG io.micronaut.core.reflect.ClassUtils -- Successfully loaded class io.micronaut.context.annotation.Prototype
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: BeanProvider<JsonMapper T> objectCodec
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext --   interface io.micronaut.context.BeanProvider null io.micronaut.inject.provider.BeanProviderDefinition@57725d7a
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found concrete candidate [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] for type: objectCodec 
+18:35:58.646 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [Provider(JsonMapper T)] from definition [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] with qualifier [null]
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: BeanProvider<BeanPropertyBinder T> beanPropertyBinder
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext --   interface io.micronaut.context.BeanProvider null io.micronaut.inject.provider.BeanProviderDefinition@57725d7a
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found concrete candidate [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] for type: beanPropertyBinder 
+18:35:58.646 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [Provider(BeanPropertyBinder T)] from definition [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] with qualifier [null]
+18:35:58.646 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [io.micronaut.json.convert.JsonConverterRegistrar@38102d01] from definition [Definition: io.micronaut.json.convert.JsonConverterRegistrar] with qualifier [null]
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found a registration BeanRegistration: io.micronaut.json.convert.JsonConverterRegistrar@38102d01 for candidate: Definition: io.micronaut.json.convert.JsonConverterRegistrar with qualifier: null
+18:35:58.646 [main] DEBUG io.micronaut.core.reflect.ClassUtils -- Attempting to dynamically load class io.micronaut.context.annotation.Prototype
+18:35:58.646 [main] DEBUG io.micronaut.core.reflect.ClassUtils -- Successfully loaded class io.micronaut.context.annotation.Prototype
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: BeanProvider<ObjectMapper T> objectMapper
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext --   interface io.micronaut.context.BeanProvider null io.micronaut.inject.provider.BeanProviderDefinition@57725d7a
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found concrete candidate [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] for type: objectMapper 
+18:35:58.646 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [Provider(ObjectMapper T)] from definition [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] with qualifier [null]
+18:35:58.646 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [io.micronaut.jackson.databind.convert.JacksonConverterRegistrar@1dac5ef] from definition [Definition: io.micronaut.jackson.databind.convert.JacksonConverterRegistrar] with qualifier [null]
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found a registration BeanRegistration: io.micronaut.jackson.databind.convert.JacksonConverterRegistrar@1dac5ef for candidate: Definition: io.micronaut.jackson.databind.convert.JacksonConverterRegistrar with qualifier: null
+18:35:58.646 [main] DEBUG io.micronaut.core.reflect.ClassUtils -- Attempting to dynamically load class io.micronaut.context.annotation.Prototype
+18:35:58.646 [main] DEBUG io.micronaut.core.reflect.ClassUtils -- Successfully loaded class io.micronaut.context.annotation.Prototype
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: BeanProvider<MediaTypeCodecRegistry T> decoderRegistryProvider
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext --   interface io.micronaut.context.BeanProvider null io.micronaut.inject.provider.BeanProviderDefinition@57725d7a
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found concrete candidate [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] for type: decoderRegistryProvider 
+18:35:58.646 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [Provider(MediaTypeCodecRegistry T)] from definition [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] with qualifier [null]
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: BeanProvider<MessageBodyHandlerRegistry T> messageBodyHandlerRegistries
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext --   interface io.micronaut.context.BeanProvider null io.micronaut.inject.provider.BeanProviderDefinition@57725d7a
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found concrete candidate [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] for type: messageBodyHandlerRegistries 
+18:35:58.646 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [Provider(MessageBodyHandlerRegistry T)] from definition [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] with qualifier [null]
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: BeanProvider<ChannelOptionFactory T> channelOptionFactory
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext --   interface io.micronaut.context.BeanProvider null io.micronaut.inject.provider.BeanProviderDefinition@57725d7a
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found concrete candidate [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] for type: channelOptionFactory 
+18:35:58.646 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [Provider(ChannelOptionFactory T)] from definition [io.micronaut.inject.provider.BeanProviderDefinition@57725d7a] with qualifier [null]
+18:35:58.646 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [io.micronaut.http.server.netty.converters.NettyConverters@291b4bf5] from definition [Definition: io.micronaut.http.server.netty.converters.NettyConverters] with qualifier [null]
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found a registration BeanRegistration: io.micronaut.http.server.netty.converters.NettyConverters@291b4bf5 for candidate: Definition: io.micronaut.http.server.netty.converters.NettyConverters with qualifier: null
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found 4 bean registrations for type [typeConverterRegistrar]
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext --   Definition: io.micronaut.http.converters.HttpConverterRegistrar null
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext --   Definition: io.micronaut.json.convert.JsonConverterRegistrar null
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext --   Definition: io.micronaut.jackson.databind.convert.JacksonConverterRegistrar null
+18:35:58.646 [main] DEBUG io.micronaut.context.DefaultBeanContext --   Definition: io.micronaut.http.server.netty.converters.NettyConverters null
+18:35:58.652 [main] DEBUG io.micronaut.context.condition.Condition -- Bean [Definition: io.micronaut.reactor.instrument.ReactorAutomaticContextPropagation] will not be loaded due to failing conditions:
+18:35:58.652 [main] DEBUG io.micronaut.context.condition.Condition -- * Class [io.micrometer.context.ContextRegistry] is not present
+18:35:58.660 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: LoggingSystem
+18:35:58.660 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: LoggersEndpoint
+18:35:58.677 [main] DEBUG io.micronaut.core.beans.DefaultBeanIntrospector -- Found BeanIntrospection for type: class io.micronaut.management.endpoint.EndpointEnabledCondition,
+18:35:58.678 [main] DEBUG io.micronaut.context.condition.Condition -- Bean [Definition: io.micronaut.management.endpoint.loggers.LoggersEndpoint] will not be loaded due to failing conditions:
+18:35:58.678 [main] DEBUG io.micronaut.context.condition.Condition -- * Custom condition [class io.micronaut.management.endpoint.EndpointEnabledCondition] failed evaluation
+18:35:58.679 [main] DEBUG io.micronaut.context.DefaultBeanContext -- No bean candidates found for type: LoggersEndpoint
+18:35:58.680 [main] DEBUG io.micronaut.context.condition.Condition -- Bean [Definition: io.micronaut.management.endpoint.loggers.impl.LogbackLoggingSystem] will not be loaded due to failing conditions:
+18:35:58.680 [main] DEBUG io.micronaut.context.condition.Condition -- * No bean of type [io.micronaut.management.endpoint.loggers.LoggersEndpoint] present within context
+18:35:58.680 [main] DEBUG io.micronaut.context.condition.Condition -- Bean [Definition: io.micronaut.management.endpoint.loggers.impl.Log4jLoggingSystem] will not be loaded due to failing conditions:
+18:35:58.680 [main] DEBUG io.micronaut.context.condition.Condition -- * Class [org.apache.logging.log4j.core.LoggerContext] is not present
+18:35:58.680 [main] DEBUG io.micronaut.context.condition.Condition -- Bean [Definition: io.micronaut.logging.impl.Log4jLoggingSystem] will not be loaded due to failing conditions:
+18:35:58.680 [main] DEBUG io.micronaut.context.condition.Condition -- * Class [org.apache.logging.log4j.core.config.Configurator] is not present
+18:35:58.680 [main] DEBUG io.micronaut.context.DefaultBeanContext --   class io.micronaut.logging.impl.LogbackLoggingSystem null Definition: io.micronaut.logging.impl.LogbackLoggingSystem
+18:35:58.680 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: Environment
+18:35:58.680 [main] DEBUG io.micronaut.context.DefaultBeanContext --   class io.micronaut.context.env.DefaultEnvironment @Primary io.micronaut.context.DefaultRuntimeBeanDefinition@671a5887
+18:35:58.681 [main] DEBUG io.micronaut.context.condition.Condition -- Bean [Definition: io.micronaut.buffer.netty.DefaultByteBufAllocatorConfiguration] will not be loaded due to failing conditions:
+18:35:58.681 [main] DEBUG io.micronaut.context.condition.Condition -- * Required property [netty.default.allocator] not present
+18:35:58.683 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: JDBCConfiguration jJDBCConfiguration
+18:35:58.685 [main] DEBUG io.micronaut.context.DefaultBeanContext --   class com.calian.jdbc.JDBCConfiguration null Definition: com.calian.jdbc.JDBCConfiguration
+18:35:58.685 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found concrete candidate [Definition: com.calian.jdbc.JDBCConfiguration] for type: jJDBCConfiguration 
+18:35:58.689 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [com.calian.jdbc.JDBCConfiguration@52102734] from definition [Definition: com.calian.jdbc.JDBCConfiguration] with qualifier [null]
+18:35:58.689 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [com.calian.aicore.AiCoreJDBCFactory@3541cb24] from definition [Definition: com.calian.aicore.AiCoreJDBCFactory] with qualifier [null]
+18:35:58.690 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: AiCoreService service
+18:35:58.690 [main] DEBUG io.micronaut.context.DefaultBeanContext --   class com.calian.aicore.AiCoreService null Definition: com.calian.aicore.AiCoreService
+18:35:58.690 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found concrete candidate [Definition: com.calian.aicore.AiCoreService] for type: service 
+18:35:58.752 [main] INFO com.calian.rabbitmq.RabbitMQConfig -- Reading config file :config\config.json  From directory C:\dev - Copy\ai-core\aicore
+18:35:58.753 [main] INFO com.calian.rabbitmq.RabbitMQConfig -- Rabbit Configuration read
+18:35:58.916 [main] INFO com.calian.rabbitmq.RabbitMQConfig -- Rabbit Configuration converted to object
+18:35:58.916 [main] INFO com.calian.basemicroservice.BaseMicroservice -- Initializing Base Config...
+18:35:58.918 [main] INFO com.calian.basemicroservice.BaseMicroservice -- Setting model versions...
+18:35:58.919 [main] INFO com.calian.basemicroservice.BaseMicroservice -- Initializing TLS Configuration...
+18:35:59.179 [main] INFO com.calian.basemicroservice.BaseMicroservice -- TLS Configuration initialized!
+18:35:59.180 [main] INFO com.calian.aicore.AiCoreService -- AiCoreService is up and running
+18:35:59.181 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: HeartbeatService jHeartbeatService
+18:35:59.181 [main] DEBUG io.micronaut.context.DefaultBeanContext --   class com.calian.basemicroservice.HeartbeatService null Definition: com.calian.basemicroservice.HeartbeatService
+18:35:59.181 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Found concrete candidate [Definition: com.calian.basemicroservice.HeartbeatService] for type: jHeartbeatService 
+18:35:59.182 [main] DEBUG io.micronaut.context.lifecycle -- Created bean [com.calian.basemicroservice.HeartbeatService@241e8ea6] from definition [Definition: com.calian.basemicroservice.HeartbeatService] with qualifier [null]
+18:35:59.182 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: AiCoreMSDBManager jAiCoreDBManager
+18:35:59.182 [main] DEBUG io.micronaut.context.DefaultBeanContext -- No bean candidates found for type: AiCoreMSDBManager jAiCoreDBManager
+18:35:59.182 [main] DEBUG io.micronaut.context.DefaultBeanContext -- Finding candidate beans for type: AiCoreMSDBManager jAiCoreDBManager
+18:35:59.182 [main] DEBUG io.micronaut.context.DefaultBeanContext -- No bean candidates found for type: AiCoreMSDBManager jAiCoreDBManager
+18:35:59.184 [main] DEBUG io.micronaut.context.DefaultBeanContext -- No bean candidates found for type: AiCoreMSDBManager jAiCoreDBManager
+18:35:59.188 [main] ERROR io.micronaut.runtime.Micronaut -- Error starting Micronaut server: Bean definition [com.calian.aicore.AiCoreServiceApplication] could not be loaded: Failed to inject value for field [jAiCoreDBManager] of class: com.calian.aicore.AiCoreService
+
+Message: No bean of type [com.calian.aicore.AiCoreMSDBManager] exists. 
+Path Taken: 
+new @i.m.c.a.Context c.c.a.AiCoreServiceApplication(AiCoreService service)
+\---> new @i.m.c.a.Context c.c.a.AiCoreServiceApplication([AiCoreService service])
+      \---> @j.i.Singleton c.c.a.AiCoreService#jAiCoreDBManager
+io.micronaut.context.exceptions.BeanInstantiationException: Bean definition [com.calian.aicore.AiCoreServiceApplication] could not be loaded: Failed to inject value for field [jAiCoreDBManager] of class: com.calian.aicore.AiCoreService
+
+Message: No bean of type [com.calian.aicore.AiCoreMSDBManager] exists. 
+Path Taken: 
+new @i.m.c.a.Context c.c.a.AiCoreServiceApplication(AiCoreService service)
+\---> new @i.m.c.a.Context c.c.a.AiCoreServiceApplication([AiCoreService service])
+      \---> @j.i.Singleton c.c.a.AiCoreService#jAiCoreDBManager
+	at io.micronaut.context.DefaultBeanContext.initializeContext(DefaultBeanContext.java:2045)
+	at io.micronaut.context.DefaultApplicationContext.initializeContext(DefaultApplicationContext.java:323)
+	at io.micronaut.context.DefaultBeanContext.configureAndStartContext(DefaultBeanContext.java:3362)
+	at io.micronaut.context.DefaultBeanContext.start(DefaultBeanContext.java:345)
+	at io.micronaut.context.DefaultApplicationContext.start(DefaultApplicationContext.java:225)
+	at io.micronaut.runtime.Micronaut.start(Micronaut.java:75)
+	at io.micronaut.runtime.Micronaut.run(Micronaut.java:347)
+	at io.micronaut.runtime.Micronaut.run(Micronaut.java:333)
+	at com.calian.aicore.AiCoreServiceApplication.main(AiCoreServiceApplication.java:33)
+Caused by: io.micronaut.context.exceptions.DependencyInjectionException: Failed to inject value for field [jAiCoreDBManager] of class: com.calian.aicore.AiCoreService
+
+Message: No bean of type [com.calian.aicore.AiCoreMSDBManager] exists. 
+Path Taken: 
+new @i.m.c.a.Context c.c.a.AiCoreServiceApplication(AiCoreService service)
+\---> new @i.m.c.a.Context c.c.a.AiCoreServiceApplication([AiCoreService service])
+      \---> @j.i.Singleton c.c.a.AiCoreService#jAiCoreDBManager
+	at io.micronaut.context.AbstractInitializableBeanDefinition.resolveBean(AbstractInitializableBeanDefinition.java:2154)
+	at io.micronaut.context.AbstractInitializableBeanDefinition.getBeanForField(AbstractInitializableBeanDefinition.java:1711)
+	at com.calian.aicore.$AiCoreService$Definition.inject(Unknown Source)
+	at com.calian.aicore.$AiCoreService$Definition.instantiate(Unknown Source)
+	at io.micronaut.context.DefaultBeanContext.resolveByBeanFactory(DefaultBeanContext.java:2342)
+	at io.micronaut.context.DefaultBeanContext.createRegistration(DefaultBeanContext.java:3162)
+	at io.micronaut.context.SingletonScope.getOrCreate(SingletonScope.java:80)
+	at io.micronaut.context.DefaultBeanContext.resolveBeanRegistration(DefaultBeanContext.java:3012)
+	at io.micronaut.context.DefaultBeanContext.resolveBeanRegistration(DefaultBeanContext.java:2774)
+	at io.micronaut.context.DefaultBeanContext.getBean(DefaultBeanContext.java:1786)
+	at io.micronaut.context.AbstractBeanResolutionContext.getBean(AbstractBeanResolutionContext.java:210)
+	at io.micronaut.context.AbstractInitializableBeanDefinition.resolveBean(AbstractInitializableBeanDefinition.java:2137)
+	at io.micronaut.context.AbstractInitializableBeanDefinition.getBeanForConstructorArgument(AbstractInitializableBeanDefinition.java:1367)
+	at com.calian.aicore.$AiCoreServiceApplication$Definition.instantiate(Unknown Source)
+	at io.micronaut.context.DefaultBeanContext.resolveByBeanFactory(DefaultBeanContext.java:2342)
+	at io.micronaut.context.DefaultBeanContext.createRegistration(DefaultBeanContext.java:3162)
+	at io.micronaut.context.SingletonScope.getOrCreate(SingletonScope.java:80)
+	at io.micronaut.context.DefaultBeanContext.intializeEagerBean(DefaultBeanContext.java:3051)
+	at io.micronaut.context.DefaultBeanContext.initializeEagerBean(DefaultBeanContext.java:2720)
+	at io.micronaut.context.DefaultBeanContext.initializeContext(DefaultBeanContext.java:2039)
+	... 8 common frames omitted
+Caused by: io.micronaut.context.exceptions.NoSuchBeanException: No bean of type [com.calian.aicore.AiCoreMSDBManager] exists. 
+	at io.micronaut.context.DefaultBeanContext.newNoSuchBeanException(DefaultBeanContext.java:2816)
+	at io.micronaut.context.DefaultApplicationContext.newNoSuchBeanException(DefaultApplicationContext.java:338)
+	at io.micronaut.context.DefaultBeanContext.resolveBeanRegistration(DefaultBeanContext.java:2779)
+	at io.micronaut.context.DefaultBeanContext.getBean(DefaultBeanContext.java:1786)
+	at io.micronaut.context.AbstractBeanResolutionContext.getBean(AbstractBeanResolutionContext.java:210)
+	at io.micronaut.context.AbstractInitializableBeanDefinition.resolveBean(AbstractInitializableBeanDefinition.java:2137)
+	... 27 common frames omitted
+Command execution failed.
+org.apache.commons.exec.ExecuteException: Process exited with an error: 1 (Exit value: 1)
+    at org.apache.commons.exec.DefaultExecutor.executeInternal (DefaultExecutor.java:404)
+    at org.apache.commons.exec.DefaultExecutor.execute (DefaultExecutor.java:166)
+    at org.codehaus.mojo.exec.ExecMojo.executeCommandLine (ExecMojo.java:1000)
+    at org.codehaus.mojo.exec.ExecMojo.executeCommandLine (ExecMojo.java:947)
+    at org.codehaus.mojo.exec.ExecMojo.execute (ExecMojo.java:471)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:362)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+------------------------------------------------------------------------
+BUILD FAILURE
+------------------------------------------------------------------------
+Total time:  14.924 s
+Finished at: 2026-10-09T18:35:59-04:00
+------------------------------------------------------------------------
+Failed to execute goal org.codehaus.mojo:exec-maven-plugin:3.1.0:exec (default-cli) on project aicoreapp: Command execution failed.: Process exited with an error: 1 (Exit value: 1) -> [Help 1]
+
+To see the full stack trace of the errors, re-run Maven with the -e switch.
+Re-run Maven using the -X switch to enable full debug logging.
+
+For more information about the errors and possible solutions, please read the following articles:
+[Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+
+/*
+ * Copyright 2025 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+
+package com.calian.aicore;
+
+import com.calian.jdbc.JDBCDataManager;
+import com.calian.jdbc.common.*;
+import com.calian.jdbc.databasemanager.JDBCBaseDBManager;
+import com.calian.jdbc.JDBCProcessor;
+import com.calian.objmodel.dataupdate.DataUpdate;
+import jakarta.inject.Singleton;
+import java.util.List;
+import io.micronaut.context.annotation.Context;
+import java.util.concurrent.LinkedBlockingQueue;
+
+/**
+ * @author B. Ola
+ * @company SimFront a Calian Company
+ * Created 2026, February
+ */
+
+@Singleton
+//@Context
+public class AiCoreMSDBManager extends JDBCBaseDBManager {
+    private AiCoreService jAiCoreService;
+    private final LinkedBlockingQueue<DataUpdate> jTaskQueue = new LinkedBlockingQueue<>();
+
+
+    public AiCoreMSDBManager(AiCoreJDBCFactory factory) {
+        super(factory.dataSource());
+        JDBCProcessor jdbcProcessor = factory.dataSource();
+    }
+
+    @Override
+    public void updateData(DataUpdate dataUpdate) {
+        dataUpdate.setOperation(DataUpdate.Operation.UPSERT);
+        jTaskQueue.add(dataUpdate);
+    }
+
+    public void updateData(List<Object> list) {
+        for(Object obj : list) {
+            DataUpdate data = new DataUpdate(obj);
+            data.setOperation(DataUpdate.Operation.UPSERT);
+            jTaskQueue.add(data);
+        }
+    }
+
+    @Override
+    public void deleteData(DataUpdate dataUpdate) {
+        dataUpdate.setOperation(DataUpdate.Operation.DELETE);
+        jTaskQueue.add(dataUpdate);
+    }
+
+    @Override
+    public void loadStoredData() {
+        jAiCoreService.jDataParameter = findAllMicroserviceParams();
+    }
+
+    @Override
+    public void setMicroService(Object microService) {
+        if (microService instanceof AiCoreService) {
+            jAiCoreService = (AiCoreService) microService;
+        }
+    }
+
+    @Override
+    protected JDBCDataManager getManager(Object data) {
+        return super.getManager(data);
+    }
+
+    @Override
+    protected DBObject getDBObject(Object data) {
+        DBObject dbObj = null;
+        JDBCDataManager manager;
+        dbObj = super.getDBObject(data);
+        return dbObj;
+    }
+}
+
+
+
