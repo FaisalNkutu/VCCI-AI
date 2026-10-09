@@ -1,0 +1,88 @@
+cd C:\dev - Copy\ai-core\aicore; "JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.10.7-hotspot" M2_HOME=C:\\Users\\f.nkutu\\sf-ci-tools\\maven cmd /c "\"C:\\Users\\f.nkutu\\sf-ci-tools\\maven\\bin\\mvn.cmd\" -DskipTests=true \"-Dmaven.ext.class.path=C:\\Program Files\\NetBeans-19\\netbeans\\java\\maven-nblib\\netbeans-eventspy.jar\" --no-transfer-progress clean install"
+Scanning for projects...
+
+------------------------< com.calian:aicoreapp >------------------------
+Building AI Core App 1.0.0-SNAPSHOT
+  from pom.xml
+--------------------------------[ jar ]---------------------------------
+
+--- clean:3.4.1:clean (default-clean) @ aicoreapp ---
+Deleting C:\dev - Copy\ai-core\aicore\target
+Deleting C:\dev - Copy\ai-core\aicore (includes = [null], excludes = [])
+
+--- git-commit-id:9.0.2:revision (get-the-git-infos) @ aicoreapp ---
+
+--- enforcer:3.5.0:enforce (enforce-sf-build-standards) @ aicoreapp ---
+Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+Rule 3: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+Rule 4: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+Rule 5: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+Rule 6: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+Rule 7: org.apache.maven.enforcer.rules.BannedPlugins passed
+
+--- enforcer:3.5.0:enforce (enforce-sf-package-standards) @ aicoreapp ---
+Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+Rule 3: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+Rule 4: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+Rule 5: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+Rule 6: org.apache.maven.enforcer.rules.BannedPlugins passed
+
+--- artifactory:3.7.0:publish (attach-properties) @ aicoreapp ---
+
+--- git-commit-id:9.0.2:revision (write-git-commit-properties-to-file) @ aicoreapp ---
+
+--- git-commit-id:9.0.2:revision (write-all-git-properties-to-file) @ aicoreapp ---
+
+--- build-helper:3.6.0:parse-version (parse-version) @ aicoreapp ---
+
+--- build-helper:3.6.0:timestamp-property (set-date-for-application-version) @ aicoreapp ---
+
+--- remote-resources:3.3.0:process (process-license-resource) @ aicoreapp ---
+Preparing remote bundle com.simfront.ott.license:ott_v1:1.0
+Copying 1 resource from 1 bundle.
+
+--- resources:3.3.1:resources (default-resources) @ aicoreapp ---
+Copying 1 resource from src\main\resources to target\classes
+Copying 1 resource from target\maven-shared-archive-resources to target\classes
+
+--- compiler:3.14.0:compile (default-compile) @ aicoreapp ---
+Recompiling the module because of changed source code.
+Compiling 17 source files with javac [debug release 21] to target\classes
+com/calian/aicore/AiCoreMSDBManager.java:[26,8] Bean definition generation [com.calian.aicore.AiCoreMSDBManager] skipped from processing because of prior error: [com.calian.aicore.AiCoreMSDBManager jTaskQueue]. This error is normally due to missing classes on the classpath. Verify the compilation classpath is correct to resolve the problem.
+
+--- resources:3.3.1:testResources (default-testResources) @ aicoreapp ---
+skip non existing resourceDirectory C:\dev - Copy\ai-core\aicore\src\test\resources
+Copying 1 resource from target\maven-shared-archive-resources to target\test-classes
+
+--- compiler:3.14.0:testCompile (default-testCompile) @ aicoreapp ---
+Recompiling the module because of changed dependency.
+
+--- surefire:3.5.3:test (default-test) @ aicoreapp ---
+Tests are skipped.
+
+--- dependency:3.8.1:copy-dependencies (copy-dependency-jars) @ aicoreapp ---
+
+--- jar:3.4.2:jar (default-jar) @ aicoreapp ---
+Building jar: C:\dev - Copy\ai-core\aicore\target\aicoreapp-1.0.0-SNAPSHOT.jar
+
+--- build-helper:3.6.0:attach-artifact (attach-passport-file) @ aicoreapp ---
+
+--- antrun:3.1.0:run (unzip_datafiles) @ aicoreapp ---
+Executing tasks
+     [echo] *** Copying config/data from dependencies! ***
+Executed tasks
+
+--- install:3.1.4:install (default-install) @ aicoreapp ---
+Installing C:\dev - Copy\ai-core\aicore\pom.xml to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicoreapp\1.0.0-SNAPSHOT\aicoreapp-1.0.0-SNAPSHOT.pom
+Installing C:\dev - Copy\ai-core\aicore\target\aicoreapp-1.0.0-SNAPSHOT.jar to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicoreapp\1.0.0-SNAPSHOT\aicoreapp-1.0.0-SNAPSHOT.jar
+Installing C:\dev - Copy\ai-core\aicore\target\passport.properties to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicoreapp\1.0.0-SNAPSHOT\aicoreapp-1.0.0-SNAPSHOT.txt
+------------------------------------------------------------------------
+BUILD SUCCESS
+------------------------------------------------------------------------
+Total time:  33.263 s
+Finished at: 2026-10-09T18:51:47-04:00
+----------------------------------------------------------------------
