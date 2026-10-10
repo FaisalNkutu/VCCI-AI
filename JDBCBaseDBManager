@@ -1,0 +1,2052 @@
+package com.calian.jdbc.databasemanager;
+
+import com.calian.common.lib.system.PressuredHeapBlockingQueue;
+import com.calian.jdbc.JDBCDataManager;
+import com.calian.jdbc.JDBCProcessor;
+import com.calian.jdbc.common.DBMicroServiceParam;
+import com.calian.jdbc.common.DBObject;
+import com.calian.jdbc.common.DBStartIds;
+import com.calian.jdbc.common.StartIds;
+import com.calian.objmodel.base.bto.model.notification.ActionNotification;
+import com.calian.objmodel.base.bto.model.notification.ContextNotification;
+import com.calian.objmodel.base.bto.model.notification.ExchangeNotification;
+import com.calian.objmodel.base.bto.model.notification.FacilityNotification;
+import com.calian.objmodel.base.bto.model.notification.FeatureNotification;
+import com.calian.objmodel.base.bto.model.notification.HoldingEnabledNotification;
+import com.calian.objmodel.base.bto.model.notification.MaterielNotification;
+import com.calian.objmodel.base.bto.model.notification.ObjectAssociationNotification;
+import com.calian.objmodel.base.bto.model.notification.ObjectItemNotification;
+import com.calian.objmodel.base.bto.model.notification.ObjectItemState;
+import com.calian.objmodel.base.bto.model.notification.PersonNotification;
+import com.calian.objmodel.base.bto.model.notification.UnitNotification;
+import com.calian.objmodel.bto.model.gobjs.gen.GAction;
+import com.calian.objmodel.bto.model.gobjs.gen.GActionStatus;
+import com.calian.objmodel.bto.model.gobjs.gen.GContext;
+import com.calian.objmodel.bto.model.gobjs.gen.GLinePoint;
+import com.calian.objmodel.bto.model.gobjs.gen.GLocation;
+import com.calian.objmodel.bto.model.gobjs.gen.GObjectItem;
+import com.calian.objmodel.bto.model.gobjs.gen.GObjectItemAssociation;
+import com.calian.objmodel.bto.model.gobjs.gen.GObjectItemAssociationStatus;
+import com.calian.objmodel.bto.model.gobjs.gen.GObjectItemPointLocation;
+import com.calian.objmodel.bto.model.gobjs.gen.GObjectItemStatus;
+import com.calian.objmodel.bto.model.gobjs.gen.GObjectItemType;
+import com.calian.objmodel.bto.model.gobjs.gen.GObjectType;
+import com.calian.objmodel.dataupdate.DataUpdate;
+import com.calian.objmodel.entitycache.CachedObject;
+import com.calian.rabbitmq.comms.BTO;
+import com.calian.rabbitmq.comms.DataTransferObject;
+import com.calian.sharedmodel.association.OutboundObject;
+import com.calian.sharedmodel.association.OutboundObjectManager;
+import com.calian.sharedmodel.comms.BindingKey;
+import com.calian.sharedmodel.filters.GenericFilter;
+import com.calian.sharedmodel.parameters.DataParameters;
+import com.calian.sharedmodel.parameters.SingleParameter;
+import org.slf4j.Logger;
+
+public abstract class JDBCBaseDBManager implements Runnable {
+
+    protected static Logger jL;
+    protected final PressuredHeapBlockingQueue<DataUpdate> jTaskQueue;
+    protected final PressuredHeapBlockingQueue<StartIds> jStartIdUpdates;
+    protected boolean jTerminated;
+    protected StartIds jNextId;
+    protected final JDBCDataManager jJDBCMicroServiceParamJDBCDataManager;
+    protected final JDBCDataManager jJDBCStartIdsJDBCDataManager;
+
+    public JDBCBaseDBManager(JDBCProcessor jdbcProcessor) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_0
+         * 1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         * 4: aload_0
+         * 5: new           #7                  // class com/calian/common/lib/system/PressuredHeapBlockingQueue
+         * 8: dup
+         * 9: sipush        10000
+         * 12: ldc2_w        #9                  // double 0.3d
+         * 15: ldc2_w        #11                 // double 0.2d
+         * 18: invokespecial #13                 // Method com/calian/common/lib/system/PressuredHeapBlockingQueue."<init>":(IDD)V
+         * 21: putfield      #16                 // Field jTaskQueue:Lcom/calian/common/lib/system/PressuredHeapBlockingQueue;
+         * 24: aload_0
+         * 25: new           #7                  // class com/calian/common/lib/system/PressuredHeapBlockingQueue
+         * 28: dup
+         * 29: sipush        10000
+         * 32: ldc2_w        #9                  // double 0.3d
+         * 35: ldc2_w        #11                 // double 0.2d
+         * 38: invokespecial #13                 // Method com/calian/common/lib/system/PressuredHeapBlockingQueue."<init>":(IDD)V
+         * 41: putfield      #22                 // Field jStartIdUpdates:Lcom/calian/common/lib/system/PressuredHeapBlockingQueue;
+         * 44: aload_0
+         * 45: iconst_0
+         * 46: putfield      #25                 // Field jTerminated:Z
+         * 49: aload_1
+         * 50: ifnonnull     74
+         * 53: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 56: ldc           #33                 // String Fatal Error!  Processor not initialized.
+         * 58: invokeinterface #35,  2           // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;)V
+         * 63: aload_0
+         * 64: aconst_null
+         * 65: putfield      #41                 // Field jJDBCStartIdsJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 68: aload_0
+         * 69: aconst_null
+         * 70: putfield      #45                 // Field jJDBCMicroServiceParamJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 73: return
+         * 74: aload_1
+         * 75: getfield      #48                 // Field com/calian/jdbc/JDBCProcessor.jClassNamesToTableObject:Ljava/util/Map;
+         * 78: ldc           #54                 // class com/calian/jdbc/common/DBMicroServiceParam
+         * 80: invokevirtual #56                 // Method java/lang/Class.getSimpleName:()Ljava/lang/String;
+         * 83: invokeinterface #62,  2           // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+         * 88: checkcast     #68                 // class com/calian/jdbc/JDBCTableObject
+         * 91: astore_2
+         * 92: aload_0
+         * 93: new           #70                 // class com/calian/jdbc/JDBCDataManager
+         * 96: dup
+         * 97: aload_2
+         * 98: invokespecial #72                 // Method com/calian/jdbc/JDBCDataManager."<init>":(Lcom/calian/jdbc/JDBCTableObject;)V
+         * 101: putfield      #45                 // Field jJDBCMicroServiceParamJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 104: aload_1
+         * 105: getfield      #48                 // Field com/calian/jdbc/JDBCProcessor.jClassNamesToTableObject:Ljava/util/Map;
+         * 108: ldc           #75                 // class com/calian/jdbc/common/DBStartIds
+         * 110: invokevirtual #56                 // Method java/lang/Class.getSimpleName:()Ljava/lang/String;
+         * 113: invokeinterface #62,  2           // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+         * 118: checkcast     #68                 // class com/calian/jdbc/JDBCTableObject
+         * 121: astore_2
+         * 122: aload_0
+         * 123: new           #70                 // class com/calian/jdbc/JDBCDataManager
+         * 126: dup
+         * 127: aload_2
+         * 128: invokespecial #72                 // Method com/calian/jdbc/JDBCDataManager."<init>":(Lcom/calian/jdbc/JDBCTableObject;)V
+         * 131: putfield      #41                 // Field jJDBCStartIdsJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 134: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setStartIds(StartIds ids) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_0
+         * 1: aload_1
+         * 2: putfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 5: aload_0
+         * 6: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 9: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void clearDatabase() {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_0
+         * 1: getfield      #45                 // Field jJDBCMicroServiceParamJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 4: invokevirtual #84                 // Method com/calian/jdbc/JDBCDataManager.deleteAll:()V
+         * 7: aload_0
+         * 8: getfield      #41                 // Field jJDBCStartIdsJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 11: invokevirtual #84                 // Method com/calian/jdbc/JDBCDataManager.deleteAll:()V
+         * 14: return
+         *  */
+        // </editor-fold>
+    }
+
+    public StartIds getStartID() {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_0
+         * 1: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 4: areturn
+         *  */
+        // </editor-fold>
+    }
+
+    public void updateData(DataUpdate dataUpdate) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: getstatic     #87                 // Field com/calian/objmodel/dataupdate/DataUpdate$Operation.UPSERT:Lcom/calian/objmodel/dataupdate/DataUpdate$Operation;
+         * 4: invokevirtual #93                 // Method com/calian/objmodel/dataupdate/DataUpdate.setOperation:(Lcom/calian/objmodel/dataupdate/DataUpdate$Operation;)V
+         * 7: aload_0
+         * 8: getfield      #16                 // Field jTaskQueue:Lcom/calian/common/lib/system/PressuredHeapBlockingQueue;
+         * 11: aload_1
+         * 12: invokevirtual #99                 // Method com/calian/common/lib/system/PressuredHeapBlockingQueue.put:(Ljava/lang/Object;)V
+         * 15: goto          30
+         * 18: astore_2
+         * 19: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 22: ldc           #105                // String Queue add interrupted while blocked.
+         * 24: aload_2
+         * 25: invokeinterface #107,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+         * 30: return
+         * Exception table:
+         * from    to  target type
+         * 7    15    18   Class java/lang/InterruptedException
+         *  */
+        // </editor-fold>
+    }
+
+    public void deleteData(DataUpdate dataUpdate) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: getstatic     #110                // Field com/calian/objmodel/dataupdate/DataUpdate$Operation.DELETE:Lcom/calian/objmodel/dataupdate/DataUpdate$Operation;
+         * 4: invokevirtual #93                 // Method com/calian/objmodel/dataupdate/DataUpdate.setOperation:(Lcom/calian/objmodel/dataupdate/DataUpdate$Operation;)V
+         * 7: aload_0
+         * 8: getfield      #16                 // Field jTaskQueue:Lcom/calian/common/lib/system/PressuredHeapBlockingQueue;
+         * 11: aload_1
+         * 12: invokevirtual #99                 // Method com/calian/common/lib/system/PressuredHeapBlockingQueue.put:(Ljava/lang/Object;)V
+         * 15: goto          30
+         * 18: astore_2
+         * 19: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 22: ldc           #105                // String Queue add interrupted while blocked.
+         * 24: aload_2
+         * 25: invokeinterface #107,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+         * 30: return
+         * Exception table:
+         * from    to  target type
+         * 7    15    18   Class java/lang/InterruptedException
+         *  */
+        // </editor-fold>
+    }
+
+    public void loadStoredData() {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_0
+         * 1: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 4: ifnonnull     15
+         * 7: aload_0
+         * 8: aload_0
+         * 9: invokevirtual #113                // Method findStartIds:()Lcom/calian/jdbc/common/StartIds;
+         * 12: putfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 15: return
+         *  */
+        // </editor-fold>
+    }
+
+    public abstract void setMicroService(Object o);
+
+    public void insertMicroserviceParam(DBMicroServiceParam param) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_0
+         * 1: getfield      #45                 // Field jJDBCMicroServiceParamJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 4: aload_1
+         * 5: invokevirtual #117                // Method com/calian/jdbc/JDBCDataManager.insert:(Lcom/calian/jdbc/common/DBObject;)V
+         * 8: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void insertStartId(DBStartIds ids) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_0
+         * 1: getfield      #41                 // Field jJDBCStartIdsJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 4: aload_1
+         * 5: invokevirtual #117                // Method com/calian/jdbc/JDBCDataManager.insert:(Lcom/calian/jdbc/common/DBObject;)V
+         * 8: return
+         *  */
+        // </editor-fold>
+    }
+
+    public DataParameters findAllMicroserviceParams() {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_0
+         * 1: getfield      #45                 // Field jJDBCMicroServiceParamJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 4: ifnonnull     19
+         * 7: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 10: ldc           #121                // String Unable to get data parameters from null manager.
+         * 12: invokeinterface #35,  2           // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;)V
+         * 17: aconst_null
+         * 18: areturn
+         * 19: aload_0
+         * 20: getfield      #45                 // Field jJDBCMicroServiceParamJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 23: invokevirtual #123                // Method com/calian/jdbc/JDBCDataManager.findAll:()Ljava/util/List;
+         * 26: astore_1
+         * 27: aload_1
+         * 28: ifnull        40
+         * 31: aload_1
+         * 32: invokeinterface #127,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+         * 37: ifeq          42
+         * 40: aconst_null
+         * 41: areturn
+         * 42: aload_1
+         * 43: iconst_0
+         * 44: invokeinterface #133,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+         * 49: checkcast     #54                 // class com/calian/jdbc/common/DBMicroServiceParam
+         * 52: astore_3
+         * 53: aload_3
+         * 54: invokevirtual #136                // Method com/calian/jdbc/common/DBMicroServiceParam.getObjectString:()Ljava/lang/String;
+         * 57: ldc           #139                // class com/calian/sharedmodel/parameters/DataParameters
+         * 59: invokestatic  #141                // Method com/calian/common/lib/serialization/JsonObjectParser.asObject:(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+         * 62: checkcast     #139                // class com/calian/sharedmodel/parameters/DataParameters
+         * 65: astore_2
+         * 66: goto          88
+         * 69: astore        4
+         * 71: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 74: aload         4
+         * 76: invokevirtual #149                // Method java/lang/Exception.getMessage:()Ljava/lang/String;
+         * 79: aload         4
+         * 81: invokeinterface #107,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+         * 86: aconst_null
+         * 87: areturn
+         * 88: aload_2
+         * 89: areturn
+         * Exception table:
+         * from    to  target type
+         * 53    66    69   Class java/lang/Exception
+         *  */
+        // </editor-fold>
+    }
+
+    public StartIds findStartIds() {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_0
+         * 1: getfield      #41                 // Field jJDBCStartIdsJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 4: ifnonnull     19
+         * 7: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 10: ldc           #152                // String Unable to get start ids from null manager.
+         * 12: invokeinterface #35,  2           // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;)V
+         * 17: aconst_null
+         * 18: areturn
+         * 19: aload_0
+         * 20: getfield      #41                 // Field jJDBCStartIdsJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 23: invokevirtual #123                // Method com/calian/jdbc/JDBCDataManager.findAll:()Ljava/util/List;
+         * 26: astore_1
+         * 27: aload_1
+         * 28: ifnull        40
+         * 31: aload_1
+         * 32: invokeinterface #127,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+         * 37: ifeq          42
+         * 40: aconst_null
+         * 41: areturn
+         * 42: aload_1
+         * 43: iconst_0
+         * 44: invokeinterface #133,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+         * 49: checkcast     #75                 // class com/calian/jdbc/common/DBStartIds
+         * 52: astore_3
+         * 53: aload_3
+         * 54: invokevirtual #154                // Method com/calian/jdbc/common/DBStartIds.getObjectString:()Ljava/lang/String;
+         * 57: astore        4
+         * 59: aload         4
+         * 61: ifnull        107
+         * 64: aload         4
+         * 66: invokevirtual #155                // Method java/lang/String.isBlank:()Z
+         * 69: ifne          107
+         * 72: aload         4
+         * 74: ldc           #160                // class com/calian/jdbc/common/StartIds
+         * 76: invokestatic  #141                // Method com/calian/common/lib/serialization/JsonObjectParser.asObject:(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+         * 79: checkcast     #160                // class com/calian/jdbc/common/StartIds
+         * 82: astore_2
+         * 83: goto          105
+         * 86: astore        5
+         * 88: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 91: aload         5
+         * 93: invokevirtual #149                // Method java/lang/Exception.getMessage:()Ljava/lang/String;
+         * 96: aload         5
+         * 98: invokeinterface #107,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+         * 103: aconst_null
+         * 104: areturn
+         * 105: aload_2
+         * 106: areturn
+         * 107: aconst_null
+         * 108: areturn
+         * Exception table:
+         * from    to  target type
+         * 72    83    86   Class java/lang/Exception
+         *  */
+        // </editor-fold>
+    }
+
+    public void setMSParameterId(SingleParameter singleParameter, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #162                // Method com/calian/sharedmodel/parameters/SingleParameter.getDatabaseId:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #162                // Method com/calian/sharedmodel/parameters/SingleParameter.getDatabaseId:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          65
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #174                // Method com/calian/jdbc/common/StartIds.getSimulationParameterId:()J
+         * 38: invokevirtual #177                // Method com/calian/sharedmodel/parameters/SingleParameter.setDatabaseId:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #174                // Method com/calian/jdbc/common/StartIds.getSimulationParameterId:()J
+         * 53: ladd
+         * 54: invokevirtual #181                // Method com/calian/jdbc/common/StartIds.setSimulationParameterId:(J)V
+         * 57: iload_2
+         * 58: ifeq          65
+         * 61: aload_0
+         * 62: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 65: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setMSBindingKeyId(BindingKey msBindingKey, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #184                // Method com/calian/sharedmodel/comms/BindingKey.getDatabaseId:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #184                // Method com/calian/sharedmodel/comms/BindingKey.getDatabaseId:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          65
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #187                // Method com/calian/jdbc/common/StartIds.getDSBindingKeyId:()J
+         * 38: invokevirtual #190                // Method com/calian/sharedmodel/comms/BindingKey.setDatabaseId:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #187                // Method com/calian/jdbc/common/StartIds.getDSBindingKeyId:()J
+         * 53: ladd
+         * 54: invokevirtual #191                // Method com/calian/jdbc/common/StartIds.setDSBindingKeyId:(J)V
+         * 57: iload_2
+         * 58: ifeq          65
+         * 61: aload_0
+         * 62: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 65: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setMSFilterId(GenericFilter msFilter, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #194                // Method com/calian/sharedmodel/filters/GenericFilter.getDatabaseId:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #194                // Method com/calian/sharedmodel/filters/GenericFilter.getDatabaseId:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          57
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #197                // Method com/calian/jdbc/common/StartIds.getFilterId:()J
+         * 38: invokevirtual #200                // Method com/calian/sharedmodel/filters/GenericFilter.setDatabaseId:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #197                // Method com/calian/jdbc/common/StartIds.getFilterId:()J
+         * 53: ladd
+         * 54: invokevirtual #201                // Method com/calian/jdbc/common/StartIds.setFilterId:(J)V
+         * 57: iload_2
+         * 58: ifeq          65
+         * 61: aload_0
+         * 62: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 65: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setCachedObjectId(CachedObject cachedObj, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #204                // Method com/calian/objmodel/entitycache/CachedObject.getId:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #204                // Method com/calian/objmodel/entitycache/CachedObject.getId:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          57
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #209                // Method com/calian/jdbc/common/StartIds.getCachedObjectId:()J
+         * 38: invokevirtual #212                // Method com/calian/objmodel/entitycache/CachedObject.setId:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #209                // Method com/calian/jdbc/common/StartIds.getCachedObjectId:()J
+         * 53: ladd
+         * 54: invokevirtual #215                // Method com/calian/jdbc/common/StartIds.setCachedObjectId:(J)V
+         * 57: iload_2
+         * 58: ifeq          65
+         * 61: aload_0
+         * 62: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 65: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void registerForDBUUpdate() {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_0
+         * 1: getfield      #22                 // Field jStartIdUpdates:Lcom/calian/common/lib/system/PressuredHeapBlockingQueue;
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #99                 // Method com/calian/common/lib/system/PressuredHeapBlockingQueue.put:(Ljava/lang/Object;)V
+         * 11: goto          26
+         * 14: astore_1
+         * 15: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 18: ldc           #218                // String Registered Interrupted while blocked.
+         * 20: aload_1
+         * 21: invokeinterface #107,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+         * 26: return
+         * Exception table:
+         * from    to  target type
+         * 0    11    14   Class java/lang/InterruptedException
+         *  */
+        // </editor-fold>
+    }
+
+    public void setObjectItemId(GObjectItem obj, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #220                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItem.getObjectItemId:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #220                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItem.getObjectItemId:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          73
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #225                // Method com/calian/jdbc/common/StartIds.getObjectItemId:()J
+         * 38: invokevirtual #226                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItem.setObjectItemId:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #225                // Method com/calian/jdbc/common/StartIds.getObjectItemId:()J
+         * 53: ladd
+         * 54: invokevirtual #229                // Method com/calian/jdbc/common/StartIds.setObjectItemId:(J)V
+         * 57: aload_1
+         * 58: aload_1
+         * 59: invokevirtual #220                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItem.getObjectItemId:()J
+         * 62: invokestatic  #230                // Method com/calian/objmodel/dataupdate/ObjectItemProcessor.processObjectItem:(Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItem;J)V
+         * 65: iload_2
+         * 66: ifeq          73
+         * 69: aload_0
+         * 70: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 73: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setObjectItemTypeObjectItemTypeIndex(GObjectItemType objectItemType) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #236                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemType.getObjectItemTypeIndex:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #236                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemType.getObjectItemTypeIndex:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          57
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #241                // Method com/calian/jdbc/common/StartIds.getObjectItemTypeIdx:()J
+         * 38: invokevirtual #244                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemType.setObjectItemTypeIndex:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #241                // Method com/calian/jdbc/common/StartIds.getObjectItemTypeIdx:()J
+         * 53: ladd
+         * 54: invokevirtual #247                // Method com/calian/jdbc/common/StartIds.setObjectItemTypeIdx:(J)V
+         * 57: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setObjectTypeId(GObjectType type, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #250                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectType.getObjectTypeId:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #250                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectType.getObjectTypeId:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          73
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #255                // Method com/calian/jdbc/common/StartIds.getObjectTypeId:()J
+         * 38: invokevirtual #256                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectType.setObjectTypeId:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #255                // Method com/calian/jdbc/common/StartIds.getObjectTypeId:()J
+         * 53: ladd
+         * 54: invokevirtual #259                // Method com/calian/jdbc/common/StartIds.setObjectTypeId:(J)V
+         * 57: aload_1
+         * 58: aload_1
+         * 59: invokevirtual #250                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectType.getObjectTypeId:()J
+         * 62: invokestatic  #260                // Method com/calian/objmodel/dataupdate/ObjectTypeProcessor.processObjectType:(Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectType;J)V
+         * 65: iload_2
+         * 66: ifeq          73
+         * 69: aload_0
+         * 70: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 73: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setObjectItemAssociationId(GObjectItemAssociation association, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #266                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemAssociation.getObjectItemAssociationIndex:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #266                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemAssociation.getObjectItemAssociationIndex:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          65
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #271                // Method com/calian/jdbc/common/StartIds.getObjectItemAssociationIdx:()J
+         * 38: invokevirtual #274                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemAssociation.setObjectItemAssociationIndex:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #271                // Method com/calian/jdbc/common/StartIds.getObjectItemAssociationIdx:()J
+         * 53: ladd
+         * 54: invokevirtual #277                // Method com/calian/jdbc/common/StartIds.setObjectItemAssociationIdx:(J)V
+         * 57: iload_2
+         * 58: ifeq          65
+         * 61: aload_0
+         * 62: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 65: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setObjectItemAssociationStatusId(GObjectItemAssociationStatus status, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #280                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemAssociationStatus.getObjectItemAssociationStatusIndex:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #280                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemAssociationStatus.getObjectItemAssociationStatusIndex:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          65
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #271                // Method com/calian/jdbc/common/StartIds.getObjectItemAssociationIdx:()J
+         * 38: invokevirtual #285                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemAssociationStatus.setObjectItemAssociationStatusIndex:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #288                // Method com/calian/jdbc/common/StartIds.getObjectItemAssociationStatusIdx:()J
+         * 53: ladd
+         * 54: invokevirtual #291                // Method com/calian/jdbc/common/StartIds.setObjectItemAssociationStatusIdx:(J)V
+         * 57: iload_2
+         * 58: ifeq          65
+         * 61: aload_0
+         * 62: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 65: return
+         *  */
+        // </editor-fold>
+    }
+
+    private void setObjectItemPointLOC(GObjectItemPointLocation loc, GObjectItem objectItem) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: ifnonnull     5
+         * 4: return
+         * 5: aload_1
+         * 6: invokevirtual #294                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemPointLocation.getObjectItemPointLocationObjectItemLocationIndex:()J
+         * 9: aload_0
+         * 10: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 13: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 16: lcmp
+         * 17: iflt          35
+         * 20: aload_1
+         * 21: invokevirtual #294                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemPointLocation.getObjectItemPointLocationObjectItemLocationIndex:()J
+         * 24: aload_0
+         * 25: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 28: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 31: lcmp
+         * 32: ifle          74
+         * 35: aload_1
+         * 36: aload_0
+         * 37: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 40: invokevirtual #299                // Method com/calian/jdbc/common/StartIds.getPointLocationId:()J
+         * 43: invokevirtual #302                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemPointLocation.setObjectItemPointLocationObjectItemLocationIndex:(J)V
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: lconst_1
+         * 51: aload_0
+         * 52: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 55: invokevirtual #299                // Method com/calian/jdbc/common/StartIds.getPointLocationId:()J
+         * 58: ladd
+         * 59: invokevirtual #305                // Method com/calian/jdbc/common/StartIds.setPointLocationId:(J)V
+         * 62: aload_1
+         * 63: aload_2
+         * 64: invokevirtual #220                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItem.getObjectItemId:()J
+         * 67: invokevirtual #308                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemPointLocation.setObjectItemPointLocationObjectItemId:(J)V
+         * 70: aload_0
+         * 71: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 74: return
+         *  */
+        // </editor-fold>
+    }
+
+    private void setLocation(GLocation loc) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: ifnonnull     5
+         * 4: return
+         * 5: aload_1
+         * 6: invokevirtual #311                // Method com/calian/objmodel/bto/model/gobjs/gen/GLocation.getLocationId:()J
+         * 9: aload_0
+         * 10: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 13: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 16: lcmp
+         * 17: iflt          35
+         * 20: aload_1
+         * 21: invokevirtual #311                // Method com/calian/objmodel/bto/model/gobjs/gen/GLocation.getLocationId:()J
+         * 24: aload_0
+         * 25: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 28: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 31: lcmp
+         * 32: ifle          62
+         * 35: aload_1
+         * 36: aload_0
+         * 37: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 40: invokevirtual #316                // Method com/calian/jdbc/common/StartIds.getLocationId:()J
+         * 43: invokevirtual #317                // Method com/calian/objmodel/bto/model/gobjs/gen/GLocation.setLocationId:(J)V
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: lconst_1
+         * 51: aload_0
+         * 52: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 55: invokevirtual #316                // Method com/calian/jdbc/common/StartIds.getLocationId:()J
+         * 58: ladd
+         * 59: invokevirtual #320                // Method com/calian/jdbc/common/StartIds.setLocationId:(J)V
+         * 62: aload_1
+         * 63: invokestatic  #321                // Method com/calian/objmodel/dataupdate/LocationProcessor.processLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 66: aload_1
+         * 67: instanceof    #327                // class com/calian/objmodel/bto/model/dobjs/DPolygonArea
+         * 70: ifeq          93
+         * 73: aload_1
+         * 74: checkcast     #327                // class com/calian/objmodel/bto/model/dobjs/DPolygonArea
+         * 77: astore_2
+         * 78: aload_2
+         * 79: invokevirtual #329                // Method com/calian/objmodel/bto/model/dobjs/DPolygonArea.getBoundingLine:()Lcom/calian/objmodel/bto/model/dobjs/DLine;
+         * 82: astore        10
+         * 84: aload_0
+         * 85: aload         10
+         * 87: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 90: goto          397
+         * 93: aload_1
+         * 94: instanceof    #336                // class com/calian/objmodel/bto/model/dobjs/DCorridorArea
+         * 97: ifeq          120
+         * 100: aload_1
+         * 101: checkcast     #336                // class com/calian/objmodel/bto/model/dobjs/DCorridorArea
+         * 104: astore_3
+         * 105: aload_3
+         * 106: invokevirtual #338                // Method com/calian/objmodel/bto/model/dobjs/DCorridorArea.getCentreLine:()Lcom/calian/objmodel/bto/model/dobjs/DLine;
+         * 109: astore        10
+         * 111: aload_0
+         * 112: aload         10
+         * 114: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 117: goto          397
+         * 120: aload_1
+         * 121: instanceof    #341                // class com/calian/objmodel/bto/model/dobjs/DPolyarcArea
+         * 124: ifeq          162
+         * 127: aload_1
+         * 128: checkcast     #341                // class com/calian/objmodel/bto/model/dobjs/DPolyarcArea
+         * 131: astore        4
+         * 133: aload         4
+         * 135: invokevirtual #343                // Method com/calian/objmodel/bto/model/dobjs/DPolyarcArea.getDefiningLine:()Lcom/calian/objmodel/bto/model/dobjs/DLine;
+         * 138: astore        10
+         * 140: aload_0
+         * 141: aload         10
+         * 143: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 146: aload         4
+         * 148: invokevirtual #346                // Method com/calian/objmodel/bto/model/dobjs/DPolyarcArea.getBearingOriginPoint:()Lcom/calian/objmodel/bto/model/gobjs/gen/GGeographicPoint;
+         * 151: astore        11
+         * 153: aload_0
+         * 154: aload         11
+         * 156: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 159: goto          397
+         * 162: aload_1
+         * 163: instanceof    #350                // class com/calian/objmodel/bto/model/dobjs/DTrackArea
+         * 166: ifeq          204
+         * 169: aload_1
+         * 170: checkcast     #350                // class com/calian/objmodel/bto/model/dobjs/DTrackArea
+         * 173: astore        5
+         * 175: aload         5
+         * 177: invokevirtual #352                // Method com/calian/objmodel/bto/model/dobjs/DTrackArea.getTrackAreaBeginPoint:()Lcom/calian/objmodel/bto/model/gobjs/gen/GGeographicPoint;
+         * 180: astore        10
+         * 182: aload_0
+         * 183: aload         10
+         * 185: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 188: aload         5
+         * 190: invokevirtual #355                // Method com/calian/objmodel/bto/model/dobjs/DTrackArea.getTrackAreaEndPoint:()Lcom/calian/objmodel/bto/model/gobjs/gen/GGeographicPoint;
+         * 193: astore        11
+         * 195: aload_0
+         * 196: aload         11
+         * 198: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 201: goto          397
+         * 204: aload_1
+         * 205: instanceof    #358                // class com/calian/objmodel/bto/model/dobjs/DOrbitArea
+         * 208: ifeq          246
+         * 211: aload_1
+         * 212: checkcast     #358                // class com/calian/objmodel/bto/model/dobjs/DOrbitArea
+         * 215: astore        6
+         * 217: aload         6
+         * 219: invokevirtual #360                // Method com/calian/objmodel/bto/model/dobjs/DOrbitArea.getOrbitAreaFirstPoint:()Lcom/calian/objmodel/bto/model/gobjs/gen/GGeographicPoint;
+         * 222: astore        10
+         * 224: aload_0
+         * 225: aload         10
+         * 227: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 230: aload         6
+         * 232: invokevirtual #363                // Method com/calian/objmodel/bto/model/dobjs/DOrbitArea.getOrbitAreaSecondPoint:()Lcom/calian/objmodel/bto/model/gobjs/gen/GGeographicPoint;
+         * 235: astore        11
+         * 237: aload_0
+         * 238: aload         11
+         * 240: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 243: goto          397
+         * 246: aload_1
+         * 247: instanceof    #366                // class com/calian/objmodel/bto/model/dobjs/DEllipse
+         * 250: ifeq          301
+         * 253: aload_1
+         * 254: checkcast     #366                // class com/calian/objmodel/bto/model/dobjs/DEllipse
+         * 257: astore        7
+         * 259: aload         7
+         * 261: invokevirtual #368                // Method com/calian/objmodel/bto/model/dobjs/DEllipse.getCentrePoint:()Lcom/calian/objmodel/bto/model/gobjs/gen/GGeographicPoint;
+         * 264: astore        10
+         * 266: aload_0
+         * 267: aload         10
+         * 269: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 272: aload         7
+         * 274: invokevirtual #371                // Method com/calian/objmodel/bto/model/dobjs/DEllipse.getFirstConjugateDiameterPoint:()Lcom/calian/objmodel/bto/model/gobjs/gen/GGeographicPoint;
+         * 277: astore        11
+         * 279: aload_0
+         * 280: aload         11
+         * 282: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 285: aload         7
+         * 287: invokevirtual #374                // Method com/calian/objmodel/bto/model/dobjs/DEllipse.getSecondConjugateDiameterPoint:()Lcom/calian/objmodel/bto/model/gobjs/gen/GGeographicPoint;
+         * 290: astore        12
+         * 292: aload_0
+         * 293: aload         12
+         * 295: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 298: goto          397
+         * 301: aload_1
+         * 302: instanceof    #377                // class com/calian/objmodel/bto/model/dobjs/DFanArea
+         * 305: ifeq          330
+         * 308: aload_1
+         * 309: checkcast     #377                // class com/calian/objmodel/bto/model/dobjs/DFanArea
+         * 312: astore        8
+         * 314: aload         8
+         * 316: invokevirtual #379                // Method com/calian/objmodel/bto/model/dobjs/DFanArea.getFAVertexPoint:()Lcom/calian/objmodel/bto/model/gobjs/gen/GGeographicPoint;
+         * 319: astore        10
+         * 321: aload_0
+         * 322: aload         10
+         * 324: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 327: goto          397
+         * 330: aload_1
+         * 331: instanceof    #382                // class com/calian/objmodel/bto/model/dobjs/DLine
+         * 334: ifeq          397
+         * 337: aload_1
+         * 338: checkcast     #382                // class com/calian/objmodel/bto/model/dobjs/DLine
+         * 341: astore        9
+         * 343: aload         9
+         * 345: invokevirtual #384                // Method com/calian/objmodel/bto/model/dobjs/DLine.getLinePoints:()Ljava/util/ArrayList;
+         * 348: astore        10
+         * 350: aload         10
+         * 352: invokevirtual #388                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+         * 355: astore        11
+         * 357: aload         11
+         * 359: invokeinterface #394,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+         * 364: ifeq          397
+         * 367: aload         11
+         * 369: invokeinterface #399,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+         * 374: checkcast     #403                // class com/calian/objmodel/bto/model/dobjs/DLinePoint
+         * 377: astore        12
+         * 379: aload_0
+         * 380: aload         12
+         * 382: invokevirtual #405                // Method setLinePointIdx:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLinePoint;)V
+         * 385: aload_0
+         * 386: aload         12
+         * 388: invokevirtual #409                // Method com/calian/objmodel/bto/model/dobjs/DLinePoint.getPoint:()Lcom/calian/objmodel/bto/model/gobjs/gen/GPoint;
+         * 391: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 394: goto          357
+         * 397: return
+         *  */
+        // </editor-fold>
+    }
+
+    private void setLinePointIdx(GLinePoint glp) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #413                // Method com/calian/objmodel/bto/model/gobjs/gen/GLinePoint.getLinePointIndex:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #413                // Method com/calian/objmodel/bto/model/gobjs/gen/GLinePoint.getLinePointIndex:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          57
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #418                // Method com/calian/jdbc/common/StartIds.getLinepointIdx:()J
+         * 38: invokevirtual #421                // Method com/calian/objmodel/bto/model/gobjs/gen/GLinePoint.setLinePointIndex:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #418                // Method com/calian/jdbc/common/StartIds.getLinepointIdx:()J
+         * 53: ladd
+         * 54: invokevirtual #424                // Method com/calian/jdbc/common/StartIds.setLinepointIdx:(J)V
+         * 57: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setObjectStatusId(GObjectItemStatus stat, GObjectItem obj, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #427                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemStatus.getObjectItemStatusIndex:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #427                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemStatus.getObjectItemStatusIndex:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          77
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #432                // Method com/calian/jdbc/common/StartIds.getStatusId:()J
+         * 38: invokevirtual #435                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemStatus.setObjectItemStatusIndex:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #432                // Method com/calian/jdbc/common/StartIds.getStatusId:()J
+         * 53: ladd
+         * 54: invokevirtual #438                // Method com/calian/jdbc/common/StartIds.setStatusId:(J)V
+         * 57: aload_1
+         * 58: aload_2
+         * 59: invokevirtual #220                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItem.getObjectItemId:()J
+         * 62: aload_1
+         * 63: invokevirtual #427                // Method com/calian/objmodel/bto/model/gobjs/gen/GObjectItemStatus.getObjectItemStatusIndex:()J
+         * 66: invokestatic  #441                // Method com/calian/objmodel/dataupdate/ObjectStatusProcessor.processObjectItemStatus:(Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItemStatus;JJ)V
+         * 69: iload_3
+         * 70: ifeq          77
+         * 73: aload_0
+         * 74: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 77: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setContextId(GContext context) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #447                // Method com/calian/objmodel/bto/model/gobjs/gen/GContext.getContextId:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #447                // Method com/calian/objmodel/bto/model/gobjs/gen/GContext.getContextId:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          61
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #452                // Method com/calian/jdbc/common/StartIds.getContextId:()J
+         * 38: invokevirtual #453                // Method com/calian/objmodel/bto/model/gobjs/gen/GContext.setContextId:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #452                // Method com/calian/jdbc/common/StartIds.getContextId:()J
+         * 53: ladd
+         * 54: invokevirtual #456                // Method com/calian/jdbc/common/StartIds.setContextId:(J)V
+         * 57: aload_0
+         * 58: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 61: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setMicroServiceParamID(DataParameters params, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #457                // Method com/calian/sharedmodel/parameters/DataParameters.getDatabaseId:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #457                // Method com/calian/sharedmodel/parameters/DataParameters.getDatabaseId:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          198
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #458                // Method com/calian/jdbc/common/StartIds.getDataParameterId:()J
+         * 38: invokevirtual #461                // Method com/calian/sharedmodel/parameters/DataParameters.setDatabaseId:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: aload_0
+         * 46: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 49: invokevirtual #458                // Method com/calian/jdbc/common/StartIds.getDataParameterId:()J
+         * 52: lconst_1
+         * 53: ladd
+         * 54: invokevirtual #462                // Method com/calian/jdbc/common/StartIds.setDataParameterId:(J)V
+         * 57: aconst_null
+         * 58: aload_1
+         * 59: invokevirtual #465                // Method com/calian/sharedmodel/parameters/DataParameters.getSingleParameters:()Ljava/util/Map;
+         * 62: if_acmpeq     110
+         * 65: aload_1
+         * 66: invokevirtual #465                // Method com/calian/sharedmodel/parameters/DataParameters.getSingleParameters:()Ljava/util/Map;
+         * 69: invokeinterface #469,  1          // InterfaceMethod java/util/Map.values:()Ljava/util/Collection;
+         * 74: invokeinterface #473,  1          // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+         * 79: astore_3
+         * 80: aload_3
+         * 81: invokeinterface #394,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+         * 86: ifeq          110
+         * 89: aload_3
+         * 90: invokeinterface #399,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+         * 95: checkcast     #163                // class com/calian/sharedmodel/parameters/SingleParameter
+         * 98: astore        4
+         * 100: aload_0
+         * 101: aload         4
+         * 103: iconst_0
+         * 104: invokevirtual #476                // Method setMSParameterId:(Lcom/calian/sharedmodel/parameters/SingleParameter;Z)V
+         * 107: goto          80
+         * 110: aconst_null
+         * 111: aload_1
+         * 112: invokevirtual #480                // Method com/calian/sharedmodel/parameters/DataParameters.getListParameters:()Ljava/util/Map;
+         * 115: if_acmpeq     198
+         * 118: aload_1
+         * 119: invokevirtual #480                // Method com/calian/sharedmodel/parameters/DataParameters.getListParameters:()Ljava/util/Map;
+         * 122: invokeinterface #469,  1          // InterfaceMethod java/util/Map.values:()Ljava/util/Collection;
+         * 127: invokeinterface #473,  1          // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+         * 132: astore_3
+         * 133: aload_3
+         * 134: invokeinterface #394,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+         * 139: ifeq          198
+         * 142: aload_3
+         * 143: invokeinterface #399,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+         * 148: checkcast     #483                // class com/calian/sharedmodel/parameters/ListParameter
+         * 151: astore        4
+         * 153: aload         4
+         * 155: invokevirtual #485                // Method com/calian/sharedmodel/parameters/ListParameter.getSingleParameters:()Ljava/util/ArrayList;
+         * 158: invokevirtual #388                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+         * 161: astore        5
+         * 163: aload         5
+         * 165: invokeinterface #394,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+         * 170: ifeq          195
+         * 173: aload         5
+         * 175: invokeinterface #399,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+         * 180: checkcast     #163                // class com/calian/sharedmodel/parameters/SingleParameter
+         * 183: astore        6
+         * 185: aload_0
+         * 186: aload         6
+         * 188: iconst_0
+         * 189: invokevirtual #476                // Method setMSParameterId:(Lcom/calian/sharedmodel/parameters/SingleParameter;Z)V
+         * 192: goto          163
+         * 195: goto          133
+         * 198: iload_2
+         * 199: ifeq          206
+         * 202: aload_0
+         * 203: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 206: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setOutboundManagerID(OutboundObjectManager manager, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #487                // Method com/calian/sharedmodel/association/OutboundObjectManager.getManagerId:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #487                // Method com/calian/sharedmodel/association/OutboundObjectManager.getManagerId:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          118
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #492                // Method com/calian/jdbc/common/StartIds.getOutboundManagerId:()J
+         * 38: invokevirtual #495                // Method com/calian/sharedmodel/association/OutboundObjectManager.setManagerId:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: aload_0
+         * 46: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 49: invokevirtual #492                // Method com/calian/jdbc/common/StartIds.getOutboundManagerId:()J
+         * 52: lconst_1
+         * 53: ladd
+         * 54: invokevirtual #498                // Method com/calian/jdbc/common/StartIds.setOutboundManagerId:(J)V
+         * 57: aload_1
+         * 58: invokevirtual #501                // Method com/calian/sharedmodel/association/OutboundObjectManager.getParameters:()Lcom/calian/sharedmodel/parameters/DataParameters;
+         * 61: ifnull        73
+         * 64: aload_0
+         * 65: aload_1
+         * 66: invokevirtual #501                // Method com/calian/sharedmodel/association/OutboundObjectManager.getParameters:()Lcom/calian/sharedmodel/parameters/DataParameters;
+         * 69: iconst_0
+         * 70: invokevirtual #505                // Method setMicroServiceParamID:(Lcom/calian/sharedmodel/parameters/DataParameters;Z)V
+         * 73: aload_1
+         * 74: invokevirtual #509                // Method com/calian/sharedmodel/association/OutboundObjectManager.getAllOutboundObjects:()Ljava/util/ArrayList;
+         * 77: ifnull        118
+         * 80: aload_1
+         * 81: invokevirtual #509                // Method com/calian/sharedmodel/association/OutboundObjectManager.getAllOutboundObjects:()Ljava/util/ArrayList;
+         * 84: invokevirtual #388                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+         * 87: astore_3
+         * 88: aload_3
+         * 89: invokeinterface #394,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+         * 94: ifeq          118
+         * 97: aload_3
+         * 98: invokeinterface #399,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+         * 103: checkcast     #512                // class com/calian/sharedmodel/association/OutboundObject
+         * 106: astore        4
+         * 108: aload_0
+         * 109: aload         4
+         * 111: iconst_0
+         * 112: invokevirtual #514                // Method setOutboundObjectIDX:(Lcom/calian/sharedmodel/association/OutboundObject;Z)V
+         * 115: goto          88
+         * 118: iload_2
+         * 119: ifeq          126
+         * 122: aload_0
+         * 123: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 126: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setOutboundObjectIDX(OutboundObject obj, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #518                // Method com/calian/sharedmodel/association/OutboundObject.getIdx:()Ljava/lang/Long;
+         * 4: invokevirtual #522                // Method java/lang/Long.longValue:()J
+         * 7: aload_0
+         * 8: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 11: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 14: lcmp
+         * 15: iflt          36
+         * 18: aload_1
+         * 19: invokevirtual #518                // Method com/calian/sharedmodel/association/OutboundObject.getIdx:()Ljava/lang/Long;
+         * 22: invokevirtual #522                // Method java/lang/Long.longValue:()J
+         * 25: aload_0
+         * 26: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 29: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 32: lcmp
+         * 33: ifle          79
+         * 36: aload_1
+         * 37: aload_0
+         * 38: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 41: invokevirtual #527                // Method com/calian/jdbc/common/StartIds.getOutboundObjectId:()J
+         * 44: invokevirtual #530                // Method com/calian/sharedmodel/association/OutboundObject.setIdx:(J)V
+         * 47: aload_0
+         * 48: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 51: aload_0
+         * 52: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 55: invokevirtual #527                // Method com/calian/jdbc/common/StartIds.getOutboundObjectId:()J
+         * 58: lconst_1
+         * 59: ladd
+         * 60: invokevirtual #533                // Method com/calian/jdbc/common/StartIds.setOutboundObjectId:(J)V
+         * 63: aload_1
+         * 64: invokevirtual #536                // Method com/calian/sharedmodel/association/OutboundObject.getDstParams:()Lcom/calian/sharedmodel/parameters/DataParameters;
+         * 67: ifnull        79
+         * 70: aload_0
+         * 71: aload_1
+         * 72: invokevirtual #536                // Method com/calian/sharedmodel/association/OutboundObject.getDstParams:()Lcom/calian/sharedmodel/parameters/DataParameters;
+         * 75: iconst_0
+         * 76: invokevirtual #505                // Method setMicroServiceParamID:(Lcom/calian/sharedmodel/parameters/DataParameters;Z)V
+         * 79: iload_2
+         * 80: ifeq          87
+         * 83: aload_0
+         * 84: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 87: return
+         *  */
+        // </editor-fold>
+    }
+
+    private void setActionId(GAction action, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #539                // Method com/calian/objmodel/bto/model/gobjs/gen/GAction.getActionId:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #539                // Method com/calian/objmodel/bto/model/gobjs/gen/GAction.getActionId:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          65
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #544                // Method com/calian/jdbc/common/StartIds.getActionId:()J
+         * 38: invokevirtual #545                // Method com/calian/objmodel/bto/model/gobjs/gen/GAction.setActionId:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #544                // Method com/calian/jdbc/common/StartIds.getActionId:()J
+         * 53: ladd
+         * 54: invokevirtual #548                // Method com/calian/jdbc/common/StartIds.setActionId:(J)V
+         * 57: iload_2
+         * 58: ifeq          65
+         * 61: aload_0
+         * 62: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 65: aload_1
+         * 66: invokestatic  #549                // Method com/calian/objmodel/dataupdate/ActionProcessor.processAction:(Lcom/calian/objmodel/bto/model/gobjs/gen/GAction;)V
+         * 69: return
+         *  */
+        // </editor-fold>
+    }
+
+    private void setActionStatusIdx(GActionStatus action, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #555                // Method com/calian/objmodel/bto/model/gobjs/gen/GActionStatus.getActionStatusIndex:()J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: invokevirtual #555                // Method com/calian/objmodel/bto/model/gobjs/gen/GActionStatus.getActionStatusIndex:()J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          65
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #560                // Method com/calian/jdbc/common/StartIds.getActionStatusIdx:()J
+         * 38: invokevirtual #563                // Method com/calian/objmodel/bto/model/gobjs/gen/GActionStatus.setActionStatusIndex:(J)V
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #560                // Method com/calian/jdbc/common/StartIds.getActionStatusIdx:()J
+         * 53: ladd
+         * 54: invokevirtual #566                // Method com/calian/jdbc/common/StartIds.setActionStatusIdx:(J)V
+         * 57: iload_2
+         * 58: ifeq          65
+         * 61: aload_0
+         * 62: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 65: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setHoldingId(HoldingEnabledNotification.Holding holding, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: getfield      #569                // Field com/calian/objmodel/base/bto/model/notification/HoldingEnabledNotification$Holding.jHoldingId:J
+         * 4: aload_0
+         * 5: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 8: invokevirtual #168                // Method com/calian/jdbc/common/StartIds.getMinValue:()J
+         * 11: lcmp
+         * 12: iflt          30
+         * 15: aload_1
+         * 16: getfield      #569                // Field com/calian/objmodel/base/bto/model/notification/HoldingEnabledNotification$Holding.jHoldingId:J
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #171                // Method com/calian/jdbc/common/StartIds.getMaxValue:()J
+         * 26: lcmp
+         * 27: ifle          65
+         * 30: aload_1
+         * 31: aload_0
+         * 32: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 35: invokevirtual #575                // Method com/calian/jdbc/common/StartIds.getHoldingId:()J
+         * 38: putfield      #569                // Field com/calian/objmodel/base/bto/model/notification/HoldingEnabledNotification$Holding.jHoldingId:J
+         * 41: aload_0
+         * 42: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 45: lconst_1
+         * 46: aload_0
+         * 47: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 50: invokevirtual #575                // Method com/calian/jdbc/common/StartIds.getHoldingId:()J
+         * 53: ladd
+         * 54: invokevirtual #578                // Method com/calian/jdbc/common/StartIds.setHoldingId:(J)V
+         * 57: iload_2
+         * 58: ifeq          65
+         * 61: aload_0
+         * 62: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 65: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void setExchangeId(ExchangeNotification notification, boolean update) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: aload_0
+         * 2: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 5: invokevirtual #581                // Method com/calian/jdbc/common/StartIds.getExchangeId:()J
+         * 8: invokestatic  #584                // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+         * 11: invokevirtual #588                // Method com/calian/objmodel/base/bto/model/notification/ExchangeNotification.setDatabaseId:(Ljava/lang/Long;)V
+         * 14: aload_0
+         * 15: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 18: lconst_1
+         * 19: aload_0
+         * 20: getfield      #77                 // Field jNextId:Lcom/calian/jdbc/common/StartIds;
+         * 23: invokevirtual #581                // Method com/calian/jdbc/common/StartIds.getExchangeId:()J
+         * 26: ladd
+         * 27: invokevirtual #593                // Method com/calian/jdbc/common/StartIds.setExchangeIdx:(J)V
+         * 30: iload_2
+         * 31: ifeq          38
+         * 34: aload_0
+         * 35: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 38: return
+         *  */
+        // </editor-fold>
+    }
+
+    private void processObjectAssociationNotification(ObjectAssociationNotification notif) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 3: ldc_w         #596                // String Processing ObjectAssociationNotification
+         * 6: invokeinterface #598,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+         * 11: aload_0
+         * 12: aload_1
+         * 13: iconst_1
+         * 14: invokevirtual #601                // Method setExchangeId:(Lcom/calian/objmodel/base/bto/model/notification/ExchangeNotification;Z)V
+         * 17: aload_1
+         * 18: invokevirtual #605                // Method com/calian/objmodel/base/bto/model/notification/ObjectAssociationNotification.getObjectItemAssociation:()Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItemAssociation;
+         * 21: astore_2
+         * 22: aload_0
+         * 23: aload_2
+         * 24: iconst_0
+         * 25: invokevirtual #611                // Method setObjectItemAssociationId:(Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItemAssociation;Z)V
+         * 28: aload_1
+         * 29: invokevirtual #615                // Method com/calian/objmodel/base/bto/model/notification/ObjectAssociationNotification.getObjectItemAssociationStatus:()Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItemAssociationStatus;
+         * 32: astore_3
+         * 33: aload_0
+         * 34: aload_3
+         * 35: iconst_1
+         * 36: invokevirtual #619                // Method setObjectItemAssociationStatusId:(Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItemAssociationStatus;Z)V
+         * 39: return
+         *  */
+        // </editor-fold>
+    }
+
+    private void processObjectItemNotification(ObjectItemNotification notif) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #623                // Method com/calian/objmodel/base/bto/model/notification/ObjectItemNotification.getObjectItem:()Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItem;
+         * 4: astore_2
+         * 5: aload_1
+         * 6: invokevirtual #629                // Method com/calian/objmodel/base/bto/model/notification/ObjectItemNotification.getObjectType:()Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectType;
+         * 9: astore_3
+         * 10: aload_0
+         * 11: aload_3
+         * 12: iconst_0
+         * 13: invokevirtual #633                // Method setObjectTypeId:(Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectType;Z)V
+         * 16: aload_0
+         * 17: aload_2
+         * 18: iconst_0
+         * 19: invokevirtual #636                // Method setObjectItemId:(Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItem;Z)V
+         * 22: aload_1
+         * 23: invokevirtual #639                // Method com/calian/objmodel/base/bto/model/notification/ObjectItemNotification.getObjectItemState:()Lcom/calian/objmodel/base/bto/model/notification/ObjectItemState;
+         * 26: astore        4
+         * 28: aload_0
+         * 29: aload_1
+         * 30: iconst_1
+         * 31: invokevirtual #601                // Method setExchangeId:(Lcom/calian/objmodel/base/bto/model/notification/ExchangeNotification;Z)V
+         * 34: aload         4
+         * 36: ifnull        46
+         * 39: aload_0
+         * 40: aload         4
+         * 42: aload_2
+         * 43: invokevirtual #643                // Method processObjectItemState:(Lcom/calian/objmodel/base/bto/model/notification/ObjectItemState;Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItem;)V
+         * 46: aload_1
+         * 47: invokestatic  #647                // Method java/lang/System.currentTimeMillis:()J
+         * 50: invokevirtual #652                // Method com/calian/objmodel/base/bto/model/notification/ObjectItemNotification.setTime:(J)V
+         * 53: return
+         *  */
+        // </editor-fold>
+    }
+
+    private void processObjectItemState(ObjectItemState state, GObjectItem objectItem) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #655                // Method com/calian/objmodel/base/bto/model/notification/ObjectItemState.getObjectItemStatus:()Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItemStatus;
+         * 4: astore_3
+         * 5: aload_3
+         * 6: ifnull        16
+         * 9: aload_0
+         * 10: aload_3
+         * 11: aload_2
+         * 12: iconst_0
+         * 13: invokevirtual #661                // Method setObjectStatusId:(Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItemStatus;Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItem;Z)V
+         * 16: aload_1
+         * 17: invokevirtual #665                // Method com/calian/objmodel/base/bto/model/notification/ObjectItemState.getGenericLocationObject:()Lcom/calian/rabbitmq/comms/BTO;
+         * 20: astore        4
+         * 22: aload         4
+         * 24: instanceof    #295                // class com/calian/objmodel/bto/model/gobjs/gen/GObjectItemPointLocation
+         * 27: ifeq          43
+         * 30: aload_0
+         * 31: aload         4
+         * 33: checkcast     #295                // class com/calian/objmodel/bto/model/gobjs/gen/GObjectItemPointLocation
+         * 36: aload_2
+         * 37: invokevirtual #669                // Method setObjectItemPointLOC:(Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItemPointLocation;Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectItem;)V
+         * 40: goto          60
+         * 43: aload         4
+         * 45: instanceof    #312                // class com/calian/objmodel/bto/model/gobjs/gen/GLocation
+         * 48: ifeq          60
+         * 51: aload_0
+         * 52: aload         4
+         * 54: checkcast     #312                // class com/calian/objmodel/bto/model/gobjs/gen/GLocation
+         * 57: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 60: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void processUnitNotification(UnitNotification notif) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 3: ldc_w         #673                // String Processing UnitNotification
+         * 6: invokeinterface #598,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+         * 11: aload_0
+         * 12: aload_1
+         * 13: invokevirtual #675                // Method processObjectItemNotification:(Lcom/calian/objmodel/base/bto/model/notification/ObjectItemNotification;)V
+         * 16: aload_1
+         * 17: getfield      #679                // Field com/calian/objmodel/base/bto/model/notification/UnitNotification.jFootPrint:Ljava/util/ArrayList;
+         * 20: ifnull        58
+         * 23: aload_1
+         * 24: getfield      #679                // Field com/calian/objmodel/base/bto/model/notification/UnitNotification.jFootPrint:Ljava/util/ArrayList;
+         * 27: invokevirtual #388                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+         * 30: astore_2
+         * 31: aload_2
+         * 32: invokeinterface #394,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+         * 37: ifeq          58
+         * 40: aload_2
+         * 41: invokeinterface #399,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+         * 46: checkcast     #685                // class com/calian/objmodel/bto/model/gobjs/gen/GRelativePoint
+         * 49: astore_3
+         * 50: aload_0
+         * 51: aload_3
+         * 52: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 55: goto          31
+         * 58: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void processMaterielNotification(MaterielNotification notif) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 3: ldc_w         #687                // String Processing MaterielNotification
+         * 6: invokeinterface #598,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+         * 11: aload_0
+         * 12: aload_1
+         * 13: invokevirtual #675                // Method processObjectItemNotification:(Lcom/calian/objmodel/base/bto/model/notification/ObjectItemNotification;)V
+         * 16: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void processPersonNotification(PersonNotification notif) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 3: ldc_w         #689                // String Processing PersonNotification
+         * 6: invokeinterface #598,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+         * 11: aload_0
+         * 12: aload_1
+         * 13: invokevirtual #675                // Method processObjectItemNotification:(Lcom/calian/objmodel/base/bto/model/notification/ObjectItemNotification;)V
+         * 16: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void processFeatureNotification(FeatureNotification notif) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 3: ldc_w         #691                // String Processing FeatureNotification
+         * 6: invokeinterface #598,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+         * 11: aload_0
+         * 12: aload_1
+         * 13: invokevirtual #675                // Method processObjectItemNotification:(Lcom/calian/objmodel/base/bto/model/notification/ObjectItemNotification;)V
+         * 16: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void processFacilityNotification(FacilityNotification notif) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 3: ldc_w         #693                // String Processing FacilityNotification
+         * 6: invokeinterface #598,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+         * 11: aload_0
+         * 12: aload_1
+         * 13: invokevirtual #675                // Method processObjectItemNotification:(Lcom/calian/objmodel/base/bto/model/notification/ObjectItemNotification;)V
+         * 16: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void processActionNotification(ActionNotification notif) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 3: ldc_w         #695                // String Processing ActionNotification
+         * 6: invokeinterface #598,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+         * 11: aload_0
+         * 12: aload_1
+         * 13: iconst_1
+         * 14: invokevirtual #601                // Method setExchangeId:(Lcom/calian/objmodel/base/bto/model/notification/ExchangeNotification;Z)V
+         * 17: aload_0
+         * 18: aload_1
+         * 19: getfield      #697                // Field com/calian/objmodel/base/bto/model/notification/ActionNotification.jAction:Lcom/calian/objmodel/bto/model/gobjs/gen/GAction;
+         * 22: iconst_0
+         * 23: invokevirtual #703                // Method setActionId:(Lcom/calian/objmodel/bto/model/gobjs/gen/GAction;Z)V
+         * 26: aload_1
+         * 27: getfield      #706                // Field com/calian/objmodel/base/bto/model/notification/ActionNotification.jActionLocation:Ljava/util/HashMap;
+         * 30: ifnull        76
+         * 33: aload_1
+         * 34: getfield      #706                // Field com/calian/objmodel/base/bto/model/notification/ActionNotification.jActionLocation:Ljava/util/HashMap;
+         * 37: invokevirtual #710                // Method java/util/HashMap.values:()Ljava/util/Collection;
+         * 40: invokeinterface #473,  1          // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+         * 45: astore_2
+         * 46: aload_2
+         * 47: invokeinterface #394,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+         * 52: ifeq          76
+         * 55: aload_2
+         * 56: invokeinterface #399,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+         * 61: checkcast     #713                // class com/calian/objmodel/base/bto/model/notification/ActionNotification$ActionLocation
+         * 64: astore_3
+         * 65: aload_0
+         * 66: aload_3
+         * 67: getfield      #715                // Field com/calian/objmodel/base/bto/model/notification/ActionNotification$ActionLocation.jLocation:Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;
+         * 70: invokevirtual #333                // Method setLocation:(Lcom/calian/objmodel/bto/model/gobjs/gen/GLocation;)V
+         * 73: goto          46
+         * 76: aload_1
+         * 77: getfield      #719                // Field com/calian/objmodel/base/bto/model/notification/ActionNotification.jActionStatus:Lcom/calian/objmodel/bto/model/gobjs/gen/GActionStatus;
+         * 80: ifnull        106
+         * 83: aload_1
+         * 84: getfield      #719                // Field com/calian/objmodel/base/bto/model/notification/ActionNotification.jActionStatus:Lcom/calian/objmodel/bto/model/gobjs/gen/GActionStatus;
+         * 87: aload_1
+         * 88: getfield      #697                // Field com/calian/objmodel/base/bto/model/notification/ActionNotification.jAction:Lcom/calian/objmodel/bto/model/gobjs/gen/GAction;
+         * 91: invokevirtual #539                // Method com/calian/objmodel/bto/model/gobjs/gen/GAction.getActionId:()J
+         * 94: invokevirtual #723                // Method com/calian/objmodel/bto/model/gobjs/gen/GActionStatus.setActionStatusActionId:(J)V
+         * 97: aload_0
+         * 98: aload_1
+         * 99: getfield      #719                // Field com/calian/objmodel/base/bto/model/notification/ActionNotification.jActionStatus:Lcom/calian/objmodel/bto/model/gobjs/gen/GActionStatus;
+         * 102: iconst_0
+         * 103: invokevirtual #726                // Method setActionStatusIdx:(Lcom/calian/objmodel/bto/model/gobjs/gen/GActionStatus;Z)V
+         * 106: aload_1
+         * 107: getfield      #729                // Field com/calian/objmodel/base/bto/model/notification/ActionNotification.jAssociatedTypes:Ljava/util/HashMap;
+         * 110: ifnull        157
+         * 113: aload_1
+         * 114: getfield      #729                // Field com/calian/objmodel/base/bto/model/notification/ActionNotification.jAssociatedTypes:Ljava/util/HashMap;
+         * 117: invokevirtual #710                // Method java/util/HashMap.values:()Ljava/util/Collection;
+         * 120: invokeinterface #473,  1          // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+         * 125: astore_2
+         * 126: aload_2
+         * 127: invokeinterface #394,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+         * 132: ifeq          157
+         * 135: aload_2
+         * 136: invokeinterface #399,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+         * 141: checkcast     #732                // class com/calian/objmodel/base/bto/model/notification/ActionNotification$ActionObjectType
+         * 144: astore_3
+         * 145: aload_0
+         * 146: aload_3
+         * 147: getfield      #734                // Field com/calian/objmodel/base/bto/model/notification/ActionNotification$ActionObjectType.jActionObjectType:Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectType;
+         * 150: iconst_0
+         * 151: invokevirtual #633                // Method setObjectTypeId:(Lcom/calian/objmodel/bto/model/gobjs/gen/GObjectType;Z)V
+         * 154: goto          126
+         * 157: aload_0
+         * 158: invokevirtual #81                 // Method registerForDBUUpdate:()V
+         * 161: return
+         *  */
+        // </editor-fold>
+    }
+
+    public void processContextNotification(ContextNotification notif) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 3: ldc_w         #738                // String Processing ContextNotification
+         * 6: invokeinterface #598,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+         * 11: aload_0
+         * 12: aload_1
+         * 13: getfield      #740                // Field com/calian/objmodel/base/bto/model/notification/ContextNotification.jContext:Lcom/calian/objmodel/bto/model/gobjs/gen/GContext;
+         * 16: invokevirtual #746                // Method setContextId:(Lcom/calian/objmodel/bto/model/gobjs/gen/GContext;)V
+         * 19: return
+         *  */
+        // </editor-fold>
+    }
+
+    public DataTransferObject checkCreateObjectIds(DataTransferObject dto) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: aload_0
+         * 2: aload_1
+         * 3: invokevirtual #749                // Method com/calian/rabbitmq/comms/DataTransferObject.getMessage:()Lcom/calian/rabbitmq/comms/BTO;
+         * 6: invokevirtual #753                // Method checkCreateObjectIds:(Lcom/calian/rabbitmq/comms/BTO;)Lcom/calian/rabbitmq/comms/BTO;
+         * 9: invokevirtual #757                // Method com/calian/rabbitmq/comms/DataTransferObject.setMessage:(Lcom/calian/rabbitmq/comms/BTO;)V
+         * 12: aload_1
+         * 13: areturn
+         *  */
+        // </editor-fold>
+    }
+
+    public BTO checkCreateObjectIds(BTO bto) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: instanceof    #680                // class com/calian/objmodel/base/bto/model/notification/UnitNotification
+         * 4: ifeq          18
+         * 7: aload_0
+         * 8: aload_1
+         * 9: checkcast     #680                // class com/calian/objmodel/base/bto/model/notification/UnitNotification
+         * 12: invokevirtual #761                // Method processUnitNotification:(Lcom/calian/objmodel/base/bto/model/notification/UnitNotification;)V
+         * 15: goto          242
+         * 18: aload_1
+         * 19: instanceof    #765                // class com/calian/objmodel/base/bto/model/notification/MaterielNotification
+         * 22: ifeq          36
+         * 25: aload_0
+         * 26: aload_1
+         * 27: checkcast     #765                // class com/calian/objmodel/base/bto/model/notification/MaterielNotification
+         * 30: invokevirtual #767                // Method processMaterielNotification:(Lcom/calian/objmodel/base/bto/model/notification/MaterielNotification;)V
+         * 33: goto          242
+         * 36: aload_1
+         * 37: instanceof    #771                // class com/calian/objmodel/base/bto/model/notification/PersonNotification
+         * 40: ifeq          54
+         * 43: aload_0
+         * 44: aload_1
+         * 45: checkcast     #771                // class com/calian/objmodel/base/bto/model/notification/PersonNotification
+         * 48: invokevirtual #773                // Method processPersonNotification:(Lcom/calian/objmodel/base/bto/model/notification/PersonNotification;)V
+         * 51: goto          242
+         * 54: aload_1
+         * 55: instanceof    #606                // class com/calian/objmodel/base/bto/model/notification/ObjectAssociationNotification
+         * 58: ifeq          72
+         * 61: aload_0
+         * 62: aload_1
+         * 63: checkcast     #606                // class com/calian/objmodel/base/bto/model/notification/ObjectAssociationNotification
+         * 66: invokevirtual #777                // Method processObjectAssociationNotification:(Lcom/calian/objmodel/base/bto/model/notification/ObjectAssociationNotification;)V
+         * 69: goto          242
+         * 72: aload_1
+         * 73: instanceof    #781                // class com/calian/objmodel/base/bto/model/notification/FeatureNotification
+         * 76: ifeq          90
+         * 79: aload_0
+         * 80: aload_1
+         * 81: checkcast     #781                // class com/calian/objmodel/base/bto/model/notification/FeatureNotification
+         * 84: invokevirtual #783                // Method processFeatureNotification:(Lcom/calian/objmodel/base/bto/model/notification/FeatureNotification;)V
+         * 87: goto          242
+         * 90: aload_1
+         * 91: instanceof    #787                // class com/calian/objmodel/base/bto/model/notification/FacilityNotification
+         * 94: ifeq          108
+         * 97: aload_0
+         * 98: aload_1
+         * 99: checkcast     #787                // class com/calian/objmodel/base/bto/model/notification/FacilityNotification
+         * 102: invokevirtual #789                // Method processFacilityNotification:(Lcom/calian/objmodel/base/bto/model/notification/FacilityNotification;)V
+         * 105: goto          242
+         * 108: aload_1
+         * 109: instanceof    #698                // class com/calian/objmodel/base/bto/model/notification/ActionNotification
+         * 112: ifeq          126
+         * 115: aload_0
+         * 116: aload_1
+         * 117: checkcast     #698                // class com/calian/objmodel/base/bto/model/notification/ActionNotification
+         * 120: invokevirtual #793                // Method processActionNotification:(Lcom/calian/objmodel/base/bto/model/notification/ActionNotification;)V
+         * 123: goto          242
+         * 126: aload_1
+         * 127: instanceof    #741                // class com/calian/objmodel/base/bto/model/notification/ContextNotification
+         * 130: ifeq          144
+         * 133: aload_0
+         * 134: aload_1
+         * 135: checkcast     #741                // class com/calian/objmodel/base/bto/model/notification/ContextNotification
+         * 138: invokevirtual #797                // Method processContextNotification:(Lcom/calian/objmodel/base/bto/model/notification/ContextNotification;)V
+         * 141: goto          242
+         * 144: aload_1
+         * 145: instanceof    #570                // class com/calian/objmodel/base/bto/model/notification/HoldingEnabledNotification$Holding
+         * 148: ifeq          163
+         * 151: aload_0
+         * 152: aload_1
+         * 153: checkcast     #570                // class com/calian/objmodel/base/bto/model/notification/HoldingEnabledNotification$Holding
+         * 156: iconst_1
+         * 157: invokevirtual #801                // Method setHoldingId:(Lcom/calian/objmodel/base/bto/model/notification/HoldingEnabledNotification$Holding;Z)V
+         * 160: goto          242
+         * 163: aload_1
+         * 164: instanceof    #804                // class com/calian/objmodel/base/bto/model/comms/GetConfigurationData
+         * 167: ifeq          173
+         * 170: goto          242
+         * 173: aload_1
+         * 174: ifnull        231
+         * 177: aload_1
+         * 178: invokevirtual #806                // Method java/lang/Object.getClass:()Ljava/lang/Class;
+         * 181: invokevirtual #810                // Method java/lang/Class.getName:()Ljava/lang/String;
+         * 184: astore_2
+         * 185: ldc_w         #813                // String com.calian.routingmicroservice.requests.GetRoutingMSInformationRequest
+         * 188: aload_2
+         * 189: invokevirtual #815                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+         * 192: ifne          228
+         * 195: ldc_w         #819                // String com.calian.basemicroservice.GetMSInformationRequest
+         * 198: aload_2
+         * 199: invokevirtual #815                // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+         * 202: ifeq          208
+         * 205: goto          228
+         * 208: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 211: aload_1
+         * 212: invokevirtual #806                // Method java/lang/Object.getClass:()Ljava/lang/Class;
+         * 215: invokevirtual #810                // Method java/lang/Class.getName:()Ljava/lang/String;
+         * 218: invokedynamic #821,  0            // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+         * 223: invokeinterface #825,  2          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;)V
+         * 228: goto          242
+         * 231: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 234: ldc_w         #828                // String Null BTO
+         * 237: invokeinterface #825,  2          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;)V
+         * 242: aload_1
+         * 243: areturn
+         *  */
+        // </editor-fold>
+    }
+
+    public void run() {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_0
+         * 1: invokevirtual #830                // Method createStartIdsUpdatingThread:()Ljava/lang/Thread;
+         * 4: invokevirtual #834                // Method java/lang/Thread.start:()V
+         * 7: aload_0
+         * 8: getfield      #25                 // Field jTerminated:Z
+         * 11: ifne          61
+         * 14: aload_0
+         * 15: getfield      #16                 // Field jTaskQueue:Lcom/calian/common/lib/system/PressuredHeapBlockingQueue;
+         * 18: invokevirtual #839                // Method com/calian/common/lib/system/PressuredHeapBlockingQueue.take:()Ljava/lang/Object;
+         * 21: checkcast     #94                 // class com/calian/objmodel/dataupdate/DataUpdate
+         * 24: astore_1
+         * 25: aload_1
+         * 26: invokevirtual #842                // Method com/calian/objmodel/dataupdate/DataUpdate.getData:()Ljava/lang/Object;
+         * 29: astore_2
+         * 30: aload_2
+         * 31: ifnonnull     37
+         * 34: goto          7
+         * 37: aload_0
+         * 38: aload_1
+         * 39: invokevirtual #845                // Method processDBTask:(Lcom/calian/objmodel/dataupdate/DataUpdate;)V
+         * 42: goto          7
+         * 45: astore_1
+         * 46: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 49: ldc_w         #849                // String Error encountered while processing task queue.
+         * 52: aload_1
+         * 53: invokeinterface #107,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+         * 58: goto          7
+         * 61: return
+         * Exception table:
+         * from    to  target type
+         * 14    34    45   Class java/lang/Exception
+         * 37    42    45   Class java/lang/Exception
+         *  */
+        // </editor-fold>
+    }
+
+    protected void performOperation(JDBCDataManager manager, DBObject dbObj, DataUpdate obj) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: getstatic     #851                // Field com/calian/jdbc/databasemanager/JDBCBaseDBManager$1.$SwitchMap$com$calian$objmodel$dataupdate$DataUpdate$Operation:[I
+         * 3: aload_3
+         * 4: invokevirtual #857                // Method com/calian/objmodel/dataupdate/DataUpdate.getOperation:()Lcom/calian/objmodel/dataupdate/DataUpdate$Operation;
+         * 7: invokevirtual #861                // Method com/calian/objmodel/dataupdate/DataUpdate$Operation.ordinal:()I
+         * 10: iaload
+         * 11: lookupswitch  { // 2
+         * 1: 36
+         * 2: 49
+         * default: 54
+         * }
+         * 36: aload_1
+         * 37: aload_2
+         * 38: invokevirtual #865                // Method com/calian/jdbc/JDBCDataManager.delete:(Lcom/calian/jdbc/common/DBObject;)V
+         * 41: aload_1
+         * 42: aload_2
+         * 43: invokevirtual #117                // Method com/calian/jdbc/JDBCDataManager.insert:(Lcom/calian/jdbc/common/DBObject;)V
+         * 46: goto          54
+         * 49: aload_1
+         * 50: aload_2
+         * 51: invokevirtual #865                // Method com/calian/jdbc/JDBCDataManager.delete:(Lcom/calian/jdbc/common/DBObject;)V
+         * 54: return
+         *  */
+        // </editor-fold>
+    }
+
+    protected JDBCDataManager getManager(Object data) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: instanceof    #139                // class com/calian/sharedmodel/parameters/DataParameters
+         * 4: ifeq          12
+         * 7: aload_0
+         * 8: getfield      #45                 // Field jJDBCMicroServiceParamJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 11: areturn
+         * 12: aload_1
+         * 13: instanceof    #160                // class com/calian/jdbc/common/StartIds
+         * 16: ifeq          29
+         * 19: aload_1
+         * 20: checkcast     #160                // class com/calian/jdbc/common/StartIds
+         * 23: astore_2
+         * 24: aload_0
+         * 25: getfield      #41                 // Field jJDBCStartIdsJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 28: areturn
+         * 29: aconst_null
+         * 30: areturn
+         *  */
+        // </editor-fold>
+    }
+
+    protected DBObject getDBObject(Object data) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aconst_null
+         * 1: astore_2
+         * 2: aload_1
+         * 3: instanceof    #139                // class com/calian/sharedmodel/parameters/DataParameters
+         * 6: ifeq          46
+         * 9: aload_1
+         * 10: checkcast     #139                // class com/calian/sharedmodel/parameters/DataParameters
+         * 13: astore        4
+         * 15: aload_0
+         * 16: getfield      #45                 // Field jJDBCMicroServiceParamJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 19: astore_3
+         * 20: aload_0
+         * 21: new           #54                 // class com/calian/jdbc/common/DBMicroServiceParam
+         * 24: dup
+         * 25: invokespecial #868                // Method com/calian/jdbc/common/DBMicroServiceParam."<init>":()V
+         * 28: aload         4
+         * 30: invokevirtual #869                // Method setDBObjectString:(Lcom/calian/jdbc/common/DBMicroServiceParam;Lcom/calian/sharedmodel/parameters/DataParameters;)Lcom/calian/jdbc/common/DBObject;
+         * 33: astore_2
+         * 34: aload_2
+         * 35: aload         4
+         * 37: invokevirtual #457                // Method com/calian/sharedmodel/parameters/DataParameters.getDatabaseId:()J
+         * 40: invokevirtual #873                // Method com/calian/jdbc/common/DBObject.setId:(J)V
+         * 43: goto          110
+         * 46: aload_1
+         * 47: instanceof    #160                // class com/calian/jdbc/common/StartIds
+         * 50: ifeq          90
+         * 53: aload_1
+         * 54: checkcast     #160                // class com/calian/jdbc/common/StartIds
+         * 57: astore        5
+         * 59: aload_0
+         * 60: getfield      #41                 // Field jJDBCStartIdsJDBCDataManager:Lcom/calian/jdbc/JDBCDataManager;
+         * 63: astore_3
+         * 64: aload_0
+         * 65: new           #75                 // class com/calian/jdbc/common/DBStartIds
+         * 68: dup
+         * 69: invokespecial #876                // Method com/calian/jdbc/common/DBStartIds."<init>":()V
+         * 72: aload         5
+         * 74: invokevirtual #877                // Method setDBObjectString:(Lcom/calian/jdbc/common/DBStartIds;Lcom/calian/jdbc/common/StartIds;)Lcom/calian/jdbc/common/DBObject;
+         * 77: astore_2
+         * 78: aload_2
+         * 79: aload         5
+         * 81: getfield      #880                // Field com/calian/jdbc/common/StartIds.id:J
+         * 84: invokevirtual #873                // Method com/calian/jdbc/common/DBObject.setId:(J)V
+         * 87: goto          110
+         * 90: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 93: aload_1
+         * 94: invokevirtual #806                // Method java/lang/Object.getClass:()Ljava/lang/Class;
+         * 97: invokevirtual #56                 // Method java/lang/Class.getSimpleName:()Ljava/lang/String;
+         * 100: invokedynamic #883,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+         * 105: invokeinterface #825,  2          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;)V
+         * 110: aload_2
+         * 111: areturn
+         * 112: astore_2
+         * 113: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 116: aload_2
+         * 117: invokevirtual #886                // Method java/lang/Throwable.getMessage:()Ljava/lang/String;
+         * 120: aload_2
+         * 121: invokeinterface #107,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+         * 126: aconst_null
+         * 127: areturn
+         * Exception table:
+         * from    to  target type
+         * 0   111   112   Class java/lang/Throwable
+         *  */
+        // </editor-fold>
+    }
+
+    public DBObject setDBObjectString(DBStartIds data, StartIds bto) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_2
+         * 1: invokestatic  #887                // Method com/calian/common/lib/serialization/JsonObjectParser.asJSON:(Ljava/lang/Object;)Ljava/lang/String;
+         * 4: astore_3
+         * 5: goto          27
+         * 8: astore        4
+         * 10: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 13: aload         4
+         * 15: invokevirtual #149                // Method java/lang/Exception.getMessage:()Ljava/lang/String;
+         * 18: aload         4
+         * 20: invokeinterface #107,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+         * 25: aconst_null
+         * 26: areturn
+         * 27: aload_1
+         * 28: aload_3
+         * 29: invokevirtual #891                // Method com/calian/jdbc/common/DBStartIds.setObjectString:(Ljava/lang/String;)V
+         * 32: aload_1
+         * 33: areturn
+         * Exception table:
+         * from    to  target type
+         * 0     5     8   Class java/lang/Exception
+         *  */
+        // </editor-fold>
+    }
+
+    public DBObject setDBObjectString(DBMicroServiceParam data, DataParameters bto) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_2
+         * 1: invokestatic  #887                // Method com/calian/common/lib/serialization/JsonObjectParser.asJSON:(Ljava/lang/Object;)Ljava/lang/String;
+         * 4: astore_3
+         * 5: goto          27
+         * 8: astore        4
+         * 10: getstatic     #29                 // Field jL:Lorg/slf4j/Logger;
+         * 13: aload         4
+         * 15: invokevirtual #149                // Method java/lang/Exception.getMessage:()Ljava/lang/String;
+         * 18: aload         4
+         * 20: invokeinterface #107,  3          // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+         * 25: aconst_null
+         * 26: areturn
+         * 27: aload_1
+         * 28: aload_3
+         * 29: invokevirtual #894                // Method com/calian/jdbc/common/DBMicroServiceParam.setObjectString:(Ljava/lang/String;)V
+         * 32: aload_1
+         * 33: areturn
+         * Exception table:
+         * from    to  target type
+         * 0     5     8   Class java/lang/Exception
+         *  */
+        // </editor-fold>
+    }
+
+    private void processDBTask(DataUpdate obj) {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: aload_1
+         * 1: invokevirtual #842                // Method com/calian/objmodel/dataupdate/DataUpdate.getData:()Ljava/lang/Object;
+         * 4: astore_2
+         * 5: aload_0
+         * 6: aload_2
+         * 7: invokevirtual #895                // Method getDBObject:(Ljava/lang/Object;)Lcom/calian/jdbc/common/DBObject;
+         * 10: astore_3
+         * 11: aload_0
+         * 12: aload_2
+         * 13: invokevirtual #899                // Method getManager:(Ljava/lang/Object;)Lcom/calian/jdbc/JDBCDataManager;
+         * 16: astore        4
+         * 18: aload         4
+         * 20: ifnull        27
+         * 23: aload_3
+         * 24: ifnonnull     28
+         * 27: return
+         * 28: aload_0
+         * 29: aload         4
+         * 31: aload_3
+         * 32: aload_1
+         * 33: invokevirtual #903                // Method performOperation:(Lcom/calian/jdbc/JDBCDataManager;Lcom/calian/jdbc/common/DBObject;Lcom/calian/objmodel/dataupdate/DataUpdate;)V
+         * 36: return
+         *  */
+        // </editor-fold>
+    }
+
+    protected Thread createStartIdsUpdatingThread() {
+        // <editor-fold defaultstate="collapsed" desc="Compiled Code">
+        /* 0: new           #835                // class java/lang/Thread
+         * 3: dup
+         * 4: aload_0
+         * 5: invokedynamic #907,  0            // InvokeDynamic #2:run:(Lcom/calian/jdbc/databasemanager/JDBCBaseDBManager;)Ljava/lang/Runnable;
+         * 10: invokespecial #911                // Method java/lang/Thread."<init>":(Ljava/lang/Runnable;)V
+         * 13: areturn
+         *  */
+        // </editor-fold>
+    }
+}
