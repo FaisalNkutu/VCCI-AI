@@ -1,0 +1,82 @@
+/*
+ * Copyright 2025 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+
+package com.calian.aicore;
+
+import com.calian.jdbc.JDBCDataManager;
+import com.calian.jdbc.common.*;
+import com.calian.jdbc.databasemanager.JDBCBaseDBManager;
+import com.calian.jdbc.JDBCProcessor;
+import com.calian.objmodel.dataupdate.DataUpdate;
+import jakarta.inject.Singleton;
+import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
+
+/**
+ * @author B. Ola
+ * @company SimFront a Calian Company
+ * Created 2026, February
+ */
+
+@Singleton
+//@Context
+public class AiCoreMSDBManagerOld extends JDBCBaseDBManager {
+    private AiCoreService jAiCoreService;
+    private final LinkedBlockingQueue<DataUpdate> jTaskQueue = new LinkedBlockingQueue<>();
+
+
+    public AiCoreMSDBManagerOld(AiCoreJDBCFactory factory) {
+        super(factory.dataSource());
+        JDBCProcessor jdbcProcessor = factory.dataSource();
+    }
+
+    @Override
+    public void updateData(DataUpdate dataUpdate) {
+        dataUpdate.setOperation(DataUpdate.Operation.UPSERT);
+        jTaskQueue.add(dataUpdate);
+    }
+
+    public void updateData(List<Object> list) {
+        for(Object obj : list) {
+            DataUpdate data = new DataUpdate(obj);
+            data.setOperation(DataUpdate.Operation.UPSERT);
+            jTaskQueue.add(data);
+        }
+    }
+
+    @Override
+    public void deleteData(DataUpdate dataUpdate) {
+        dataUpdate.setOperation(DataUpdate.Operation.DELETE);
+        jTaskQueue.add(dataUpdate);
+    }
+
+    @Override
+    public void loadStoredData() {
+        jAiCoreService.jDataParameter = findAllMicroserviceParams();
+    }
+
+    @Override
+    public void setMicroService(Object microService) {
+        if (microService instanceof AiCoreService) {
+            jAiCoreService = (AiCoreService) microService;
+        }
+    }
+
+    @Override
+    protected JDBCDataManager getManager(Object data) {
+        return super.getManager(data);
+    }
+
+    @Override
+    protected DBObject getDBObject(Object data) {
+        DBObject dbObj = null;
+        JDBCDataManager manager;
+        dbObj = super.getDBObject(data);
+        return dbObj;
+    }
+}
+
+
+
