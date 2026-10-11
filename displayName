@@ -1,0 +1,17 @@
+String agentId = name;
+
+String displayName = capabilities != null
+        && !capabilities.isEmpty()
+        && capabilities.get(0) != null
+        && !capabilities.get(0).isBlank()
+        ? capabilities.get(0)
+        : agentId;
+
+combined.add(new AgentInfo(
+        agentId,
+        displayName,
+        description,
+        endpoint.trim(),
+        false,
+        "AI_SERVICE"
+));
