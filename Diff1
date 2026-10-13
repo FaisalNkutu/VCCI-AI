@@ -1,0 +1,260 @@
+C:\dev - Copy\ai-core>git --no-pager diff plan/ai#50 recovery/cohere-stash -- aicore/src/main/java/com/calian/aicore/clientagent/ClientAgent.java
+diff --git a/aicore/src/main/java/com/calian/aicore/clientagent/ClientAgent.java b/aicore/src/main/java/com/calian/aicore/clientagent/ClientAgent.java
+index 9ece256..8c0b336 100644
+--- a/aicore/src/main/java/com/calian/aicore/clientagent/ClientAgent.java
++++ b/aicore/src/main/java/com/calian/aicore/clientagent/ClientAgent.java
+@@ -4,9 +4,9 @@ import com.calian.aicore.AIConstants;
+ import com.calian.aicore.clientagent.LLM.LLMMessage;
+ import com.calian.aicore.clientagent.LLM.LLMSelectionResponse;
+ import com.calian.aicore.clientagent.LLM.LLMService;
+-import com.calian.aicore.ui.ClientBoard;
+ import com.calian.aicoredata.*;
+ import com.calian.aicoredata.datatype.*;
++import com.calian.basemicroservice.ObjectCache;
+ import com.calian.common.lib.log.Log;
+ import com.calian.common.lib.util.WorkerThread;
+ import com.calian.rabbitmq.comms.BTO;
+@@ -23,8 +23,8 @@ import java.util.stream.Stream;
+
+ public class ClientAgent extends WorkerThread {
+     public static Logger jL = Log.getLogger(ClientAgent.class);
+-    public UUID jClientID = null;
+-    private boolean jPersistData = false;
++    private UUID jClientID = null;
++    private ObjectCache jCache = null;
+     private IResponseListener jResponseListener = null;
+     //agent name to url
+     private final ConcurrentHashMap<String, String> jAgentURLHashmap;
+@@ -38,36 +38,34 @@ public class ClientAgent extends WorkerThread {
+     private final ExecutorService jLLMExecutor = Executors.newSingleThreadExecutor();
+     private final LinkedBlockingQueue<UserRequest> jLLMQueue = new LinkedBlockingQueue<>(1000);
+     private final ConcurrentHashMap<String, ConcurrentHashMap<String, List<String>>> jCommandDependency;
+-
++    //TODO::: This is just to save some history FOR NOW - will want to officially do this somehow (caching..)
++    private UserRequest jLastCompletedUR = null;
+     LLMService jLLMService;
+     private final Semaphore jCommandSemaphore = new Semaphore(10, true);
++
++
+     private ClientConfig jClientConfig;
+-    HashMap<UUID, UserRequest> jHistory = new HashMap<>();
+-    public final ClientBoard jClientMetricsBoard;
+
+
+     public ClientAgent(
+-            UUID clientID,
++            UUID clientID, ObjectCache cache,
+             IResponseListener listener,
+             ConcurrentHashMap<String, ConcurrentHashMap<String, List<String>>> commandDepMap,
+             ConcurrentHashMap<String, List<String>> commandMap,
+             ConcurrentHashMap<String, String> urlMap,
+             ArrayList<AgentCard> availableAgents,
+-            LLMService llmService,
+-            ClientBoard cb) {
++            LLMService llmService) {
+
+         //TODO: WHAT DO WE PASS IN HERE
+         super(clientID.toString());
+         jClientID = clientID;
+-        //this constructor is only called if there is a client id which means it is a registered user - persist data
+-        jPersistData = true;
++        jCache = cache;
+         jResponseListener = listener;
+         jCommandDependency = commandDepMap;
+         jCommandToAgentList = commandMap;
+         jAgentURLHashmap = urlMap;
+         jAvailableAgents = availableAgents;
+         jLLMService = llmService;
+-        jClientMetricsBoard = cb;
+         initCA();
+     }
+
+@@ -76,8 +74,7 @@ public class ClientAgent extends WorkerThread {
+                        ConcurrentHashMap<String, List<String>> commandMap,
+                        ConcurrentHashMap<String, String> urlMap,
+                        ArrayList<AgentCard> availableAgents,
+-                       LLMService llmService,
+-                       ClientBoard cb) {
++                       LLMService llmService) {
+         //TODO: WHAT DO WE PASS IN HERE
+         super("");
+         jResponseListener = listener;
+@@ -86,7 +83,6 @@ public class ClientAgent extends WorkerThread {
+         jAgentURLHashmap = urlMap;
+         jAvailableAgents = availableAgents;
+         jLLMService = llmService;
+-        jClientMetricsBoard = cb;
+         initCA();
+     }
+
+@@ -359,8 +355,7 @@ public class ClientAgent extends WorkerThread {
+                 LLMSelectionResponse lsr = jLLMService.analyze(llm);
+                 if (lsr != null) {
+                     if (lsr.isSuccess()) {
+-                        //TODO: This just uses last request sent - do we need to go more in depth?
+-                        List<AIObject> objects = jHistory.values().stream().toList().getLast().getCommands().stream()
++                        List<AIObject> objects = jLastCompletedUR.getCommands().stream()
+                                 .map(CommandObject::getDataObjects)
+                                 .flatMap(List::stream)
+                                 .toList();
+@@ -440,40 +435,30 @@ public class ClientAgent extends WorkerThread {
+     @Override
+     protected void doPendingWork(Object o) {
+
+-
+         if (o instanceof DataTransferObject dto) {
+-
+-            updateRequestInMetrics();
+-
+             //New UserRequest
+             BTO bto = dto.getMessage();
+             if (bto instanceof UserRequest ur) {
+-                updateClientLog("New request received!", ur.getRequestID().toString());
+                 jActiveRequests.put(ur.getRequestID(), dto);
+                 try {
+                     jLLMQueue.put(ur);
+                 } catch (InterruptedException e) {
+-                    String errorString = "Error adding to LLM Queue: " + e.getMessage();
+-                    updateFailedMetrics(errorString, ur.getRequestID().toString(), true);
++                    jL.error("Error adding to LLM Queue: {}", e.getMessage());
+                     ErrorMessage em = new ErrorMessage(ur, e.getMessage());
+                     dto.setMessage(em);
+                     try {
+                         jResponseListener.onResponse(dto);
+                     } catch (InterruptedException er) {
+-                        String error = "Could not process UserRequest! " + er.getMessage();
+-                        jL.error(error);
+-                        updateClientLog(error, ur.getRequestID().toString());
++                        jL.error("Could not process UserRequest! {}", er.getMessage());
+                     }
+                 }
+             } else if (bto instanceof GetCommandsRequest gcr) {
+                 gcr.setCommandData(new HashMap<>(jCommandToAgentList));
+                 //gcr.setAgentURLs(new HashMap<> (jAgentURLHashmap));
+                 try {
+-                    updateRequestOutMetrics("GetCommandsRequest received! Returning completed request...", null);
+                     jResponseListener.onResponse(dto);
+                 } catch (InterruptedException e) {
+-                    String errorString = "Could not send GetCommandsRequest! " + e.getMessage();
+-                    updateFailedMetrics(errorString, null, false);
++                    jL.error("Could not send command request! {}", e.getMessage());
+                 }
+             }
+         } else if (o instanceof CACommandObject co) {
+@@ -489,50 +474,6 @@ public class ClientAgent extends WorkerThread {
+         }
+     }
+
+-    public void updateClientLog(String msg, String reqID) {
+-        if (jClientID != null) {
+-            jClientMetricsBoard.log(jClientID.toString(), msg, reqID);
+-        }
+-    }
+-
+-    private void updateFailedMetrics(String msg, String reqID, boolean recordOut) {
+-        if (jClientID != null) {
+-            jClientMetricsBoard.requestFailed(jClientID.toString(), recordOut);
+-            jL.error(msg);
+-            updateClientLog(msg, reqID);
+-        }
+-    }
+-
+-    public void updateTaskFailedMetrics(String msg, String reqID) {
+-        if (jClientID != null) {
+-            jClientMetricsBoard.taskFailed(jClientID.toString());
+-            jL.error(msg);
+-            updateClientLog(msg, reqID);
+-        }
+-    }
+-
+-    public void updateTaskCompletedMetrics(String msg, String reqID) {
+-        if (jClientID != null) {
+-            jClientMetricsBoard.taskCompleted(jClientID.toString());
+-            updateClientLog(msg, reqID);
+-        }
+-    }
+-
+-    private void updateRequestInMetrics() {
+-        if (jClientID == null) {
+-            jClientMetricsBoard.recordUnregisteredRequest();
+-        } else {
+-            jClientMetricsBoard.requestIn(jClientID.toString());
+-        }
+-    }
+-
+-    private void updateRequestOutMetrics(String msg, String reqID) {
+-        if (jClientID != null) {
+-            jClientMetricsBoard.requestCompleted(jClientID.toString());
+-            updateClientLog(msg, reqID);
+-        }
+-    }
+-
+
+     /***
+      * This method is called when a command has been completed by a CommandThread. Add response to the
+@@ -556,50 +497,22 @@ public class ClientAgent extends WorkerThread {
+                 UserRequest urClone = (UserRequest) dtoClone.getMessage();
+                 //overwrite responses as we are sending only the response for this command
+                 urClone.setResponses(new HashMap<>(Map.of(co.getCommand(), co.getFinalResponse())));
+-                updateClientLog("Command completed: " + co.getCommand(), ur.getRequestID().toString());
+                 jResponseListener.onResponse(dtoClone);
+             }
+             if (ur.isComplete()) {
+-                //check of all response objects are errors
+-                checkForFailures(ur);
+-                updateRequestOutMetrics("Request processed - Sending back to client...", ur.getRequestID().toString());
+                 jActiveRequests.remove(ur.getRequestID());
+-                if (jPersistData) {
+-                    jHistory.put(ur.getRequestID(), ur);
+-                }
++                jLastCompletedUR = ur;
+             }
+         } catch (ClassCastException e) {
+-            String error = "Could not cast BTO to a UserRequest: " + e.getMessage();
+-            updateFailedMetrics(error, null, false);
++            jL.error("Could not cast BTO to a UserRequest: {}", e.getMessage());
+
+         } catch (InterruptedException e) {
+-            String error = "Error sending response: " + e.getMessage();
+-            updateFailedMetrics(error, null, false);
++            jL.error("Error sending response: {}", e.getMessage());
+         }
+
+
+     }
+
+-    /**
+-     *
+-     * If all responses are error objects, fail the whole request
+-     */
+-    private void checkForFailures(UserRequest ur) {
+-        int errors = 0;
+-        int responses = 0;
+-        for (List<? extends BTO> list : ur.getResponses().values()) {
+-            for (BTO item : list) {
+-                responses++;
+-                if (item instanceof ErrorDataObject) {
+-                    errors++;
+-                }
+-            }
+-        }
+-        if (responses == errors) {
+-            updateFailedMetrics("All returned responses are error objects - request failed.", ur.getRequestID().toString(), false);
+-        }
+-    }
+-
+     /**
+      * This method check for any dependents on a completed command, updates those dependents with the results from this
+      * command and re-queues them for processing.
+@@ -672,9 +585,5 @@ public class ClientAgent extends WorkerThread {
+         jLLMExecutor.shutdownNow();
+     }
+
+-    public void updateAvailableAgents(AgentCard ac) {
+-        jAvailableAgents.add(ac);
+-    }
+-
+
+ }
+
+C:\dev - Copy\ai-core>
