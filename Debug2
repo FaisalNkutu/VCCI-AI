@@ -1,0 +1,10 @@
+String friendlyName = agentName;
+
+if (commands != null && !commands.isEmpty()) {
+    String discoveredName = commands.get(0);
+
+    if (discoveredName != null && !discoveredName.isBlank()) {
+        friendlyName = discoveredName;
+    }
+}
+AgentInfo aiCoreAgent = new AgentInfo(agentName, friendlyName, description, aiServiceAgentURLs.get(agentName), false, "AI_SERVICE");
