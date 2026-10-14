@@ -1,10 +1,8 @@
 String friendlyName = agentName;
-
-if (commands != null && !commands.isEmpty()) {
-    String discoveredName = commands.get(0);
-
-    if (discoveredName != null && !discoveredName.isBlank()) {
-        friendlyName = discoveredName;
-    }
+if (commands != null && !commands.isEmpty() && commands.get(0) != null && !commands.get(0).isBlank()) {
+    friendlyName = commands.get(0);
 }
+
+
+Then replace the existing AgentInfo line with:
 AgentInfo aiCoreAgent = new AgentInfo(agentName, friendlyName, description, aiServiceAgentURLs.get(agentName), false, "AI_SERVICE");
