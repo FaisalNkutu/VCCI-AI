@@ -1,0 +1,31 @@
+"text/event-stream"} -Body ([System.Text.Encoding]::UTF8.GetBytes($body)) | Select-Object -ExpandProperty Content
+{"error":{"code":-32009,"message":"A2A version '0.3' is not supported by this handler. Expected version '1.0'.","data":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"VERSION_NOT_SUPPORTED","domain":"a2a-protocol.org","metadata":{}}]},"id":"1","jsonrpc":"2.0"}
+PS C:\Windows\system32> $body = '{"jsonrpc":"2.0","id":"1","method":"SendStreamingMessage","params":{"message":{"messageId":"123456","role":"ROLE_USER","parts":[{"text":"Hello"}]}}}'; Invoke-WebRequest -UseBasicParsing -Uri "http://127.0.0.1:9999/" -Method POST -ContentType "application/json" -Headers @{"Accept"="text/event-stream";"A2A-Version"="1.0"} -Body ([System.Text.Encoding]::UTF8.GetBytes($body)) | Select-Object -ExpandProperty Content
+data: {"result": {"task": {"id": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "status": {"state": "TASK_STATE_SUBMITTED"}, "history": [{"messageId": "123456", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "role": "ROLE_USER", "parts": [{"text": "Hello"}]}]}}, "id": "1", "jsonrpc": "2.0"}
+
+data: {"result": {"statusUpdate": {"taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "status": {"state": "TASK_STATE_WORKING", "message": {"messageId": "f7de0abe-bee6-43e6-a32f-1e2f2a749630", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "role": "ROLE_AGENT", "parts": [{"text": "Processing request using agent ea698e8b-2240-45fb-97be-3ac37cf0d319..."}]}, "timestamp": "2026-10-20T21:08:38.415832Z"}}}, "id": "1", "jsonrpc": "2.0"}
+
+data: {"result": {"artifactUpdate": {"taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "artifact": {"artifactId": "60e8c03d-73e8-4243-b685-97bf2d5a24d9", "name": "response", "parts": [{"text": "Hello"}]}}}, "id": "1", "jsonrpc": "2.0"}
+
+data: {"result": {"artifactUpdate": {"taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "artifact": {"artifactId": "60e8c03d-73e8-4243-b685-97bf2d5a24d9", "name": "response", "parts": [{"text": " Faisal"}]}, "append": true}}, "id": "1", "jsonrpc": "2.0"}
+
+data: {"result": {"artifactUpdate": {"taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "artifact": {"artifactId": "60e8c03d-73e8-4243-b685-97bf2d5a24d9", "name": "response", "parts": [{"text": "."}]}, "append": true}}, "id": "1", "jsonrpc": "2.0"}
+
+data: {"result": {"artifactUpdate": {"taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "artifact": {"artifactId": "60e8c03d-73e8-4243-b685-97bf2d5a24d9", "name": "response", "parts": [{"text": " How"}]}, "append": true}}, "id": "1", "jsonrpc": "2.0"}
+
+data: {"result": {"artifactUpdate": {"taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "artifact": {"artifactId": "60e8c03d-73e8-4243-b685-97bf2d5a24d9", "name": "response", "parts": [{"text": " can"}]}, "append": true}}, "id": "1", "jsonrpc": "2.0"}
+
+data: {"result": {"artifactUpdate": {"taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "artifact": {"artifactId": "60e8c03d-73e8-4243-b685-97bf2d5a24d9", "name": "response", "parts": [{"text": " I"}]}, "append": true}}, "id": "1", "jsonrpc": "2.0"}
+
+data: {"result": {"artifactUpdate": {"taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "artifact": {"artifactId": "60e8c03d-73e8-4243-b685-97bf2d5a24d9", "name": "response", "parts": [{"text": " assist"}]}, "append": true}}, "id": "1", "jsonrpc": "2.0"}
+
+data: {"result": {"artifactUpdate": {"taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "artifact": {"artifactId": "60e8c03d-73e8-4243-b685-97bf2d5a24d9", "name": "response", "parts": [{"text": " you"}]}, "append": true}}, "id": "1", "jsonrpc": "2.0"}
+
+data: {"result": {"artifactUpdate": {"taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "artifact": {"artifactId": "60e8c03d-73e8-4243-b685-97bf2d5a24d9", "name": "response", "parts": [{"text": " today"}]}, "append": true}}, "id": "1", "jsonrpc": "2.0"}
+
+data: {"result": {"artifactUpdate": {"taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "artifact": {"artifactId": "60e8c03d-73e8-4243-b685-97bf2d5a24d9", "name": "response", "parts": [{"text": "?"}]}, "append": true, "lastChunk": true}}, "id": "1", "jsonrpc": "2.0"}
+
+data: {"result": {"statusUpdate": {"taskId": "7539a5ad-a297-4d30-a2ae-ca5df967813a", "contextId": "c1cfb67e-505b-489f-9e10-618b52e21a38", "status": {"state": "TASK_STATE_COMPLETED", "timestamp": "2026-10-20T21:08:42.864380Z"}}}, "id": "1", "jsonrpc": "2.0"}
+
+
+PS C:\Windows\system32>
