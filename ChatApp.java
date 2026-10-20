@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.URI;
 import java.net.http.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.*;
 import java.util.List;
@@ -123,17 +127,14 @@ public final class ChatApp extends JFrame {
             // The uploaded Python A2A executor supports North agents only.
             if (!"north".equalsIgnoreCase(selected.path("type").asText("north")))
                 throw new IllegalStateException("Non-North agents require their own endpoint adapter");
-            ObjectNode rpc=json.createObjectNode();rpc.put("jsonrpc","2.0");rpc.put("id",UUID.randomUUID().toString());rpc.put("method","message/send");
+            ObjectNode rpc=json.createObjectNode();rpc.put("jsonrpc","2.0");rpc.put("id",UUID.randomUUID().toString());rpc.put("method","message/stream");
             ObjectNode params=rpc.putObject("params");ObjectNode message=params.putObject("message");
             message.put("messageId",UUID.randomUUID().toString());message.put("role","user");
             message.put("contextId",currentContext);
             ArrayNode parts=message.putArray("parts");parts.addObject().put("kind","text").put("text",prompt);
             ObjectNode metadata=message.putObject("metadata");metadata.put("agent_id",id);metadata.set("context",shared);
-            JsonNode response=request("POST","/",rpc);
-            if(response.hasNonNull("error"))throw new IllegalStateException(response.path("error").toString());
-            JsonNode result=response.path("result");
-            String answer=extractText(result);
-            if(answer.isBlank()) answer="Request completed, but no text response was returned. Raw result: "+result;
+            String answer=sendA2A(rpc);
+            if(answer.isBlank()) answer="Agent returned no text response.";
             final String finalAnswer=answer;
             previousAgentId=id;
             synchronized(history) { history.add(turn("user",prompt,null));history.add(turn("assistant",finalAnswer,id)); }
@@ -141,6 +142,70 @@ public final class ChatApp extends JFrame {
             SwingUtilities.invokeLater(() -> append(displayName,finalAnswer));
         });
     }
+
+    /** Stream A2A JSON-RPC events from the Python service. */
+    private String sendA2A(ObjectNode rpc) throws Exception {
+        HttpRequest req = HttpRequest.newBuilder(URI.create(base() + "/"))
+                .timeout(Duration.ofSeconds(180))
+                .header("Content-Type", "application/json")
+                .header("Accept", "text/event-stream, application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(json.writeValueAsString(rpc)))
+                .build();
+        HttpResponse<InputStream> response = http.send(req, HttpResponse.BodyHandlers.ofInputStream());
+        if (response.statusCode() / 100 != 2) {
+            try (InputStream in = response.body()) {
+                throw new IllegalStateException("HTTP " + response.statusCode() + ": "
+                        + new String(in.readAllBytes(), StandardCharsets.UTF_8));
+            }
+        }
+        StringBuilder answer = new StringBuilder();
+        StringBuilder eventData = new StringBuilder();
+        StringBuilder fallback = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(response.body(), StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("data:")) {
+                    eventData.append(line.substring(5).stripLeading());
+                } else if (line.isEmpty()) {
+                    if (eventData.length() > 0) {
+                        consumeEvent(eventData.toString(), answer, fallback);
+                        eventData.setLength(0);
+                    }
+                } else if (!line.startsWith(":")) {
+                    // Also handle non-streaming JSON response bodies.
+                    if (!line.startsWith("event:") && !line.startsWith("id:") && !line.startsWith("retry:"))
+                        fallback.append(line);
+                }
+            }
+            if (eventData.length() > 0) consumeEvent(eventData.toString(), answer, fallback);
+        }
+        if (answer.length() == 0 && fallback.length() > 0) {
+            consumeEvent(fallback.toString(), answer, new StringBuilder());
+        }
+        return answer.toString().trim();
+    }
+
+    private void consumeEvent(String data, StringBuilder answer, StringBuilder unused) throws Exception {
+        if (data.isBlank() || "[DONE]".equals(data)) return;
+        JsonNode event = json.readTree(data);
+        if (event.hasNonNull("error"))
+            throw new IllegalStateException(event.path("error").toString());
+        JsonNode result = event.has("result") ? event.path("result") : event;
+        // Streaming artifact events contain the actual response chunks.
+        JsonNode artifact = result.path("artifact");
+        if (!artifact.isMissingNode()) {
+            StringBuilder chunk = new StringBuilder();
+            collectParts(artifact.path("parts"), chunk);
+            String text = chunk.toString();
+            if (result.path("append").asBoolean(false)) answer.append(text);
+            else { answer.setLength(0); answer.append(text); }
+            return;
+        }
+        // Non-streaming response or final message.
+        String text = extractText(result);
+        if (!text.isBlank() && answer.length() == 0) answer.append(text);
+    }
+
     private ObjectNode turn(String role,String content,String agentId) {
         ObjectNode t=json.createObjectNode();t.put("role",role);t.put("content",content);
         if(agentId!=null)t.put("agentId",agentId);return t;
