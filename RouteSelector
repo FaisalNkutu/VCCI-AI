@@ -1,0 +1,86 @@
+
+@app.post("/router/select")
+async def select_legacy(payload: dict[str, Any]):
+    message = str(payload.get("message") or "").strip()
+
+    if not message:
+        raise HTTPException(
+            status_code=400,
+            detail="Message cannot be empty"
+        )
+
+    if len(message) > 16000:
+        raise HTTPException(
+            status_code=413,
+            detail="Message too long"
+        )
+
+    supplied = payload.get("agents", [])
+
+    if not isinstance(supplied, list):
+        raise HTTPException(
+            status_code=400,
+            detail="agents must be a list"
+        )
+
+    # North agents discovered by the Python service.
+    north_agents = {
+        a["id"]: a for a in discover_agents()
+    }
+
+    # AI Core agents supplied by the trusted local Java client.
+    # Do not filter them against the North registry.
+    candidates = []
+
+    for item in supplied[:250]:
+        if not isinstance(item, dict):
+            continue
+
+        agent = dict(item)
+        agent["id"] = str(
+            agent.get("id") or agent.get("agentId") or ""
+        ).strip()
+        agent["name"] = str(
+            agent.get("name") or agent["id"]
+        ).strip()
+
+        if agent["id"] and agent["name"]:
+            candidates.append(agent)
+
+    # Only use North discovery when no agents were supplied.
+    if not candidates:
+        candidates = list(north_agents.values())
+
+    request = RouterRequest(
+        message=message,
+        contextId=payload.get("contextId"),
+        previousAgentId=payload.get("previousAgentId"),
+        agents=[
+            RouterAgent.model_validate(a)
+            for a in candidates
+        ]
+    )
+
+    decision = await agent_router.route(request)
+
+    selected = next(
+        (a for a in candidates
+         if a["id"] == decision.agentId),
+        None
+    )
+
+    logger.info(
+        "AUTO selected=%s method=%s reason=%s",
+        decision.agentId,
+        decision.method,
+        decision.reason
+    )
+
+    return {
+        "agent": selected,
+        "agentId": decision.agentId,
+        "agentName": decision.agentName,
+        "confidence": decision.confidence,
+        "reason": decision.reason,
+        "method": decision.method
+    }
