@@ -1,23 +1,26 @@
-# VCCI client-managed shared conversation context
+# Standalone Java Swing AI Chatbot
 
-No PostgreSQL or `DATABASE_URL` is required. Java VCCI owns conversation history, instructions, task context, and prior agent results. Python is stateless with respect to shared context. The existing North SDK may independently keep a North conversation ID in the executor memory; this does not replace Java-owned history.
+A separate Java 21 Swing application for the uploaded Python FastAPI VCCI AI Service. No VCCI Java libraries are required.
 
-## Installation
-Copy Python files to `coyote-azure\src`, overwriting matching files. The files are named for your existing imports (not `*3.py`). Keep `NORTH_AUTH_TOKEN` and `NORTH_AGENT_ID` in `.env`. `VCCI_API_KEY` is not required. Keep Uvicorn bound to `127.0.0.1` because the API has no authentication.
+## Run
 
-`uv run uvicorn main:app --host 127.0.0.1 --port 9999 --log-level debug --env-file .env`
+1. Start the Python FastAPI service (with the actual Python files named `main.py`, `router_models.py`, `agent_router.py`, `router_api.py`, `conversation_context.py`, `agent_executor.py`, etc.). Configure `NORTH_AUTH_TOKEN` and `NORTH_AGENT_ID` in your existing `.env`.
+2. Confirm `http://127.0.0.1:9999/health` responds.
+3. From this project folder run `mvn clean compile exec:java` (Java 21 and Maven required).
+4. Press **Refresh Agents**, choose an agent or **Auto Select**, enter optional shared context and send a message.
 
-## Java client integration
-Add `VcciConversationContext.java` to your VCCI project with Jackson databind. Keep one instance per chat session. Use `routingRequest(prompt, agents, previousAgentId)` as JSON body for `POST /router/select`. The response retains `agent`, `agentId`, `agentName`, `confidence`, `reason`, and `method`. After routing, check for null `agent`; do not fall back to Faisal's Agent. For North A2A requests, put the output of `a2aMetadata(selectedAgentId)` into the A2A **message.metadata** field (not the outer JSON-RPC envelope). For Java AI Core agents, pass `snapshot()` as context using that agent's existing request contract; each AI Core endpoint may need its own adapter. After an agent returns, call `addMessage("user", prompt, null)`, `addMessage("assistant", answer, agentId)`, and `addAgentResult(agentId, answer)` in Java. Avoid duplicating history entries across retries.
+## Integration contracts
 
-## Example routing request
-```json
-{"message":"Translate the previous answer into French","contextId":"chat-123","context":{"systemInstructions":"Be concise","userContext":"Engineering student","taskContext":"Translation","conversationHistory":[{"role":"assistant","content":"Hello world","agentId":"north-1"}],"agentResults":[]},"agents":[{"id":"translation-agent","name":"Translation Agent","description":"Translate between languages"}]}
-```
+- `GET /agents`: returns `{agents:[...]}`.
+- `POST /router/select`: takes `message`, `agents`, `contextId`, `previousAgentId`, `context` and returns `agent` and `reason`.
+- `POST /`: A2A JSON-RPC `message/send` with `message.metadata.agent_id` and `message.metadata.context`.
+- The Java UI holds up to 12 recent conversation turns in request context; it does not persist them across restarts.
 
-## Caveats
-* Router remains deterministic metadata matching, **not** LLM semantic routing. A follow-up without routing clues can remain unmatched.
-* Client-supplied agent lists are trusted for **selection**, not authorization. Never use returned endpoints for arbitrary server-side HTTP requests.
-* Existing A2A executor retains its legacy default North agent when A2A messages omit `agent_id`. Java should always supply explicit `agent_id`; a stricter removal of this fallback requires an A2A behavior change.
-* Java-side integration points are reference code, not a tested patch of your Java Swing repository (not supplied).
-* The North SDK, A2A SDK and live Java VCCI integration have not been tested in this environment.
+## Current Python limitations
+
+- The uploaded Python `agent_router.py` is keyword/metadata based, not semantic LLM routing. It returns no match when agent metadata does not match the prompt.
+- `/agents` currently discovers North agents only. External AI Core agents need a trusted registry and endpoint-specific adapters before this standalone app can invoke them.
+- `agent_executor.py` uses in-memory conversation mappings. Restarting the Python service resets those mappings; Java resends recent history as context.
+- A2A `message/send` support depends on the installed A2A SDK version. The code is designed for the JSON-RPC route registered by `main.py`; test with your actual Python environment.
+- The existing Python service may have initialization/import errors independently of this Java project.
+- For now, use only loopback/local access; do not expose the Python service publicly without authentication and authorization.
