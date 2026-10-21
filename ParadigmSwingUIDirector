@@ -1,0 +1,600 @@
+/*
+ * Copyright 2025 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+
+package com.calian.paradigm.ui.framework.framework;
+
+import com.calian.paradigm.core.UI;
+import com.calian.paradigm.core.bto.model.*;
+import com.calian.paradigm.core.bto.BTO;
+import com.calian.paradigm.core.bto.model.*;
+import com.calian.paradigm.core.bto.model.ui.DisplayableContent;
+import com.calian.paradigm.core.bto.model.ui.DisplayableMessage;
+import com.calian.paradigm.core.bto.model.ui.UINotification;
+import com.calian.paradigm.core.bto.requests.createupdatereq.UpdateNetworkAdaptorsUponDBReloadRequest;
+import com.calian.paradigm.core.bto.requests.results.BooleanResult;
+import com.calian.common.lib.gui.framework.OptionPaneResponse;
+import com.calian.common.lib.gui.framework.OptionsPane;
+import com.calian.common.lib.gui.framework.OptionsPane.PromptType;
+import com.calian.common.lib.gui.framework.SwingUIDirector;
+import com.calian.common.lib.log.Log;
+import com.calian.paradigm.core.components.MasterOMAdaptor;
+import com.calian.paradigm.ui.framework.UIComponent;
+import com.calian.common.lib.util.AuditUtil;
+import com.calian.paradigm.ui.framework.ui.IPCorrectionDialog;
+import com.calian.common.lib.util.PerfMon;
+import org.slf4j.Logger;
+
+import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
+
+/**
+ *
+ * @author R.Hans
+ */
+public class ParadigmSwingUIDirector extends SwingUIDirector implements
+        ActionListener {
+
+    public static ParadigmSwingUIDirector jUIDirector = null;
+    protected IApplicationUIProvider jAppUIProvider = null;
+    // Access to the other side of the Swing Thread
+    protected UIDelegate jUIDelegate;
+    public static boolean jRealTimeDebug = false;
+    public static Object jCurrentUIObjectBeingProcessed = null;
+    //private IDashboardInterface jIDashboardInterface = null;
+    protected IAdminPanelDataReceiver jIAdminPanelDataReceiver = null;
+    private boolean jPrintQueue = false;
+    protected boolean jTimeReportingIsOn = false;
+    private long jProcessingTimeLimitMS = 60000;
+    protected Logger jL = Log.getLogger(ParadigmSwingUIDirector.class);
+    /* 1 minute */
+    public UIPerfMon jPM = new UIPerfMon();
+
+    private IPCorrectionDialog jIpCorrectionDialog = null;
+
+    public class UIPerfMon extends PerfMon {
+
+        @Override
+        protected void print(String msg) {
+            //System.err.println("\n" + msg);
+            if (jActive) {
+                // Just send to admin panel
+                if (jIAdminPanelDataReceiver != null) {
+                    jIAdminPanelDataReceiver.queuePrint("\n" + msg);
+                }
+            }
+        }
+    }
+
+    public static void audit(
+            String msg,
+            Audit.Filter includeFilter,
+            String uiComponentPart) {
+        ParadigmSwingUIDirector.jUIDirector.getUIComponent().audit(
+                msg,
+                includeFilter,
+                uiComponentPart);
+    }
+
+    public ParadigmSwingUIDirector(
+            UIDelegate delegate,
+            LinkedBlockingQueue<Object> uiPriorityQueue,
+            LinkedBlockingQueue<Object> uiMessageQueue) {
+        super(uiPriorityQueue, uiMessageQueue);
+        jUIDirector = this;
+        jAppUIProvider = null;
+        jUIDelegate = delegate;
+    }
+
+    public void setUIMonitorSettings(
+            boolean timeLimitReportingIsOn,
+            boolean printQueues,
+            long processingTime,
+            IAdminPanelDataReceiver receiver) {
+        jTimeReportingIsOn = timeLimitReportingIsOn;
+        jPrintQueue = printQueues;
+        jIAdminPanelDataReceiver = receiver;
+        jProcessingTimeLimitMS = processingTime;
+    }
+
+    public IApplicationUIProvider getAppUIProvider() {
+        return jAppUIProvider;
+    }
+
+    public void showApplicationErrorMessage(String msg) {
+        jAppUIProvider.inlineOptionPaneRequest(PromptType.PROMPT_OK_ERROR, msg);
+    }
+
+    public void showApplicationWarningMessage(String msg) {
+        jAppUIProvider.inlineOptionPaneRequest(PromptType.PROMPT_OK_WARNING, msg);
+    }
+
+    public void showApplicationMessage(String msg) {
+        jAppUIProvider.inlineOptionPaneRequest(PromptType.PROMPT_OK_INFORMATION, msg);
+    }
+
+    public void queueSizesNotify(
+            int msgQueueSize,
+            int priorityQueueSize) {
+        if (jAppUIProvider != null) {
+            jAppUIProvider.queueSizeNotification(msgQueueSize, priorityQueueSize);
+
+            // Some debug assistance
+            if (jPrintQueue) {
+                //  These go to the admin panel
+                printQueueDetails("MessageQueue", jUIMessageQueue);
+                printQueueDetails("PriorityQueue", jUIPriorityQueue);
+
+                // This goes to the console if auditing is on
+                printStats();
+                jPrintQueue = false;
+            }
+        }
+    }
+
+    public static void uiPerformanceMonitor(String msg) {
+        if (!jUIDirector.jPM.isActive()) {
+            return;
+        }
+        //msg += "\n";
+        // And add message queue string
+        //String s = jUIDirector.getQueueString("MessageQueue", jUIDirector.jUIMessageQueue);
+        // msg += s;
+        String s = jUIDirector.jPM.__mark(msg);
+    }
+
+    public void setAppUIProvider(IApplicationUIProvider uiProvider) {
+        jAppUIProvider = uiProvider;
+        if (jAppUIProvider != null) {
+            setApplicationFrame(jAppUIProvider.getApplicationFrame());
+        }
+    }
+
+    public void clearQueues() {
+        super.flushQueues();
+        jUIDelegate.clearFRRHandlers();
+    }
+
+    public void subscribeToObjectNotification(
+            IUINotificationEnabled nEnabled,
+            Class<?> clazz) {
+        jUIDelegate.subscribeToObjectNotification(clazz, nEnabled);
+    }
+
+    public void removeObjectNotificationSubscriptions(IUINotificationEnabled nEnabled) {
+        jUIDelegate.removeObjectNotificationSubscriptions(nEnabled);
+        // We mark it deactivated so that if there are any pending objects in the
+        // queues - we will not try to deliver them to this object but will just
+        // throw them away
+        nEnabled.setIsDeactivated(true);
+    }
+
+    public UIComponent getUIComponent() {
+        return jUIDelegate.getUIComponent();
+    }
+
+    public int auditQueues(boolean printQueueContents) {
+        try {
+            if (jCurrentUIObjectBeingProcessed != null) {
+                String report = "CURRENT OBJECT BEING PROCESSED : ";
+                String name = getName(jCurrentUIObjectBeingProcessed);
+                report += name;
+                report += " REF[" + Integer.toHexString(System.identityHashCode(jCurrentUIObjectBeingProcessed)) + "]";
+                System.err.println(report.toString());
+            }
+        } catch (Exception ex) {
+            // Ignore
+        }
+        if (printQueueContents) {
+            AuditUtil.auditQueue(getUIComponent().getClass(), "UI Priority Queue", jUIPriorityQueue);
+            AuditUtil.auditQueue(getUIComponent().getClass(), "UI Message Queue", jUIMessageQueue);
+        }
+        int queueSize = getUIComponent().auditQueues(printQueueContents);
+        return queueSize + jUIPriorityQueue.size() + jUIMessageQueue.size();
+    }
+
+    /**
+     * This method will provide a summary audit report of what is in the queue
+     *
+     * @param queue A reference to the queue being processed
+     */
+    public LinkedHashMap<String, Long> getQueueContent(LinkedBlockingQueue<Object> queue) {
+        LinkedHashMap<String, Long> numByName = new LinkedHashMap<String, Long>();
+        for (Object object : queue) {
+            String objName = getName(object);
+            Long numObjs = numByName.get(objName);
+            long num = 1L;
+            if (numObjs != null) {
+                num += numObjs.longValue();
+            }
+            numByName.put(objName, num);
+        }
+        return numByName;
+    }
+
+    /**
+     * A method used to get a representative name for the supplied object
+     *
+     * @param object A reference to the object whose name is being requested
+     *
+     * @return A representative name for the supplied object
+     */
+    private static String getName(Object object) {
+        String preQualifier = "";
+        String name = "";
+        String postQualifier = "";
+        if (object instanceof DispatchUINotification) {
+            DispatchUINotification duin = (DispatchUINotification) object;
+            UINotification uin = duin.getUINotification();
+            if (uin != null) {
+                BrokerKey bk = uin.getBrokerKey();
+                if (bk != null) {
+                    preQualifier = bk.getDisplayName(true);
+                }
+                if (uin.getObject() != null) {
+                    object = uin.getObject();
+                }
+            }
+        } else if (object instanceof DispatchFRR) {
+            DispatchFRR dfrr = (DispatchFRR) object;
+            FeatureRequestResponse frr = dfrr.getFRR();
+            if (frr != null) {
+                BrokerKey bk = frr.getBrokerKey();
+                if (bk != null) {
+                    preQualifier = bk.getDisplayName(true);
+                }
+                postQualifier = frr.getSrcComponentKey().getComponentID() + "->"
+                        + frr.getDstComponentID() + ":" + frr.getComponentFeatureID();
+            }
+        }
+
+        if (object instanceof DisplayableContent) {
+            DisplayableContent dc = (DisplayableContent) object;
+            ModelObject content = dc.getContent();
+            if (content != null) {
+                name = dc.getSourceComponentID() + ":" + content.getClass().getCanonicalName();
+            } else {
+                name = dc.getSourceComponentID() + ":" + dc.getClass().getCanonicalName();
+            }
+        } else {
+            name = object.getClass().getCanonicalName();
+        }
+        return preQualifier + ":" + name + ":" + postQualifier;
+    }
+
+    private void reportTime(
+            Object obj,
+            long time) {
+        if (!jTimeReportingIsOn) {
+            return;
+        }
+        long end = System.currentTimeMillis();
+        long elapsed = end - time;
+        if (elapsed > jProcessingTimeLimitMS) {
+            BTO bto;
+            if (obj instanceof DispatchUINotification) {
+                DispatchUINotification dui = (DispatchUINotification) obj;
+                bto = dui.getUINotification().getObject();
+            } else {
+                DispatchFRR dfrr = (DispatchFRR) obj;
+                bto = dfrr.getFRR().getFeatureParameters();
+            }
+            if (jIAdminPanelDataReceiver != null) {
+                jIAdminPanelDataReceiver.uiMonitorUpdate(
+                        bto.getClass().getCanonicalName(),
+                        "" + elapsed);
+            }
+        }
+    }
+
+    protected void processMessage(Object obj) {
+
+        if (obj != null) {
+            long start = System.currentTimeMillis();
+            jCurrentUIObjectBeingProcessed = obj;
+            if (obj instanceof DispatchFRR) {
+                DispatchFRR msg = (DispatchFRR) obj;
+                FeatureRequestResponse frr = msg.getFRR();
+                if (jAppUIProvider.shouldProcessFRR(frr)) {
+                    IFRREnabled caller = msg.getFRRCaller();
+                    if (jUIDelegate.jUIComponent.processError(frr, false, true)) {
+                        caller.processRequestFailed(frr);
+                        reportTime(obj, start);
+                    } else if (frr.getComponentFeatureID().equals(UI.CONFIRM_PROCESSING)) {
+                        processConfirmationRequest(frr);
+                    } else {
+                        processFRR(caller, frr, obj);
+                        reportTime(obj, start);
+                    }
+                }
+                return;
+            }
+            if (obj instanceof DispatchUINotification) {
+                DispatchUINotification msg = (DispatchUINotification) obj;
+                IUINotificationEnabled subscriber;
+
+                if(msg.jUINotification.getObject() instanceof InvalidNetworkAdaptorsCarrier inac){
+                    // if there are problems with network adaptor IP's in current database
+                    if (inac.hasProblemAdaptors()) {
+                        // open UI to allow user to update the network adaptor IP's
+                        openIPCorrectionDialog(inac);
+                    }
+                    // processing updated network adaptor values - this processing needs to occur
+                    // even if there are no problem adaptors as this function sends the request
+                    // to the OM Adaptor which eventually results in setReadyToRun() being triggered
+                    processUpdatedNetworkAdaptors();
+                }
+
+                if (jAppUIProvider != null) {
+                    subscriber = msg.getSubscriber();
+                    if (subscriber != null && !subscriber.isDeactivated()) {
+                        processUINotification(msg);
+                        reportTime(obj, start);
+                    }
+                }
+            } else {
+                jL.warn( "Unknown object passed to UIDirector : " + obj.getClass().getCanonicalName());
+            }
+        }
+    }
+
+    /**
+     * Opens the IP Correction dialog and populates it with all problematic network adaptor values
+     * and their respective connections.
+     *
+     * @param inac InvalidNetworkAdaptorsCarrier object, which is used to populate the UI
+     */
+    private void openIPCorrectionDialog(InvalidNetworkAdaptorsCarrier inac){
+        jIpCorrectionDialog = new IPCorrectionDialog(inac);
+        jIpCorrectionDialog.pack();
+        jIpCorrectionDialog.setLocationRelativeTo(null);
+        jIpCorrectionDialog.setVisible(true);
+        jIpCorrectionDialog.toFront();
+        jIpCorrectionDialog.requestFocus();
+    }
+
+    /**
+     * Sends request with updated network adaptor sim params to OM Adaptor to be updated in the DB.
+     * If no sim params to update, sends request with empty list as the frr params. This gets handled in the backend.
+     * This request NEEDS to be sent to allow for startup to continue.
+     */
+    private void processUpdatedNetworkAdaptors(){
+        UpdateNetworkAdaptorsUponDBReloadRequest updateRequest = new UpdateNetworkAdaptorsUponDBReloadRequest();
+        // we expect jIpCorrectionDialog to be null if there are no problem parameters to update
+        if(jIpCorrectionDialog != null) {
+            updateRequest.setUpdateSimParams(jIpCorrectionDialog.getUpdatedNetworkAdaptorParams());
+            updateRequest.setUpdateDISRoutes(jIpCorrectionDialog.getUpdatedNetworkAdaptorDISRoutes());
+        }
+
+        jUIDirector.issueFeatureRequest(null,
+                jUIDirector.getAppUIProvider().getBrokerKey(),
+                ParadigmSwingUIDirector.class.getCanonicalName(),
+                MasterOMAdaptor.class.getCanonicalName(),
+                MasterOMAdaptor.UPDATE_NETWORK_ADAPTORS_UPON_DB_RELOAD,
+                updateRequest,
+                false);
+    }
+
+    protected void processFRR(IFRREnabled caller, FeatureRequestResponse frr, Object obj) {
+        long before = System.currentTimeMillis();
+        caller.processResponse(frr);
+        long time = System.currentTimeMillis() - before;
+
+        DispatchFRR dfrr = (DispatchFRR) obj;
+        BTO bto = dfrr.getFRR().getFeatureParameters();
+        recordStat(bto, time);
+    }
+
+    protected void processUINotification(DispatchUINotification msg) {
+        long before = System.currentTimeMillis();
+        jAppUIProvider.processNotification(
+                msg.getSubscriber(),
+                msg.getUINotification());
+        long time = System.currentTimeMillis() - before;
+
+        BTO bto = msg.getUINotification().getObject();
+        recordStat(bto, time);
+    }
+
+    /**
+     * This method will process a confirmation request asking the user whether
+     * or not they wish to proceed.
+     *
+     * @param frr A reference to a feature request response object
+     */
+    private void processConfirmationRequest(FeatureRequestResponse frr) {
+        DisplayableMessage uiMessage = (DisplayableMessage) frr.getFeatureParameters();
+        String msg = uiMessage.getMessageText();
+        OptionPaneResponse opr = jAppUIProvider.inlineOptionPaneRequest(
+                OptionsPane.PromptType.PROMPT_YES_NO,
+                msg);
+        BooleanResult result = null;
+        if (opr.isYesSelected()) {
+            result = new BooleanResult(true);
+        } else {
+            result = new BooleanResult(false);
+        }
+        frr.setFeatureResult(result);
+        frr.setState(FeatureRequestResponse.State.EXECUTED);
+        jUIDelegate.jUIComponent.deliverFeatureResponse(frr);
+    }
+
+    protected void logError(String msg) {
+        jL.error( msg);
+    }
+
+    protected void logDebug(String msg) {
+        jL.debug(msg);
+    }
+
+// REMOVED TO FORCE UI ELEMENTS TO SEND BROKER KEY
+//  public boolean issueFeatureRequest(
+//          IFRREnabled frrEnabled,
+//          String componentID,
+//          String featureID,
+//          BTO featureParameters,
+//          boolean sendResponse) {
+//    return jUIDelegate.issueFeatureRequest(
+//            frrEnabled,
+//            jUIDelegate.getUIComponent().getComponentGroup().getGroupBrokerKey(),
+//            null,
+//            componentID,
+//            featureID,
+//            featureParameters,
+//            sendResponse);
+//  }
+//  public boolean issueFeatureRequest(
+//          IFRREnabled frrEnabled,
+//          String sourceQualifierName,
+//          String componentID,
+//          String featureID,
+//          BTO featureParameters,
+//          boolean sendResponse) {
+//
+//    return jUIDelegate.issueFeatureRequest(
+//            frrEnabled,
+//            jUIDelegate.jUIComponent.getComponentGroup().getGroupBrokerKey(),
+//            sourceQualifierName,
+//            componentID,
+//            featureID,
+//            featureParameters,
+//            sendResponse);
+//  }
+    public boolean issueFeatureRequest(
+            IFRREnabled frrEnabled,
+            BrokerKey brokerKey,
+            String sourceQualifierName,
+            String componentID,
+            String featureID,
+            BTO featureParameters,
+            boolean sendResponse) {
+        if (brokerKey == null) {
+            jL.error("Null Broker Key for Feature Request. Component ID {}, Feature ID {}, Source Qualifier {}, FRR Caller {}", componentID, featureID, sourceQualifierName, frrEnabled);
+            return false;
+        }
+
+        return jUIDelegate.issueFeatureRequest(
+                frrEnabled,
+                brokerKey,
+                sourceQualifierName,
+                componentID,
+                featureID,
+                featureParameters,
+                sendResponse);
+    }
+
+    protected void printQueueDetails(
+            String tag,
+            LinkedBlockingQueue queue) {
+
+        String s = getQueueString(tag, queue);
+        if (jIAdminPanelDataReceiver != null) {
+            jIAdminPanelDataReceiver.queuePrint(s);
+        }
+    }
+
+    private String getQueueString(String tag,
+            LinkedBlockingQueue queue) {
+        Object[] objs = queue.toArray();
+        LinkedHashMap<String, Long> objClassCounter = new LinkedHashMap<>();
+        Object o;
+        String classname;
+        Long counter;
+        BTO bto;
+        for (int i = 0; i < objs.length; i++) {
+            o = objs[i];
+            bto = null;
+            if (o instanceof DispatchUINotification) {
+                DispatchUINotification dui = (DispatchUINotification) o;
+                bto = dui.getUINotification().getObject();
+            } else {
+                DispatchFRR dfrr = (DispatchFRR) o;
+                bto = dfrr.getFRR().getFeatureParameters();
+            }
+            if (bto != null) {
+                classname = bto.getClass().getCanonicalName();
+
+                if (objClassCounter.containsKey(classname)) {
+                    counter = objClassCounter.get(classname);
+                    counter++;
+                    objClassCounter.put(classname, counter);
+                } else {
+                    counter = 1L;
+                    objClassCounter.put(classname, counter);
+                }
+            }
+        }
+        Set<String> keys = objClassCounter.keySet();
+        Iterator<String> iter = keys.iterator();
+        StringBuilder s = new StringBuilder("______________________[" + tag + "]__________________________________\n");
+
+        while (iter.hasNext()) {
+            classname = iter.next();
+            counter = objClassCounter.get(classname);
+            s.append("Class[").append(classname).append("] count = ").append(counter).append("\n");
+        }
+        return s.toString();
+    }
+
+    private void recordStat(BTO bto, long time) {
+        if (bto != null) {
+            String className = bto.getClass().getCanonicalName();
+            Stat stat = classStats.get(className);
+            if (stat != null) {
+                stat.addTime(time);
+            } else {
+                classStats.put(className, new Stat(time));
+            }
+        }
+    }
+
+    protected void printStats() {
+        String timingStats = "______________________[Timing Stats]__________________________________\n";
+        for (String className : classStats.keySet()) {
+            Stat stat = classStats.get(className);
+            timingStats += "Class[" + className + "] \n    count = " + stat.calls + "\n"
+                    + "    total time: " + formatTime(stat.totalTime) + "\n"
+                    + "    longest time: " + formatTime(stat.longestTime) + "\n"
+                    + "    average time: " + formatTime(stat.totalTime / stat.calls) + "\n";
+        }
+
+        UIAudit.audit(timingStats, UIAudit.OBJECT_TIMING_STATS);
+    }
+
+    private LinkedHashMap<String, Stat> classStats = new LinkedHashMap<>();
+
+    private String formatTime(long millis) {
+        long second = (millis / 1000) % 60;
+        long minute = (millis / (1000 * 60)) % 60;
+        long hour = (millis / (1000 * 60 * 60)) % 24;
+        millis = millis % 1000;
+
+        return String.format("%02d:%02d:%02d.%03d", hour, minute, second, millis);
+    }
+
+    private class Stat {
+
+        public long calls;
+        public long totalTime;
+        public long longestTime;
+
+        public Stat(long time) {
+            calls = 1;
+            totalTime = time;
+            longestTime = time;
+        }
+
+        public void addTime(long time) {
+            calls++;
+            totalTime += time;
+            if (time > longestTime) {
+                longestTime = time;
+            }
+        }
+    }
+
+}
