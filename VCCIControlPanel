@@ -1,0 +1,4384 @@
+/*
+ * Copyright 2023-2026 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+package com.simfront.vcci.ui.dashboard;
+
+import java.awt.BorderLayout;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Window;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import com.calian.common.lib.gui.utils.*;
+import com.calian.common.lib.log.Log;
+import com.calian.paradigm.ui.sts.dashboard.CapabilityButton;
+import com.calian.paradigm.ui.sts.panels.*;
+import com.calian.paradigm.core.bto.model.dobjs.DConnection;
+import com.calian.paradigm.core.bto.model.dobjs.DConnectionType;
+import com.calian.paradigm.core.bto.model.dobjs.DDataFlowSpecification;
+import com.calian.paradigm.core.bto.model.dobjs.DFolder;
+import com.calian.paradigm.core.bto.model.dobjs.DSystemCapability;
+import com.calian.paradigm.core.bto.model.dobjs.DMapper;
+import com.calian.paradigm.core.bto.model.dobjs.DMapping;
+import com.calian.paradigm.core.bto.model.dobjs.DSimulationParameter;
+import com.calian.paradigm.core.bto.model.gobjs.gen.GDataFlowSpecification;
+import com.calian.paradigm.core.bto.model.gobjs.gen.GFolder;
+import com.calian.paradigm.core.bto.model.gobjs.gen.GSystemCapability;
+import com.calian.paradigm.core.bto.model.objs.mediation.DataFlowDiagnostics;
+import com.calian.paradigm.core.bto.model.objs.mediation.FolderDiagnostics;
+import com.calian.paradigm.core.bto.model.objs.mediation.TransferCommand;
+import com.calian.paradigm.core.bto.notifications.ConnectionTypeNotification;
+import com.calian.paradigm.core.bto.notifications.MapperChangeNotification;
+import com.calian.paradigm.core.bto.requests.createupdatereq.CreateUpdateDataFlowSpecificationRequest;
+import com.calian.paradigm.core.bto.requests.createupdatereq.CreateUpdateFolderRequest;
+import com.calian.paradigm.core.bto.requests.deletereq.DeleteDataFlowSpecificationRequest;
+import com.calian.paradigm.core.bto.requests.deletereq.DeleteFolderRequest;
+import com.calian.paradigm.core.bto.requests.readreq.GetFoldersRequest;
+import com.calian.paradigm.core.bto.requests.readreq.GetSystemCapabilitysRequest;
+import com.calian.paradigm.core.resources.Constants;
+import com.calian.paradigm.core.BaseConstants;
+import com.calian.paradigm.core.bto.BTO;
+import com.calian.paradigm.core.bto.model.FeatureRequestResponse;
+import com.calian.paradigm.core.bto.model.ModelObject;
+import com.calian.paradigm.core.bto.model.expressions.ComplexFilterExpression;
+import com.calian.paradigm.core.bto.model.ui.DisplayableContent;
+import com.calian.paradigm.core.bto.model.ui.DisplayableStatus;
+import com.calian.paradigm.core.bto.requests.Request;
+import com.calian.common.lib.db.DBConstants;
+import com.calian.common.lib.gui.framework.OptionPaneResponse;
+import com.calian.common.lib.gui.framework.OptionsPane;
+import com.calian.common.lib.gui.icontree.TreeProgressBar;
+import com.calian.paradigm.service.disaggregationservice.DisaggregationService;
+import com.calian.paradigm.service.gisservice.GISService;
+import com.calian.paradigm.service.mediationservice.MediationService;
+import com.calian.paradigm.core.bto.notifications.mediation.ConnectionNotification;
+import com.calian.paradigm.core.bto.notifications.mediation.DataFlowSpecificationNotification;
+import com.calian.paradigm.core.bto.notifications.mediation.FolderNotification;
+import com.calian.paradigm.core.bto.notifications.mediation.MediationStatusesNotification;
+import com.calian.paradigm.core.bto.requests.createupdatereq.CreateUpdateConnectionRequest;
+import com.calian.paradigm.core.bto.requests.deletereq.DeleteConnectionRequest;
+import com.calian.paradigm.core.bto.requests.readreq.GetDataFlowSpecificationsRequest;
+import com.calian.paradigm.core.bto.model.ui.DisplayableMessage;
+import com.calian.common.lib.gui.data.CommonIcons;
+import com.calian.common.lib.gui.GUIConstants.NodeMarking;
+import com.calian.paradigm.core.bto.model.ClockTick;
+import com.calian.paradigm.core.bto.requests.MediationCommandsRequest;
+import com.calian.paradigm.service.mediationservice.plugins.movement.MovementProcessor;
+import com.calian.paradigm.core.util.MovementProcessingConstants;
+import com.calian.paradigm.core.util.MovementProcessingConstants.MovementProcessingTypes;
+import com.calian.paradigm.ui.sts.icons.STSIcons;
+import com.calian.paradigm.ui.framework.framework.IFRREnabled;
+import com.calian.paradigm.ui.framework.framework.IUINotificationEnabled;
+import com.calian.paradigm.ui.framework.framework.ParadigmSwingUIDirector;
+import com.calian.paradigm.ui.sts.panels.context.ContextDiagnosticsPanel;
+import com.calian.paradigm.ui.sts.panels.cursitview.MapDisplayPanel;
+import com.simfront.vcci.ui.capabilities.*;
+import com.simfront.vcci.ui.cursit.VCCIMapDisplayPanel;
+import com.simfront.vcci.ui.dashboard.base.AddDFSPanel;
+import com.simfront.vcci.ui.VCCIUIDependencyCoordinator;
+import com.simfront.vcci.ui.dashboard.base.FolderDiagnosticsBase;
+import com.simfront.vcci.ui.folders.diagnostics.MediationFolderDiagnostics;
+import com.simfront.vcci.ui.cursit.VCCICursitPanel;
+import com.calian.paradigm.ui.sts.panels.ConnectionDiagnosticsBase;
+import com.simfront.vcci.ui.dashboard.base.control.AddFolderPanel;
+import com.simfront.vcci.ui.dashboard.base.control.IVCCIControlPanelUser;
+import com.simfront.vcci.ui.dashboard.base.control.VCCIDisplayTreePanel;
+import com.simfront.vcci.ui.dashboard.base.control.VToolBarControl;
+import com.simfront.vcci.ui.dashboard.base.control.VToolBarControl.IVToolBarControlUser;
+import com.simfront.vcci.ui.emulation.EmulationSetupPanel;
+import com.simfront.vcci.ui.disaggregation.filters.DisaggregationFilterPanel;
+import com.simfront.vcci.ui.metrics.MetricsConfigurationPanel;
+import com.simfront.vcci.ui.metrics.MetricsSpecificationPanel;
+
+import java.awt.BorderLayout;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+
+import com.simfront.vccibase.IVCCIUIControlObject;
+import com.simfront.vccibase.manager.*;
+import com.simfront.vccibase.manager.message.RAPTerminateRAPStatusUICapabilityManagerMessage;
+import org.slf4j.Logger;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.*;
+import java.awt.Frame;
+import java.awt.Window;
+import javax.swing.SwingUtilities;
+import com.calian.paradigm.service.aiservice.objs.*;
+import com.calian.paradigm.service.aiservice.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+/**
+ * @author rhans
+ */
+public class VCCIControlPanel extends JPanel
+        implements IUINotificationEnabled,
+        IFRREnabled,
+        IIconButtonUser,
+        CapabilityButton.ICapabilityButtonUser,
+        IVCCIControlPanelUser,
+        IVToolBarControlUser,
+        IPanelCarrierEnabled,
+        IPanelCarrierPayload {
+
+    private static final Logger jL = Log.getLogger(VCCIControlPanel.class);
+    protected static String INVALID_CHARS = "[()<>/;\\\\*%$~`+&^#!\\[\\]{}=|]";
+
+    DFolder jCurrentFolder = null;
+    DConnection jCurrentConnection = null;
+    DDataFlowSpecification jCurrentDataFlow = null;
+    LinkedHashMap<Long, DiagnosticsPanelBase> jFolderToDiagnosticsPanelHash = new LinkedHashMap<>();
+    LinkedHashMap<Long, DataFlowManager> jDFSManagersHash = new LinkedHashMap<>();
+    static LinkedHashMap<String, String> jDataflowManagerLookupHash = new LinkedHashMap<>();
+    LinkedList<DSystemCapability> jSystemCapabilities = new LinkedList<>();
+    HashSet<String> jSystemCapabilitiesInUse = new HashSet<>();
+    VCCIDisplayTreePanel jVCCITreeDisplayPanel = new VCCIDisplayTreePanel(this);
+    JPopupMenu jCurrentPopup = new JPopupMenu();
+    boolean jIsDeactivated = false;
+
+    // The parent of all connections that are not in a user created
+    // folder
+    public static String HIDDEN_FOLDER = "_HiddenRoot";
+    public static DFolder jHiddenFolder = null;
+
+    // For keeping track of the classnames of connection type managers
+    static LinkedHashMap<String, String> jConnectionTypeManagerLookupHash = new LinkedHashMap<>();
+    // For keeping track of the classnames of connectionmanagers
+    static LinkedHashMap<String, String> jConnectionManagerLookupHash = new LinkedHashMap<>();
+
+    LinkedHashMap<Long, ConnectionManager> jConnectionManagersHash = new LinkedHashMap<>();
+    LinkedHashMap<Long, ConnectionTypeManager> jConnTypeManagersHash = new LinkedHashMap<>();
+    LinkedHashMap<Long, DiagnosticsPanelBase> jConnToDiagnosticsPanelHash = new LinkedHashMap<>();
+    LinkedHashMap<Long, ConnectionManager> jConnToMappingAndRoutingPanelHash = new LinkedHashMap<>();
+
+    private AddFolderPanel jAddFolderPanel = null;
+    public static String INTERNAL_FOLDER = "_InternalFolder";
+    public static DFolder jInternalFolder = null;
+
+    private static final String DISPLAYABLE_STATUS_OBJECT = "DISPLAYABLE_STATUS";
+    private boolean jDISRouterStarted = false;
+    private boolean jDisaggregationStarted = false;
+    private boolean jGISStarted = false;
+    private boolean jEmulationStarted = false;
+    private boolean jOthServerStarted = false;
+    private boolean jRAPStarted = false;
+    private boolean jMipStarted = false;
+    private boolean jFFIServerStarted = false;
+    private boolean jLink16ServerStarted = false;
+    // TODO : Move these? -SS
+    private DDataFlowSpecification jDisaggregationDataflow = null;
+    private DDataFlowSpecification jDISRouterDataflow = null;
+    private DDataFlowSpecification jGISDataflow = null;
+    private DDataFlowSpecification jMipInDataflow = null;
+    private DDataFlowSpecification jMipOutDataflow = null;
+    private DDataFlowSpecification jEmulationDataflow = null;
+    private DDataFlowSpecification jOthGoldServerDataflow = null;
+    private DDataFlowSpecification jRAPDataflow = null;
+    private DDataFlowSpecification jLink16ServerDataflow = null;
+    private DDataFlowSpecification jFFIServerDataflow = null;
+
+    // TODO REMOVE ALL THESE CONSTANTS -- SS
+    private final static String TEMP_DIS_ROUTER_COMPONENT_REFERENCE = "com.calian.paradigm.router.dis.DISRouter";
+    private final static String TEMP_DISAGG_ROUTER_COMPONENT_REFERENCE = "com.calian.paradigm.service.disaggregationservice.DisaggregationService";
+    private final static String TEMP_GIS_ROUTER_COMPONENT_REFERENCE = "com.calian.paradigm.service.gisservice.GISService";
+    private final static String TEMP_OTH_ROUTER_COMPONENT_REFERENCE = "com.calian.paradigm.adaptor.othgoldadaptor.OTHGoldAdaptor";
+    private final static String TEMP_RAP_ROUTER_COMPONENT_REFERENCE = "com.calian.paradigm.adaptor.rapadaptor.RAPAdaptor";
+    private final static String TEMP_FFI_ROUTER_COMPONENT_REFERENCE = "com.calian.paradigm.adaptor.ffiadaptor.FFIAdaptor";
+    private final static String TEMP_LINK16_ROUTER_COMPONENT_REFERENCE = "com.calian.paradigm.adaptor.link16adaptor.Link16Adaptor";
+
+    //cohere integration change
+    private static final String AI_CHATBOT_LABEL = "AI Chatbot";
+    private static final HashMap<String, List<String>> jAIServiceAgents = new HashMap<>();
+    private static final HashMap<String, String> jAIServiceAgentURLs = new HashMap<>();
+    //end of cohere change
+    // Right side forms that may be up at any time
+    DiagnosticsPanelBase jCurrentDiagnosticsPanel = null;
+
+    // Connections
+    ConnectionConfigurationPanelBase jCurrentConnectionConfigurationPanel = null;
+    ConnectionManager jCurrentMappingAndRoutingPanel = null;
+
+    DataFlowManager jCurrentDFSManager = null;
+    AddDFSPanel jCurrentDFSConfigurationPanel = null;
+    CapabilityImplementationPanel jCapabilityImplementationPanel = null;
+    JButton jMetricsCapabilityButton = null;
+
+    // Special managers
+    DISRouterDataFlowDiagnostics jDISRouterDiagnosticsPanel = null;
+    MetricsConfigurationPanel jMetricsConfigurationPanel = null;
+    DisaggregationFilterPanel jDisaggregationFilterPanel = null;
+    DisaggregationCapabilityManager jDisaggregationTemplateManager = null;
+    EmulationSetupPanel jEmulationSetupPanel = null;
+    LinkedHashMap<Long, DiagnosticsPanelBase> jNetworksManagerPanelHash = new LinkedHashMap<>();
+    // Hashed by system capability name
+    LinkedHashMap<String, DiagnosticsPanelBase> jServerDiagnosticPanelHash = new LinkedHashMap<>();
+    ContextDiagnosticsPanel jContextManagerPanel = null;
+    Manager jRAPManager = null;
+    ControlFeatureCapabilityManager jControlFeatureManager = null;
+    // Key here is SystemCapability Cat Code : SystemCapability Name : Connection Type Name
+    LinkedHashMap<String, ImageIcon> jDFSIcons = new LinkedHashMap<>();
+    LinkedList<DConnectionType> jConnectionTypes = new LinkedList<>();
+    boolean jNewConnection = false;
+
+    // Toolbars
+    public static final String CAP_TOOLBAR = "Capabilities";
+    public static final String ROUTERS_TOOLBAR = "Routers";
+    public static final String SERVERS_TOOLBAR = "Servers";
+    public static final String ORDERS_TOOLBAR = "Orders";
+
+    // Note: This is a critical method that MUST be implemented correctly so that
+    // data is not left initialized if connection to a remote exercise is lost
+    // - for that reason it is put right next to the class IVs
+    public void clear() {
+        jCurrentConnection = null;
+        jCurrentFolder = null;
+        clearToolBar();
+
+        // Clear out subscriptions
+        if (jDFSManagersHash != null) {
+            LinkedList<DataFlowManager> mgrs = new LinkedList<>(jDFSManagersHash.values());
+            for (DataFlowManager mgr : mgrs) {
+                mgr.removeObjectManagerSubscriptions();
+                ParadigmSwingUIDirector.jUIDirector.removeObjectNotificationSubscriptions(mgr);
+            }
+        }
+
+        if (jDisaggregationTemplateManager != null) {
+            ParadigmSwingUIDirector.jUIDirector.removeObjectNotificationSubscriptions(jDisaggregationTemplateManager);
+        }
+
+        if (jControlFeatureManager != null) {
+            ParadigmSwingUIDirector.jUIDirector.removeObjectNotificationSubscriptions(jControlFeatureManager);
+        }
+
+        if (jFolderToDiagnosticsPanelHash != null) {
+            LinkedList<DiagnosticsPanelBase> diags = new LinkedList<>(jFolderToDiagnosticsPanelHash.values());
+            for (DiagnosticsPanelBase diag : diags) {
+                ParadigmSwingUIDirector.jUIDirector.removeObjectNotificationSubscriptions(diag);
+            }
+        }
+
+        if (jDisaggregationFilterPanel != null) {
+            ParadigmSwingUIDirector.jUIDirector.removeObjectNotificationSubscriptions(jDisaggregationFilterPanel);
+            jDisaggregationFilterPanel = null;
+        }
+
+        if (jDFSManagersHash != null) {
+            // Allow data flow managers to clear graphics
+            LinkedList<DataFlowManager> dfMgrs = new LinkedList<>(jDFSManagersHash.values());
+            for (DataFlowManager obj : dfMgrs) {
+                obj.cleanupGraphics();
+            }
+        }
+
+        if (jConnectionManagersHash != null) {
+            LinkedList<ConnectionManager> mgrs = new LinkedList<>(jConnectionManagersHash.values());
+
+            for (ConnectionManager mgr : mgrs) {
+                mgr.removeObjectManagerSubscriptions();
+                ParadigmSwingUIDirector.jUIDirector.removeObjectNotificationSubscriptions(mgr);
+            }
+        }
+
+        if (jConnTypeManagersHash != null) {
+            LinkedList<ConnectionTypeManager> mgrs = new LinkedList<>(jConnTypeManagersHash.values());
+            for (ConnectionTypeManager mgr : mgrs) {
+                mgr.removeObjectManagerSubscriptions();
+                ParadigmSwingUIDirector.jUIDirector.removeObjectNotificationSubscriptions(mgr);
+                mgr.cleanupGraphics();
+            }
+        }
+
+        if (jConnToDiagnosticsPanelHash != null) {
+            LinkedList<DiagnosticsPanelBase> diags = new LinkedList<>(jConnToDiagnosticsPanelHash.values());
+            for (DiagnosticsPanelBase diag : diags) {
+                ParadigmSwingUIDirector.jUIDirector.removeObjectNotificationSubscriptions(diag);
+            }
+        }
+
+        if (jConnToMappingAndRoutingPanelHash != null) {
+            LinkedList<ConnectionManager> mgrs = new LinkedList<>(jConnToMappingAndRoutingPanelHash.values());
+            for (ConnectionManager mgr : mgrs) {
+                mgr.removeObjectManagerSubscriptions();
+                ParadigmSwingUIDirector.jUIDirector.removeObjectNotificationSubscriptions(mgr);
+            }
+        }
+
+        if (jConnectionManagersHash != null) {
+            // Allow connection and connection type managers to clear graphics
+            LinkedList<ConnectionManager> cMgrs = new LinkedList<>(jConnectionManagersHash.values());
+            for (ConnectionManager obj : cMgrs) {
+                obj.cleanupGraphics();
+            }
+        }
+
+        if (jRAPManager != null) {
+            jRAPManager.processManagerMessage(new RAPTerminateRAPStatusUICapabilityManagerMessage());
+        }
+
+        jDFSManagersHash = new LinkedHashMap<>();
+        jCurrentPopup = new JPopupMenu();
+        jFolderToDiagnosticsPanelHash = new LinkedHashMap<>();
+        jCenterPanel.removeAll();
+        jCenterPanel.add(jVCCITreeDisplayPanel, BorderLayout.CENTER);
+        jSystemCapabilities = new LinkedList<>();
+        jHiddenFolder = null;
+        jInternalFolder = null;
+        jDISRouterStarted = false;
+        jDisaggregationStarted = false;
+        jGISStarted = false;
+        jEmulationStarted = false;
+        jDisaggregationDataflow = null;
+        jDISRouterDataflow = null;
+        jMipInDataflow = null;
+        jMipOutDataflow = null;
+        jEmulationDataflow = null;
+        jGISDataflow = null;
+        jOthGoldServerDataflow = null;
+        jOthServerStarted = false;
+        jRAPDataflow = null;
+        jRAPStarted = false;
+        jFFIServerDataflow = null;
+        jFFIServerStarted = false;
+        jLink16ServerDataflow = null;
+        jLink16ServerStarted = false;
+        jCurrentDiagnosticsPanel = null;
+        jCurrentDFSManager = null;
+        jCurrentDFSConfigurationPanel = null;
+        jCapabilityImplementationPanel = null;
+        jDISRouterDiagnosticsPanel = null;
+        jEmulationSetupPanel = null;
+        jConnectionManagersHash.clear();
+        jConnTypeManagersHash.clear();
+        jCurrentConnection = null;
+        jConnToDiagnosticsPanelHash = new LinkedHashMap<>();
+        jConnToMappingAndRoutingPanelHash = new LinkedHashMap<>();
+        jCurrentConnectionConfigurationPanel = null;
+        jNewConnection = false;
+    }
+
+    public void setIsDeactivated(boolean val) {
+        jIsDeactivated = val;
+    }
+
+    public boolean isDeactivated() {
+        return jIsDeactivated;
+    }
+
+    public VCCIControlPanel() {
+        initComponents();
+
+        // Prep add folder panel
+        jAddFolderPanel = new AddFolderPanel(this);
+        jAddFolderParentPanel.add(jAddFolderPanel, BorderLayout.CENTER);
+        jAddFolderParentPanel.setVisible(false);
+
+        // Initialize the icon tree
+        clear();
+
+        // Initialize icons
+        jDFSIcons.put(Constants.CA_PLAYBACK, STSIcons.jCap_Playback32x32_LightIcon);
+        jDFSIcons.put(Constants.CA_DATA_FILL, STSIcons.jCap_Datafill32x32_LightIcon);
+        jDFSIcons.put(Constants.CA_CONTROL_FEATURE, STSIcons.jCap_CntrlFeat32x32_LightIcon);
+        jDFSIcons.put(Constants.CA_AUDIO_LOGGING, STSIcons.jCap_Audio32x32_LightIcon);
+        jDFSIcons.put(Constants.CA_SA, STSIcons.jCap_SA32x32_LightIcon);
+        jDFSIcons.put(Constants.CA_EVENT, STSIcons.jCap_EVENT32x32_LightIcon);
+        jDFSIcons.put(Constants.CA_RADAR, STSIcons.jCap_Radar32x32_LightIcon);
+        jDFSIcons.put(Constants.CA_VIDEO, STSIcons.jCap_Video32x32_LightIcon);
+        jDFSIcons.put(Constants.CA_RAP, STSIcons.jCap_Video32x32_LightIcon);
+        jDFSIcons.put(Constants.CA_MIP, STSIcons.jMipCapabilityIcon);
+
+        ParadigmSwingUIDirector.jUIDirector.subscribeToObjectNotification(this, DataFlowSpecificationNotification.class);
+        ParadigmSwingUIDirector.jUIDirector.subscribeToObjectNotification(this, FolderNotification.class);
+        ParadigmSwingUIDirector.jUIDirector.subscribeToObjectNotification(this, MediationStatusesNotification.class);
+        ParadigmSwingUIDirector.jUIDirector.subscribeToObjectNotification(this, DisplayableContent.class);
+        ParadigmSwingUIDirector.jUIDirector.subscribeToObjectNotification(this, DisplayableMessage.class);
+        ParadigmSwingUIDirector.jUIDirector.subscribeToObjectNotification(this, ConnectionNotification.class);
+        ParadigmSwingUIDirector.jUIDirector.subscribeToObjectNotification(this, MapperChangeNotification.class);
+        ParadigmSwingUIDirector.jUIDirector.subscribeToObjectNotification(this, ConnectionNotification.class);
+        // Required for reference mapper updates only
+        ParadigmSwingUIDirector.jUIDirector.subscribeToObjectNotification(this, ConnectionTypeNotification.class);
+    }
+
+    @Override
+    public void panelUnminimized(PanelCarrier pc) {
+
+    }
+
+    private LinkedList<DDataFlowSpecification> getSpecialDataFlows() {
+        LinkedList<DDataFlowSpecification> dfs = new LinkedList<>();
+        if (jDisaggregationDataflow != null) {
+            dfs.add(jDisaggregationDataflow);
+        }
+        if (jDISRouterDataflow != null) {
+            dfs.add(jDISRouterDataflow);
+        }
+        if (jGISDataflow != null) {
+            dfs.add(jGISDataflow);
+        }
+        if (jMipInDataflow != null) {
+            dfs.add(jMipInDataflow);
+        }
+        if (jMipOutDataflow != null) {
+            dfs.add(jMipOutDataflow);
+        }
+        if (jEmulationDataflow != null) {
+            dfs.add(jEmulationDataflow);
+        }
+        if (jOthGoldServerDataflow != null) {
+            dfs.add(jOthGoldServerDataflow);
+        }
+        if (jRAPDataflow != null) {
+            dfs.add(jRAPDataflow);
+        }
+        if (jLink16ServerDataflow != null) {
+            dfs.add(jLink16ServerDataflow);
+        }
+        if (jFFIServerDataflow != null) {
+            dfs.add(jFFIServerDataflow);
+        }
+        return dfs;
+    }
+
+    private boolean cursitReady() {
+        VCCICursitPanel cursit = VCCIDashBoard.getCursitPanel();
+        if (cursit == null) {
+            return false;
+        }
+        return cursit.isCursitReady();
+    }
+
+    public static void registerConnectionTypeManager(
+            String connectionType,
+            String classname) {
+        jConnectionTypeManagerLookupHash.put(connectionType, classname);
+    }
+
+    public static void registerConnectionManager(
+            String connectionType,
+            String classname) {
+        jConnectionManagerLookupHash.put(connectionType, classname);
+    }
+
+    public LinkedList<DConnectionType> getAllConnectionTypes() {
+        return jConnectionTypes;
+    }
+
+    public DConnectionType getConnectionTypeByID(long id) {
+        for (DConnectionType cType : jConnectionTypes) {
+            if (cType.getConnectionTypeId() == id) {
+                return cType;
+            }
+        }
+        return null;
+    }
+
+    public DConnectionType getConnectionTypeByConnectionId(long connectionId) {
+        LinkedList<DConnectionType> cTypes = getConnectionTypes();
+
+        for (DConnectionType cType : cTypes) {
+            if (cType.connectionInstanceExists(connectionId)) {
+                return cType;
+            }
+        }
+        return null;
+    }
+
+    public LinkedList<DConnection> getConnectionsByTypeName(String typeName) {
+        LinkedList<DConnection> conns = getConnections();
+        LinkedList<DConnection> result = new LinkedList<>();
+        DConnectionType dct;
+
+        for (DConnection dc : conns) {
+            dct = getConnectionTypeByID(dc.getConnectionTypeId());
+            if (dct != null) {
+                if (typeName.equals(dct.getConnectionTypeName())) {
+                    result.add(dc);
+                }
+            }
+        }
+        return result;
+    }
+
+    public DConnection getConnectionById(long id) {
+        IVCCIUIControlObject controlObject = jVCCITreeDisplayPanel.getConnectionControlObject(id);
+        return controlObject != null ? controlObject.getConnection() : null;
+    }
+
+    public boolean hasConnectionOfType(DConnectionType dct) {
+        if (dct == null) {
+            return false;
+        }
+        LinkedList<DConnection> conns = getConnectionsByTypeName(dct.getConnectionTypeName());
+        return conns.size() > 0;
+    }
+
+    public void deleteConnection(long connectionId) {
+
+        IVCCIUIControlObject uiObj = jVCCITreeDisplayPanel.getConnectionControlObject(connectionId);
+
+        if (uiObj == null) {
+            return;
+        }
+        deleteConnectionAction(uiObj);
+    }
+
+    public static void registerDataflowManager(
+            String connectionType,
+            String capability,
+            String capabilityDirection,
+            String classname) {
+        jDataflowManagerLookupHash.put(connectionType + ":" + capability + ":" + capabilityDirection, classname);
+    }
+
+    public DSystemCapability getSystemCapabilityById(long id) {
+        for (DSystemCapability capability : jSystemCapabilities) {
+            if (capability.getSystemCapabilityId() == id) {
+                return capability;
+            }
+        }
+        return null;
+    }
+
+    public DSystemCapability getCapability(
+            String capability,
+            String direction) {
+        String function;
+
+        for (DSystemCapability df : jSystemCapabilities) {
+            function = df.getSystemCapabilityName();
+            if (function.equals(capability)) {
+                if (df.getSystemCapabilityCategoryCode().equals(direction)) {
+                    return df;
+                }
+            }
+        }
+        return null;
+    }
+
+    private void clearToolBar() {
+        if (VCCIDashBoard.ref() != null) {
+            VToolBarControl tbCtrl = VCCIDashBoard.ref().getToolBarControl();
+            if (tbCtrl != null) {
+                tbCtrl.clearEntries();
+            }
+        }
+    }
+    //added cohere integration changes
+public static HashMap<String, List<String>> getAIServiceAgents() {
+    synchronized (jAIServiceAgents) {
+        return new HashMap<>(jAIServiceAgents);
+    }
+}
+
+public static HashMap<String, String> getAIServiceAgentURLs() {
+    synchronized (jAIServiceAgentURLs) {
+        return new HashMap<>(jAIServiceAgentURLs);
+    }
+}
+
+// End of Cohere changes.
+// Added Cohere integration changes.
+
+private void sendMessageButtonPressed() {
+    jL.debug("DEBUG VCCI: sendMessageButtonPressed() ENTERED");
+    requestAIServiceAgents();
+    jL.debug("DEBUG VCCI: requestAIServiceAgents() issued");
+    Window window = SwingUtilities.getWindowAncestor(this);
+    Frame owner = null;
+    if (window instanceof Frame) {
+        owner = (Frame) window;
+    }
+    AIChatbotClient chatbot = new AIChatbotClient(owner);
+    chatbot.setLocationRelativeTo(owner);
+    chatbot.setVisible(true);
+}
+
+private void requestAIServiceAgents() {
+    try {
+        jL.debug("DEBUG VCCI: Sending AIService.LIST request...");
+        AISGetCommandsRequest request = new AISGetCommandsRequest();
+        ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this, VCCIDashBoard.getCurrentExercise().getBrokerKey(), VCCIControlPanel.class.getCanonicalName(), AIService.class.getCanonicalName(), AIService.LIST, request, true);
+        jL.debug("DEBUG VCCI: AIService.LIST request issued.");
+    } catch (Exception ex) {
+        jL.error("DEBUG VCCI: Failed to issue AIService.LIST request.", ex);
+    }
+}
+    //end of cohere changes
+    private void addCapabilities() {
+        // Add our four toolbars (MAGI: database change would help this so that
+        // we have predefined categories)
+        VToolBarControl tbCtrl = VCCIDashBoard.ref().getToolBarControl();
+        tbCtrl.setUser(this);
+
+        tbCtrl.addToolBar(CAP_TOOLBAR);
+        tbCtrl.addToolBar(ROUTERS_TOOLBAR);
+        tbCtrl.addToolBar(ORDERS_TOOLBAR);
+        tbCtrl.addToolBar(SERVERS_TOOLBAR);
+        //added for cohere project
+        tbCtrl.addActionTab(AI_CHATBOT_LABEL,
+        "Send a message to the AI agent",
+        event -> sendMessageButtonPressed());
+        //end for cohere project
+        String f;
+        HashSet<String> seen = new HashSet<>();
+        for (DSystemCapability df : jSystemCapabilities) {
+            f = df.getSystemCapabilityName();
+            boolean enableButton = isSystemCapabilityInUse(df);
+            if (seen.contains(f)) {
+                continue;
+            }
+            if (Constants.CA_DATA_FILL.equals(f)) {
+                seen.add(f);
+                tbCtrl.addButton(
+                        CAP_TOOLBAR,
+                        Constants.CA_DATA_FILL,
+                        "Data Fill",
+                        "A data fill feed into VCCI",
+                        STSIcons.jCap_Datafill24x24_LightIcon,
+                        df,
+                        enableButton);
+            } else if (Constants.CA_SA.equals(f)) {
+                seen.add(f);
+                tbCtrl.addButton(
+                        CAP_TOOLBAR,
+                        Constants.CA_SA,
+                        "SA",
+                        "A situational awareness feed out from VCCI",
+                        STSIcons.jCap_SA24x24_LightIcon,
+                        df,
+                        enableButton);
+            } else if (Constants.CA_EVENT.equals(f)) {
+                seen.add(f);
+                tbCtrl.addButton(
+                        CAP_TOOLBAR,
+                        Constants.CA_EVENT,
+                        "Event",
+                        "An event feed out from VCCI",
+                        STSIcons.jCap_EVENT24x24_LightIcon,
+                        df,
+                        enableButton);
+            } else if (Constants.CA_RADAR.equals(f)) {
+                seen.add(f);
+                tbCtrl.addButton(
+                        CAP_TOOLBAR,
+                        Constants.CA_RADAR,
+                        "Radar",
+                        "Generate radar feed from VCCI",
+                        STSIcons.jCap_Radar24x24_LightIcon,
+                        df,
+                        enableButton);
+            } else if (Constants.CA_PLAYBACK.equals(f)) {
+                seen.add(f);
+                tbCtrl.addButton(
+                        CAP_TOOLBAR,
+                        Constants.CA_PLAYBACK,
+                        "Playback",
+                        "Play back a saved VCCI database",
+                        STSIcons.jCap_Playback24x24_LightIcon,
+                        df,
+                        enableButton);
+            } else if (Constants.CA_METRICS.equals(f)) {
+                seen.add(f);
+                jMetricsCapabilityButton = tbCtrl.addButton(
+                        CAP_TOOLBAR,
+                        Constants.CA_METRICS,
+                        "Metrics",
+                        "Configure metrics collection",
+                        STSIcons.jCap_Metrics32x32_DarkIcon,
+                        df,
+                        false);     // metrics always starts as disabled until we receive data that can be analyzed
+            } else if (Constants.CA_ROUTER.equals(f)) {
+                seen.add(f);
+                tbCtrl.addButton(
+                        ROUTERS_TOOLBAR,
+                        Constants.CA_ROUTER,
+                        "DIS Router",
+                        "Display DIS Router",
+                        STSIcons.jApp_DISRouter24x24_NoText_LightIcon,
+                        df,
+                        true);  // dis router always available as it's included in base VCCI
+            } else if (Constants.CA_CONTROL_FEATURE.equals(f)) {
+                seen.add(f);
+                JButton b = tbCtrl.addButton(
+                        CAP_TOOLBAR,
+                        Constants.CA_CONTROL_FEATURE,
+                        "Ctrl Feats",
+                        "Send/Receive a control feature feed",
+                        STSIcons.jCap_CntrlFeat24x24_LightIcon,
+                        df,
+                        enableButton);
+                jControlFeatureManager = new ControlFeatureCapabilityManager(CAP_TOOLBAR, b);
+            } else if (Constants.CA_AUDIO_LOGGING.equals(f)) {
+                seen.add(f);
+                tbCtrl.addButton(
+                        CAP_TOOLBAR,
+                        Constants.CA_AUDIO_LOGGING,
+                        "Log Audio",
+                        "Log audio in VCCI",
+                        STSIcons.jCap_Audio24x24_LightIcon,
+                        df,
+                        enableButton);
+            } else if (Constants.CA_DISAGGREGATION.equals(f)) {
+                seen.add(f);
+                JButton b = tbCtrl.addButton(
+                        CAP_TOOLBAR,
+                        Constants.CA_DISAGGREGATION,
+                        "Disaggregation",
+                        "Show disaggregation interface",
+                        STSIcons.jCap_Disaggregation24x24_LightIcon,
+                        df,
+                        true);  // disaggregation always available as it's included in base VCCI
+                jDisaggregationTemplateManager = new DisaggregationCapabilityManager(CAP_TOOLBAR, b);
+            } else if (Constants.CA_VIDEO.equals(f)) {
+                seen.add(f);
+                tbCtrl.addButton(
+                        CAP_TOOLBAR,
+                        Constants.CA_VIDEO,
+                        "Video",
+                        "Use VCCI to generate Video stream",
+                        STSIcons.jCap_Video24x24_LightIcon,
+                        df,
+                        enableButton);
+            } else if (Constants.CA_EMULATION.equals(f)) {
+                //seen.add(f);
+                //cb = addCapability(df, STSIcons.jSaveIcon, "Emulation", "Emulation");
+            } else {
+
+                //the following capability managers are adaptor specific and loaded
+                //through reflection to remove any adaptor dependencies on VCCI
+                String capabilityClassName = null;
+                String toolbar = null;
+                String buttonLabel = null;
+                String buttonTooltip = null;
+                ImageIcon icon = null;
+                enableButton = true;
+
+                if (Constants.CA_MIP.equals(f)) {
+                    seen.add(f);
+                    toolbar = CAP_TOOLBAR;
+                    buttonLabel = "MIP";
+                    buttonTooltip = "Show MIP Interface";
+                    icon = STSIcons.jCap_MIP24x24_LightIcon;
+                    capabilityClassName = "com.simfront.vcci.plugins.mip44adaptor.MIP44CapabilityManager";
+                } else if (Constants.CA_OTH_SERVER.equals(f)) {
+                    seen.add(f);
+                    toolbar = SERVERS_TOOLBAR;
+                    buttonLabel = "OTH(G) Server";
+                    buttonTooltip = "Configure OTHGold server";
+                    icon = STSIcons.jCT_OTHGold24x24_LightIcon;
+                    capabilityClassName = "com.simfront.vcci.plugins.othgoldadaptor.OthGoldServerCapabilityManager";
+                } else if (Constants.CA_RAP.equals(f)) {
+                    seen.add(f);
+                    toolbar = ORDERS_TOOLBAR;
+                    buttonLabel = "RAP";
+                    buttonTooltip = "Import ACO/ATO file";
+                    icon = STSIcons.jACOATOCapabilityIcon;
+                    capabilityClassName = "com.simfront.vcci.plugins.rapadaptor.RAPCapabilityManager";
+                } else if (Constants.CA_LINK16_SERVER.equals(f)) {
+                    seen.add(f);
+                    toolbar = SERVERS_TOOLBAR;
+                    buttonLabel = "Link-16 Server";
+                    buttonTooltip = "Configure Link-16 server";
+                    icon = STSIcons.jCT_Link1624x24_LightIcon;
+                    capabilityClassName = "com.simfront.vcci.plugins.link16adaptor.Link16ServerCapabilityManager";
+                } else if (Constants.CA_API_SERVER.equals(f)) {
+                    seen.add(f);
+                    toolbar = SERVERS_TOOLBAR;
+                    buttonLabel = "API Server";
+                    buttonTooltip = "Configure API server";
+                    icon = STSIcons.jCT_API24x24_DarkIcon;
+                    capabilityClassName = "com.simfront.vcci.plugins.apiadaptor.APIServerCapabilityManager";
+                } else if (Constants.CA_HIVE_SERVER.equals(f)) {
+                    seen.add(f);
+                    toolbar = SERVERS_TOOLBAR;
+                    buttonLabel = "Hive Server";
+                    buttonTooltip = "Configure Hive server";
+                    icon = STSIcons.jCT_HIVE24x24_DarkIcon;
+                    capabilityClassName = "com.simfront.vcci.ui.hiveadaptor.HiveServerCapabilityManager";
+                } else if (Constants.CA_FFI_SERVER.equals(f)) {
+                    seen.add(f);
+                    toolbar = SERVERS_TOOLBAR;
+                    buttonLabel = "FFI Server";
+                    buttonTooltip = "Configure FFI server";
+                    icon = STSIcons.jCT_FFI24x24_LightIcon;
+                    capabilityClassName = "com.simfront.vcci.plugins.ffiadaptor.FFIServerCapabilityManager";
+                } else if (Constants.CA_NMEA_SERVER.equals(f)) {
+                    seen.add(f);
+                    toolbar = SERVERS_TOOLBAR;
+                    buttonLabel = "NMEA/AIS Server";
+                    buttonTooltip = "Configure NMEA server";
+                    icon = STSIcons.jCT_NMEA24x24_DarkIcon;
+                    capabilityClassName = "com.simfront.vcci.plugins.nmeaadaptor.NmeaServerCapabilityManager";
+                }
+                if (capabilityClassName != null
+                        && toolbar != null
+                        && buttonLabel != null
+                        && buttonTooltip != null
+                        && icon != null) {
+                    Constructor<?> ctor = null;
+                    try {
+                        //first determine if class is on the classpath
+                        Class<?> c = Class.forName(capabilityClassName, false, Thread.currentThread().getContextClassLoader());
+                        ctor = c.getConstructor(
+                                String.class,
+                                JButton.class
+                        );
+
+                    } catch (Exception ex) {
+                        //not on the classpath, so disable the capability button
+                        //note, it could be removed, but for branding purposes
+                        //it is being left and disabled (could change in future
+                        //base on UX/UI discussions
+                        enableButton = false;
+                        jL.info("Could not Find " + f + " capability");
+                    }
+                    boolean addedButton = false;
+                    if (toolbar != null) {
+                        JButton button = tbCtrl.addButton(
+                                toolbar,
+                                f,
+                                buttonLabel,
+                                buttonTooltip,
+                                icon,
+                                df,
+                                enableButton);
+                        addedButton = true;
+                    }
+                    if (!addedButton) {
+                        jL.info("Failed to add button for " + f + ". Toolbar = " + toolbar);
+                    }
+                }
+            }
+        }
+
+        // Show capabilities toolbar as default
+        tbCtrl.selectToolBar(CAP_TOOLBAR);
+        tbCtrl.reShuffleButtons(CAP_TOOLBAR);
+    }
+
+    /**
+     * Checks if passed in capability is included in jSystemCapabilitysInUse list
+     *
+     * @param sysCap The system capability to check
+     * @return Whether the system capability is in use or not
+     */
+    private boolean isSystemCapabilityInUse(DSystemCapability sysCap) {
+        return jSystemCapabilitiesInUse.contains(sysCap.getSystemCapabilityName());
+    }
+
+    public void resetCapabilityImplementationPanel() {
+        jCapabilityImplementationPanel = null;
+    }
+
+    public void showNetworkManager(
+            DDataFlowSpecification dfs,
+            String destinationSymbolCodeParamKey) {
+
+        long dataFlowId = dfs.getDataFlowSpecificationIndex();
+        DiagnosticsPanelBase panel = jNetworksManagerPanelHash.get(dataFlowId);
+        if (panel == null) {
+            try {
+                Class<?> c = Class.forName("com.simfront.vcci.plugins.coreadaptor.network.NetworkDiagnosticsPanel", false, Thread.currentThread().getContextClassLoader());
+                Constructor<?> ctor = c.getConstructor(
+                        String.class,
+                        DDataFlowSpecification.class,
+                        String.class
+                );
+                panel = (DiagnosticsPanelBase) ctor.newInstance(
+                        "Network Configuration",
+                        dfs,
+                        destinationSymbolCodeParamKey);
+                jNetworksManagerPanelHash.put(dataFlowId, panel);
+
+            } catch (Exception ex) {
+                jL.error(ex.getMessage(), ex);
+                VCCIDashBoard.setError(ex.getMessage());
+            }
+        }
+        if (panel != null && jCurrentDiagnosticsPanel != panel) {
+            removeCurrentDiagnosticsPanel();
+            VCCIDashBoard.ref().showRightSidePanel(panel, null, false);
+            panel.panelShownNotification();
+            jCurrentDiagnosticsPanel = panel;
+            jCurrentDFSManager = null;
+            jCurrentDFSConfigurationPanel = null;
+        }
+
+    }
+
+    public void showContextManager() {
+        if (jContextManagerPanel == null) {
+            jContextManagerPanel = new ContextDiagnosticsPanel("Layer Assignment");
+        }
+        DiagnosticsPanelBase p = jContextManagerPanel;
+        if (jCurrentDiagnosticsPanel != p) {
+            removeCurrentDiagnosticsPanel();
+            VCCIDashBoard.ref().showRightSidePanel(p, null, false);
+            p.panelShownNotification();
+            jCurrentDiagnosticsPanel = p;
+            jCurrentDFSManager = null;
+            jCurrentDFSConfigurationPanel = null;
+        }
+    }
+
+    public void capabilityButtonPressed(DSystemCapability systemCapability) {
+        if (systemCapability != null) {
+            switch (systemCapability.getSystemCapabilityName()) {
+                case Constants.CA_ROUTER:
+                    if (jDISRouterDiagnosticsPanel == null) {
+                        jDISRouterDiagnosticsPanel = new DISRouterDataFlowDiagnostics("DIS Router Diagnostics", jDISRouterDataflow);
+                        jDISRouterDiagnosticsPanel.setNetworkAdaptorsRequest(VCCIDashBoard.ref().getNetworkAdaptorsRequest());
+                    }
+                    showDataflowDiagnostics(null, jDISRouterDataflow);
+                    return;
+                case Constants.CA_DISAGGREGATION:
+                    if (jDisaggregationFilterPanel != null) {
+                        ParadigmSwingUIDirector.jUIDirector.removeObjectNotificationSubscriptions(jDisaggregationFilterPanel);
+                        jDisaggregationFilterPanel = null;
+                    }
+                    jDisaggregationFilterPanel = new DisaggregationFilterPanel("Filter Panel", jDisaggregationDataflow);
+                    showDataflowDiagnostics(null, jDisaggregationDataflow);
+                    return;
+                case Constants.CA_MIP:
+                case Constants.CA_API_SERVER:
+                case Constants.CA_HIVE_SERVER:
+                case Constants.CA_NMEA_SERVER:
+                case Constants.CA_RAP:
+                    showServerDiagnostics(systemCapability);
+                    return;
+                case Constants.CA_METRICS:
+                    if (jMetricsConfigurationPanel == null) {
+                        jMetricsConfigurationPanel = new MetricsConfigurationPanel("Metrics Configuration");
+                    }
+                    // To avoid making a dataflow we just activate the panel here
+                    if (jCurrentDiagnosticsPanel != jMetricsConfigurationPanel) {
+                        removeCurrentDiagnosticsPanel();
+                        VCCIDashBoard.ref().showRightSidePanel(jMetricsConfigurationPanel, null, false);
+                        jMetricsConfigurationPanel.panelShownNotification();
+                        jCurrentDiagnosticsPanel = jMetricsConfigurationPanel;
+                        jCurrentDFSManager = null;
+                        jCurrentDFSConfigurationPanel = null;
+                    }
+                    return;
+                case Constants.CA_OTH_SERVER:
+                    showDataflowDiagnostics(null, jOthGoldServerDataflow);
+                    return;
+                case Constants.CA_FFI_SERVER:
+                    showDataflowDiagnostics(null, jFFIServerDataflow);
+                    return;
+                case Constants.CA_LINK16_SERVER:
+                    showDataflowDiagnostics(null, jLink16ServerDataflow);
+                    return;
+                case Constants.CA_EMULATION:
+                    if (this.jEmulationSetupPanel == null) {
+                        this.jEmulationSetupPanel = new EmulationSetupPanel("Emulation Diagnostics", jEmulationDataflow);
+                    }
+
+                    showDataflowDiagnostics(null, jEmulationDataflow);
+                    return;
+                default:
+                    break;
+            }
+        }
+        // Handle other capabilities
+        CapabilityImplementationPanel cip = new CapabilityImplementationPanel(systemCapability, jHiddenFolder);
+        VCCIDashBoard.ref().showRightSidePanel(cip, true);
+        // We do this here because the above call resets this reference
+        jCapabilityImplementationPanel = cip;
+    }
+
+    public void sendClockTick(ClockTick tick) {
+        if (jMetricsConfigurationPanel != null) {
+            jMetricsConfigurationPanel.clockTick(tick);
+        }
+        // If we have a valid simulation offset time, set our metrics static
+        if (tick != null) {
+            if (tick.getSimulationOffsetTime() != -1) {
+                MetricsSpecificationPanel.jLastSimulationOffsetTime = tick.getSimulationOffsetTime();
+                // Ensure metrics capability is enabled
+                if (jMetricsCapabilityButton != null) {
+                    jMetricsCapabilityButton.setEnabled(true);
+                }
+            }
+        }
+    }
+
+    public void resetAllRightSidePanels() {
+        resetCurrentDiagnosticsPanel();
+        resetCurrentAddDFSPanel();
+        resetCurrentManager();
+        resetCapabilityImplementationPanel();
+        resetCurrentAddConnectionPanel();
+    }
+
+    public void resetCurrentDiagnosticsPanel() {
+        if (jCurrentDiagnosticsPanel != null) {
+            jCurrentDiagnosticsPanel.panelHiddenNotification();
+        }
+        jCurrentDiagnosticsPanel = null;
+    }
+
+    public void resetCurrentAddDFSPanel() {
+        jCurrentDFSConfigurationPanel = null;
+    }
+
+    public void resetCurrentAddConnectionPanel() {
+        jCurrentConnectionConfigurationPanel = null;
+    }
+
+    public void resetCurrentManager() {
+        if (jCurrentDFSManager != null) {
+            jCurrentDFSManager.closeObjectManagerDiagnosticsPanel();
+        }
+        jCurrentDFSManager = null;
+    }
+
+    public void resetMetricsConfigurationPanel() {
+        resetCurrentDiagnosticsPanel();
+        jMetricsConfigurationPanel = null;
+    }
+
+    public JPopupMenu getCurrentPopupMenu() {
+        return jCurrentPopup;
+    }
+
+    public void clearButtonPanelHighlights() {
+        jVCCITreeDisplayPanel.setButtonPanelsHighlighted(false);
+    }
+
+    public void resetSystemCapabilities(GetSystemCapabilitysRequest gfr) {
+        jSystemCapabilities.clear();
+        jSystemCapabilities = gfr.getSystemCapabilitys();
+        determineSystemCapabilitiesInUse();
+        addCapabilities();
+    }
+
+    /**
+     * Determines which system capabilities are in use based on the connection types present
+     * in jConnectionTypes after being pruned for licensing
+     */
+    private void determineSystemCapabilitiesInUse() {
+        // jConnectionTypes at this point will be pruned to only include the adaptors that
+        // are in use by the user
+        for (DConnectionType cType : jConnectionTypes) {
+            for (Map.Entry<Long, DSystemCapability> sysCap : cType.getSupportedSystemCapabilitys().entrySet())
+                // only adds unique entries as jSystemCapabilitiesInUse is a hashset
+                jSystemCapabilitiesInUse.add(sysCap.getValue().getSystemCapabilityName());
+        }
+    }
+
+    public void resetFoldersAndDataFlows(
+            GetFoldersRequest gfr,
+            GetDataFlowSpecificationsRequest gdfr) {
+
+        jVCCITreeDisplayPanel.clear();
+        // Get top level folders
+        LinkedList<DFolder> topLevelNodes = gfr.getFolders();
+        jVCCITreeDisplayPanel.setTopLevelFolders(topLevelNodes);
+        // Set dataflows
+        LinkedList<DDataFlowSpecification> dfsList = gdfr.getDataFlowSpecifications();
+
+        for (DDataFlowSpecification dfs : dfsList) {
+            setSpecialDataflowVariables(dfs);
+        }
+
+        // The children of the root will be the top level nodes for our tree
+        LinkedList<DDataFlowSpecification> dataflows = gdfr.getDataFlowSpecifications();
+        for (DFolder df : topLevelNodes) {
+            if (HIDDEN_FOLDER.equals(df.getFolderName())) {
+                jHiddenFolder = df;
+                jVCCITreeDisplayPanel.setHiddenFolder(jHiddenFolder);
+            } else if (INTERNAL_FOLDER.equals(df.getFolderName())) {
+                jInternalFolder = df;
+            }
+
+            traverseAndCreate(null, df, dataflows);
+        }
+        tryStartingServers();
+        VCCIDashBoard.ref().updateSystemDiagram();
+        markAllowedCapabilities();
+    }
+
+    private void tryStartingServers() {
+        if (!jDISRouterStarted) {
+            startDISRouterDataflow();
+        }
+        if (!jDisaggregationStarted) {
+            startDisaggregationDataflow();
+        }
+        if (!jGISStarted) {
+            startGISDataflow();
+        }
+        if (!jEmulationStarted) {
+            startEmulationDataflow();
+        }
+        if (!jOthServerStarted) {
+            startOthServerDataflow();
+        }
+        if (!jRAPStarted) {
+            startRAPDataflow();
+        }
+        if (!jLink16ServerStarted) {
+            startLink16ServerDataflow();
+        }
+        if (!jFFIServerStarted) {
+            startFFIServerDataflow();
+        }
+    }
+
+    protected void traverseAndCreate(
+            IVCCIUIControlObject parent,
+            DFolder df,
+            LinkedList<DDataFlowSpecification> dataflows) {
+
+        // We do not show this one visually
+        // MAGI: TODO - CAN WE GET RID OF THIS FOLDER NOW (Since those
+        // internal datafows no longer use it)
+        if (DFolder.FOLDER_CATEGORY_CODE_MISC.equals(df.getFolderCategoryCode())) {
+            return;
+        }
+
+        // Create node for this folder (if not the hidden folder)
+        IVCCIUIControlObject current = null;
+        if (jHiddenFolder != df) {
+            current = addFolderNode(parent, df);
+        }
+
+        // Add connections
+        LinkedList<DConnection> conns = df.getConnectionsAsList();
+        IVCCIUIControlObject connNode;
+        if (conns != null) {
+            for (DConnection conn : conns) {
+                connNode = addConnectionNode(df, current, conn);
+
+                // And add dataflows - get dataflows for this connection
+                LinkedList<DDataFlowSpecification> conndataflows = new LinkedList<>();
+                for (DDataFlowSpecification checkDF : dataflows) {
+                    if (checkDF.getDataFlowSpecificationConnectionId() == conn.getConnectionId()) {
+                        conndataflows.add(checkDF);
+                    }
+                }
+                for (DDataFlowSpecification dfs : conndataflows) {
+                    if (!setSpecialDataflowVariables(dfs)) {
+                        addDataFlowNode(connNode, dfs);
+                    }
+                }
+            }
+        }
+
+        // Recurse on children
+        LinkedList<DFolder> children = df.getChildren();
+        for (DFolder child : children) {
+            traverseAndCreate(current, child, dataflows);
+        }
+    }
+
+    protected void addDataFlowNode(
+            IVCCIUIControlObject parentNode,
+            DDataFlowSpecification dfs) {
+        if (dfs == null) {
+            VCCIDashBoard.setError("Dataflow specification is null : cannot add Dataflow node ...");
+            return;
+        }
+
+        // Make sure we do not already have this one
+        IVCCIUIControlObject check = jVCCITreeDisplayPanel.getDataFlowControlObject(dfs.getDataFlowSpecificationIndex());
+        if (check != null) {
+            return;
+        }
+
+        DConnection dc = dfs.getConnection();
+        DSystemCapability df = dfs.getSystemCapability();
+
+        if (df == null || dc == null) {
+            if (df == null) {
+                VCCIDashBoard.setError("Cannot add Dataflow node : DSystemCapability is null");
+            }
+            if (dc == null) {
+                VCCIDashBoard.setError("Cannot add Dataflow node : DConnection is null");
+            }
+            return;
+        }
+
+        ImageIcon icon = getDataflowIcon(df);
+        icon = (icon == null) ? VCCIIcons.jDataFlowIcon : icon;
+        String direction = df.getSystemCapabilityCategoryCode();
+        IVCCIUIControlObject uiObj = jVCCITreeDisplayPanel.addDataFlow(
+                dc,
+                dfs,
+                icon,
+                GSystemCapability.SYSTEM_CAPABILITY_CATEGORY_CODE_IN.equals(direction));
+        // Set up data flow manager
+        initializeDataFlowManager(uiObj, dfs, dc, df);
+
+        // Here is the case where we have incomplete dataflows - need to update
+        // them here as there will be no status from the server until the dataflows
+        // are actually created and running
+        if (!dfs.isComplete()) {
+            uiObj.markIncomplete(true);
+        }
+
+        DConnectionType dct = getConnectionType(dc);
+        if (dct != null) {
+            String connName = dct.getConnectionTypeName();
+            if (Constants.CT_CORE.equals(connName) || Constants.CT_DDS.equals(connName) || Constants.CT_VMF.equals(connName)) {
+                MapDisplayPanel mdp = MapDisplayPanel.jMapDisplayPanel;
+                if (mdp instanceof VCCIMapDisplayPanel) {
+                    VCCIMapDisplayPanel vmdp = (VCCIMapDisplayPanel) mdp;
+                    vmdp.enableVMFFeatures();
+                }
+            }
+        }
+    }
+
+    private void markAllowedCapabilities() {
+        LinkedList<DDataFlowSpecification> dfsList = jVCCITreeDisplayPanel.getDataFlowSpecs();
+        LinkedList<Object> bInfo = VCCIDashBoard.ref().getToolBarControl().getUserObjects();
+
+        // The user object we passed to the toolbar button was the DSystemCapability so
+        // we can get it back from the toolbar button
+        for (Object obj : bInfo) {
+            DSystemCapability dsc = (DSystemCapability) obj;
+            VCCIDashBoard.ref().getToolBarControl().enableToolBarButtonByUserObject(
+                    obj,
+                    VCCIUIDependencyCoordinator.isCapabilityAllowed(dsc, dfsList));
+        }
+    }
+
+    private void enableCapabilities(boolean enable) {
+        VCCIDashBoard.ref().getToolBarControl().enableToolBars(enable);
+
+        // If we are enabling make sure we only do so for those capabilities
+        // that are allowed based on our internal rules
+        if (enable) {
+            markAllowedCapabilities();
+        }
+    }
+
+    private boolean setSpecialDataflowVariables(DDataFlowSpecification dfs) {
+        String flow = dfs.getDataFlowSpecificationName();
+        if (Constants.CA_ROUTER.equals(flow)) {
+            jDISRouterStarted = true;
+            jDISRouterDataflow = dfs;
+            return true;
+        } else if (Constants.CA_DISAGGREGATION.equals(flow)) {
+            jDisaggregationDataflow = dfs;
+            TransferCommand tc = TransferCommand.buildCommand(BaseConstants.UI_PLAY);
+            if (tc != null) {
+                MediationCommandsRequest mcr = new MediationCommandsRequest();
+                mcr.addDataFlowCommand(dfs.getDataFlowSpecificationIndex(), tc);
+                ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                        VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                        VCCIControlPanel.class
+                                .getCanonicalName(),
+                        MediationService.class
+                                .getCanonicalName(),
+                        MediationService.ISSUE_COMMANDS, mcr, true);
+            }
+            jDisaggregationStarted = true;
+            return true;
+        } else if (Constants.CA_GIS.equals(flow)) {
+            jGISDataflow = dfs;
+            TransferCommand tc = TransferCommand.buildCommand(BaseConstants.UI_PLAY);
+            if (tc != null) {
+                MediationCommandsRequest mcr = new MediationCommandsRequest();
+                mcr.addDataFlowCommand(dfs.getDataFlowSpecificationIndex(), tc);
+                ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                        VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                        VCCIControlPanel.class
+                                .getCanonicalName(),
+                        MediationService.class
+                                .getCanonicalName(),
+                        MediationService.ISSUE_COMMANDS, mcr, true);
+            }
+            jGISStarted = true;
+            return true;
+        } else if (Constants.CA_EMULATION.equals(flow)) {
+            // Something about Emulation goes here!
+            jEmulationStarted = true;
+            return true;
+        } else if (Constants.CA_OTH_SERVER.equals(flow)) {
+            jOthGoldServerDataflow = dfs;
+            TransferCommand tc = TransferCommand.buildCommand(BaseConstants.UI_PLAY);
+            if (tc != null) {
+                MediationCommandsRequest mcr = new MediationCommandsRequest();
+                mcr.addDataFlowCommand(dfs.getDataFlowSpecificationIndex(), tc);
+                ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                        VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                        VCCIControlPanel.class
+                                .getCanonicalName(),
+                        MediationService.class
+                                .getCanonicalName(),
+                        MediationService.ISSUE_COMMANDS, mcr, true);
+            }
+            jOthServerStarted = true;
+            return true;
+        } else if (Constants.CA_MIP.equals(flow)) {
+            jMipInDataflow = dfs;
+            TransferCommand tc = TransferCommand.buildCommand(BaseConstants.UI_PLAY);
+            if (tc != null) {
+                MediationCommandsRequest mcr = new MediationCommandsRequest();
+                mcr.addDataFlowCommand(dfs.getDataFlowSpecificationIndex(), tc);
+                ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                        VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                        VCCIControlPanel.class
+                                .getCanonicalName(),
+                        MediationService.class
+                                .getCanonicalName(),
+                        MediationService.ISSUE_COMMANDS, mcr, true);
+            }
+            jMipStarted = true;
+            return true;
+        } else if (Constants.CA_RAP.equals(flow)) {
+            jRAPDataflow = dfs;
+            jRAPStarted = true;
+            return true;
+        } else if (Constants.CA_LINK16_SERVER.equals(flow)) {
+            jLink16ServerDataflow = dfs;
+            TransferCommand tc = TransferCommand.buildCommand(BaseConstants.UI_PLAY);
+            if (tc != null) {
+                MediationCommandsRequest mcr = new MediationCommandsRequest();
+                mcr.addDataFlowCommand(dfs.getDataFlowSpecificationIndex(), tc);
+                ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                        VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                        VCCIControlPanel.class
+                                .getCanonicalName(),
+                        MediationService.class
+                                .getCanonicalName(),
+                        MediationService.ISSUE_COMMANDS, mcr, true);
+            }
+            jLink16ServerStarted = true;
+            return true;
+        } else if (Constants.CA_FFI_SERVER.equals(flow)) {
+            jFFIServerDataflow = dfs;
+            TransferCommand tc = TransferCommand.buildCommand(BaseConstants.UI_PLAY);
+            if (tc != null) {
+                MediationCommandsRequest mcr = new MediationCommandsRequest();
+                mcr.addDataFlowCommand(dfs.getDataFlowSpecificationIndex(), tc);
+                ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                        VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                        VCCIControlPanel.class
+                                .getCanonicalName(),
+                        MediationService.class
+                                .getCanonicalName(),
+                        MediationService.ISSUE_COMMANDS, mcr, true);
+            }
+            jFFIServerStarted = true;
+            return true;
+        }
+
+        DSystemCapability systemCapability = dfs.getSystemCapability();
+        if (systemCapability != null) {
+            String capabilityName = systemCapability.getSystemCapabilityName();
+            if (capabilityName.equals(Constants.CA_C2_SIM_COMPARISON)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected IVCCIUIControlObject addFolderNode(
+            IVCCIUIControlObject parentUIObj,
+            DFolder folder) {
+        IVCCIUIControlObject uiObj = null;
+        if (folder != null) {
+            DFolder parent = (parentUIObj != null) ? parentUIObj.getFolder() : jHiddenFolder;
+
+            uiObj = jVCCITreeDisplayPanel.addFolder(parent, folder);
+            if (uiObj != null) {
+                uiObj.addButton(BaseConstants.UI_PLAY, CommonIcons.jPlay16x16Icon, "Play", "Play", null);
+                uiObj.addButton(BaseConstants.UI_PAUSE, CommonIcons.jPause16x16Icon, "Pause", "Pause", null);
+                uiObj.addButton(BaseConstants.UI_CLEAR, CommonIcons.jClear16x16Icon, "Clear Queue", "Clear Queue", null);
+            }
+
+        }
+        return uiObj;
+    }
+
+    protected IVCCIUIControlObject addConnectionNode(
+            DFolder parentFolder,
+            IVCCIUIControlObject parentUIObj,
+            DConnection conn) {
+        if (conn == null) {
+            VCCIDashBoard.setError("Connection is null : cannot add connection node ...");
+            return null;
+        }
+
+        // Make sure we do not already have this one
+        IVCCIUIControlObject check
+                = jVCCITreeDisplayPanel.getConnectionControlObject(conn.getConnectionId());
+        if (check != null) {
+            return null;
+        }
+
+        // Add connection buttons
+        IVCCIUIControlObject uiObj = jVCCITreeDisplayPanel.addConnection(parentFolder, conn, getConnectionIcon(conn));
+        if (uiObj != null) {
+            final String prefix = conn.getConnectionName();
+
+            //uiObj.addButton(BaseConstants.UI_DIAGNOSTICS, CommonIcons.jDiagnostics16x16Icon, "Diagnostics", "Diagnostics");
+            uiObj.addButton(BaseConstants.UI_CONFIGURE, CommonIcons.jSettings16x16Icon, "Configure", "Configure", prefix);
+            uiObj.addButton(BaseConstants.UI_CONNECT, CommonIcons.jPlug16x16Icon, "Connect", "Connect", prefix);
+
+            // Set up connection manager
+            initializeConnectionManager(uiObj, conn);
+
+            // Here is the case where we have incomplete connections - need to update
+            // them here as there will be no status from the server until the connections
+            // are actually created and running
+            if (!conn.isComplete()) {
+                uiObj.markIncomplete(true);
+            }
+        }
+
+        // Set up a connection manager if there is not already
+        // one for this type of connection
+        ConnectionTypeManager ctMgr = null;
+        DConnectionType connType = getConnectionType(conn);
+        if (connType == null) {
+            VCCIDashBoard.setError("Connection not available. " +  conn.getConnectionName());
+            return null;
+        }
+        String cType = connType.getConnectionTypeName();
+        long connTypeId = conn.getConnectionTypeId();
+
+        if (!jConnTypeManagersHash.containsKey(connTypeId)) {
+            if (jConnectionTypeManagerLookupHash.containsKey(cType)) {
+                String handlerClass = jConnectionTypeManagerLookupHash.get(cType);
+                try {
+                    Class<?> c = Class.forName(handlerClass, false, Thread.currentThread().getContextClassLoader());
+                    Constructor<?> ctor = c.getConstructor(
+                            String.class,
+                            DConnectionType.class,
+                            IVCCIUIControlObject.class
+                    );
+                    ctMgr = (ConnectionTypeManager) ctor.newInstance(cType + " Connection Type Manager", connType, uiObj);
+                    jConnTypeManagersHash.put(connTypeId, ctMgr);
+
+                } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+                         | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                    jL.error(ex.getMessage(), ex);
+                    VCCIDashBoard.setError(ex.getMessage());
+                }
+            }
+        }
+        return uiObj;
+    }
+
+    public ConnectionManager getConnectionManager(DConnection conn) {
+        if (conn == null) {
+            return null;
+        }
+        ConnectionManager connMgr;
+        Long key = conn.getConnectionId();
+        if (jConnectionManagersHash.containsKey(key)) {
+            connMgr = jConnectionManagersHash.get(key);
+            return connMgr;
+        }
+        return null;
+    }
+
+    public ConnectionTypeManager getConnectionTypeManager(DConnectionType cType) {
+        if (cType == null) {
+            return null;
+        }
+        ConnectionTypeManager ctMgr;
+        Long key = cType.getConnectionTypeId();
+        if (jConnTypeManagersHash.containsKey(key)) {
+            ctMgr = jConnTypeManagersHash.get(key);
+            return ctMgr;
+        }
+        return null;
+    }
+
+    public @Override
+    boolean allowPopup(final IVCCIUIControlObject uiObj) {
+        if (uiObj != null) {
+            if (uiObj.isFolder()) {
+                // Set up Folder popup
+                jCurrentPopup = jVCCITreeDisplayPanel.getPopup();
+                jCurrentPopup.removeAll();
+                JMenuItem mi = new JMenuItem("Add Folder");
+                jCurrentPopup.add(mi);
+                mi.addActionListener(evt -> {
+                    // Add Folder
+                    addFolderAction(uiObj);
+                });
+                mi = new JMenuItem("Delete Folder");
+                jCurrentPopup.add(mi);
+                mi.addActionListener(evt -> {
+                    // Delete Folder
+                    deleteFolderAction(uiObj);
+                });
+                return true;
+            } else if (uiObj.isDataFlow()) {
+                jCurrentPopup = jVCCITreeDisplayPanel.getPopup();
+                jCurrentPopup.removeAll();
+                JMenuItem mi = new JMenuItem("Delete Dataflow");
+                jCurrentPopup.add(mi);
+                mi.addActionListener(evt -> {
+                    // Delete Dataflow
+                    deleteDataflowAction(uiObj);
+                });
+
+                // Allow manager to add popup entries
+                DDataFlowSpecification dfs = uiObj.getDataFlow();
+                if (dfs != null) {
+                    DataFlowManager dfsMgr = getDataflowManager(dfs);
+                    if (dfsMgr != null) {
+                        dfsMgr.buildPopup(jCurrentPopup);
+                    }
+                }
+                return true;
+            } else {
+                // Connection case
+                jCurrentPopup = jVCCITreeDisplayPanel.getPopup();
+                jCurrentPopup.removeAll();
+                JMenuItem mi = new JMenuItem("Delete Connection");
+                jCurrentPopup.add(mi);
+                mi.addActionListener(evt -> deleteConnectionAction(uiObj));
+                // Allow connection manager to add the popup entries
+                DConnection dc = uiObj.getConnection();
+                ConnectionManager mgr = getConnectionManager(dc);
+                if (mgr != null) {
+                    mgr.buildPopup(jCurrentPopup);
+                }
+
+                // And we also add any popup entries from the connection type
+                // manager (if one exists)
+                DConnectionType dct = getConnectionType(dc);
+                if (dct != null) {
+                    configureConnectionTypesPopup(dct, jCurrentPopup);
+                }
+
+                return true;
+            }
+        } else // User is in open area of the tree
+            // Set up Folder popup if a syndicate is currently being
+            // viewed
+            if (VCCIDashBoard.getCurrentExercise() != null) {
+                jCurrentPopup = jVCCITreeDisplayPanel.getPopup();
+                jCurrentPopup.removeAll();
+                JMenuItem mi = new JMenuItem("Add Folder");
+                jCurrentPopup.add(mi);
+                mi.addActionListener(evt -> {
+                    // Add Folder
+                    addFolderAction(uiObj);
+                });
+                return true;
+            }
+        return false;
+    }
+
+    protected void deleteFolderAction(IVCCIUIControlObject uiObj) {
+        DFolder folder = null;
+        // Check to make sure that this folder (or it's children do not contain
+        // any connections or dataflows)
+        if (jVCCITreeDisplayPanel.containsDataFlowsOrConnections(uiObj)) {
+            String err = "Cannot delete a folder that contains connections or Dataflows!";
+            ParadigmSwingUIDirector.jUIDirector.showApplicationErrorMessage(err);
+            return;
+        }
+
+        String err = "Are you sure you want to delete this folder?";
+        OptionPaneResponse opr = VCCIDashBoard.ref().inlineOptionPaneRequest(OptionsPane.PromptType.PROMPT_YES_NO, err);
+        if (opr.isYesSelected()) {
+            if (uiObj != null) {
+                if (uiObj.isFolder()) {
+                    folder = uiObj.getFolder();
+
+                    if (folder != null) {
+                        DeleteFolderRequest dfr = new DeleteFolderRequest(folder);
+                        dfr.markForDelete();
+                        ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                                VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                                VCCIControlPanel.class
+                                        .getCanonicalName(),
+                                MediationService.class
+                                        .getCanonicalName(),
+                                MediationService.DELETE_FOLDER, dfr, true);
+                    }
+                }
+            }
+
+        }
+    }
+
+    public LinkedList<DDataFlowSpecification> getDataflowUsingConnectionById(long connId) {
+        LinkedList<DDataFlowSpecification> dfsList = new LinkedList<>();
+        LinkedList<IVCCIUIControlObject> allDFS = jVCCITreeDisplayPanel.getAllDataFlows();
+
+        for (IVCCIUIControlObject uiObj : allDFS) {
+            DDataFlowSpecification df = uiObj.getDataFlow();
+            if (df.getDataFlowSpecificationConnectionId() == connId) {
+                dfsList.add(df);
+            }
+        }
+
+        return dfsList;
+    }
+
+    public LinkedList<DDataFlowSpecification> getDataflowsUsingConnection(DConnection conn) {
+        return getDataflowUsingConnectionById(conn.getConnectionId());
+    }
+
+    private boolean configureConnectionTypesPopup(
+            final DConnectionType dct,
+            JPopupMenu popup) {
+        // Now check to see if we have a connection type manager
+        // and let it add any additional entries
+        if (jConnTypeManagersHash.containsKey(dct.getConnectionTypeId())) {
+            ConnectionTypeManager ctm = jConnTypeManagersHash.get(dct.getConnectionTypeId());
+            popup.addSeparator();
+            ctm.buildPopup(popup);
+            return true;
+        }
+        return false;
+    }
+
+    public void deleteDataflow(long dfsId) {
+        IVCCIUIControlObject uiObj
+                = jVCCITreeDisplayPanel.getDataFlowControlObject(dfsId);
+        if (uiObj != null) {
+            deleteDataflowAction(uiObj);
+        }
+    }
+
+    protected void deleteDataflowAction(IVCCIUIControlObject uiObj) {
+        DDataFlowSpecification dfs = null;
+
+        String err = "Are you sure you want to delete this Dataflow?";
+        OptionPaneResponse opr = VCCIDashBoard.ref().inlineOptionPaneRequest(OptionsPane.PromptType.PROMPT_YES_NO, err);
+        if (opr.isYesSelected()) {
+            if (uiObj != null) {
+                if (!uiObj.isFolder()) {
+                    dfs = uiObj.getDataFlow();
+
+                    if (dfs != null) {
+                        DataFlowManager dfm = getDataflowManager(dfs);
+                        if (dfm != null) {
+                            dfm.managerDeleteNotification();
+                        }
+
+                        if (ParadigmSwingUIDirector.jUIDirector != null) {
+                            DeleteDataFlowSpecificationRequest ddfr = new DeleteDataFlowSpecificationRequest(dfs);
+
+                            ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                                    VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                                    VCCIControlPanel.class.getCanonicalName(),
+                                    MediationService.class.getCanonicalName(),
+                                    MediationService.DELETE_DATA_FLOW_SPECIFICATION, ddfr, true);
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    private void deleteConnectionAction(IVCCIUIControlObject uiObj) {
+
+        if (uiObj == null) {
+            return;
+        }
+
+        DConnection conn = uiObj.getConnection();
+
+        if (conn == null) {
+            System.err.println("Internal error! No connection for node!");
+            return;
+        }
+
+        // Check to make sure that this connection is not used by
+        // any dataflows
+        LinkedList<DDataFlowSpecification> dfsList = getDataflowsUsingConnection(conn);
+        if (dfsList.size() > 0) {
+            String err = "This connection is being used by Dataflows: ";
+            for (DDataFlowSpecification dfs : dfsList) {
+                err += dfs.getDataFlowSpecificationName() + " : ";
+            }
+            err += " ::: cannot be deleted!";
+            ParadigmSwingUIDirector.jUIDirector.showApplicationErrorMessage(err);
+            return;
+        }
+
+        String err = "Are you sure you want to delete this connection?";
+        OptionPaneResponse opr = VCCIDashBoard.ref().inlineOptionPaneRequest(OptionsPane.PromptType.PROMPT_YES_NO, err);
+        if (opr.isYesSelected()) {
+            if (ParadigmSwingUIDirector.jUIDirector != null) {
+                DeleteConnectionRequest dcr = new DeleteConnectionRequest(conn);
+
+                ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                        VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                        VCCIControlPanel.class
+                                .getCanonicalName(),
+                        MediationService.class
+                                .getCanonicalName(),
+                        MediationService.DELETE_CONNECTION, dcr, true);
+            }
+        }
+    }
+
+    protected void dfsManagerAction(
+            IVCCIUIControlObject uiObj,
+            DDataFlowSpecification dfs) {
+
+        // Should already have a manager
+        DataFlowManager dfMgr = null;
+        Long key = dfs.getDataFlowSpecificationIndex();
+        if (jDFSManagersHash.containsKey(key)) {
+            dfMgr = (DataFlowManager) jDFSManagersHash.get(key);
+        }
+        ISTSPanelCarrierPayload p = null;
+
+        if (dfMgr != null) {
+            p = dfMgr;
+            dfMgr.initialize(dfs.isComplete());
+        } else {
+            return;
+        }
+
+        if (p != null) {
+            // Remove old one
+            VCCIDashBoard.ref().showRightSidePanel(p, uiObj, false);
+            jCurrentDFSManager = dfMgr;
+            jCurrentDiagnosticsPanel = null;
+            jCurrentDFSConfigurationPanel = null;
+        }
+    }
+
+    public void uiObjectButtonPressed(
+            IVCCIUIControlObject uiObj,
+            String identifier) {
+        if (uiObj.isDataFlow()) {
+            jCurrentDataFlow = uiObj.getDataFlow();
+            issueCommand(uiObj, jCurrentDataFlow, jCurrentDataFlow.getDataFlowSpecificationIndex(), identifier);
+        } else if (uiObj.isConnection()) {
+            jCurrentConnection = uiObj.getConnection();
+            issueCommand(uiObj, jCurrentConnection, jCurrentConnection.getConnectionId(), identifier);
+        } else {
+            DFolder folder = uiObj.getFolder();
+            issueCommand(uiObj, folder, folder.getFolderId(), identifier);
+        }
+    }
+
+    protected DFolder findDFolder(long folderId) {
+        IVCCIUIControlObject uiObj = jVCCITreeDisplayPanel.getFolderControlObject(folderId);
+
+        if (uiObj != null) {
+            return uiObj.getFolder();
+        }
+        if (jHiddenFolder != null) {
+            if (jHiddenFolder.getFolderId() == folderId) {
+                return jHiddenFolder;
+            }
+        }
+        if (jInternalFolder != null) {
+            if (jInternalFolder.getFolderId() == folderId) {
+                return jInternalFolder;
+            }
+        }
+
+        return null;
+    }
+
+    public void processFolderNotification(FolderNotification notification) {
+        if (jHiddenFolder == null || jInternalFolder == null) {
+            // Added for Automated testing - timing issue
+            return;
+        }
+        if (!VCCIDashBoard.jVCCIDashBoard.isSystemReady()) {
+            return;
+        }
+        DFolder dFolder = notification.getFolder();
+        if (dFolder == null) {
+            return;
+        }
+
+        IVCCIUIControlObject uiObj
+                = jVCCITreeDisplayPanel.getFolderControlObject(dFolder.getFolderId());
+
+        if (notification.isUpdate()) {
+            if (uiObj != null) {
+                // Update Case
+                jVCCITreeDisplayPanel.updateFolder(dFolder);
+
+                uiObj.setControlObjectName(dFolder.getFolderName());
+
+                // And update status of folder
+                updateFolderStatus(uiObj);
+            } else // This should be the hidden folder or internal folder
+                if (isInternalOrHiddenFolder(dFolder)) {
+                    jVCCITreeDisplayPanel.updateFolder(dFolder);
+                }
+        } else if (notification.isCreate()) {
+            // See where we need to add it
+            long parentId = dFolder.getFolderParentFolderId();
+            IVCCIUIControlObject parentObj
+                    = jVCCITreeDisplayPanel.getFolderControlObject(parentId);
+
+            addFolderNode(parentObj, dFolder);
+            // And update status of folder
+            updateFolderStatus(parentObj);
+        } else if (notification.isDelete()) {
+            // Might be null if multiple folders have been deleted and we get
+            // notifications out of order so handle that case
+            if (uiObj != null) {
+                jVCCITreeDisplayPanel.deleteFolder(dFolder);
+
+                // Update parent status
+                IVCCIUIControlObject parentObj = uiObj.getParentControlObject();
+                if (parentObj != null) {
+                    updateFolderStatus(parentObj);
+                }
+            }
+            if (jCurrentFolder == dFolder) {
+                jCurrentFolder = null;
+            }
+        }
+    }
+
+    private boolean isInternalOrHiddenFolder(DFolder folder) {
+        if (folder == null) {
+            return false;
+        }
+        long id = folder.getFolderId();
+        if (jHiddenFolder == null || jInternalFolder == null) {
+            // Added for Automated testing - timing issue
+            return false;
+        }
+        return id == jHiddenFolder.getFolderId() || id == jInternalFolder.getFolderId();
+    }
+
+    public void connectionUpdatedNotify(DConnection conn) {
+        // Find all dataflows using this connection and update the
+        // reference to this copy. We can call the following method because
+        // the id would not have changed
+        LinkedList<DDataFlowSpecification> dataflows = getDataflowsUsingConnection(conn);
+        for (DDataFlowSpecification dfs : dataflows) {
+            dfs.setConnection(conn);
+            if (jCurrentDFSConfigurationPanel != null) {
+                if (jCurrentDFSConfigurationPanel.getDFS().getDataFlowSpecificationIndex() == dfs.getDataFlowSpecificationIndex()) {
+                    jCurrentDFSConfigurationPanel.connectionUpdatedNotify(conn);
+                }
+            }
+        }
+    }
+
+    private void updateConnectionStatus(
+            Long id,
+            DisplayableStatus ds) {
+
+        if (ds == null) {
+            return;
+        }
+
+        IVCCIUIControlObject uiObj = jVCCITreeDisplayPanel.getConnectionControlObject(id);
+
+        if (uiObj == null) {
+            return;
+        }
+        // Store latest status with connection
+        uiObj.setAppUserObject(DISPLAYABLE_STATUS_OBJECT, ds);
+
+        DConnection dconn = uiObj.getConnection();
+
+        if (!dconn.isComplete()) {
+            uiObj.markIncomplete(true);
+
+        } else {
+            // Update status
+            NodeMarking marking = VCCIDashBoard.getMarking(ds);
+            uiObj.setMarking(marking);
+
+            String label = ds.getLabel().trim();
+            if (label.equals("")) {
+                label = " ";
+            }
+
+            uiObj.setMessage(ds.getLabel());
+
+            if (ds.getProgress() >= 0.0f) {
+
+                int progress = (int) ds.getProgress();
+                int max = ds.getCount();
+                if (max > 0) {
+                    progress = (int) Math.round((ds.getProgress() / 100.0f) * (float) max);
+                }
+                uiObj.setProgress(progress, max);
+                TreeProgressBar.ProgressBarStatus progressStatus = TreeProgressBar.ProgressBarStatus.NORMAL;
+                switch (ds.getProgressColor()) {
+                    case YELLOW: {
+                        progressStatus = TreeProgressBar.ProgressBarStatus.YELLOW;
+                        break;
+                    }
+                    case RED: {
+                        progressStatus = TreeProgressBar.ProgressBarStatus.RED;
+                        break;
+                    }
+                }
+                uiObj.setProgressStatus(progressStatus);
+            } else {
+                uiObj.removeProgressBar();
+            }
+        }
+
+        // Now deal with the settings of the icon buttons
+        LinkedHashMap<String, Boolean> settings = ds.getUIControlSettings();
+        Iterator<String> kIter = settings.keySet().iterator();
+        String key;
+        while (kIter.hasNext()) {
+            key = kIter.next();
+            uiObj.setButtonEnabled(key, settings.get(key));
+        }
+    }
+
+    public void updateDataflowStatus(
+            Long id,
+            DisplayableStatus ds) {
+        IVCCIUIControlObject uiObj = jVCCITreeDisplayPanel.getDataFlowControlObject(id);
+
+        if (uiObj != null) {
+            // Store latest status with dataflow
+            uiObj.setAppUserObject(DISPLAYABLE_STATUS_OBJECT, ds);
+
+            DDataFlowSpecification dfs = uiObj.getDataFlow();
+            if (dfs == null) {
+                return;
+            }
+            if (!dfs.isComplete()) {
+                uiObj.markIncomplete(true);
+            } else {
+                // Update status
+                NodeMarking marking = VCCIDashBoard.getMarking(ds);
+                uiObj.setMarking(marking);
+
+                // Set message
+                uiObj.setMessage(ds.getCountdownLabel() + ds.getLabel());
+
+                if (ds.getProgress() >= 0.0f) {
+                    int progress = (int) ds.getProgress();
+                    int max = ds.getCount();
+                    if (max > 0) {
+                        progress = (int) Math.round((ds.getProgress() / 100.0f) * (float) max);
+                    }
+                    uiObj.setProgress(progress, max);
+                    // System.err.println("DFSPANEL: progress=" + progress + " max=" + max);
+                    TreeProgressBar.ProgressBarStatus progressStatus = TreeProgressBar.ProgressBarStatus.NORMAL;
+                    switch (ds.getProgressColor()) {
+                        case YELLOW: {
+                            progressStatus = TreeProgressBar.ProgressBarStatus.YELLOW;
+                            break;
+                        }
+                        case RED: {
+                            progressStatus = TreeProgressBar.ProgressBarStatus.RED;
+                            break;
+                        }
+                    }
+                    uiObj.setProgressStatus(progressStatus);
+                } else {
+                    uiObj.removeProgressBar();
+                    if (ds.getCount() != -1) {
+                        if (ds.getCountLabel().trim().isEmpty()) {
+                            uiObj.setMessage(ds.getCountdownLabel() + ds.getLabel() + String.format("Items Queued: %s", "" + ds.getCount()));
+                        } else {
+                            uiObj.setMessage(ds.getCountdownLabel() + ds.getLabel() + " " + ds.getCountLabel() + ds.getCount());
+                        }
+                    }
+                }
+            }
+
+            // Now deal with the settings of the icon buttons
+            LinkedHashMap<String, Boolean> settings = ds.getUIControlSettings();
+            Iterator<String> kIter = settings.keySet().iterator();
+            String key;
+            while (kIter.hasNext()) {
+                key = kIter.next();
+                uiObj.setButtonEnabled(key, settings.get(key));
+            }
+
+            // And update containing folder status (get folder via the connection)
+            DConnection dc = dfs.getConnection();
+            long folderId = dc.getConnectionFolderId();
+            IVCCIUIControlObject fObj = jVCCITreeDisplayPanel.getFolderControlObject(folderId);
+            if (fObj != null) {
+                updateFolderStatus(fObj);
+            }
+        }
+    }
+
+    private void updateFolderStatus(IVCCIUIControlObject uiObj) {
+
+        if (uiObj != null) {
+            // Get all contained dataflows
+            LinkedList<IVCCIUIControlObject> dataflows
+                    = jVCCITreeDisplayPanel.getDataFlowsRecursively(uiObj);
+
+            // MAGI: TODO - ADD CONNECTIONS AS WELL??
+            // Get worst status from all dataflows
+            NodeMarking current = NodeMarking.NORMAL;
+            NodeMarking marking;
+
+            DisplayableStatus ds;
+            DDataFlowSpecification dfs;
+            Object obj;
+            boolean isIncomplete = false;
+            for (IVCCIUIControlObject dfObj : dataflows) {
+                dfs = dfObj.getDataFlow();
+                if (dfs == null) {
+                    continue;
+                }
+                if (!dfs.isComplete()) {
+                    isIncomplete = true;
+                    break;
+                } else {
+                    obj = dfObj.getAppUserObject(DISPLAYABLE_STATUS_OBJECT);
+                    if (obj instanceof DisplayableStatus) {
+                        ds = (DisplayableStatus) obj;
+                        marking = VCCIDashBoard.getMarking(ds);
+                        if (isFirstWorseThanSecond(marking, current)) {
+                            current = marking;
+                        }
+                    }
+                }
+            }
+
+            if (isIncomplete) {
+                uiObj.markIncomplete(true);
+            } else {
+                uiObj.setMarking(current);
+                uiObj.enableAllButtons(true);
+            }
+
+            // Filter upwards
+            if (uiObj.getParentControlObject() != null) {
+                updateFolderStatus(uiObj.getParentControlObject());
+            }
+        }
+    }
+
+    public DisplayableStatus getWorstDisplayableStatus() {
+        // We will use the label to provide some more information
+        DisplayableStatus ds = new DisplayableStatus();
+        LinkedList<IVCCIUIControlObject> nodes = jVCCITreeDisplayPanel.getAllDataFlows();
+
+        IVCCIUIControlObject worstNode = null;
+        NodeMarking current = NodeMarking.NORMAL;
+        NodeMarking worst = NodeMarking.NORMAL;
+        DDataFlowSpecification dfs;
+
+        for (IVCCIUIControlObject uiObj : nodes) {
+            DDataFlowSpecification dataflowSpec = uiObj.getDataFlow();
+            if (dataflowSpec != null) {
+                current = uiObj.getMarking();
+                if (isFirstWorseThanSecond(current, worst)) {
+                    worst = current;
+                    worstNode = uiObj;
+                }
+            }
+        }
+        if (worstNode != null) {
+            dfs = worstNode.getDataFlow();
+            if (dfs != null) {
+                String name = dfs.getDataFlowSpecificationName();
+                String message = "Dataflow[" + name + "] generated status of ";
+                message += markingToString(worst);
+                ds.setLabel(message);
+                switch (worst) {
+                    case NORMAL:
+                        ds.setIndicator(DisplayableStatus.Indicator.NORMAL);
+                        break;
+                    case ERROR:
+                        ds.setIndicator(DisplayableStatus.Indicator.ERROR);
+                        break;
+                    case WARNING:
+                        ds.setIndicator(DisplayableStatus.Indicator.WARNING);
+                        break;
+                    case UNKNOWN:
+                        ds.setIndicator(DisplayableStatus.Indicator.UNKNOWN);
+                        break;
+                }
+            }
+            return ds;
+        }
+        return null;
+    }
+
+    public DisplayableStatus getConnectionWorstDisplayableStatus() {
+
+        // We will use the label to provide some more information
+        DisplayableStatus ds = new DisplayableStatus();
+        LinkedList<IVCCIUIControlObject> nodes = jVCCITreeDisplayPanel.getAllConnections();
+        IVCCIUIControlObject worstNode = null;
+        NodeMarking current = NodeMarking.NORMAL;
+        NodeMarking worst = NodeMarking.NORMAL;
+        DConnection conn;
+
+        for (IVCCIUIControlObject uiObj : nodes) {
+            conn = uiObj.getConnection();
+            if (conn != null) {
+                current = uiObj.getMarking();
+                if (isFirstWorseThanSecond(current, worst)) {
+                    worst = current;
+                    worstNode = uiObj;
+                }
+            }
+        }
+
+        if (worstNode != null) {
+            conn = worstNode.getConnection();
+            String name = conn.getConnectionName();
+            String message = "Connection[" + name + "] generated status of ";
+            message += markingToString(worst);
+            ds.setLabel(message);
+            switch (worst) {
+                case NORMAL:
+                    ds.setIndicator(DisplayableStatus.Indicator.NORMAL);
+                    break;
+                case ERROR:
+                    ds.setIndicator(DisplayableStatus.Indicator.ERROR);
+                    break;
+                case WARNING:
+                    ds.setIndicator(DisplayableStatus.Indicator.WARNING);
+                    break;
+                case UNKNOWN:
+                    ds.setIndicator(DisplayableStatus.Indicator.UNKNOWN);
+                    break;
+            }
+
+            return ds;
+        }
+        return null;
+    }
+
+    public void processMediationStatusesNotification(MediationStatusesNotification msn) {
+        // Handle dataflow status
+        LinkedHashMap<Long, DisplayableStatus> dfStatuses = msn.getDataFlowStatuses();
+        Set<Long> keySet = dfStatuses.keySet();
+        Iterator<Long> kIter = keySet.iterator();
+        Long id;
+        while (kIter.hasNext()) {
+            id = kIter.next();
+            updateDataflowStatus(id, dfStatuses.get(id));
+        }
+
+        // Handle connection status
+        LinkedHashMap<Long, DisplayableStatus> connStatuses = msn.getConnectionStatuses();
+        keySet = connStatuses.keySet();
+        kIter = keySet.iterator();
+        while (kIter.hasNext()) {
+            id = kIter.next();
+            updateConnectionStatus(id, connStatuses.get(id));
+        }
+
+        // Handle the system view
+        if (VCCIDashBoard.ref().getSystemView() != null) {
+            VCCIDashBoard.ref().getSystemView().processMediationStatusesNotification(msn);
+        }
+    }
+
+    public DConnectionType getConnectionType(DConnection dc) {
+        long connectionTypeId = dc.getConnectionTypeId();
+        return getConnectionTypeByConnectionTypeId(connectionTypeId);
+    }
+
+    public void checkAndSaveDataflows(DConnection conn) {
+        LinkedList<DDataFlowSpecification> dataflows = getDataflowsUsingConnection(conn);
+
+        DFSContentSubPanelBase dfsPanel = null;
+        long dfsConnId;
+        for (DDataFlowSpecification dfs : dataflows) {
+            dfsConnId = dfs.getDataFlowSpecificationConnectionId();
+            if (!dfs.isComplete() && (conn.getConnectionId() == dfsConnId)) {
+                // Use the DFS configuration panel to check if critical parameters exist
+                dfsPanel = AddDFSPanel.generateDerivedForm(
+                        null,
+                        dfs.getSystemCapability(),
+                        dfs.getConnection(),
+                        getConnectionType(conn),
+                        dfs);
+
+                if (dfsPanel != null) {
+                    if (!dfsPanel.hasCriticalParameters()) {
+                        // Go ahead and save the data flow
+                        DDataFlowSpecification dfs_clone = dfs.clone();
+                        dfs_clone.setIsComplete(true);
+                        DConnectionType checkConnType = VCCIDashBoard.ref().getConnectionTypeByConnectionTypeId(conn.getConnectionTypeId());
+                        if (checkConnType != null && checkConnType.getConnectionTypeName().equals(Constants.CT_TSI)) {
+                            dfs_clone.setDataFlowSpecificationName(conn.getConnectionName());
+                        }
+
+                        CreateUpdateDataFlowSpecificationRequest cudfsr = new CreateUpdateDataFlowSpecificationRequest(
+                                dfs_clone, true);
+                        cudfsr.setCRUDMarker(BTO.CRUDMarker.UPDATE);
+
+                        ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                                VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                                VCCIControlPanel.class
+                                        .getCanonicalName(),
+                                MediationService.class
+                                        .getCanonicalName(),
+                                MediationService.CREATE_UPDATE_DATA_FLOW_SPECIFICATION, cudfsr, true);
+                    }
+                }
+            }
+        }
+    }
+
+    public void processDFSNotification(DataFlowSpecificationNotification notification) {
+        if (jHiddenFolder == null || jInternalFolder == null) {
+            // Added for Automated testing - timing issue
+            return;
+        }
+        // More robust check
+        if (!VCCIDashBoard.jVCCIDashBoard.isSystemReady()) {
+            return;
+        }
+
+        DDataFlowSpecification dfs = notification.getDataFlowSpecification();
+        if (dfs == null) {
+            return;
+        }
+
+        if (!setSpecialDataflowVariables(dfs)) {
+            DConnection dc = dfs.getConnection();
+            IVCCIUIControlObject dfUIObj = jVCCITreeDisplayPanel.getDataFlowControlObject(dfs.getDataFlowSpecificationIndex());
+            IVCCIUIControlObject connUIObj = null;
+            if (dc != null) {
+                connUIObj = jVCCITreeDisplayPanel.getConnectionControlObject(dc.getConnectionId());
+            }
+
+            if (notification.isUpdate()) {
+                // Update Case
+                if (dfUIObj == null) {
+                    VCCIDashBoard.setError("Internal Error: Could not find Dataflow with id = " + dfs.getDataFlowSpecificationIndex());
+                    return;
+                }
+
+                // Set new object in our model
+                jVCCITreeDisplayPanel.updateDataFlow(dfs);
+                dfUIObj.setControlObjectName(dfs.getDataFlowSpecificationName());
+
+                // And we might not yet have initialized the manager - note that this method
+                // can be called many times
+                DataFlowManager dfm = getDataflowManager(dfs);
+                if (dfm != null) {
+                    dfm.initialize(dfs.isComplete());
+
+                    // Also check to see there is a diagnostics panel with the manager - reset it if there is
+                    // since the data flow has been updated
+                    dfm.setDiagnosticsPanel(null);
+                }
+            } else if (notification.isCreate()) {
+                // See if it is one of our special dataflows
+                if (connUIObj != null) {
+                    addDataFlowNode(connUIObj, dfs);
+                }
+                markAllowedCapabilities();
+            } else if (notification.isDelete()) {
+                if (dfUIObj == null) {
+                    VCCIDashBoard.setError("Internal Error: Could not find Dataflow with id = " + dfs.getDataFlowSpecificationIndex());
+                    return;
+                }
+
+                // Remove the data flow manager
+                DataFlowManager dfm = this.getDataflowManager(dfs);
+                if (dfm != null) {
+                    // Is this form in view
+                    if (jCurrentDFSManager == dfm) {
+                        VCCIDashBoard.ref().resetAllRightSidePanels();
+                        jCurrentDFSManager = null;
+                    }
+
+                    Long key = dfs.getDataFlowSpecificationIndex();
+                    jDFSManagersHash.remove(key);
+
+                    // And clean up all subscriptions
+                    dfm.removeObjectManagerSubscriptions();
+                    ParadigmSwingUIDirector.jUIDirector.removeObjectNotificationSubscriptions(dfm);
+                }
+
+                // Diagnostics panel open for this data flow?
+                if (jCurrentDiagnosticsPanel instanceof DataFlowSpecificationDiagnosticsBase) {
+                    DataFlowSpecificationDiagnosticsBase dp = (DataFlowSpecificationDiagnosticsBase) jCurrentDiagnosticsPanel;
+                    DDataFlowSpecification checkDFS = dp.getDFS();
+                    if (checkDFS != null && checkDFS.getDataFlowSpecificationIndex() == dfs.getDataFlowSpecificationIndex()) {
+                        VCCIDashBoard.ref().resetAllRightSidePanels();
+                    }
+                }
+
+                // Configuration panel for this data flow?
+                if (jCurrentDFSConfigurationPanel instanceof AddDFSPanel) {
+                    AddDFSPanel dp = (AddDFSPanel) jCurrentDFSConfigurationPanel;
+                    DDataFlowSpecification checkDFS = dp.getDFS();
+                    if (checkDFS != null && checkDFS.getDataFlowSpecificationIndex() == dfs.getDataFlowSpecificationIndex()) {
+                        VCCIDashBoard.ref().resetAllRightSidePanels();
+                    }
+                }
+
+                // Remove node from the tree
+                jVCCITreeDisplayPanel.deleteDataFlow(dfs);
+
+                if (jCurrentDataFlow == dfs) {
+                    jCurrentDataFlow = null;
+                }
+                markAllowedCapabilities();
+            }
+            VCCIDashBoard.ref().updateSystemDiagram();
+        }
+    }
+
+    private void processConnectionNotification(ConnectionNotification notification) {
+        // Protect state
+        if (!VCCIDashBoard.jVCCIDashBoard.isSystemReady()) {
+            return;
+        }
+        // See if we can find this same connection in the tree - if we find it
+        // this is an update notification - else we need to add it
+        if (notification == null) {
+            return;
+        }
+        DConnection conn = notification.getConnection();
+        if (conn == null) {
+            return;
+        }
+        long folderId = conn.getConnectionFolderId();
+
+        IVCCIUIControlObject folderUIObj
+                = jVCCITreeDisplayPanel.getFolderControlObject(folderId);
+        IVCCIUIControlObject connUIObj
+                = jVCCITreeDisplayPanel.getConnectionControlObject(conn.getConnectionId());
+
+        // Note that the folder here might be null - in the case when a connection
+        // is being dragged out of a folder and back to the root (or if it was
+        // not set on create)
+        DFolder folder = findDFolder(folderId);
+
+        if (notification.isUpdate()) {
+            if (connUIObj != null) {
+                // Update Case
+                connUIObj.setControlObjectName(conn.getConnectionName());
+
+                // And we may not yet have called initialize
+                ConnectionManager cm = this.getConnectionManager(conn);
+                if (cm != null) {
+                    cm.initialize(conn.isComplete());
+                }
+
+                // And make sure all dataflows that use this connection get the
+                // new copy
+                connectionUpdatedNotify(conn);
+
+                // And make sure we save any incomplete data flows that are waiting
+                // for this connection to be complete
+                checkAndSaveDataflows(conn);
+
+                // Make sure we update this connection in the connection type
+                long cTypeId = conn.getConnectionTypeId();
+                DConnectionType dct = getConnectionTypeByConnectionTypeId(cTypeId);
+                if (dct != null) {
+                    dct.updateConnection(conn);
+                }
+
+                jVCCITreeDisplayPanel.updateConnection(conn);
+
+                // And if we have a diagnostics panel already set up for this
+                // panel - remove it. It will get reintiailzed the next time
+                // someone asks for the diagnostics panel
+                Long connKey = conn.getConnectionId();
+                if (jConnToDiagnosticsPanelHash.containsKey(connKey)) {
+                    jConnToDiagnosticsPanelHash.remove(connKey);
+                }
+            }
+        } else if (notification.isCreate()) {
+            // New Connection Case
+            if (folder != null) {
+                addConnectionNode(folder, folderUIObj, conn);
+            } else {
+                System.err.println("SHOULD NOT HAPPEN - FOLDER IS NULL FOR NEW CONNECTION!!!!");
+            }
+            DConnectionType ct = getConnectionTypeByConnectionTypeId(conn.getConnectionTypeId());
+            if (ct != null) {
+                // Make sure we add this connection to the connection type
+                long cTypeId = conn.getConnectionTypeId();
+                DConnectionType dct = getConnectionTypeByConnectionTypeId(cTypeId);
+                if (dct != null) {
+                    dct.addConnection(conn);
+                }
+            }
+        } else if (notification.isDelete()) {
+            // Might be null if multiple folders have been deleted and we
+            // notifications out of order so handle that case
+            if (connUIObj != null) {
+                //deleteConnectionNode(search);
+                // Diagnostics panel open for this connection?
+                if (jCurrentDiagnosticsPanel != null) {
+                    if (jCurrentDiagnosticsPanel instanceof ConnectionDiagnosticsBase) {
+                        ConnectionDiagnosticsBase dp = (ConnectionDiagnosticsBase) jCurrentDiagnosticsPanel;
+                        DConnection checkConn = dp.getConnection();
+                        if (checkConn != null && checkConn.getConnectionId() == conn.getConnectionId()) {
+                            VCCIDashBoard.ref().resetAllRightSidePanels();
+                        }
+                    }
+                }
+                // Configuration panel for this data flow?
+                if (jCurrentConnectionConfigurationPanel != null) {
+                    if (jCurrentConnectionConfigurationPanel instanceof ConnectionConfigurationPanelBase) {
+                        ConnectionConfigurationPanelBase cp = (ConnectionConfigurationPanelBase) jCurrentConnectionConfigurationPanel;
+                        DConnection checkConn = cp.getConnection();
+                        if (checkConn != null && checkConn.getConnectionId() == conn.getConnectionId()) {
+                            VCCIDashBoard.ref().resetAllRightSidePanels();
+                        }
+                    }
+                }
+
+                // Make sure we remove this connection from the connection type
+                long cTypeId = conn.getConnectionTypeId();
+                DConnectionType dct = getConnectionTypeByConnectionTypeId(cTypeId);
+                if (dct != null) {
+                    dct.removeConnection(conn.getConnectionId());
+                }
+
+                // Remove the connection manager
+                ConnectionManager cm = getConnectionManager(conn);
+                if (cm != null) {
+                    Long key = conn.getConnectionId();
+                    jConnectionManagersHash.remove(key);
+
+                    // And clean up all subscriptions
+                    ParadigmSwingUIDirector.jUIDirector.removeObjectNotificationSubscriptions(cm);
+                }
+                jVCCITreeDisplayPanel.deleteConnection(conn);
+                if (jCurrentConnection == conn) {
+                    jCurrentConnection = null;
+                }
+            }
+        }
+        VCCIDashBoard.ref().updateSystemDiagram();
+    }
+
+    private void processConnectionTypeNotification(ConnectionTypeNotification notification) {
+        // See if we can find this same external system in the tree - if we find it
+        // this is an update notification
+        if (notification == null) {
+            return;
+        }
+        DConnectionType dct = notification.getConnectionType();
+
+        // MAGI:TODO
+//        IconTreeNode search = findConnectionTypeNode(dct.getConnectionTypeId());
+//        if (notification.isUpdate()) {
+//            if (search != null) {
+//                // Update Case
+//                // Set new object on node
+//                search.setAppUserObject(dct);
+//                search.setName(dct.getConnectionTypeName());
+//            }
+//        }
+    }
+
+    public void startDISRouterDataflow() {
+        if (jDISRouterStarted) {
+            return;
+        }
+        try {
+            Class.forName(TEMP_DIS_ROUTER_COMPONENT_REFERENCE, false, Thread.currentThread().getContextClassLoader());
+        } catch (ClassNotFoundException ex) {
+            jL.warn("Unable to start DIS Server DataFlow due to classpath exception.");
+            return;
+        }
+        GDataFlowSpecification dfs = new GDataFlowSpecification();
+        dfs.setDataFlowSpecificationName(Constants.CA_ROUTER);
+
+        DSystemCapability df = getCapability(Constants.CA_ROUTER, GSystemCapability.SYSTEM_CAPABILITY_CATEGORY_CODE_NOS);
+        if (df != null) {
+            dfs.setDataFlowSpecificationSystemCapabilityId(df.getSystemCapabilityId());
+        }
+        DDataFlowSpecification ddfs = new DDataFlowSpecification(dfs);
+        ddfs.setSystemCapability(df);
+        ddfs.setIsComplete(true);
+        ddfs.setDataFlowSpecificationComponentName(TEMP_DIS_ROUTER_COMPONENT_REFERENCE);
+        CreateUpdateDataFlowSpecificationRequest cudfsr = new CreateUpdateDataFlowSpecificationRequest(
+                ddfs, true);
+        cudfsr.setCRUDMarker(BTO.CRUDMarker.CREATE);
+
+        ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                VCCIControlPanel.class
+                        .getCanonicalName(),
+                MediationService.class
+                        .getCanonicalName(),
+                MediationService.CREATE_UPDATE_DATA_FLOW_SPECIFICATION, cudfsr, true);
+    }
+
+    public void startDisaggregationDataflow() {
+        if (jDisaggregationStarted) {
+            return;
+        }
+        try {
+            Class.forName(TEMP_DISAGG_ROUTER_COMPONENT_REFERENCE, false, Thread.currentThread().getContextClassLoader());
+        } catch (ClassNotFoundException ex) {
+            jL.warn("Unable to start Disaggregation Server DataFlow due to classpath exception.");
+            return;
+        }
+        GDataFlowSpecification dfs = new GDataFlowSpecification();
+        dfs.setDataFlowSpecificationName(Constants.CA_DISAGGREGATION);
+
+        DSystemCapability df = this.getCapability(Constants.CA_DISAGGREGATION, GSystemCapability.SYSTEM_CAPABILITY_CATEGORY_CODE_NOS);
+        if (df != null) {
+            dfs.setDataFlowSpecificationSystemCapabilityId(df.getSystemCapabilityId());
+        }
+        DDataFlowSpecification ddfs = new DDataFlowSpecification(dfs);
+        ddfs.setSystemCapability(df);
+        ddfs.setIsComplete(true);
+        ddfs.setDataFlowSpecificationComponentName(TEMP_DISAGG_ROUTER_COMPONENT_REFERENCE);
+
+        ddfs.addParameter(buildSimParam(MovementProcessingConstants.SIMULATED_MOVEMENT_PARAMETER, MovementProcessingTypes.Interpolation.toString()));
+        ddfs.addParameter(buildSimParam(MovementProcessingConstants.MOVEMENT_INTERVAL_PARAMETER, "" + MovementProcessor.DEFAULT_INTERVAL));
+        ddfs.addParameter(buildSimParam(MovementProcessingConstants.SHAPE_FILE_INTERVAL_PARAMETER, "" + MovementProcessor.DEFAULT_SHAPE_FILE_INTERVAL));
+        ddfs.addParameter(buildSimParam(MovementProcessingConstants.MOVEMENT_RATE_PARAMETER, "" + MovementProcessor.DEFAULT_RATE));
+        ddfs.addParameter(buildSimParam(Constants.SP_UPDATE_INTERVAL, "" + MovementProcessor.DEFAULT_TIME_INTERVAL));
+        ddfs.addParameter(buildSimParam(Constants.SP_DISTANCE_INTERVAL, "" + MovementProcessor.DEFAULT_DISTANCE_INTERVAL));
+
+        // Time and Distance threshold parameters should be processed with a logical AND
+        ddfs.addParameter(buildSimParam(Constants.SP_TIME_DISTANCE, "" + ComplexFilterExpression.Operator.AND));
+
+        DMapper mapper = new DMapper();
+        mapper.setMapperUse(Constants.MU_OBJECTITEMS);
+        mapper.setMapperComponentName(DisaggregationService.class.getCanonicalName());
+        mapper.setCRUDMarker(BTO.CRUDMarker.CREATE);
+        ddfs.putMapper(mapper);
+
+        CreateUpdateDataFlowSpecificationRequest cudfsr = new CreateUpdateDataFlowSpecificationRequest(
+                ddfs, true);
+        cudfsr.setCRUDMarker(BTO.CRUDMarker.CREATE);
+        ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                VCCIControlPanel.class
+                        .getCanonicalName(),
+                MediationService.class
+                        .getCanonicalName(),
+                MediationService.CREATE_UPDATE_DATA_FLOW_SPECIFICATION, cudfsr, true);
+    }
+
+    public void startGISDataflow() {
+        if (jGISStarted) {
+            return;
+        }
+        try {
+            Class.forName(TEMP_GIS_ROUTER_COMPONENT_REFERENCE, false, Thread.currentThread().getContextClassLoader());
+        } catch (ClassNotFoundException ex) {
+            jL.warn("Unable to start GIS Server DataFlow due to classpath exception.");
+            return;
+        }
+        GDataFlowSpecification dfs = new GDataFlowSpecification();
+        dfs.setDataFlowSpecificationName(Constants.CA_GIS);
+
+        DSystemCapability df = this.getCapability(Constants.CA_SA, DSystemCapability.SYSTEM_CAPABILITY_CATEGORY_CODE_OUT);
+        if (df != null) {
+            dfs.setDataFlowSpecificationSystemCapabilityId(df.getSystemCapabilityId());
+        }
+        DDataFlowSpecification ddfs = new DDataFlowSpecification(dfs);
+        ddfs.setSystemCapability(df);
+        ddfs.setIsComplete(true);
+        ddfs.setDataFlowSpecificationComponentName(TEMP_GIS_ROUTER_COMPONENT_REFERENCE);
+
+        ddfs.addParameter(buildSimParam(Constants.SP_UPDATE_INTERVAL, "5"));
+        ddfs.addParameter(buildSimParam(Constants.SP_DISTANCE_INTERVAL, "1"));
+
+        // Time and Distance threshold parameters should be processed with a logical AND
+        ddfs.addParameter(buildSimParam(Constants.SP_TIME_DISTANCE, "" + ComplexFilterExpression.Operator.AND));
+
+        ddfs.addParameter(buildSimParam(Constants.SP_INCLUDE_OI_PT_LOCATIONS, BaseConstants.YES));
+        ddfs.addParameter(buildSimParam(Constants.SP_INCLUDE_OI_TYPES, BaseConstants.YES));
+        ddfs.addParameter(buildSimParam(Constants.SP_INCLUDE_OI_STATUSES, BaseConstants.YES));
+        ddfs.addParameter(buildSimParam(Constants.SP_INCLUDE_OI_ASSOCS, BaseConstants.YES));
+
+        DMapper mapper = new DMapper();
+        mapper.setMapperUse(Constants.MU_OBJECTITEMS);
+        mapper.setMapperComponentName(GISService.class
+                .getCanonicalName());
+        mapper.setCRUDMarker(BTO.CRUDMarker.CREATE);
+        ddfs.putMapper(mapper);
+
+        CreateUpdateDataFlowSpecificationRequest cudfsr = new CreateUpdateDataFlowSpecificationRequest(
+                ddfs, true);
+        cudfsr.setCRUDMarker(BTO.CRUDMarker.CREATE);
+
+        ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                VCCIControlPanel.class
+                        .getCanonicalName(),
+                MediationService.class
+                        .getCanonicalName(),
+                MediationService.CREATE_UPDATE_DATA_FLOW_SPECIFICATION, cudfsr, true);
+    }
+
+    public void startEmulationDataflow() {
+        if (jEmulationStarted) {
+            return;
+        }
+
+        GDataFlowSpecification dfs = new GDataFlowSpecification();
+        dfs.setDataFlowSpecificationName(Constants.CA_EMULATION);
+        DSystemCapability df = getCapability(Constants.CA_EMULATION, DSystemCapability.SYSTEM_CAPABILITY_CATEGORY_CODE_NOS);
+        if (df != null) {
+            dfs.setDataFlowSpecificationSystemCapabilityId(df.getSystemCapabilityId());
+        }
+
+        this.jEmulationDataflow = new DDataFlowSpecification(dfs);
+        this.jEmulationDataflow.setSystemCapability(df);
+        this.jEmulationDataflow.setIsComplete(true);
+    }
+
+    public void startOthServerDataflow() {
+        if (jOthServerStarted) {
+            return;
+        }
+        try {
+            Class.forName(TEMP_OTH_ROUTER_COMPONENT_REFERENCE, false, Thread.currentThread().getContextClassLoader());
+        } catch (ClassNotFoundException ex) {
+            jL.warn("Unable to start OTH Server DataFlow due to classpath exception.");
+            return;
+        }
+        GDataFlowSpecification dfs = new GDataFlowSpecification();
+        dfs.setDataFlowSpecificationName(Constants.CA_OTH_SERVER);
+        dfs.setDataFlowSpecificationIsServer(GDataFlowSpecification.DATA_FLOW_SPECIFICATION_IS_SERVER_YES);
+        DSystemCapability df = this.getCapability(Constants.CA_OTH_SERVER, GSystemCapability.SYSTEM_CAPABILITY_CATEGORY_CODE_NOS);
+        if (df != null) {
+            dfs.setDataFlowSpecificationSystemCapabilityId(df.getSystemCapabilityId());
+        }
+        DDataFlowSpecification ddfs = new DDataFlowSpecification(dfs);
+        ddfs.setSystemCapability(df);
+        ddfs.setIsComplete(true);
+        ddfs.setDataFlowSpecificationComponentName(TEMP_OTH_ROUTER_COMPONENT_REFERENCE);
+        ddfs.addParameter(buildSimParam("TIME_THROTTLE", "" + 30));
+        ddfs.addParameter(buildSimParam("DISTANCE_THROTTLE", "" + 10));
+        DMapper mapper = new DMapper();
+        mapper.setMapperUse(Constants.MU_OBJECTITEMS);
+        mapper.setMapperComponentName(TEMP_OTH_ROUTER_COMPONENT_REFERENCE);
+        mapper.setCRUDMarker(BTO.CRUDMarker.CREATE);
+        ddfs.putMapper(mapper);
+
+        CreateUpdateDataFlowSpecificationRequest cudfsr = new CreateUpdateDataFlowSpecificationRequest(
+                ddfs, true);
+        cudfsr.setCRUDMarker(BTO.CRUDMarker.CREATE);
+
+        ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                VCCIControlPanel.class
+                        .getCanonicalName(),
+                MediationService.class
+                        .getCanonicalName(),
+                MediationService.CREATE_UPDATE_DATA_FLOW_SPECIFICATION, cudfsr, true);
+    }
+
+    public void startRAPDataflow() {
+        if (jRAPStarted) {
+            return;
+        }
+        try {
+            Class.forName(TEMP_RAP_ROUTER_COMPONENT_REFERENCE, false, Thread.currentThread().getContextClassLoader());
+        } catch (ClassNotFoundException ex) {
+            jL.warn("Unable to start RAP Server DataFlow due to classpath exception.");
+            return;
+        }
+        GDataFlowSpecification dfs = new GDataFlowSpecification();
+        dfs.setDataFlowSpecificationName(Constants.CA_RAP);
+
+        DSystemCapability df = this.getCapability(Constants.CA_RAP, GSystemCapability.SYSTEM_CAPABILITY_CATEGORY_CODE_NOS);
+        if (df != null) {
+            dfs.setDataFlowSpecificationSystemCapabilityId(df.getSystemCapabilityId());
+        }
+        DDataFlowSpecification ddfs = new DDataFlowSpecification(dfs);
+        ddfs.setSystemCapability(df);
+        ddfs.setIsComplete(true);
+        ddfs.setDataFlowSpecificationComponentName(TEMP_RAP_ROUTER_COMPONENT_REFERENCE);
+        CreateUpdateDataFlowSpecificationRequest cudfsr = new CreateUpdateDataFlowSpecificationRequest(
+                ddfs, true);
+        cudfsr.setCRUDMarker(BTO.CRUDMarker.CREATE);
+
+        ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                VCCIControlPanel.class
+                        .getCanonicalName(),
+                MediationService.class
+                        .getCanonicalName(),
+                MediationService.CREATE_UPDATE_DATA_FLOW_SPECIFICATION, cudfsr, true);
+    }
+
+    public void startFFIServerDataflow() {
+        if (jFFIServerStarted) {
+            return;
+        }
+        try {
+            Class.forName(TEMP_FFI_ROUTER_COMPONENT_REFERENCE, false, Thread.currentThread().getContextClassLoader());
+        } catch (ClassNotFoundException ex) {
+            jL.warn("Unable to start FFI Server DataFlow due to classpath exception.");
+            return;
+        }
+        GDataFlowSpecification dfs = new GDataFlowSpecification();
+        dfs.setDataFlowSpecificationIsServer(GDataFlowSpecification.DATA_FLOW_SPECIFICATION_IS_SERVER_YES);
+        dfs.setDataFlowSpecificationName(Constants.CA_FFI_SERVER);
+
+        DSystemCapability df = this.getCapability(Constants.CA_FFI_SERVER, GSystemCapability.SYSTEM_CAPABILITY_CATEGORY_CODE_NOS);
+        if (df != null) {
+            dfs.setDataFlowSpecificationSystemCapabilityId(df.getSystemCapabilityId());
+        }
+        DDataFlowSpecification ddfs = new DDataFlowSpecification(dfs);
+        ddfs.setSystemCapability(df);
+        ddfs.setIsComplete(true);
+        ddfs.setDataFlowSpecificationComponentName(TEMP_FFI_ROUTER_COMPONENT_REFERENCE);
+
+        CreateUpdateDataFlowSpecificationRequest cudfsr = new CreateUpdateDataFlowSpecificationRequest(
+                ddfs, true);
+        cudfsr.setCRUDMarker(BTO.CRUDMarker.CREATE);
+
+        ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                VCCIControlPanel.class
+                        .getCanonicalName(),
+                MediationService.class
+                        .getCanonicalName(),
+                MediationService.CREATE_UPDATE_DATA_FLOW_SPECIFICATION, cudfsr, true);
+    }
+
+    public void startLink16ServerDataflow() {
+        if (jLink16ServerStarted) {
+            return;
+        }
+        try {
+            Class.forName(TEMP_LINK16_ROUTER_COMPONENT_REFERENCE, false, Thread.currentThread().getContextClassLoader());
+        } catch (ClassNotFoundException ex) {
+            jL.warn("Unable to start Link16 Server DataFlow due to classpath exception.");
+            return;
+        }
+        GDataFlowSpecification dfs = new GDataFlowSpecification();
+        dfs.setDataFlowSpecificationIsServer(GDataFlowSpecification.DATA_FLOW_SPECIFICATION_IS_SERVER_YES);
+        dfs.setDataFlowSpecificationName(Constants.CA_LINK16_SERVER);
+
+        DSystemCapability df = this.getCapability(Constants.CA_LINK16_SERVER,
+                GSystemCapability.SYSTEM_CAPABILITY_CATEGORY_CODE_NOS);
+        if (df != null) {
+            dfs.setDataFlowSpecificationSystemCapabilityId(df.getSystemCapabilityId());
+        }
+        DDataFlowSpecification ddfs = new DDataFlowSpecification(dfs);
+        ddfs.setSystemCapability(df);
+        ddfs.setIsComplete(true);
+        ddfs.setDataFlowSpecificationComponentName(TEMP_LINK16_ROUTER_COMPONENT_REFERENCE);
+        CreateUpdateDataFlowSpecificationRequest cudfsr = new CreateUpdateDataFlowSpecificationRequest(
+                ddfs, true);
+        cudfsr.setCRUDMarker(BTO.CRUDMarker.CREATE);
+
+        ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                VCCIControlPanel.class
+                        .getCanonicalName(),
+                MediationService.class
+                        .getCanonicalName(),
+                MediationService.CREATE_UPDATE_DATA_FLOW_SPECIFICATION, cudfsr, true);
+    }
+
+    public boolean areAllDataflowsInitialized() {
+        LinkedList<IVCCIUIControlObject> nodes = jVCCITreeDisplayPanel.getAllDataFlows();
+
+        Object obj2;
+        for (IVCCIUIControlObject uiObj : nodes) {
+
+            obj2 = uiObj.getAppUserObject(DISPLAYABLE_STATUS_OBJECT);
+            if (obj2 != null) {
+                if (obj2 instanceof DisplayableStatus) {
+                    DisplayableStatus ds = (DisplayableStatus) obj2;
+                    if (ds.getIndicator() == DisplayableStatus.Indicator.INITIALIZING) {
+                        return false;
+                    }
+                }
+            }
+
+        }
+        return true;
+    }
+
+    public DSimulationParameter buildSimParam(
+            String name,
+            String value) {
+        DSimulationParameter gsp = new DSimulationParameter();
+        gsp.setSimulationParameterName(name);
+        gsp.setSimulationParameterValue(value);
+        return gsp;
+    }
+
+    public DDataFlowSpecification getGISDataFlow() {
+        return jGISDataflow;
+    }
+
+    public DDataFlowSpecification getDisaggregationDataFlow() {
+        return jDisaggregationDataflow;
+    }
+
+    public DDataFlowSpecification getOthGoldServerDataFlow() {
+        return jOthGoldServerDataflow;
+    }
+
+    public DDataFlowSpecification getRAPDataFlow() {
+        return jRAPDataflow;
+    }
+
+    public DDataFlowSpecification getMipServerDataFlow() {
+        return jMipInDataflow;
+    }
+
+    public DDataFlowSpecification getMipClientDataFlow() {
+        return jMipOutDataflow;
+    }
+
+    public DDataFlowSpecification getFFIServerDataFlow() {
+        return jFFIServerDataflow;
+    }
+
+    public DDataFlowSpecification getLink16ServerDataFlow() {
+        return jLink16ServerDataflow;
+    }
+
+    // --- IMappingManagerUser
+    public void setMappingInterfaceReady(
+            MappingManager mgr,
+            boolean ready) {
+    }
+
+    // --- IUINotificationEnabled
+    @Override
+    public void processNotification(BTO obj) {
+        if (obj instanceof FolderNotification) {
+            FolderNotification folderNotification = (FolderNotification) obj;
+            processFolderNotification(folderNotification);
+        } else if (obj instanceof DataFlowSpecificationNotification) {
+            DataFlowSpecificationNotification dfsNotification = (DataFlowSpecificationNotification) obj;
+            processDFSNotification(dfsNotification);
+
+            if (jCurrentDFSConfigurationPanel != null) {
+                jCurrentDFSConfigurationPanel.dataflowUpdatedNotify(dfsNotification.getDataFlowSpecification());
+            }
+
+            // And let the manager handle the notification as well
+            DataFlowManager mgr = getDataflowManager(dfsNotification.getDataFlowSpecification());
+            if (mgr != null) {
+                mgr.processNotification(obj);
+            }
+        } else if (obj instanceof ConnectionNotification) {
+            ConnectionNotification connNotification = (ConnectionNotification) obj;
+            processConnectionNotification(connNotification);
+
+            // And let the manager handle the notification as well
+            ConnectionManager mgr = getConnectionManager(connNotification.getConnection());
+            if (mgr != null) {
+                mgr.processNotification(obj);
+            }
+
+            if (connNotification.isDelete()) {
+                if (jCapabilityImplementationPanel != null) {
+                    jCapabilityImplementationPanel.connectionDeleteNotification(connNotification.getConnection());
+                }
+            } else if (connNotification.isUpdate()) {
+                if (jCapabilityImplementationPanel != null) {
+                    //jCapabilityImplementationPanel.connectionUpdateNotification(connNotification.getConnection());
+                }
+            }
+        } else if (obj instanceof ConnectionTypeNotification) {
+            ConnectionTypeNotification ctn = (ConnectionTypeNotification) obj;
+            processConnectionTypeNotification(ctn);
+        } else if (obj instanceof MediationStatusesNotification) {
+            MediationStatusesNotification msn = (MediationStatusesNotification) obj;
+            processMediationStatusesNotification(msn);
+        } else if (obj instanceof DisplayableContent) {
+            if (jCurrentDiagnosticsPanel != null) {
+                if (jCurrentDiagnosticsPanel instanceof DataFlowSpecificationDiagnosticsBase) {
+                    // Make sure that this diagnostic is for the dataflow for
+                    // which we are showing the diagnostics panel
+                    DataFlowSpecificationDiagnosticsBase base = (DataFlowSpecificationDiagnosticsBase) jCurrentDiagnosticsPanel;
+                    DDataFlowSpecification dfs = base.getDFS();
+                    if (dfs != null) {
+                        DisplayableContent dcont = (DisplayableContent) obj;
+                        ModelObject mo = dcont.getContent();
+                        if (mo instanceof DataFlowDiagnostics) {
+                            DataFlowDiagnostics dfd = (DataFlowDiagnostics) mo;
+                            if (dfd.getIdAsLong() == dfs.getDataFlowSpecificationIndex()) {
+                                jCurrentDiagnosticsPanel.updateDiagnostics((DisplayableContent) obj);
+                            }
+                        }
+                    }
+                } else if (jCurrentDiagnosticsPanel instanceof FolderDiagnosticsBase) {
+                    // Make sure that this diagnostic is for the dataflow for
+                    // which we are showing the diagnostics panel
+                    FolderDiagnosticsBase base = (FolderDiagnosticsBase) jCurrentDiagnosticsPanel;
+                    DFolder df = base.getFolder();
+                    if (df != null) {
+                        DisplayableContent dcont = (DisplayableContent) obj;
+                        ModelObject mo = dcont.getContent();
+                        if (mo instanceof FolderDiagnostics) {
+                            FolderDiagnostics fd = (FolderDiagnostics) mo;
+                            if (fd.getIdAsLong() == df.getFolderId()) {
+                                jCurrentDiagnosticsPanel.updateDiagnostics((DisplayableContent) obj);
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (obj instanceof MapperChangeNotification) {
+            processMappingNotification((MapperChangeNotification) obj);
+        }
+    }
+
+    private void processMappingNotification(MapperChangeNotification notification) {
+
+        IVCCIUIControlObject uiObj
+                = jVCCITreeDisplayPanel.getDataFlowControlObject(notification.getDataFlowSpecificationId());
+        DDataFlowSpecification dfs = null;
+
+        if (uiObj != null) {
+            dfs = uiObj.getDataFlow();
+
+            String mapperUse = notification.getMapperUse();
+            DMapper mapper = dfs.getMapper(mapperUse);
+            if (mapper != null) {
+                LinkedList<DMapping> mappings = notification.getMappings();
+                for (DMapping mapping : mappings) {
+                    if (notification.getCRUDMarker() == MapperChangeNotification.CRUDMarker.DELETE) {
+                        mapper.removeMappingBySrcId(mapping.getSrcObject().getMappedObjectObjectId());
+                    } else if (notification.getCRUDMarker() == MapperChangeNotification.CRUDMarker.CREATE) {
+                        mapper.addMapping(mapping, false);
+                    } else if (notification.getCRUDMarker() == MapperChangeNotification.CRUDMarker.UPDATE) {
+                        mapper.removeMappingBySrcId(mapping.getSrcObject().getMappedObjectObjectId());
+                        mapper.addMapping(mapping, false);
+                    }
+                }
+            }
+        }
+    }
+
+    // --- IVCCIControlPanelUser
+    public void popupAboutToHappen(IVCCIUIControlObject gn) {
+        IVCCIUIControlObject activeUIObj = jVCCITreeDisplayPanel.getActiveUIObject();
+
+        if (activeUIObj != null) {
+            if (activeUIObj.isDataFlow()) {
+                DDataFlowSpecification dfs = activeUIObj.getDataFlow();
+                DataFlowManager dfMgr = getDataflowManager(dfs);
+                if (dfMgr != null) {
+                    dfMgr.popupAboutToHappen();
+                }
+            } else if (activeUIObj.isConnection()) {
+                DConnection conn = activeUIObj.getConnection();
+                ConnectionManager connMgr = getConnectionManager(conn);
+                if (connMgr != null) {
+                    connMgr.popupAboutToHappen();
+                }
+            }
+        }
+    }
+
+    public DDataFlowSpecification getActiveDfsNode() {
+        IVCCIUIControlObject activeNode = jVCCITreeDisplayPanel.getActiveUIObject();
+        if (activeNode != null) {
+            if (activeNode.isDataFlow()) {
+                return activeNode.getDataFlow();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void nodeSelected(IVCCIUIControlObject node) {
+    }
+
+    @Override
+    public boolean allowDragNDrop(IVCCIUIControlObject uiObj) {
+        //if (uiObj.isDataFlow()) {
+        //    return false;
+        //}
+        // Do not allow this if any dataflow or connection is incomplete
+        LinkedList<DDataFlowSpecification> dfsList = getDataflows();
+        String msg = "Drag and drop not supported if connections/Dataflows have not been completely configured";
+        for (DDataFlowSpecification dfs : dfsList) {
+            if (!dfs.isComplete()) {
+                ParadigmSwingUIDirector.jUIDirector.showApplicationWarningMessage(msg);
+                return false;
+            }
+        }
+
+        LinkedList<DConnection> conns = getConnections();
+        for (DConnection conn : conns) {
+            if (!conn.isComplete()) {
+                ParadigmSwingUIDirector.jUIDirector.showApplicationWarningMessage(msg);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public String getReference() {
+        return "DFS_PANEL";
+    }
+
+    @Override
+    public boolean allowDrop(
+            IVCCIUIControlObject node,
+            IVCCIUIControlObject dropTarget) {
+        // Cannot drop on self
+        if (node == dropTarget) {
+            return false;
+        }
+        Object dest = null;
+        if (dropTarget != null) {
+            dest = dropTarget.getDomainObject();
+            if (dest == null) {
+                return false;
+            }
+            // Make sure destination is not a descendant - note that we only
+            // care about folders here - if the drop is on a data flow node
+            // or connection we interpret that to be open space and move the node to the
+            // topmost level
+            if (dropTarget.isFolder() && node.isFolder()) {
+                if (jVCCITreeDisplayPanel.isDescendant(dropTarget, node)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean allowDropOnRoot(IVCCIUIControlObject node) {
+        return false;
+    }
+
+    @Override
+    public void nodeDropped(
+            IVCCIUIControlObject node,
+            IVCCIUIControlObject newParent) {
+        // See if parent is changing or not
+        if (node.getParentControlObject() == null && newParent == null) {
+            return;
+        }
+        // If the new parent is null or a dataflow - then we will just reparent the
+        // node to the root folder if it that is not already the parent
+        if (node.getParentControlObject() == null && newParent != null) {
+            if (!newParent.isFolder()) {
+                // We are dropping an object that already is child of root unto
+                // a data flow or connection - so no change in parent
+                return;
+            }
+        }
+
+        // Dragged node is either a folder or a connection
+        DFolder draggedFolder = null;
+        DConnection draggedConn = null;
+        if (node.isFolder()) {
+            draggedFolder = node.getFolder();
+        } else {
+            draggedConn = node.getConnection();
+        }
+
+        DFolder targetFolder = null;
+        if (newParent == null || !newParent.isFolder()) {
+            // Leave targetFolder as null
+        } else {
+            targetFolder = newParent.getFolder();
+        }
+        if (draggedFolder != null) {
+            DFolder df_clone = draggedFolder.clone();
+            df_clone.setFolderParentFolderId(targetFolder == null ? jHiddenFolder.getFolderId() : targetFolder.getFolderId());
+
+            CreateUpdateFolderRequest cufr = new CreateUpdateFolderRequest(
+                    Request.CRUDMarker.UPDATE,
+                    CreateUpdateFolderRequest.UpdateType.UPDATE_ATTRIBUTES,
+                    df_clone,
+                    draggedFolder);
+
+            cufr.setCRUDMarker(Request.CRUDMarker.UPDATE);
+
+            ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                    VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                    VCCIControlPanel.class
+                            .getCanonicalName(),
+                    MediationService.class
+                            .getCanonicalName(),
+                    MediationService.CREATE_UPDATE_FOLDER, cufr, true);
+        } else if (draggedConn != null) {
+            DConnection conn_clone = draggedConn.clone();
+            conn_clone.setConnectionFolderId(targetFolder == null
+                    ? jHiddenFolder.getFolderId()
+                    : targetFolder.getFolderId());
+
+            CreateUpdateConnectionRequest cudcr = new CreateUpdateConnectionRequest(
+                    conn_clone, true);
+            cudcr.setCRUDMarker(BTO.CRUDMarker.UPDATE);
+            cudcr.setOnlyFolderIDAffected(true);
+
+            ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                    VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                    VCCIControlPanel.class
+                            .getCanonicalName(),
+                    MediationService.class
+                            .getCanonicalName(),
+                    MediationService.CREATE_UPDATE_CONNECTION, cudcr, true);
+        }
+    }
+
+    @Override
+    // Allows dropping graphic nodes from Level 2 Panels on dataflows (for example)
+    public void externalNodeDroppedOnTree(
+            IVCCIUIControlObject newParent,
+            String dragSource,
+            String externalNodeId,
+            LinkedList<String> externalNodeChildIds) {
+        if (newParent == null) {
+            return;
+        }
+
+        if (newParent.isDataFlow()) {
+            DDataFlowSpecification dfs = newParent.getDataFlow();
+            if (dfs != null) {
+                // Get the manager
+                DataFlowManager dfm = getDataflowManager(dfs);
+                if (dfm != null) {
+                    dfm.externalNodeDroppedOnTree(dragSource, externalNodeId, externalNodeChildIds);
+                }
+            }
+        }
+    }
+
+    public DataFlowManager getDataflowManager(DDataFlowSpecification dfs) {
+        if (dfs == null) {
+            return null;
+        }
+        DataFlowManager dfMgr = null;
+        Long key = dfs.getDataFlowSpecificationIndex();
+        if (jDFSManagersHash.containsKey(key)) {
+            dfMgr = (DataFlowManager) jDFSManagersHash.get(key);
+            return dfMgr;
+        }
+        return null;
+    }
+
+    public boolean isConnectionNameUnique(String name, DConnection ignore) {
+        LinkedList<DConnection> conns = getConnections();
+        for (DConnection dc : conns) {
+            if (ignore != null && ignore.getConnectionId() == dc.getConnectionId()) {
+                continue;
+            }
+            if (name.trim().equals(dc.getConnectionName().trim())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void uiObjectLabelChanged(
+            IVCCIUIControlObject uiObj,
+            String label) {
+
+        // We will modify our data once the notification comes back from
+        // the server
+        if (label == null) {
+            return;
+        }
+
+        if (uiObj.isDataFlow()) {
+            DDataFlowSpecification dfs = uiObj.getDataFlow();
+            if (!isDFSNameUnique(label, dfs)) {
+                VCCIDashBoard.setError("Dataflow name is not unique!");
+                return;
+            }
+            if (!isValidUIName(label)) {
+                VCCIDashBoard.setError("Dataflow name is not valid!");
+                return;
+            }
+
+            DDataFlowSpecification dfs_clone = dfs.clone();
+            dfs_clone.setDataFlowSpecificationName(label);
+
+            CreateUpdateDataFlowSpecificationRequest cudfsr = new CreateUpdateDataFlowSpecificationRequest(
+                    dfs_clone, true);
+            cudfsr.setCRUDMarker(BTO.CRUDMarker.UPDATE);
+
+            ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                    VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                    VCCIControlPanel.class
+                            .getCanonicalName(),
+                    MediationService.class
+                            .getCanonicalName(),
+                    MediationService.CREATE_UPDATE_DATA_FLOW_SPECIFICATION, cudfsr, true);
+        } else if (uiObj.isConnection()) {
+            DConnection conn = uiObj.getConnection();
+            if (!isConnectionNameUnique(label, conn)) {
+                VCCIDashBoard.setError("Connection name is not unique!");
+                return;
+            }
+            if (!isValidUIName(label)) {
+                VCCIDashBoard.setError("Connection name is not valid!");
+                return;
+            }
+            DConnection conn_clone = conn.clone();
+            conn_clone.setConnectionName(label);
+
+            CreateUpdateConnectionRequest cudcr = new CreateUpdateConnectionRequest(
+                    conn_clone, true);
+            cudcr.setCRUDMarker(BTO.CRUDMarker.UPDATE);
+
+            ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                    VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                    VCCIControlPanel.class
+                            .getCanonicalName(),
+                    MediationService.class
+                            .getCanonicalName(),
+                    MediationService.CREATE_UPDATE_CONNECTION, cudcr, true);
+        } else {
+            DFolder df = uiObj.getFolder();
+            // Will be null when user just adds a new folder
+            if (df == null) {
+                return;
+            }
+            if (!isFolderNameUnique(label, df)) {
+                VCCIDashBoard.setError("Folder name is not unique!");
+                return;
+            }
+            if (!isValidUIName(label)) {
+                VCCIDashBoard.setError("Folder name is not valid!");
+                return;
+            }
+            DFolder df_clone = df.clone();
+            df_clone.setFolderName(label);
+            CreateUpdateFolderRequest cufr = new CreateUpdateFolderRequest(
+                    Request.CRUDMarker.UPDATE,
+                    CreateUpdateFolderRequest.UpdateType.UPDATE_ATTRIBUTES,
+                    df_clone,
+                    null /*parent not required for folder rename*/);
+
+            cufr.setCRUDMarker(Request.CRUDMarker.UPDATE);
+
+            ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                    VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                    VCCIControlPanel.class
+                            .getCanonicalName(),
+                    MediationService.class
+                            .getCanonicalName(),
+                    MediationService.CREATE_UPDATE_FOLDER, cufr, true);
+        }
+    }
+
+    public void systemViewDFSButtonPress(
+            String action,
+            DDataFlowSpecification dfs) {
+        IVCCIUIControlObject uiObj
+                = jVCCITreeDisplayPanel.getDataFlowControlObject(dfs.getDataFlowSpecificationIndex());
+
+        if (uiObj != null) {
+            issueCommand(uiObj, dfs, dfs.getDataFlowSpecificationIndex(), action);
+        }
+    }
+
+    protected void issueCommand(
+            IVCCIUIControlObject uiObj,
+            Object obj,
+            long id,
+            String command) {
+        // Handle commands
+        if (obj instanceof DDataFlowSpecification) {
+            if (BaseConstants.UI_CONFIGURE.equals(command)) {
+                DDataFlowSpecification dfs = (DDataFlowSpecification) obj;
+
+                // Are we just editing the same one again?
+                if (jCurrentDFSConfigurationPanel != null) {
+                    DDataFlowSpecification check = jCurrentDFSConfigurationPanel.getDFS();
+                    if (check != null) {
+                        if (check.getDataFlowSpecificationIndex() == dfs.getDataFlowSpecificationIndex()) {
+                            return;
+                        }
+                    }
+                    if (jCurrentDFSConfigurationPanel.isEdited()) {
+                        String err = "Current Dataflow has been edited - are you sure you want to lose edits?";
+                        OptionPaneResponse opr = VCCIDashBoard.ref().inlineOptionPaneRequest(OptionsPane.PromptType.PROMPT_YES_NO, err);
+                        if (!opr.isYesSelected()) {
+                            return;
+                        }
+                    }
+                }
+
+                AddDFSPanel p = null;
+                // Check to see if this dataflow's connection is complete or not
+                DConnection dc = dfs.getConnection();
+                if (dc != null && !dc.isComplete()) {
+                    ParadigmSwingUIDirector.jUIDirector.showApplicationErrorMessage(
+                            "You must first configure the connection ("
+                                    + dc.getConnectionName()
+                                    + ") that supports this Dataflow");
+                    return;
+                }
+                p = new AddDFSPanel(((DDataFlowSpecification) obj));
+                jCurrentDFSConfigurationPanel = p;
+                VCCIDashBoard.ref().showRightSidePanel(p, uiObj, false);
+                uiObj.setControlObjectHighlighted(true);
+                // This has to be done after the above process call so that the
+                // VCCIPanel is set on the form along with the buttons
+                p.startDFSEdit();
+                jCurrentDiagnosticsPanel = null;
+                // We do this here again as the showRightSidePanel() call reset this
+                jCurrentDFSConfigurationPanel = p;
+            } else if (BaseConstants.UI_DIAGNOSTICS.equals(command)) {
+                showDataflowDiagnostics(uiObj, (DDataFlowSpecification) obj);
+            } else if (BaseConstants.UI_MAPPING_AND_ROUTING.equals(command)) {
+                dfsManagerAction(uiObj, (DDataFlowSpecification) obj);
+            } else if (BaseConstants.UI_PLAY.equals(command)
+                    || BaseConstants.UI_PAUSE.equals(command)
+                    || BaseConstants.UI_CLEAR.equals(command)) {
+
+                TransferCommand tc = TransferCommand.buildCommand(command);
+                if (tc != null) {
+                    MediationCommandsRequest mcr = new MediationCommandsRequest();
+                    mcr.addDataFlowCommand(id, tc);
+                    ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                            VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                            VCCIControlPanel.class
+                                    .getCanonicalName(),
+                            MediationService.class
+                                    .getCanonicalName(),
+                            MediationService.ISSUE_COMMANDS, mcr, true);
+                }
+            } else {
+                // Allow dataflow manager to handle any others
+                DataFlowManager dfm = getDataflowManager((DDataFlowSpecification) obj);
+                if (dfm != null) {
+                    dfm.iconButtonPressed(command);
+                }
+            }
+        } else if (obj instanceof DConnection) {
+            DConnection conn = (DConnection) obj;
+            if (BaseConstants.UI_CONFIGURE.equals(command)) {
+                // Show connection configuration panel here
+                configureConnection(
+                        uiObj,
+                        conn,
+                        getConnectionTypeByConnectionTypeId(conn.getConnectionTypeId()));
+            } else if (BaseConstants.UI_DIAGNOSTICS.equals(command)) {
+                jCurrentConnection = conn;
+                // Show diagnostics panel here
+                showConnectionDiagnostics(
+                        uiObj,
+                        getConnectionTypeByConnectionTypeId(conn.getConnectionTypeId()).getConnectionTypeName(),
+                        conn);
+            } else if (BaseConstants.UI_CONNECT.equals(command)) {
+                jCurrentConnection = conn;
+                // Just a connect/reconnect request
+                CreateUpdateConnectionRequest cucr = new CreateUpdateConnectionRequest(conn, true);
+                cucr.setCRUDMarker(Request.CRUDMarker.UPDATE);
+
+                ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                        VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                        VCCIControlPanel.class
+                                .getCanonicalName(),
+                        MediationService.class
+                                .getCanonicalName(),
+                        MediationService.CREATE_UPDATE_CONNECTION, cucr, true);
+
+            } else if (BaseConstants.UI_MAPPING_AND_ROUTING.equals(command)) {
+                showMappingAndRoutingPanel(uiObj, conn);
+            }
+        } else if (BaseConstants.UI_DIAGNOSTICS.equals(command)) {
+            showFolderDiagnostics(uiObj, (DFolder) obj);
+        } else if (BaseConstants.UI_CONFIGURE.equals(command)) {
+            // All we can do with a folder is edit the name
+            clearButtonPanelHighlights();
+        } else if (BaseConstants.UI_PLAY.equals(command)
+                || BaseConstants.UI_PAUSE.equals(command)
+                || BaseConstants.UI_CLEAR.equals(command)) {
+
+            TransferCommand tc = TransferCommand.buildCommand(command);
+            if (tc != null) {
+                MediationCommandsRequest mcr = new MediationCommandsRequest();
+                mcr.addFolderCommand(id, tc);
+                ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                        VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                        VCCIControlPanel.class
+                                .getCanonicalName(),
+                        MediationService.class
+                                .getCanonicalName(),
+                        MediationService.ISSUE_COMMANDS, mcr, true);
+            }
+        }
+    }
+
+    private void configureConnection(
+            IVCCIUIControlObject uiObj,
+            DConnection conn,
+            DConnectionType connType) {
+
+        // Are we just editing the same one again?
+        if (jCurrentConnectionConfigurationPanel != null) {
+            DConnection check = jCurrentConnectionConfigurationPanel.getConnection();
+            if (check != null && conn != null) {
+                if (check.getConnectionId() == conn.getConnectionId()) {
+                    return;
+                }
+            }
+            if (jCurrentConnectionConfigurationPanel.isEdited()) {
+                String err = "Current connection has been edited - are you sure you want to lose edits?";
+                OptionPaneResponse opr = VCCIDashBoard.ref().inlineOptionPaneRequest(OptionsPane.PromptType.PROMPT_YES_NO, err);
+                if (!opr.isYesSelected()) {
+                    return;
+                }
+            }
+        }
+        // Determine the type of form
+        ConnectionConfigurationPanelBase p = ConnectionConfigurationPanelBase.generateDerivedForm(null, conn, connType);
+        if (p == null) {
+            return;
+        }
+        // Update case
+        jNewConnection = conn == null;
+        VCCIDashBoard.ref().showRightSidePanel(p, uiObj, false);
+
+        // We have to do this down here because the above call resets this reference
+        jCurrentConnectionConfigurationPanel = p;
+        if (jNewConnection) {
+            // Make sure we default the folder
+            jCurrentConnectionConfigurationPanel.setFolder(jHiddenFolder);
+        }
+    }
+
+    private void showConnectionDiagnostics(
+            IVCCIUIControlObject uiObj,
+            String cType,
+            DConnection conn) {
+        // Determine the type of form
+        DiagnosticsPanelBase p;
+
+        // See if we already have a diagnostics panel for this connection
+        Long connKey = conn.getConnectionId();
+        if (jConnToDiagnosticsPanelHash.containsKey(connKey)) {
+            p = jConnToDiagnosticsPanelHash.get(connKey);
+        } else {
+            p = ConnectionDiagnosticsBase.generateDerivedForm(cType, conn);
+            if (p != null) {
+                jConnToDiagnosticsPanelHash.put(connKey, p);
+            }
+        }
+        if (p != null && jCurrentDiagnosticsPanel != p) {
+            removeCurrentDiagnosticsPanel();
+            VCCIDashBoard.ref().showRightSidePanel(p, uiObj, false);
+            p.panelShownNotification();
+            jCurrentDiagnosticsPanel = p;
+        }
+    }
+
+    private void showMappingAndRoutingPanel(
+            IVCCIUIControlObject uiObj,
+            DConnection conn) {
+        // Determine the type of form
+        ConnectionManager p;
+
+        Long connKey = conn.getConnectionId();
+        if (this.jConnToMappingAndRoutingPanelHash.containsKey(connKey)) {
+            p = jConnToMappingAndRoutingPanelHash.get(connKey);
+        } else {
+            removeCurrentMappingAndRoutingPanel();
+            jCurrentMappingAndRoutingPanel = null;
+            return;
+        }
+
+        if (p != null && this.jCurrentMappingAndRoutingPanel != p) {
+            removeCurrentMappingAndRoutingPanel();
+            VCCIDashBoard.ref().showRightSidePanel(p, uiObj, false);
+            jCurrentMappingAndRoutingPanel = p;
+        }
+
+    }
+
+    private void removeCurrentMappingAndRoutingPanel() {
+        if (jCurrentMappingAndRoutingPanel != null) {
+            VCCIDashBoard.ref().resetAllRightSidePanels();
+        }
+    }
+
+    /**
+     * Attempt to display a diagnostics panel which does not rely on a data
+     * flow.
+     *
+     * @param systemCapability
+     */
+    private void showServerDiagnostics(DSystemCapability systemCapability) {
+        if (systemCapability == null) {
+            return;
+        }
+        String capabilityName = systemCapability.getSystemCapabilityName();
+        DiagnosticsPanelBase p;
+        if (jServerDiagnosticPanelHash.containsKey(capabilityName)) {
+            p = jServerDiagnosticPanelHash.get(capabilityName);
+        } else {
+            p = DiagnosticsPanelBase.generateDerivedForm(systemCapability, String.format("%s Server Diagnostics", capabilityName));
+            // Cache it
+            if (p != null) {
+                jServerDiagnosticPanelHash.put(capabilityName, p);
+            }
+        }
+        if (p == null) {
+            VCCIDashBoard.setError("Unable to Display Dataflow Diagnostics Panel for " + capabilityName + ".");
+            return;
+        }
+        if (jCurrentDiagnosticsPanel != p) {
+            removeCurrentDiagnosticsPanel();
+            VCCIDashBoard.ref().showRightSidePanel(p, null, false);
+            p.panelShownNotification();
+            jCurrentDiagnosticsPanel = p;
+            jCurrentDFSManager = null;
+            jCurrentDFSConfigurationPanel = null;
+        }
+    }
+
+    private void showDataflowDiagnostics(IVCCIUIControlObject uiObj, DDataFlowSpecification dfs) {
+        if (dfs == null) {
+            VCCIDashBoard.setError("No Dataflow available for selection.  Check logs.");
+            jL.error("Unable to show diagnostics panel.  No DataFlow.");
+            return;
+        }
+        // Determine the type of form
+        DiagnosticsPanelBase diagnosticsPanelBase = null;
+        DConnection connection = dfs.getConnection();
+        DSystemCapability systemCapability = dfs.getSystemCapability();
+        if (systemCapability == null) {
+            return;
+        }
+        DataFlowManager mgr = getDataflowManager(dfs);
+        // TODO : We need to refactor this section --SS
+        if (mgr == null || connection == null) {
+            // Get derived form based on capability
+            if (dfs == jDISRouterDataflow) {
+                diagnosticsPanelBase = jDISRouterDiagnosticsPanel;
+            } else if (dfs == jDisaggregationDataflow) {
+                diagnosticsPanelBase = jDisaggregationFilterPanel;
+            } else if (dfs == jEmulationDataflow) {
+                diagnosticsPanelBase = jEmulationSetupPanel;
+            } else if (dfs == jOthGoldServerDataflow
+                    || dfs == jLink16ServerDataflow
+                    || dfs == jFFIServerDataflow) {
+                if (jServerDiagnosticPanelHash.containsKey(systemCapability.getSystemCapabilityName())) {
+                    diagnosticsPanelBase = jServerDiagnosticPanelHash.get(systemCapability.getSystemCapabilityName());
+                } else {
+                    diagnosticsPanelBase = DataFlowSpecificationDiagnosticsBase.generateDataFlowDerivedForm(systemCapability, dfs, String.format("%s Diagnostics", systemCapability.getSystemCapabilityName()));
+                    // Cache it
+                    if (diagnosticsPanelBase != null) {
+                        jServerDiagnosticPanelHash.put(systemCapability.getSystemCapabilityName(), diagnosticsPanelBase);
+                    }
+                }
+            }
+        } else {
+            // Get derived form using capability, connection, and direction.
+            diagnosticsPanelBase = mgr.getDiagnosticsPanel();
+            if (diagnosticsPanelBase == null) {
+                DConnectionType dct = VCCIDashBoard.ref().getConnectionTypeByConnectionTypeId(connection.getConnectionTypeId());
+                diagnosticsPanelBase = DataFlowSpecificationDiagnosticsBase.generateDataFlowDerivedForm(systemCapability, dct, dfs, String.format("%s Diagnostics", systemCapability.getSystemCapabilityName()));
+                mgr.setDiagnosticsPanel(diagnosticsPanelBase);
+            }
+        }
+        if (diagnosticsPanelBase == null) {
+            VCCIDashBoard.setError("Unable to Display Dataflow Diagnostics Panel for " + systemCapability.getSystemCapabilityName() + ".");
+            return;
+        }
+        if (jCurrentDiagnosticsPanel != diagnosticsPanelBase) {
+            removeCurrentDiagnosticsPanel();
+            VCCIDashBoard.ref().showRightSidePanel(diagnosticsPanelBase, uiObj, false);
+            diagnosticsPanelBase.panelShownNotification();
+            jCurrentDiagnosticsPanel = diagnosticsPanelBase;
+            jCurrentDFSManager = null;
+            jCurrentDFSConfigurationPanel = null;
+        }
+    }
+
+    private void removeCurrentDiagnosticsPanel() {
+        if (jCurrentDiagnosticsPanel != null) {
+            VCCIDashBoard.ref().resetAllRightSidePanels();
+        }
+    }
+
+    private void showFolderDiagnostics(
+            IVCCIUIControlObject uiObj,
+            DFolder folder) {
+
+        // Determine the type of form
+        DiagnosticsPanelBase p;
+        if (folder == null) {
+            return;
+        }
+
+        // See if we already have a diagnostics panel for this folder
+        Long folderKey = folder.getFolderId();
+        if (jFolderToDiagnosticsPanelHash.containsKey(folderKey)) {
+            p = jFolderToDiagnosticsPanelHash.get(folderKey);
+        } else {
+            p = new MediationFolderDiagnostics(folder);
+            jFolderToDiagnosticsPanelHash.put(folderKey, p);
+        }
+
+        if (p != null && jCurrentDiagnosticsPanel != p) {
+            removeCurrentDiagnosticsPanel();
+            VCCIDashBoard.ref().showRightSidePanel(p, uiObj, false);
+            p.panelShownNotification();
+            jCurrentDiagnosticsPanel = p;
+        }
+    }
+
+    public boolean isValidUIName(String name) {
+        if (name == null) {
+            return false;
+        }
+        name = name.trim();
+        if (name.length() == 0) {
+            return false;
+        }
+
+        // Now make sure we have valid characters
+        // Check for bad charaters
+        Pattern p = Pattern.compile(INVALID_CHARS);
+        final Matcher m = p.matcher(name);
+        if (m.find()) {
+            return false;
+        }
+        return true;
+    }
+
+    protected void initializeDataFlowManager(
+            IVCCIUIControlObject uiObj,
+            DDataFlowSpecification dfs,
+            DConnection dc,
+            DSystemCapability df) {
+        // Now depending on the connection type and function create the proper
+        // DataFlow Manager
+
+        DConnectionType dct;
+        if (dc != null) {
+            dct = getConnectionType(dc);
+            if (dct == null) {
+                jL.warn("initializeDataFlowManager - cannot add Dataflow node for {} : Connection type is null", dc.getConnectionName());
+                return;
+            }
+
+            if (df != null) {
+
+                String functionName = df.getSystemCapabilityName();
+                String functionCatCode = df.getSystemCapabilityCategoryCode();
+                String connTypeName = dct.getConnectionTypeName();
+
+                String key = connTypeName + ":" + functionName + ":" + functionCatCode;
+                DataFlowManager dfMgr = null;
+                // Retrieve the connection type manager (might be null)
+
+                ConnectionTypeManager ctm = getConnectionTypeManager(getConnectionTypeByConnectionTypeId(dc.getConnectionTypeId()));
+
+                if (jDataflowManagerLookupHash.containsKey(key)) {
+                    String handlerClass = jDataflowManagerLookupHash.get(key);
+                    try {
+                        Class<?> c = Class.forName(handlerClass, false, Thread.currentThread().getContextClassLoader());
+                        Constructor<?> ctor = c.getConstructor(
+                                DDataFlowSpecification.class,
+                                IVCCIUIControlObject.class,
+                                ConnectionTypeManager.class
+                        );
+                        dfMgr = (DataFlowManager) ctor.newInstance(dfs, uiObj, ctm);
+                        jDFSManagersHash.put(dfs.getDataFlowSpecificationIndex(), dfMgr);
+                        dfMgr.initialize(dfs.isComplete());
+                    } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
+                             | InstantiationException | IllegalAccessException | IllegalArgumentException
+                             | InvocationTargetException ex) {
+                        jL.error(ex.getMessage(), ex);
+                        VCCIDashBoard.setError(ex.getMessage());
+                    }
+                }
+
+                if (dfMgr == null) {
+                    VCCIDashBoard.setWarning("No Dataflow manager : connection type[" + connTypeName + "] capability[" + functionName + "]");
+
+                    if (uiObj != null) {
+                        uiObj.addButton(BaseConstants.UI_DIAGNOSTICS, CommonIcons.jDiagnostics16x16Icon, "Diagnostics", "Diagnostics", functionName);
+                        uiObj.addButton(BaseConstants.UI_PLAY, CommonIcons.jPlay16x16Icon, "Play", "Play", functionName);
+                        uiObj.addButton(BaseConstants.UI_PAUSE, CommonIcons.jPause16x16Icon, "Pause", "Pause", functionName);
+                        uiObj.addButton(BaseConstants.UI_CONFIGURE, CommonIcons.jSettings16x16Icon, "Configure", "Configure", functionName);
+                        uiObj.addButton(BaseConstants.UI_MAPPING_AND_ROUTING, CommonIcons.jMapping16x16Icon, "Mapping & Routing", "Mapping", functionName);
+                    }
+                }
+            }
+        }
+    }
+
+    public void setConnectionTypes(LinkedList<DConnectionType> cTypes) {
+        jConnectionTypes = cTypes;
+        // pruning any connection types from this list that are not in the system classpath
+        // jConnectionTypes holds ALL connections that VCCI is able to make, but does not account
+        // for what the user is licensed for. This method removes any unlicensed adaptors from this list,
+        // but they maintain in the database.
+        pruneUnlicensedConnectionTypes();
+    }
+
+    /**
+     * Removes any connection types from jConnectionTypes that are not on the system classpath
+     * - AKA that the user is not licensed to use
+     */
+    private void pruneUnlicensedConnectionTypes() {
+        ListIterator<DConnectionType> iterator = jConnectionTypes.listIterator();
+        while (iterator.hasNext()) {
+            DConnectionType cType = iterator.next();
+            Constructor<?> ctor = null;
+            try {
+                // determine if connection class is on the classpath
+                Class<?> c = Class.forName(cType.getConnectionTypeComponentName(), false, Thread.currentThread().getContextClassLoader());
+                ctor = c.getConstructor();
+            } catch (Exception ex) {
+                // connection class is not on the classpath - remove from connection type list
+                jL.warn("Connection Type <{}> removed : Adaptor not available.", cType);
+                iterator.remove();
+            }
+        }
+    }
+
+    public DConnectionType getConnectionTypeByName(String name) {
+        for (DConnectionType cType : jConnectionTypes) {
+            if (cType.getConnectionTypeName().equalsIgnoreCase(name)) {
+                return cType;
+            }
+        }
+        return null;
+    }
+
+    public DConnectionType getConnectionTypeByConnectionTypeId(long id) {
+        for (DConnectionType cType : jConnectionTypes) {
+            if (cType.getConnectionTypeId() == id) {
+                return cType;
+            }
+        }
+        return null;
+    }
+
+    private ImageIcon getConnectionIcon(DConnection dc) {
+        DConnectionType dct = getConnectionTypeByConnectionTypeId(dc.getConnectionTypeId());
+        if (dct == null) {
+            return null;
+        }
+        String name = dct.getConnectionTypeName();
+        if (null != name) {
+            switch (name) {
+                case Constants.CT_HIVE:
+                    return STSIcons.jCT_HIVE24x24_DarkIcon;
+                case Constants.CT_API:
+                    return STSIcons.jCT_API24x24_DarkIcon;
+                case Constants.CT_TSI:
+                    return STSIcons.jCT_TSI24x24_LightIcon;
+                case Constants.CT_DIS:
+                    return STSIcons.jCT_DIS24x24_LightIcon;
+                case Constants.CT_DIS_CATT:
+                    return STSIcons.jCT_DIS24x24_LightIcon;
+                case Constants.CT_DIS_AUDIO:
+                    return STSIcons.jCT_DIS24x24_LightIcon;
+                case Constants.CT_OMDB_PLAYBACK:
+                    return STSIcons.jCT_Playback24x24_LightIcon;
+                case Constants.CT_CSF:
+                    return VCCIIcons.jConnectionCSFC2IEDMIcon;
+                case Constants.CT_JCATS:
+                    return STSIcons.jCT_JCATS24x24_LightIcon;
+                case Constants.CT_ABACUS_V35:
+                    return STSIcons.jCT_Abacus24x24_LightIcon;
+                case Constants.CT_OTHGOLD:
+                    return STSIcons.jCT_OTHGold24x24_LightIcon;
+                case Constants.CT_LINK16:
+                    return STSIcons.jCT_Link1624x24_LightIcon;
+                case Constants.CT_VSM:
+                    return STSIcons.jCT_VSM24x24_LightIcon;
+                case Constants.CT_VBS2:
+                    return STSIcons.jCT_VBS24x24_LightIcon;
+                case Constants.CT_VBS_PIPELINE:
+                    return STSIcons.jCT_VBS24x24_LightIcon;
+                case Constants.CT_GMTI:
+                    return STSIcons.jCT_GMTI24x24_LightIcon;
+                case Constants.CT_VMF:
+                    return STSIcons.jCT_VMF24x24_LightIcon;
+                case Constants.CT_NFFI:
+                    return STSIcons.jCT_NFFI24x24_LightIcon;
+                case Constants.CT_FFI:
+                    return STSIcons.jCT_FFI24x24_LightIcon;
+                case Constants.CT_HLA_LEGACY:
+                    return STSIcons.jCT_HLA24x24_LightIcon;
+                case Constants.CT_HLA:
+                    return STSIcons.jCT_HLA24x24_LightIcon;
+                case Constants.CT_ION:
+                    return STSIcons.jCT_ION24x24_DarkIcon;
+                case Constants.CT_XMPP:
+                    return STSIcons.jCT_XMPP24x24_LightIcon;
+                case Constants.CT_DDS:
+                    return STSIcons.jCT_DDS24x24_LightIcon;
+                case Constants.CT_CLOCS:
+                    return STSIcons.jCT_CLOCS24x24_LightIcon;
+                case Constants.CT_MASASWORD:
+                    return STSIcons.jCT_MASA24x24_LightIcon;
+                case Constants.CT_TAK:
+                    return STSIcons.jCT_TAK24x24_LightIcon;
+                case Constants.CT_ADSB:
+                    return STSIcons.jCT_Adsb24x24_DarkIcon;
+                case Constants.CT_NVG:
+                    return STSIcons.jCT_NVG24x24_DarkIcon;
+                case Constants.CT_NVG_IN:
+                    return STSIcons.jCT_NVG24x24_DarkIcon;
+                case Constants.CT_MIP43:
+                case Constants.CT_MIP44:
+                    return STSIcons.jCT_MIP24x24_DarkIcon;
+                case Constants.CT_SITAWARE_FRONTLINE:
+                    return STSIcons.jCT_Frontline24x24_DarkIcon;
+                case Constants.CT_AP_TIMS:
+                    return STSIcons.jCT_API24x24_LightIcon; // TODO need to add icon for APTIMS
+                case Constants.CT_SITAWARE_HQ:
+                    return STSIcons.jCT_SitaWare24x24_DarkIcon;
+                case Constants.CT_TACTERIS_MAESTRO:
+                    return STSIcons.jCT_Tacteris24x24_DarkIcon;
+                case Constants.CT_NMEA_0183:
+                    return STSIcons.jCT_NMEA24x24_DarkIcon;
+                case Constants.CT_JTLS_GO:
+                    return STSIcons.jCT_JTLS_GO24x24_LightIcon;
+                case Constants.CT_LOGFAS:
+                    return STSIcons.jCT_LOGFAS24x24_DarkIcon;
+                case Constants.CT_MSSV:
+                    return STSIcons.jCT_CLOCS24x24_LightIcon; // @TODO need to add icon for MSSV
+                default:
+                    break;
+            }
+        }
+        return CommonIcons.jDefaultConnection24x24Icon;
+    }
+
+    protected ImageIcon getDataflowIcon(DSystemCapability df) {
+        String iconKey = df.getSystemCapabilityName();
+        if (iconKey != null) {
+            if (jDFSIcons.containsKey(iconKey)) {
+                return jDFSIcons.get(iconKey);
+            } else {
+                System.err.println("!! ICON ALERT : No Icon for Key : " + iconKey);
+            }
+        }
+        return null;
+    }
+
+    public boolean isDFSNameUnique(
+            String name,
+            DDataFlowSpecification ignore) {
+        LinkedList<DDataFlowSpecification> dataflows = jVCCITreeDisplayPanel.getDataFlowSpecs();
+
+        for (DDataFlowSpecification dfs : dataflows) {
+            if (ignore != null) {
+                if (ignore.getDataFlowSpecificationIndex() == dfs.getDataFlowSpecificationIndex()) {
+                    continue;
+                }
+            }
+            if (name.equals(dfs.getDataFlowSpecificationName())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void processDFSPanelSave(
+            DDataFlowSpecification specification,
+            boolean isUpdate) {
+        sendCreateUpdateDataFlowSpecificationRequest(specification, isUpdate);
+    }
+
+    public void processDFSPanelMultiSave(
+            List<DDataFlowSpecification> specificationList,
+            boolean isUpdate) {
+        specificationList.forEach(specification
+                -> sendCreateUpdateDataFlowSpecificationRequest(specification, isUpdate));
+    }
+
+    private void sendCreateUpdateDataFlowSpecificationRequest(
+            DDataFlowSpecification specification, boolean isUpdate) {
+        specification.setIsComplete(true);
+        if (ParadigmSwingUIDirector.jUIDirector != null) {
+            CreateUpdateDataFlowSpecificationRequest request
+                    = new CreateUpdateDataFlowSpecificationRequest(specification, isUpdate);
+
+            ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                    VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                    VCCIControlPanel.class.getCanonicalName(),
+                    MediationService.class.getCanonicalName(),
+                    MediationService.CREATE_UPDATE_DATA_FLOW_SPECIFICATION, request, true);
+        }
+    }
+
+    public boolean isFolderNameUnique(
+            String name,
+            DFolder ignore) {
+
+        // Check all folders
+        LinkedList<DFolder> folders = jVCCITreeDisplayPanel.getFolders(false);
+
+        for (DFolder folder : folders) {
+            if (ignore != null) {
+                if (ignore.getFolderId() == folder.getFolderId()) {
+                    // Don't check for uniqueness for one being edited
+                    continue;
+                }
+            }
+            if (name.equals(folder.getFolderName())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected void addFolderAction(IVCCIUIControlObject uiObj) {
+
+        DFolder rightClickedParent = null;
+        LinkedList<DFolder> folders = jVCCITreeDisplayPanel.getFolders(false);
+
+        if (uiObj != null) {
+            if (uiObj.isFolder()) {
+                rightClickedParent = uiObj.getFolder();
+            }
+        }
+
+        jAddFolderPanel.setExistingFolders(rightClickedParent, folders);
+        jAddFolderParentPanel.setVisible(true);
+        revalidate();
+        jAddFolderPanel.setCorrectFocus();
+    }
+
+    public void processAddedFolder() {
+        // Remove panel
+        jAddFolderParentPanel.setVisible(false);
+        revalidate();
+
+        if (!jAddFolderPanel.isOKSelected()) {
+            return;
+        }
+
+        String newFolderName = jAddFolderPanel.getFolderName();
+        DFolder parentFolder = jAddFolderPanel.getParentFolder();
+
+        if (parentFolder == null) {
+            parentFolder = jHiddenFolder;
+        }
+        DFolder folder = new DFolder(
+                DBConstants.INVALID_ID,
+                parentFolder == null ? DBConstants.INVALID_ID : parentFolder.getFolderId(),
+                newFolderName,
+                GFolder.FOLDER_CATEGORY_CODE_NOS,
+                GFolder.FOLDER_COMPLETE_CODE_YES);
+        folder.setIsComplete(true);
+
+        CreateUpdateFolderRequest cufr = new CreateUpdateFolderRequest(
+                Request.CRUDMarker.CREATE,
+                CreateUpdateFolderRequest.UpdateType.ADD,
+                folder,
+                parentFolder);
+
+        ParadigmSwingUIDirector.jUIDirector.issueFeatureRequest(this,
+                VCCIDashBoard.getCurrentExercise().getBrokerKey(),
+                VCCIControlPanel.class
+                        .getCanonicalName(),
+                MediationService.class
+                        .getCanonicalName(),
+                MediationService.CREATE_UPDATE_FOLDER, cufr, true);
+    }
+
+    public LinkedList<DFolder> getTopLevelFolders() {
+        return jVCCITreeDisplayPanel.getTopLevelFolders();
+    }
+
+    public LinkedList<DDataFlowSpecification> getDataflows() {
+        LinkedList<DDataFlowSpecification> normalDFS = jVCCITreeDisplayPanel.getDataFlowSpecs();
+        LinkedList<DDataFlowSpecification> specialDFS = getSpecialDataFlows();
+        normalDFS.addAll(specialDFS);
+        return normalDFS;
+    }
+
+    public LinkedList<DConnection> getConnections() {
+        return jVCCITreeDisplayPanel.getConnections();
+    }
+
+    public LinkedList<DConnectionType> getConnectionTypes() {
+        LinkedHashMap<String, DConnectionType> connTypesHash = new LinkedHashMap<>();
+
+        LinkedList<DConnection> conns = getConnections();
+
+        DConnectionType cType;
+        for (DConnection dc : conns) {
+            cType = getConnectionType(dc);
+            if (cType != null && !connTypesHash.containsKey(cType.getConnectionTypeName())) {
+                if (cType == null) {
+                    jL.warn("getConnectionTypes - could not create connection type {}", dc.getConnectionName());
+                }
+                connTypesHash.put(cType.getConnectionTypeName(), cType);
+            }
+        }
+
+        return new LinkedList<>(connTypesHash.values());
+    }
+
+    public LinkedList<DSystemCapability> getSystemCapabilities() {
+        return jSystemCapabilities;
+    }
+
+    public void systemViewEditConnectionButtonPress(DConnection conn) {
+        IVCCIUIControlObject uiObj
+                = jVCCITreeDisplayPanel.getConnectionControlObject(conn.getConnectionId());
+        if (uiObj != null) {
+            DConnectionType dct = this.getConnectionType(conn);
+            if (dct != null) {
+                configureConnection(uiObj, conn, dct);
+            }
+        }
+    }
+
+    // ---- IVToolBarControlUser
+    @Override
+    public void toolBarButtonClicked(
+            String toolbar,
+            String buttonIdentifier,
+            JButton b,
+            Object userObject) {
+        DSystemCapability sc = (DSystemCapability) userObject;
+        capabilityButtonPressed(sc);
+    }
+
+    // ---- IPanelCarrierPayload
+    public JPanel getPanel() {
+        return this;
+    }
+
+    public String getTitle() {
+        return "Control Panel";
+    }
+
+    public void setGrayedOut(boolean val) {
+        // Handle the icon buttons for the data flows (if we are enabling here)
+        // since the above call just greys everything out
+        if (!val) {
+            DDataFlowSpecification dfs;
+            LinkedList<DataFlowManager> mgrs = new LinkedList<>(jDFSManagersHash.values());
+
+            for (DataFlowManager dfm : mgrs) {
+                dfm.updateUIControlObjectButtons();
+
+                // If the data flow is not complete
+                dfs = dfm.getDFS();
+                if (dfs != null && !dfs.isComplete()) {
+                    IVCCIUIControlObject uiObj = dfm.getUIControlObject();
+                    if (uiObj != null) {
+                        uiObj.markIncomplete(true);
+                    }
+                }
+            }
+        }
+        enableCapabilities(!val);
+    }
+
+    // ---- IFRREnabled
+    @Override
+    public void processResponse(FeatureRequestResponse frr) {
+        //VCCI-Cohere Changes
+        jL.debug("DEBUG VCCI: processResponse() called.");
+
+        if (frr == null) {
+            jL.debug("DEBUG VCCI: FRR is NULL.");
+            return;
+        }
+
+        jL.debug("DEBUG VCCI: Feature ID = " + frr.getComponentFeatureID());
+        jL.debug("DEBUG VCCI: State = " + frr.getStateString());
+
+        BTO params = frr.getFeatureParameters();
+
+        if (params == null) {
+            jL.debug("DEBUG VCCI: Feature parameters are NULL.");
+            return;
+        }
+        jL.debug("DEBUG VCCI: Response object class = " + params.getClass().getName());
+        if (params instanceof AISGetCommandsRequest) {
+            jL.debug("DEBUG VCCI: AISGetCommandsRequest DISPATCHED");
+            AISGetCommandsRequest response = (AISGetCommandsRequest) params;
+            HashMap<String, String> agentURLs = response.getAgentURLs();
+            jL.debug("========================================");
+            jL.debug("DEBUG VCCI: AGENT URL MAP = " + agentURLs);
+            jL.debug("DEBUG VCCI: AISGetCommandsRequest RECEIVED");
+            jL.debug("DEBUG VCCI: AI CORE RESPONSE RECEIVED");
+            jL.debug("========================================");
+
+            HashMap<String, List<String>> commandData = response.getCommandList();
+
+            if (commandData == null) {
+                jL.debug("DEBUG VCCI: AI Core commandData is NULL");
+                return;
+            }
+
+            jL.debug("DEBUG VCCI: AI Core returned " + commandData.size() + " agent(s)");
+
+            synchronized (jAIServiceAgents) {
+                jAIServiceAgents.clear();
+                jAIServiceAgents.putAll(commandData);
+                jAIServiceAgentURLs.clear();
+                jAIServiceAgentURLs.putAll(agentURLs);
+            }
+
+            for (Map.Entry<String, List<String>> entry : commandData.entrySet()) {
+                jL.debug("DEBUG VCCI: AI CORE AGENT -> " + entry.getKey() + " | Commands = " + entry.getValue());
+            }
+
+            jL.debug("DEBUG VCCI: AI Core agents cached successfully");
+        }
+         //End VCCI-Cohere Changes
+    }
+
+    @Override
+    public void processRequestFailed(FeatureRequestResponse frr) {
+        BTO params = frr.getFeatureParameters();
+        if (params instanceof CreateUpdateDataFlowSpecificationRequest) {
+            // Check to see if we failed to start the DISRouter or Disaggregation dataflows
+            CreateUpdateDataFlowSpecificationRequest request = (CreateUpdateDataFlowSpecificationRequest) params;
+            DDataFlowSpecification dfs = request.getDataFlowSpecification();
+            checkSpecialDataflows(dfs);
+        } else {
+            String msgStr = String.format("Feature request : %s did not get successfully executed. State : %s", frr.getComponentFeatureID(), frr.getStateString());
+            VCCIDashBoard.setError(msgStr);
+        }
+    }
+
+    private void checkSpecialDataflows(DDataFlowSpecification dfs) {
+        if (dfs != null) {
+            String flow = dfs.getDataFlowSpecificationName();
+            if (Constants.CA_ROUTER.equals(flow)) {
+                VCCIDashBoard.setError("Unable to create DISRouter Dataflow! Some VCCI functions will not be possible.");
+            } else if (Constants.CA_DISAGGREGATION.equals(flow)) {
+                VCCIDashBoard.setError("Unable to create Disaggregation Dataflow! Some VCCI functions will not be possible.");
+            } else if (Constants.CA_GIS.equals(flow)) {
+                VCCIDashBoard.setError("Unable to create GIS Dataflow! Some VCCI functions will not be possible.");
+            } else if (Constants.CA_OTH_SERVER.equals(flow)) {
+                VCCIDashBoard.setError("Unable to create OTH Server Dataflow! Some VCCI functions will not be possible.");
+            } else if (Constants.CA_RAP.equals(flow)) {
+                VCCIDashBoard.setError("Unable to create RAP Dataflow! Some VCCI functions will not be possible.");
+            } else if (Constants.CA_LINK16_SERVER.equals(flow)) {
+                VCCIDashBoard.setError("Unable to create Link-16 Server Dataflow! Some VCCI functions will not be possible.");
+            } else if (Constants.CA_FFI_SERVER.equals(flow)) {
+                VCCIDashBoard.setError("Unable to create FFI Server Dataflow! Some VCCI functions will not be possible.");
+            }
+        }
+    }
+
+    protected void initializeConnectionManager(
+            IVCCIUIControlObject uiObj,
+            DConnection dc) {
+
+        DConnectionType dct;
+        if (dc != null) {
+            dct = getConnectionType(dc);
+            if (dct == null) {
+                jL.warn("initializeConnectionManager- cannot initialize connection manager for {}: connection type is null", dc.getConnectionName());
+                return;
+            }
+
+            ConnectionManager connMgr;
+            DConnectionType ctype = getConnectionTypeByConnectionTypeId(dc.getConnectionTypeId());
+            String cType = ctype.getConnectionTypeName();
+
+            if (jConnectionManagerLookupHash.containsKey(cType)) {
+                String handlerClass = jConnectionManagerLookupHash.get(cType);
+                try {
+                    Class<?> c = Class.forName(handlerClass, false, Thread.currentThread().getContextClassLoader());
+                    Constructor<?> ctor = c.getConstructor(
+                            String.class,
+                            DConnection.class,
+                            IVCCIUIControlObject.class
+                    );
+                    connMgr = (ConnectionManager) ctor.newInstance(dc.getConnectionName(), dc, uiObj);
+                    jConnectionManagersHash.put(dc.getConnectionId(), connMgr);
+                    connMgr.initialize(dc.isComplete());
+                } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+                         | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                    jL.error(ex.getMessage(), ex);
+                    VCCIDashBoard.setError(ex.getMessage());
+                }
+            }
+        }
+    }
+
+    private void showConnectionsCheckBoxClicked() {
+        jVCCITreeDisplayPanel.showConnections(jShowConnectionsCheckBox.isSelected());
+    }
+
+    // ---- IIconButtonUser
+    @Override
+    public void buttonPressed(IconButton button, String identifier) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void capabilityButtonPressed(CapabilityButton cb) {
+        capabilityButtonPressed(cb.getSystemCapability());
+    }
+
+    private void handleUIControlObjectButtonClick(IVCCIUIControlObject uiObj,
+                                                  String identifier) {
+        if (uiObj.isDataFlow()) {
+            DDataFlowSpecification dfs = uiObj.getDataFlow();
+            jCurrentDataFlow = dfs;
+            issueCommand(uiObj, dfs, dfs.getDataFlowSpecificationIndex(), identifier);
+        } else if (uiObj.isConnection()) {
+            DConnection dc = uiObj.getConnection();
+            jCurrentConnection = dc;
+            issueCommand(uiObj, dc, dc.getConnectionId(), identifier);
+        } else if (uiObj.isFolder()) {
+            DFolder folder = uiObj.getFolder();
+            issueCommand(uiObj, folder, folder.getFolderId(), identifier);
+        }
+    }
+
+    // ---- IVCCIUIControlObjectUser
+    @Override
+    public void buttonClicked(
+            IVCCIUIControlObject uiObj,
+            String identifier) {
+        handleUIControlObjectButtonClick(uiObj, identifier);
+    }
+
+    public static boolean isFirstWorseThanSecond(
+            NodeMarking m1,
+            NodeMarking m2) {
+        switch (m1) {
+            case NORMAL:
+                switch (m2) {
+                    case NORMAL:
+                    case ERROR:
+                    case WARNING:
+                    case UNKNOWN:
+                        return false;
+                }
+                break;
+            case ERROR:
+                switch (m2) {
+                    case ERROR:
+                        return false;
+                    case NORMAL:
+                    case WARNING:
+                    case UNKNOWN:
+                        return true;
+                }
+                break;
+            case WARNING:
+                switch (m2) {
+                    case NORMAL:
+                    case UNKNOWN:
+                        return true;
+                    case ERROR:
+                    case WARNING:
+                        return false;
+                }
+                break;
+            case UNKNOWN:
+                switch (m2) {
+                    case NORMAL:
+                        return true;
+                    case ERROR:
+                    case WARNING:
+                    case UNKNOWN:
+                        return false;
+                }
+                break;
+
+        }
+        return false;
+    }
+
+    public static String markingToString(NodeMarking m) {
+        switch (m) {
+            case NORMAL:
+                return "NORMAL";
+            case ERROR:
+                return "ERROR";
+            case WARNING:
+                return "WARNING";
+            case UNKNOWN:
+                return "UNKNOWN";
+        }
+        return null;
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        jNorthPanel = new javax.swing.JPanel();
+        jShowConnectionsCheckBox = new javax.swing.JCheckBox();
+        jAddFolderParentPanel = new javax.swing.JPanel();
+        jCenterPanel = new javax.swing.JPanel();
+        jSouthPanel = new javax.swing.JPanel();
+
+        setName("vcciControlPanel"); // NOI18N
+        setOpaque(false);
+        setLayout(new java.awt.BorderLayout());
+
+        jNorthPanel.setLayout(new java.awt.BorderLayout());
+
+        jShowConnectionsCheckBox.setSelected(true);
+        jShowConnectionsCheckBox.setText("Show Connections");
+        jShowConnectionsCheckBox.setFocusPainted(false);
+        jShowConnectionsCheckBox.setFocusable(false);
+        jShowConnectionsCheckBox.setName("vcciControlCheckBoxShow"); // NOI18N
+        jShowConnectionsCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jShowConnectionsCheckBoxActionPerformed(evt);
+            }
+        });
+        jNorthPanel.add(jShowConnectionsCheckBox, java.awt.BorderLayout.PAGE_START);
+
+        jAddFolderParentPanel.setLayout(new java.awt.BorderLayout());
+        jNorthPanel.add(jAddFolderParentPanel, java.awt.BorderLayout.CENTER);
+
+        add(jNorthPanel, java.awt.BorderLayout.NORTH);
+
+        jCenterPanel.setName("vcciControlPanelCenter"); // NOI18N
+        jCenterPanel.setLayout(new java.awt.BorderLayout());
+        add(jCenterPanel, java.awt.BorderLayout.CENTER);
+
+        jSouthPanel.setLayout(new java.awt.BorderLayout());
+        add(jSouthPanel, java.awt.BorderLayout.SOUTH);
+    }// </editor-fold>                        
+
+    private void jShowConnectionsCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {                                                         
+        showConnectionsCheckBoxClicked();
+    }                                                        
+
+    // Variables declaration - do not modify                     
+    private javax.swing.JPanel jAddFolderParentPanel;
+    private javax.swing.JPanel jCenterPanel;
+    private javax.swing.JPanel jNorthPanel;
+    private javax.swing.JCheckBox jShowConnectionsCheckBox;
+    private javax.swing.JPanel jSouthPanel;
+    // End of variables declaration                   
+
+}
