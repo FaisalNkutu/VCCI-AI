@@ -1,0 +1,49 @@
+/*
+ * Copyright 2025 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+
+package com.simfront.vcci.ui;
+
+import com.calian.paradigm.core.bto.BTO;
+import com.calian.paradigm.core.bto.notifications.mediation.MediationStatusesNotification;
+import com.calian.paradigm.ui.framework.framework.IApplicationUIProvider;
+import com.calian.paradigm.ui.framework.framework.UIDelegate;
+import com.simfront.vcci.VcciMain;
+import com.simfront.vcci.ui.dashboard.VCCIDashBoard;
+
+import javax.swing.*;
+import java.util.LinkedHashMap;
+
+/**
+ *
+ * @author R.Hans
+ */
+public class VCCIUIDelegate extends UIDelegate {
+
+    public static final String LAUNCH_EXERCISE = "LAUNCH_EXERCISE";
+
+    public VCCIUIDelegate(VCCIUIComponent vc) {
+        super(vc);
+    }
+
+    @Override
+    public IApplicationUIProvider createUIProvider(LinkedHashMap<String, Object> parameters) {
+        VCCIDashBoard dashBoard = new VCCIDashBoard(VcciMain.jUIRole);
+        SwingUtilities.invokeLater(() -> {
+            dashBoard.setAlwaysOnTop(true);
+            dashBoard.toFront();
+            dashBoard.requestFocus();
+            dashBoard.setAlwaysOnTop(false);
+        });
+        return dashBoard;
+    }
+
+    public boolean isPriority(BTO bto) {
+        if (bto instanceof MediationStatusesNotification) {
+            return true;
+        }
+        return super.isPriority(bto);
+    }
+
+}
