@@ -1,0 +1,362 @@
+/*
+ * Copyright 2025 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+
+package com.calian.paradigm.ui.framework.framework;
+
+import com.calian.paradigm.core.UI;
+import com.calian.paradigm.core.bto.model.*;
+import com.calian.paradigm.core.bto.BTO;
+import com.calian.paradigm.core.bto.model.*;
+import com.calian.paradigm.core.bto.model.ui.DisplayableContent;
+import com.calian.paradigm.core.bto.model.ui.DisplayableMessage;
+import com.calian.paradigm.core.bto.model.ui.UINotification;
+import com.calian.paradigm.core.bto.notifications.BrokerNotification;
+import com.calian.common.lib.log.Log;
+import com.calian.paradigm.ui.framework.ProxyBTO;
+import com.calian.paradigm.ui.framework.UIComponent;
+import org.slf4j.Logger;
+
+import javax.swing.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
+
+/**
+ * @author R.Hans
+ */
+public abstract class UIDelegate {
+
+    protected static final Logger jL = Log.getLogger(UIDelegate.class);
+
+    protected final LinkedBlockingQueue<Object> jUIPriorityQueue = new LinkedBlockingQueue<>();
+    protected final LinkedBlockingQueue<Object> jUIMessageQueue = new LinkedBlockingQueue<>();
+    private long jInternalFRRID = 0;
+    protected UIComponent jUIComponent;
+    protected ParadigmSwingUIDirector jUIDirector = null;
+    final LinkedHashMap<Long, IFRREnabled> jFRRHandlers = new LinkedHashMap<>();
+    final LinkedHashMap<Class<?>, LinkedList<IUINotificationEnabled>> jPublishedObjectSubscribers = new LinkedHashMap<>();
+    private BTO jFeatureParameters = null;
+    IApplicationUIProvider jUIProvider = null;
+
+    public void startSwingThread() {
+        // Grab the current context class loader created by the main application
+        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        // Start the User Interface
+        SwingUtilities.invokeLater(() -> {
+            try {
+                Thread.currentThread().setContextClassLoader(loader);
+                long t = System.currentTimeMillis();
+                jUIDirector = new ParadigmSwingUIDirector(
+                        this,
+                        this.jUIPriorityQueue,
+                        this.jUIMessageQueue);
+                LinkedHashMap<String, Object> parameters = this.jUIComponent.getComponentParameters().getParameters();
+                jUIProvider = createUIProvider(parameters);
+                jUIDirector.setAppUIProvider(jUIProvider);
+                jUIProvider.initialize();
+                UIDelegate.jL.info("Swing Thread loaded in " + (System.currentTimeMillis() - t) + " milliseconds");
+                // Check to see if something unrecoverable happened while the UI Component was starting up.
+                String criticalErrorMessage = jUIComponent.getComponentGroup().isCriticalErrorEncountered();
+                if (criticalErrorMessage != null) {
+                    jUIProvider.handleCriticalError(criticalErrorMessage);
+                }
+            } catch (Throwable ex) {
+                UIDelegate.jL.error("Trapped critical exception. System will be shutdown: " + ex.getMessage(), ex);
+                if (jUIProvider != null) {
+                    jUIProvider.handleCriticalError("Critical error encountered.  Check logs for details.");
+                }
+            }
+        });
+    }
+
+    public UIDelegate(UIComponent uic) {
+        jUIComponent = uic;
+    }
+
+    private void setCaller(IFRREnabled frrEnabled) {
+        if (frrEnabled == null) {
+            // Caller will not be notified
+            return;
+        }
+        long id = ++jInternalFRRID;
+        if (jFeatureParameters == null) {
+            // We add a proxy BTO just to carry the internal Id so that we
+            // can properly route the response
+            jFeatureParameters = new ProxyBTO();
+        }
+        jFeatureParameters.setInternalId(id);
+        synchronized (jFRRHandlers) {
+            jFRRHandlers.put(id, frrEnabled);
+        }
+    }
+
+    public abstract IApplicationUIProvider createUIProvider(LinkedHashMap<String, Object> parameters);
+
+    private IFRREnabled getCaller(long id) {
+        Long key = id;
+        synchronized (jFRRHandlers) {
+            if (jFRRHandlers.containsKey(key)) {
+                IFRREnabled ifre = jFRRHandlers.get(key);
+                jFRRHandlers.remove(key);
+                return ifre;
+            }
+        }
+        return null;
+    }
+
+    public void clearFRRHandlers() {
+        synchronized (jFRRHandlers) {
+            jFRRHandlers.clear();
+        }
+    }
+
+    public void removeObjectNotificationSubscriptions(IUINotificationEnabled nEnabled) {
+        synchronized (jPublishedObjectSubscribers) {
+            // Here keys are the class names that are being subscribed to
+            Set<Class<?>> keys = jPublishedObjectSubscribers.keySet();
+            Iterator<Class<?>> iter = keys.iterator();
+            Class<?> clazz;
+            LinkedList<IUINotificationEnabled> subscribers;
+            while (iter.hasNext()) {
+                clazz = iter.next();
+
+                // Get all subscribers
+                subscribers = jPublishedObjectSubscribers.get(clazz);
+                subscribers.remove(nEnabled);
+            }
+        }
+        //printSubscriptions("REMOVING");
+    }
+
+    public void subscribeToObjectNotification(
+            Class<?> clazz,
+            IUINotificationEnabled nEnabled) {
+        synchronized (jPublishedObjectSubscribers) {
+            LinkedList<IUINotificationEnabled> subscribers = jPublishedObjectSubscribers.get(clazz);
+            if (subscribers == null) {
+                subscribers = new LinkedList<>();
+                subscribers.add(nEnabled);
+                jPublishedObjectSubscribers.put(clazz, subscribers);
+            } else {
+                for (IUINotificationEnabled p : subscribers) {
+                    if (p == nEnabled) {
+                        // Mapping already exists
+                        return;
+                    }
+                }
+                subscribers.add(nEnabled);
+            }
+        }
+        jUIComponent.subscribeToObjectNotification(clazz);
+        jUIComponent.getComponentGroup().updateBrokerServers();
+    }
+
+    public void processFeatureResponse(FeatureRequestResponse frr) {
+        // Get id of request
+        BTO parameters = frr.getFeatureParameters();
+        if (parameters == null) {
+            jL.error("No parameters found in response : cannot process!");
+            return;
+        }
+        long id = parameters.getInternalId();
+        // Get the caller
+        IFRREnabled caller = getCaller(id);
+        if (caller != null) {
+            DispatchFRR msg = new DispatchFRR(caller, frr);
+
+            if (isPriority(frr)) {
+                jUIPriorityQueue.add(msg);
+            } else {
+                jUIMessageQueue.add(msg);
+            }
+        } else {
+            jL.error("No handler found for FRR! request id = " + id + ", Description = " + frr);
+        }
+    }
+
+    public void processPublishedObjectNotification(
+            BrokerKey brokerKey,
+            String srcComponentID,
+            Class<?> clazz,
+            BTO obj) {
+        UINotification uiNotification = new UINotification(brokerKey, obj);
+        synchronized (jPublishedObjectSubscribers) {
+            for (Class<?> subClass : jPublishedObjectSubscribers.keySet()) {
+                if (subClass.isInstance(obj)) {
+                    LinkedList<IUINotificationEnabled> subscribers = jPublishedObjectSubscribers.get(subClass);
+                    if (subscribers == null) {
+                        continue;
+                    }
+                    DispatchUINotification dispatchMessage;
+                    for (IUINotificationEnabled subscriber : subscribers) {
+                        dispatchMessage = new DispatchUINotification(subscriber, uiNotification);
+                        if (isPriority(obj)) {
+                            jUIPriorityQueue.add(dispatchMessage);
+                        } else {
+                            jUIMessageQueue.add(dispatchMessage);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * This method determines if Feature Requests Responses or UI Notifications
+     * are of a higher priority.
+     *
+     * @param bto A reference to the BTO whose priority must be determined
+     * @return true if the BTO is a priority, false otherwise
+     */
+    public boolean isPriority(BTO bto) {
+        return bto instanceof FeatureRequestResponse
+                || bto instanceof BrokerNotification
+                || bto instanceof SystemState
+                || bto instanceof ComponentState
+                || bto instanceof ComponentList
+                || bto instanceof ClockTick
+                || bto instanceof DisplayableContent
+                || bto instanceof DisplayableMessage
+                || bto instanceof InvalidNetworkAdaptorsCarrier;
+    }
+
+    /**
+     * This method will issue a request to execute a component feature. The
+     * component feature may or may not return a result.
+     *
+     * @param componentID       The ID of the component being targetted
+     * @param featureID         The ID of the feature required
+     * @param featureParameters A reference to a FeatureParameters object
+     * @param sendResponse      true if a response must be sent back, false otherwise
+     * @return true if the request was successfully issued, false otherwise.
+     */
+    public boolean issueFeatureRequest(
+            IFRREnabled frrEnabled,
+            String componentID,
+            String featureID,
+            BTO featureParameters,
+            boolean sendResponse) {
+        jFeatureParameters = featureParameters;
+        setCaller(frrEnabled);
+        return jUIComponent.issueFeatureRequest(
+                jUIComponent.getComponentGroup().getGroupBrokerKey(),
+                null,
+                componentID,
+                featureID,
+                jFeatureParameters,
+                sendResponse);
+    }
+
+    /**
+     * This method will issue a request to execute a component feature. The
+     * component feature may or may not return a result.
+     *
+     * @param sourceQualifierName Used by components that have many parts that
+     *                            issue specific requests that require specific responses
+     * @param componentID         The ID of the component being targetted
+     * @param featureID           The ID of the feature required
+     * @param featureParameters   A reference to a FeatureParameters object
+     * @param sendResponse        true if a response must be sent back, false otherwise
+     * @return true if the request was successfully issued, false otherwise.
+     */
+    public boolean issueFeatureRequest(
+            IFRREnabled frrEnabled,
+            String sourceQualifierName,
+            String componentID,
+            String featureID,
+            BTO featureParameters,
+            boolean sendResponse) {
+        jFeatureParameters = featureParameters;
+        setCaller(frrEnabled);
+        return jUIComponent.issueFeatureRequest(
+                jUIComponent.getComponentGroup().getGroupBrokerKey(),
+                sourceQualifierName,
+                componentID,
+                featureID,
+                jFeatureParameters,
+                sendResponse);
+    }
+
+    /**
+     * This method will issue a request to execute a component feature. The
+     * component feature may or may not return a result.
+     *
+     * @param brokerKey           The key of the Broker to which this request applies
+     * @param sourceQualifierName Used by components that have many parts that
+     *                            issue specific requests that require specific responses
+     * @param componentID         The ID of the component being targetted
+     * @param featureID           The ID of the feature required
+     * @param featureParameters   A reference to a FeatureParameters object
+     * @param sendResponse        true if a response must be sent back, false otherwise
+     * @return true if the request was successfully issued, false otherwise.
+     */
+    public boolean issueFeatureRequest(
+            IFRREnabled frrEnabled,
+            BrokerKey brokerKey,
+            String sourceQualifierName,
+            String componentID,
+            String featureID,
+            BTO featureParameters,
+            boolean sendResponse) {
+        jFeatureParameters = featureParameters;
+        setCaller(frrEnabled);
+        return jUIComponent.issueFeatureRequest(
+                brokerKey,
+                sourceQualifierName,
+                componentID,
+                featureID,
+                jFeatureParameters,
+                sendResponse);
+    }
+
+    /**
+     * This method will issue a request to execute a component feature. The
+     * component feature may or may not return a result.
+     *
+     * @param brokerKey           The key of the Broker to which this request applies
+     * @param groupID             The group to which the request must be directed
+     * @param sourceQualifierName Used by components that have many parts that
+     *                            issue specific requests that require specific responses
+     * @param componentID         The ID of the component being targetted
+     * @param featureID           The ID of the feature required
+     * @param featureParameters   A reference to a FeatureParameters object
+     * @param sendResponse        true if a response must be sent back, false otherwise
+     * @return true if the request was successfully issued, false otherwise.
+     */
+    public boolean issueFeatureRequestToGroup(
+            IFRREnabled frrEnabled,
+            BrokerKey brokerKey,
+            String groupID,
+            String sourceQualifierName,
+            String componentID,
+            String featureID,
+            BTO featureParameters,
+            boolean sendResponse) {
+        jFeatureParameters = featureParameters;
+        setCaller(frrEnabled);
+        return jUIComponent.issueFeatureRequestToGroup(
+                brokerKey,
+                groupID,
+                sourceQualifierName,
+                componentID,
+                featureID,
+                jFeatureParameters,
+                sendResponse);
+    }
+
+    public void executeFeatureRequest(FeatureRequestResponse frr) {
+        if (frr.getComponentFeatureID().equals(UI.CONFIRM_PROCESSING)) {
+            jUIPriorityQueue.add(frr);
+        } else {
+            jL.error("Unknown component feature ID : " + frr);
+        }
+    }
+
+    public UIComponent getUIComponent() {
+        return jUIComponent;
+    }
+}
