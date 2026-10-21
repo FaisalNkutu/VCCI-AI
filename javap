@@ -1,0 +1,25 @@
+
+PS C:\dev> javap -classpath "C:\dev\paradigm\paradigm-ui\paradigm-ui-framework\target\paradigm-ui-framework-5.2.0-SNAPSHOT.jar" com.calian.paradigm.ui.framework.framework.IApplicationUIProvider
+Compiled from "IApplicationUIProvider.java"
+public interface com.calian.paradigm.ui.framework.framework.IApplicationUIProvider {
+  public abstract void initialize();
+  public abstract javax.swing.JFrame getApplicationFrame();
+  public abstract com.calian.common.lib.gui.framework.IDockableParent getDockableParent();
+  public abstract com.calian.common.lib.gui.framework.OptionPaneResponse inlineOptionPaneRequest(com.calian.common.lib.gui.framework.OptionsPane$PromptType, java.lang.String);
+  public abstract boolean shouldProcessFRR(com.calian.paradigm.core.bto.model.FeatureRequestResponse);
+  public abstract void queueSizeNotification(int, int);
+  public abstract void processNotification(com.calian.paradigm.ui.framework.framework.IUINotificationEnabled, com.calian.paradigm.core.bto.model.ui.UINotification);
+  public abstract com.calian.paradigm.core.bto.model.BrokerKey getBrokerKey();
+  public abstract com.calian.common.lib.db.DBConn getDbConnection();
+  public abstract com.calian.paradigm.core.bto.model.ComponentList getComponentList();
+  public abstract java.lang.String getInstanceName();
+  public abstract com.calian.paradigm.core.bto.model.ClockTick getClockTick();
+  public abstract com.calian.common.lib.gui.utils.time.IDateTimeFormatProducer getDateTimeFormatProducer();
+  public abstract void setSimTimeOffset(int, int, int, int);
+  public abstract com.calian.paradigm.ui.framework.UIGrouping getUIGrouping();
+  public abstract void activateVisibility();
+  public abstract boolean isSystemReady();
+  public abstract void hideAdminPanel();
+  public abstract void handleCriticalError(java.lang.String);
+}
+PS C:\dev>
