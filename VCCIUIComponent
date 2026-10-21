@@ -1,0 +1,167 @@
+/*
+ * Copyright 2023-2025 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+package com.simfront.vcci.ui;
+
+import com.calian.paradigm.core.bto.BTO;
+import com.calian.paradigm.core.bto.model.BrokerKey;
+import com.calian.paradigm.core.bto.model.InvalidNetworkAdaptorsCarrier;
+import com.calian.paradigm.core.bto.model.SystemEvent;
+import com.calian.paradigm.core.bto.model.aobjs.AObjectItemType;
+import com.calian.paradigm.core.bto.model.gobjs.gen.GActionEvent;
+import com.calian.paradigm.core.bto.model.gobjs.gen.GContext;
+import com.calian.paradigm.core.bto.model.gobjs.gen.GMaterielStatus;
+import com.calian.paradigm.core.bto.model.gobjs.gen.GOrganisationStatus;
+import com.calian.paradigm.core.bto.model.tasks.SystemEventRegistrationTask;
+import com.calian.paradigm.core.bto.notifications.*;
+import com.calian.paradigm.core.bto.model.ComponentParameters;
+import com.calian.paradigm.core.bto.model.ui.DisplayableMessage;
+import com.calian.paradigm.core.controller.ComponentGroup;
+import com.calian.paradigm.lib.gis.notifications.AARClockTickNotification;
+import com.calian.paradigm.lib.gis.notifications.AddElementNotification;
+import com.calian.paradigm.lib.gis.notifications.AutoScreenCaptureDoneNotification;
+import com.calian.paradigm.lib.gis.notifications.AutoScreenCaptureTimeSyncNotification;
+import com.calian.paradigm.lib.gis.notifications.BulkNotification;
+import com.calian.paradigm.lib.gis.notifications.CenterOnNotification;
+import com.calian.paradigm.lib.gis.notifications.CreateElementNotification;
+import com.calian.paradigm.lib.gis.notifications.CreateTrackNotification;
+import com.calian.paradigm.lib.gis.notifications.GenerateSlideNotification;
+import com.calian.paradigm.lib.gis.notifications.InsertPointNotification;
+import com.calian.paradigm.lib.gis.notifications.RemoveElementNotification;
+import com.calian.paradigm.lib.gis.notifications.StopPlayNotification;
+import com.calian.paradigm.lib.gis.notifications.SuspendMapRefreshNotification;
+import com.calian.paradigm.lib.gis.notifications.UpdateLocationNotification;
+import com.calian.paradigm.lib.gis.notifications.UpdatePointLocationNotification;
+import com.calian.paradigm.lib.gis.notifications.UpdateSymbolNotification;
+import com.calian.paradigm.lib.gis.notifications.UpdateTimeSliderBoundsNotification;
+import com.calian.paradigm.lib.gis.notifications.statenotifications.ShapeFileLoadedNotification;
+import com.calian.paradigm.core.util.AggregateUtil;
+import com.calian.paradigm.ui.framework.UIComponent;
+import com.calian.paradigm.ui.sts.panels.cursitview.CursitPanel;
+import com.simfront.vcci.ui.dashboard.VCCIDashBoard;
+
+import javax.swing.*;
+import java.util.LinkedHashMap;
+
+
+/**
+ * This class serves as the User Interface component which is responsible for
+ * interfacing with the system.
+ */
+public class VCCIUIComponent extends UIComponent {
+
+    /**
+     * Constructor.
+     */
+    public VCCIUIComponent() {
+    }
+
+    /**
+     * The method will initialize the component.
+     *
+     * @param componentGroup      The component group to which this component belongs
+     * @param id                  The id of the Component
+     * @param type                The type of Component
+     * @param componentParameters A reference to a ComponentParameters object
+     */
+    @Override
+    public void initialize(
+            ComponentGroup componentGroup,
+            String id,
+            String type,
+            ComponentParameters componentParameters) {
+        super.initialize(componentGroup, id, type, componentParameters);
+
+        subscribeToObjectNotification(DisplayableMessage.class);
+        subscribeToObjectNotification(GActionEvent.class);
+        subscribeToObjectNotification(RemoveElementNotification.class);
+        subscribeToObjectNotification(AddElementNotification.class);
+        subscribeToObjectNotification(UpdatePointLocationNotification.class);
+        subscribeToObjectNotification(UpdateLocationNotification.class);
+        subscribeToObjectNotification(UpdateSymbolNotification.class);
+        subscribeToObjectNotification(CenterOnNotification.class);
+        subscribeToObjectNotification(SuspendMapRefreshNotification.class);
+        subscribeToObjectNotification(AARClockTickNotification.class);
+        subscribeToObjectNotification(StopPlayNotification.class);
+        subscribeToObjectNotification(CreateElementNotification.class);
+        subscribeToObjectNotification(BulkNotification.class);
+        subscribeToObjectNotification(UpdateTimeSliderBoundsNotification.class);
+        subscribeToObjectNotification(CreateTrackNotification.class);
+        subscribeToObjectNotification(InsertPointNotification.class);
+        subscribeToObjectNotification(ORBATModifiedNotification.class);
+        subscribeToObjectNotification(ObjectItemCreateNotification.class);
+        subscribeToObjectNotification(GOrganisationStatus.class);
+        subscribeToObjectNotification(GMaterielStatus.class);
+        // Removed: R. Hans - Not Used - subscribeToObjectNotification(GPersonStatus.class.getCanonicalName());
+        subscribeToObjectNotification(MapperChangeNotification.class);
+        subscribeToObjectNotification(GenerateSlideNotification.class);
+        subscribeToObjectNotification(AutoScreenCaptureTimeSyncNotification.class);
+        subscribeToObjectNotification(AutoScreenCaptureDoneNotification.class);
+        subscribeToObjectNotification(AObjectItemType.class);
+        subscribeToObjectNotification(RoutesNotification.class);
+        subscribeToObjectNotification(ShapeFileLoadedNotification.class);
+        subscribeToObjectNotification(LoadMapsNotification.class);
+        subscribeToObjectNotification(GContext.class);
+        subscribeToObjectNotification(InvalidNetworkAdaptorsCarrier.class);
+    }
+
+    @Override
+    protected void dependentsReadyNotification() {
+        super.dependentsReadyNotification();
+        // Register for System Events
+        SystemEventRegistrationTask task = new SystemEventRegistrationTask(jID);
+        task.addRegistration(SystemEvent.Event.ABACUS_STATIC_FILL_COMPLETE, null);
+        registerForSystemEvents(task);
+    }
+
+    @Override
+    public void addGisLicenseError() {
+        super.addGisLicenseError();
+        if (jUIDelegate instanceof VCCIUIDelegate) {
+            VCCIUIDelegate delegate = (VCCIUIDelegate) jUIDelegate;
+            if (delegate.getUIComponent() != null) {
+                CursitPanel cursit = CursitPanel.jCursitPanel;
+                if (cursit != null) {
+                    cursit.addGisErrorPanel();
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void terminateNotification() {
+        super.terminateNotification();
+        SwingUtilities.invokeLater(() -> {
+            if (VCCIDashBoard.ref() != null) {
+                VCCIDashBoard.ref().exitSwingThread();
+            }
+        });
+    }
+
+    @Override
+    protected VCCIUIDelegate createDelegate() {
+        return new VCCIUIDelegate(this);
+    }
+
+    @Override
+    public void processPublishedObjectNotification(
+            BrokerKey brokerKey,
+            String srcComponentID,
+            Class<?> clazz,
+            BTO obj) {
+        super.processPublishedObjectNotification(brokerKey, srcComponentID, clazz, obj);
+        if (obj instanceof SystemEventNotification) {
+            SystemEventNotification notification = ((SystemEventNotification) obj);
+            LinkedHashMap<SystemEvent.Event, LinkedHashMap<String, SystemEvent>> systemEvents = notification.getSystemEvents();
+            for (LinkedHashMap<String, SystemEvent> systemEventsByProducer : systemEvents.values()) {
+                for (SystemEvent systemEvent : systemEventsByProducer.values()) {
+                    if (systemEvent.getEvent() == SystemEvent.Event.ABACUS_STATIC_FILL_COMPLETE) {
+                        // TODO: Something less hacky
+                        AggregateUtil.setAbacusComponentName(systemEvent.getProducerComponentName());
+                    }
+                }
+            }
+        }
+    }
+}
