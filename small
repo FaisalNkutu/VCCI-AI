@@ -1,0 +1,10 @@
+System.out.println("===== AI CORE DISCOVERY RESPONSE =====");
+
+commands.forEach((commandId, values) ->
+    System.out.println(
+        "COMMAND = " + commandId
+        + " | FRIENDLY DATA = " + values
+    )
+);
+
+System.out.println("======================================");
