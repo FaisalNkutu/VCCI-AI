@@ -1,0 +1,22 @@
+String commandId = entry.getKey();
+
+if (commandId != null && !commandId.isBlank()) {
+
+    List<String> values = entry.getValue();
+
+    String friendlyName =
+            values != null && !values.isEmpty()
+            && values.get(0) != null
+            && !values.get(0).isBlank()
+            ? values.get(0)
+            : commandId;
+
+    discovered.put(
+            commandId,
+            new Agent(
+                    friendlyName,
+                    urls.getOrDefault(commandId, ""),
+                    values
+            )
+    );
+}
