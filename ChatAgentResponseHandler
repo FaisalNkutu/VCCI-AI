@@ -1,0 +1,32 @@
+
+package com.softknf.chat;
+
+import com.calian.paradigm.core.bto.model.FeatureRequestResponse;
+import com.calian.paradigm.ui.framework.framework.IFRREnabled;
+
+import javax.swing.SwingUtilities;
+import java.util.function.Consumer;
+
+public class ChatAgentResponseHandler implements IFRREnabled {
+
+    private final Consumer<FeatureRequestResponse> onSuccess;
+    private final Consumer<FeatureRequestResponse> onFailure;
+
+    public ChatAgentResponseHandler(
+            Consumer<FeatureRequestResponse> onSuccess,
+            Consumer<FeatureRequestResponse> onFailure) {
+
+        this.onSuccess = onSuccess;
+        this.onFailure = onFailure;
+    }
+
+    @Override
+    public void processResponse(FeatureRequestResponse response) {
+        SwingUtilities.invokeLater(() -> onSuccess.accept(response));
+    }
+
+    @Override
+    public void processRequestFailed(FeatureRequestResponse response) {
+        SwingUtilities.invokeLater(() -> onFailure.accept(response));
+    }
+}
