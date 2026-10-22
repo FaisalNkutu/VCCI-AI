@@ -1,0 +1,1012 @@
+[DEBUG] Writing tracking file 'C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\paradigm\ui\paradigm-ui\5.2.0-SNAPSHOT\resolver-status.properties'
+[DEBUG] Using transporter HttpTransporter with priority 5.0 for https://artifactory.ci.simfront.com/artifactory/maven-public
+[DEBUG] Using connector BasicRepositoryConnector with priority 0.0 for https://artifactory.ci.simfront.com/artifactory/maven-public with username=f.nkutu, password=***
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/aiservice/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/aiservice/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 17 kB/s)
+[DEBUG] Writing tracking file 'C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\paradigm\service\aiservice\5.2.0-SNAPSHOT\resolver-status.properties'
+[DEBUG] Skipped remote request for com.calian.paradigm.service:aiservice:5.2.0-SNAPSHOT/maven-metadata.xml, already updated during this session
+[DEBUG] Using transporter HttpTransporter with priority 5.0 for https://artifactory.ci.simfront.com/artifactory/maven-public
+[DEBUG] Using connector BasicRepositoryConnector with priority 0.0 for https://artifactory.ci.simfront.com/artifactory/maven-public with username=f.nkutu, password=***
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/paradigm-services/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/paradigm-services/5.2.0-SNAPSHOT/maven-metadata.xml (625 B at 10 kB/s)
+[DEBUG] Writing tracking file 'C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\paradigm\service\paradigm-services\5.2.0-SNAPSHOT\resolver-status.properties'
+[DEBUG] Using transporter HttpTransporter with priority 5.0 for https://artifactory.ci.simfront.com/artifactory/maven-public
+[DEBUG] Using connector BasicRepositoryConnector with priority 0.0 for https://artifactory.ci.simfront.com/artifactory/maven-public with username=f.nkutu, password=***
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicoredata/1.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicoredata/1.0.0-SNAPSHOT/maven-metadata.xml (988 B at 16 kB/s)
+[DEBUG] Writing tracking file 'C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicoredata\1.0.0-SNAPSHOT\resolver-status.properties'
+[DEBUG] Skipped remote request for com.calian:aicoredata:1.0.0-SNAPSHOT/maven-metadata.xml, already updated during this session
+[DEBUG] Using transporter HttpTransporter with priority 5.0 for https://artifactory.ci.simfront.com/artifactory/maven-public
+[DEBUG] Using connector BasicRepositoryConnector with priority 0.0 for https://artifactory.ci.simfront.com/artifactory/maven-public with username=f.nkutu, password=***
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicore/1.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicore/1.0.0-SNAPSHOT/maven-metadata.xml (769 B at 12 kB/s)
+[DEBUG] Writing tracking file 'C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicore\1.0.0-SNAPSHOT\resolver-status.properties'
+[DEBUG] Could not find metadata com.calian:ms-parent:7.0.0-SNAPSHOT/maven-metadata.xml in local (C:\Users\f.nkutu\.m2-netbeans\repository)
+[DEBUG] Could not find metadata com.calian:ms-parent:7.0.0-SNAPSHOT/maven-metadata.xml in local (C:\Users\f.nkutu\.m2-netbeans\repository)
+[DEBUG] Using transporter HttpTransporter with priority 5.0 for https://artifactory.ci.simfront.com/artifactory/maven-public
+[DEBUG] Using connector BasicRepositoryConnector with priority 0.0 for https://artifactory.ci.simfront.com/artifactory/maven-public with username=f.nkutu, password=***
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-parent/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-parent/7.0.0-SNAPSHOT/maven-metadata.xml (775 B at 13 kB/s)
+[DEBUG] Writing tracking file 'C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\ms-parent\7.0.0-SNAPSHOT\resolver-status.properties'
+[DEBUG] Could not find metadata com.simfront:pom-sf-build-parent:1.16.0-SNAPSHOT/maven-metadata.xml in local (C:\Users\f.nkutu\.m2-netbeans\repository)
+[DEBUG] Could not find metadata com.simfront:pom-sf-build-parent:1.16.0-SNAPSHOT/maven-metadata.xml in local (C:\Users\f.nkutu\.m2-netbeans\repository)
+[DEBUG] Using transporter HttpTransporter with priority 5.0 for https://artifactory.ci.simfront.com/artifactory/maven-public
+[DEBUG] Using connector BasicRepositoryConnector with priority 0.0 for https://artifactory.ci.simfront.com/artifactory/maven-public with username=f.nkutu, password=***
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.16.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.16.0-SNAPSHOT/maven-metadata.xml (787 B at 12 kB/s)
+[DEBUG] Writing tracking file 'C:\Users\f.nkutu\.m2-netbeans\repository\com\simfront\pom-sf-build-parent\1.16.0-SNAPSHOT\resolver-status.properties'
+[DEBUG] Could not find metadata com.calian:calian-rabbitmq:7.0.0-SNAPSHOT/maven-metadata.xml in local (C:\Users\f.nkutu\.m2-netbeans\repository)
+[DEBUG] Could not find metadata com.calian:calian-rabbitmq:7.0.0-SNAPSHOT/maven-metadata.xml in local (C:\Users\f.nkutu\.m2-netbeans\repository)
+[DEBUG] Using transporter HttpTransporter with priority 5.0 for https://artifactory.ci.simfront.com/artifactory/maven-public
+[DEBUG] Using connector BasicRepositoryConnector with priority 0.0 for https://artifactory.ci.simfront.com/artifactory/maven-public with username=f.nkutu, password=***
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/calian-rabbitmq/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/calian-rabbitmq/7.0.0-SNAPSHOT/maven-metadata.xml (997 B at 18 kB/s)
+[DEBUG] Writing tracking file 'C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\calian-rabbitmq\7.0.0-SNAPSHOT\resolver-status.properties'
+[DEBUG] Could not find metadata com.calian:calian-rabbitmq:7.0.0-SNAPSHOT/maven-metadata.xml in local (C:\Users\f.nkutu\.m2-netbeans\repository)
+[DEBUG] Skipped remote request for com.calian:calian-rabbitmq:7.0.0-SNAPSHOT/maven-metadata.xml, already updated during this session
+[DEBUG] Could not find metadata com.calian:ms-base:7.0.0-SNAPSHOT/maven-metadata.xml in local (C:\Users\f.nkutu\.m2-netbeans\repository)
+[DEBUG] Could not find metadata com.calian:ms-base:7.0.0-SNAPSHOT/maven-metadata.xml in local (C:\Users\f.nkutu\.m2-netbeans\repository)
+[DEBUG] Using transporter HttpTransporter with priority 5.0 for https://artifactory.ci.simfront.com/artifactory/maven-public
+[DEBUG] Using connector BasicRepositoryConnector with priority 0.0 for https://artifactory.ci.simfront.com/artifactory/maven-public with username=f.nkutu, password=***
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-base/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-base/7.0.0-SNAPSHOT/maven-metadata.xml (773 B at 14 kB/s)
+[DEBUG] Writing tracking file 'C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\ms-base\7.0.0-SNAPSHOT\resolver-status.properties'
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=869300, ConflictMarker.markTime=196800, ConflictMarker.nodeCount=127, ConflictIdSorter.graphTime=400800, ConflictIdSorter.topsortTime=286400, ConflictIdSorter.conflictIdCount=73, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=5953400, ConflictResolver.conflictItemCount=123, DfDependencyCollector.collectTime=3140093700, DfDependencyCollector.transformTime=9304500}
+[DEBUG] com.softknf:standalone-swing-chatbot:jar:1.0.0
+[DEBUG]    com.fasterxml.jackson.core:jackson-databind:jar:2.18.3:compile
+[DEBUG]       com.fasterxml.jackson.core:jackson-annotations:jar:2.18.3:compile
+[DEBUG]       com.fasterxml.jackson.core:jackson-core:jar:2.18.3:compile
+[DEBUG]    com.calian.paradigm:paradigm-core:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]       com.calian.jl:jar-loader:jar:1.5.0:compile
+[DEBUG]       com.calian.common.lib:common-lib-db:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]          com.calian.common.lib:common-lib-log:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]             ch.qos.logback:logback-classic:jar:1.5.21:compile
+[DEBUG]                ch.qos.logback:logback-core:jar:1.5.21:compile
+[DEBUG]                org.slf4j:slf4j-api:jar:2.0.17:compile
+[DEBUG]             org.slf4j:log4j-over-slf4j:jar:2.0.7:compile
+[DEBUG]             org.slf4j:jul-to-slf4j:jar:2.0.7:compile
+[DEBUG]          org.mariadb.jdbc:mariadb-java-client:jar:3.4.1:runtime
+[DEBUG]             com.github.waffle:waffle-jna:jar:3.3.0:runtime
+[DEBUG]                net.java.dev.jna:jna:jar:5.13.0:runtime
+[DEBUG]                net.java.dev.jna:jna-platform:jar:5.13.0:runtime
+[DEBUG]                org.slf4j:jcl-over-slf4j:jar:2.0.7:runtime
+[DEBUG]                com.github.ben-manes.caffeine:caffeine:jar:2.9.3:runtime
+[DEBUG]                org.checkerframework:checker-qual:jar:3.32.0:compile
+[DEBUG]          com.microsoft.sqlserver:mssql-jdbc:jar:10.2.0.jre11:runtime
+[DEBUG]          net.sourceforge.jtds:jtds:jar:1.3.1:compile
+[DEBUG]       com.calian.common.lib:common-lib-serialization:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]       com.calian.common.lib:common-lib-system:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]       com.calian.common.lib:common-lib-util:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]       com.calian.common.lib:common-lib-geo:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]       com.calian.common.lib:common-lib-networking:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]          io.github.hakky54:sslcontext-kickstart:jar:8.2.0:compile
+[DEBUG]          junit:junit:jar:4.13.2:compile
+[DEBUG]             org.hamcrest:hamcrest-core:jar:1.3:compile
+[DEBUG]          org.mockito:mockito-core:jar:5.11.0:compile
+[DEBUG]             net.bytebuddy:byte-buddy:jar:1.14.12:compile
+[DEBUG]             net.bytebuddy:byte-buddy-agent:jar:1.14.12:compile
+[DEBUG]             org.objenesis:objenesis:jar:3.3:runtime
+[DEBUG]          org.junit.jupiter:junit-jupiter:jar:5.10.2:compile
+[DEBUG]             org.junit.jupiter:junit-jupiter-api:jar:5.10.2:compile
+[DEBUG]                org.opentest4j:opentest4j:jar:1.3.0:compile
+[DEBUG]                org.junit.platform:junit-platform-commons:jar:1.10.2:compile
+[DEBUG]                org.apiguardian:apiguardian-api:jar:1.1.2:compile
+[DEBUG]             org.junit.jupiter:junit-jupiter-params:jar:5.10.2:compile
+[DEBUG]             org.junit.jupiter:junit-jupiter-engine:jar:5.10.2:runtime
+[DEBUG]                org.junit.platform:junit-platform-engine:jar:1.10.2:runtime
+[DEBUG]       com.calian.common.lib:common-lib-javasound:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]          com.sun.speech:freetts:jar:1.2:compile
+[DEBUG]       com.calian.common.lib:common-lib-xml:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]          org.jdom:jdom2:jar:2.0.6.1:compile
+[DEBUG]       com.calian.common.lib:common-lib-reports:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]       com.calian.common.lib:common-lib-gisfactory:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]          com.calian.common.lib:common-lib-gui:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]             com.google.guava:guava:jar:33.0.0-jre:compile
+[DEBUG]                com.google.guava:failureaccess:jar:1.0.2:compile
+[DEBUG]                com.google.guava:listenablefuture:jar:9999.0-empty-to-avoid-conflict-with-guava:compile
+[DEBUG]                com.google.errorprone:error_prone_annotations:jar:2.23.0:compile
+[DEBUG]                com.google.j2objc:j2objc-annotations:jar:2.8:compile
+[DEBUG]             com.calian.common.lib:common-lib-milstd:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]       com.simfront:radarmodelAPI:jar:5.0.3:compile
+[DEBUG]       com.calian.common.lib:common-lib-fileparser:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]          org.apache.commons:commons-csv:jar:1.9.0:compile
+[DEBUG]       org.json:json:jar:20231013:compile
+[DEBUG]       org.reflections:reflections:jar:0.10.2:compile
+[DEBUG]          org.javassist:javassist:jar:3.28.0-GA:compile
+[DEBUG]          com.google.code.findbugs:jsr305:jar:3.0.2:compile
+[DEBUG]       io.github.classgraph:classgraph:jar:4.8.168:compile
+[DEBUG]       com.opencsv:opencsv:jar:3.1:compile
+[DEBUG]       com.calian.common.lib:common-lib-licence:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]          com.squareup.okhttp3:okhttp:jar:5.0.0-alpha.14:compile
+[DEBUG]             com.squareup.okio:okio-jvm:jar:3.9.0:compile
+[DEBUG]             org.jetbrains.kotlin:kotlin-stdlib:jar:1.9.23:compile
+[DEBUG]                org.jetbrains:annotations:jar:13.0:compile
+[DEBUG]    com.calian.paradigm.ui:paradigm-ui-framework:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]    com.calian.paradigm.service:aiservice:jar:5.2.0-SNAPSHOT:compile
+[DEBUG]       com.calian:aicoredata:jar:1.0.0-SNAPSHOT:compile
+[DEBUG]          com.calian:calian-rabbitmq:jar:7.0.0-SNAPSHOT:compile
+[DEBUG]             com.rabbitmq:amqp-client:jar:5.18.0:compile
+[INFO]
+[INFO] --- clean:3.2.0:clean (default-clean) @ standalone-swing-chatbot ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=42900, ConflictMarker.markTime=35800, ConflictMarker.nodeCount=3, ConflictIdSorter.graphTime=7400, ConflictIdSorter.topsortTime=6600, ConflictIdSorter.conflictIdCount=3, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=96500, ConflictResolver.conflictItemCount=3, DfDependencyCollector.collectTime=17108100, DfDependencyCollector.transformTime=205000}
+[DEBUG] org.apache.maven.plugins:maven-clean-plugin:jar:3.2.0
+[DEBUG]    org.apache.maven.shared:maven-shared-utils:jar:3.3.4:compile
+[DEBUG]       commons-io:commons-io:jar:2.6:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-clean-plugin:jar:3.2.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-utils:jar:3.3.4
+[DEBUG]   Included: commons-io:commons-io:jar:2.6
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@33909752]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean:default-clean' with basic configurator -->
+[DEBUG]   (f) directory = C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target
+[DEBUG]   (f) excludeDefaultDirectories = false
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) fast = false
+[DEBUG]   (f) fastMode = background
+[DEBUG]   (f) followSymLinks = false
+[DEBUG]   (f) outputDirectory = C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes
+[DEBUG]   (f) reportDirectory = C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes
+[DEBUG]   (f) retryOnError = true
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@25be445f
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) testOutputDirectory = C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\test-classes
+[DEBUG] -- end configuration --
+[INFO] Deleting C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target
+[INFO] Deleting file C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\maven-status\maven-compiler-plugin\compile\default-compile\inputFiles.lst
+[INFO] Deleting file C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\maven-status\maven-compiler-plugin\compile\default-compile\createdFiles.lst
+[INFO] Deleting directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\maven-status\maven-compiler-plugin\compile\default-compile
+[INFO] Deleting directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\maven-status\maven-compiler-plugin\compile
+[INFO] Deleting directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\maven-status\maven-compiler-plugin
+[INFO] Deleting directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\maven-status
+[INFO] Deleting directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\generated-sources\annotations
+[INFO] Deleting directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\generated-sources
+[INFO] Deleting file C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes\com\softknf\chat\AICoreHttpDiscovery.class
+[INFO] Deleting file C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes\com\softknf\chat\AICoreHttpDiscovery$Result.class
+[INFO] Deleting file C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes\com\softknf\chat\AICoreAgentRegistry.class
+[INFO] Deleting directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes\com\softknf\chat
+[INFO] Deleting directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes\com\softknf
+[INFO] Deleting directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes\com
+[INFO] Deleting directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes
+[INFO] Deleting directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target
+[DEBUG] Skipping non-existing directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes
+[DEBUG] Skipping non-existing directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\test-classes
+[DEBUG] Skipping non-existing directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes
+[INFO]
+[INFO] --- resources:3.4.0:resources (default-resources) @ standalone-swing-chatbot ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=52300, ConflictMarker.markTime=17100, ConflictMarker.nodeCount=13, ConflictIdSorter.graphTime=11000, ConflictIdSorter.topsortTime=9700, ConflictIdSorter.conflictIdCount=10, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=255000, ConflictResolver.conflictItemCount=13, DfDependencyCollector.collectTime=66066100, DfDependencyCollector.transformTime=359600}
+[DEBUG] org.apache.maven.plugins:maven-resources-plugin:jar:3.4.0
+[DEBUG]    org.apache.maven.shared:maven-filtering:jar:3.4.0:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG]       org.sonatype.plexus:plexus-build-api:jar:0.0.7:compile
+[DEBUG]       org.codehaus.plexus:plexus-utils:jar:4.0.2:compile (version managed from default)
+[DEBUG]       org.codehaus.plexus:plexus-xml:jar:3.0.1:compile (version managed from default)
+[DEBUG]       org.codehaus.plexus:plexus-interpolation:jar:1.27:compile
+[DEBUG]       commons-io:commons-io:jar:2.16.1:compile
+[DEBUG]    org.apache.commons:commons-lang3:jar:3.20.0:compile
+[DEBUG]    javax.inject:javax.inject:jar:1:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.4.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.4.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.4.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-resources-plugin:jar:3.4.0
+[DEBUG]   Included: org.apache.maven.shared:maven-filtering:jar:3.4.0
+[DEBUG]   Included: org.sonatype.plexus:plexus-build-api:jar:0.0.7
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:4.0.2
+[DEBUG]   Included: org.codehaus.plexus:plexus-xml:jar:3.0.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-interpolation:jar:1.27
+[DEBUG]   Included: commons-io:commons-io:jar:2.16.1
+[DEBUG]   Included: org.apache.commons:commons-lang3:jar:3.20.0
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-resources-plugin:3.4.0:resources from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-resources-plugin:3.4.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@33909752]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-resources-plugin:3.4.0:resources:default-resources' with basic configurator -->
+[DEBUG]   (f) addDefaultExcludes = true
+[DEBUG]   (f) buildFilters = []
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) escapeWindowsPaths = true
+[DEBUG]   (f) fileNameFiltering = false
+[DEBUG]   (s) includeEmptyDirs = false
+[DEBUG]   (s) outputDirectory = C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes
+[DEBUG]   (s) overwrite = false
+[DEBUG]   (f) project = MavenProject: com.softknf:standalone-swing-chatbot:1.0.0 @ C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\pom.xml
+[DEBUG]   (s) resources = [Resource {targetPath: null, filtering: false, FileSet {directory: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\resources, PatternSet [includes: {}, excludes: {}]}}]
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@25be445f
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) supportMultiLineFiltering = false
+[DEBUG]   (f) useBuildFilters = true
+[DEBUG]   (s) useDefaultDelimiters = true
+[DEBUG] -- end configuration --
+[DEBUG] properties used:
+[DEBUG] aether.syncContext.named.time: 120
+[DEBUG] altReleaseDeploymentRepository: simfront-releases::default::https://artifactory.ci.simfront.com/artifactory/maven-releases/
+[DEBUG] altSnapshotDeploymentRepository: simfront-snapshots::default::https://artifactory.ci.simfront.com/artifactory/maven-snapshots/
+[DEBUG] classworlds.conf: C:\Users\f.nkutu\sf-ci-tools\maven\bin\m2.conf
+[DEBUG] env.=::: ::\
+[DEBUG] env.=C:: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final
+[DEBUG] env.=EXITCODE: 00000000
+[DEBUG] env.ALLUSERSPROFILE: C:\ProgramData
+[DEBUG] env.APPDATA: C:\Users\f.nkutu\AppData\Roaming
+[DEBUG] env.CLASSWORLDS_JAR: "C:\Users\f.nkutu\sf-ci-tools\maven\boot\plexus-classworlds-2.11.0.jar"
+[DEBUG] env.CLASSWORLDS_LAUNCHER: org.codehaus.plexus.classworlds.launcher.Launcher
+[DEBUG] env.COMMONPROGRAMFILES: C:\Program Files\Common Files
+[DEBUG] env.COMMONPROGRAMFILES(X86): C:\Program Files (x86)\Common Files
+[DEBUG] env.COMMONPROGRAMW6432: C:\Program Files\Common Files
+[DEBUG] env.COMPUTERNAME: SF-LP-148
+[DEBUG] env.COMSPEC: C:\Windows\system32\cmd.exe
+[DEBUG] env.DRIVERDATA: C:\Windows\System32\Drivers\DriverData
+[DEBUG] env.EFC_10344_1592913036: 1
+[DEBUG] env.EFC_10344_4126798990: 1
+[DEBUG] env.ERLANG_HOME: C:\Program Files\Erlang OTP
+[DEBUG] env.ERROR_CODE: 0
+[DEBUG] env.EXEC_DIR: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final
+[DEBUG] env.HOMEDRIVE: C:
+[DEBUG] env.HOMEPATH: \Users\f.nkutu
+[DEBUG] env.INTELLIJ IDEA: C:\Program Files\JetBrains\IntelliJ IDEA 2026.2.1\bin
+[DEBUG] env.INTERNAL_MAVEN_OPTS: --enable-native-access=ALL-UNNAMED
+[DEBUG] env.JAVACMD: C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot\bin\java.exe
+[DEBUG] env.JAVA_HOME: C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot
+[DEBUG] env.JVMCONFIG: \.mvn\jvm.config
+[DEBUG] env.LOCALAPPDATA: C:\Users\f.nkutu\AppData\Local
+[DEBUG] env.LOGONSERVER: \\DC02
+[DEBUG] env.MAVEN_CMD_LINE_ARGS: -U -X clean compile
+[DEBUG] env.MAVEN_HOME: C:\Users\f.nkutu\sf-ci-tools\maven
+[DEBUG] env.MAVEN_OPTS: -Daether.syncContext.named.time=120
+[DEBUG] env.MAVEN_PROJECTBASEDIR: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final
+[DEBUG] env.NUMBER_OF_PROCESSORS: 16
+[DEBUG] env.ONEDRIVE: C:\Users\f.nkutu\OneDrive - Calian Group Ltd
+[DEBUG] env.ONEDRIVECOMMERCIAL: C:\Users\f.nkutu\OneDrive - Calian Group Ltd
+[DEBUG] env.OS: Windows_NT
+[DEBUG] env.PATH: C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot\bin;C:\Program Files\MariaDB 10.5\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\Program Files\GitExtensions\;C:\Users\f.nkutu\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\IntelliJ IDEA 2026.2.1\bin;C:\Users\f.nkutu\AppData\Local\Microsoft\WinGet\Packages\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\f.nkutu\sf-ci-tools\bin;C:\Users\f.nkutu\sf-ci-tools\maven\bin;C:\Users\f.nkutu\sf-ci-tools\ajdk\bin;C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot\bin;
+[DEBUG] env.PATHEXT: .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL
+[DEBUG] env.PROCESSOR_ARCHITECTURE: AMD64
+[DEBUG] env.PROCESSOR_IDENTIFIER: AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD
+[DEBUG] env.PROCESSOR_LEVEL: 25
+[DEBUG] env.PROCESSOR_REVISION: 4401
+[DEBUG] env.PROGRAMDATA: C:\ProgramData
+[DEBUG] env.PROGRAMFILES: C:\Program Files
+[DEBUG] env.PROGRAMFILES(X86): C:\Program Files (x86)
+[DEBUG] env.PROGRAMW6432: C:\Program Files
+[DEBUG] env.PROMPT: $P$G
+[DEBUG] env.PSMODULEPATH: C:\Users\f.nkutu\Documents\WindowsPowerShell\Modules;C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+[DEBUG] env.PUBLIC: C:\Users\Public
+[DEBUG] env.SESSIONNAME: Console
+[DEBUG] env.SYSTEMDRIVE: C:
+[DEBUG] env.SYSTEMROOT: C:\Windows
+[DEBUG] env.TEMP: C:\Users\FD3A6~1.NKU\AppData\Local\Temp
+[DEBUG] env.TMP: C:\Users\FD3A6~1.NKU\AppData\Local\Temp
+[DEBUG] env.USERDNSDOMAIN: SIMFRONT.COM
+[DEBUG] env.USERDOMAIN: SIMFRONT
+[DEBUG] env.USERDOMAIN_ROAMINGPROFILE: SIMFRONT
+[DEBUG] env.USERNAME: f.nkutu
+[DEBUG] env.USERPROFILE: C:\Users\f.nkutu
+[DEBUG] env.WDIR: C:\
+[DEBUG] env.WINDIR: C:\Windows
+[DEBUG] file.encoding: UTF-8
+[DEBUG] file.separator: \
+[DEBUG] java.class.path: C:\Users\f.nkutu\sf-ci-tools\maven\boot\plexus-classworlds-2.11.0.jar
+[DEBUG] java.class.version: 65.0
+[DEBUG] java.home: C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot
+[DEBUG] java.io.tmpdir: C:\Users\FD3A6~1.NKU\AppData\Local\Temp\
+[DEBUG] java.library.path: C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot\bin;C:\Program Files\MariaDB 10.5\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\Program Files\GitExtensions\;C:\Users\f.nkutu\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\IntelliJ IDEA 2026.2.1\bin;C:\Users\f.nkutu\AppData\Local\Microsoft\WinGet\Packages\astral-sh.uv_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\f.nkutu\sf-ci-tools\bin;C:\Users\f.nkutu\sf-ci-tools\maven\bin;C:\Users\f.nkutu\sf-ci-tools\ajdk\bin;C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot\bin;;.
+[DEBUG] java.runtime.name: OpenJDK Runtime Environment
+[DEBUG] java.runtime.version: 21.0.10+7-LTS
+[DEBUG] java.specification.name: Java Platform API Specification
+[DEBUG] java.specification.vendor: Oracle Corporation
+[DEBUG] java.specification.version: 21
+[DEBUG] java.vendor: Eclipse Adoptium
+[DEBUG] java.vendor.url: https://adoptium.net/
+[DEBUG] java.vendor.url.bug: https://github.com/adoptium/adoptium-support/issues
+[DEBUG] java.vendor.version: Temurin-21.0.10+7
+[DEBUG] java.version: 21.0.10
+[DEBUG] java.version.date: 2026-01-20
+[DEBUG] java.vm.compressedOopsMode: Zero based
+[DEBUG] java.vm.info: mixed mode, sharing
+[DEBUG] java.vm.name: OpenJDK 64-Bit Server VM
+[DEBUG] java.vm.specification.name: Java Virtual Machine Specification
+[DEBUG] java.vm.specification.vendor: Oracle Corporation
+[DEBUG] java.vm.specification.version: 21
+[DEBUG] java.vm.vendor: Eclipse Adoptium
+[DEBUG] java.vm.version: 21.0.10+7-LTS
+[DEBUG] jdk.debug: release
+[DEBUG] library.jansi.path: C:\Users\f.nkutu\sf-ci-tools\maven\lib\jansi-native
+[DEBUG] line.separator:
+
+[DEBUG] maven.build.timestamp: 2026-10-22T17:24:06Z
+[DEBUG] maven.build.version: Apache Maven 3.9.16 (2bdd9fddda4b155ebf8000e807eb73fd829a51d5)
+[DEBUG] maven.compiler.release: 21
+[DEBUG] maven.conf: C:\Users\f.nkutu\sf-ci-tools\maven/conf
+[DEBUG] maven.home: C:\Users\f.nkutu\sf-ci-tools\maven
+[DEBUG] maven.multiModuleProjectDirectory: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final
+[DEBUG] maven.version: 3.9.16
+[DEBUG] native.encoding: Cp1252
+[DEBUG] os.arch: amd64
+[DEBUG] os.name: Windows 11
+[DEBUG] os.version: 10.0
+[DEBUG] path.separator: ;
+[DEBUG] project.baseUri: file:/C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/
+[DEBUG] project.build.sourceEncoding: UTF-8
+[DEBUG] stderr.encoding: cp437
+[DEBUG] stdout.encoding: cp437
+[DEBUG] sun.arch.data.model: 64
+[DEBUG] sun.boot.library.path: C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot\bin
+[DEBUG] sun.cpu.endian: little
+[DEBUG] sun.cpu.isalist: amd64
+[DEBUG] sun.io.unicode.encoding: UnicodeLittle
+[DEBUG] sun.java.command: org.codehaus.plexus.classworlds.launcher.Launcher -U -X clean compile
+[DEBUG] sun.java.launcher: SUN_STANDARD
+[DEBUG] sun.jnu.encoding: Cp1252
+[DEBUG] sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+[DEBUG] sun.os.patch.level:
+[DEBUG] user.ad.encypted.password: AP6PhTiqW68TbREhzAJLooj8PtG
+[DEBUG] user.ad.name: f.nkutu
+[DEBUG] user.country: CA
+[DEBUG] user.dir: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final
+[DEBUG] user.home: C:\Users\f.nkutu
+[DEBUG] user.language: en
+[DEBUG] user.name: f.nkutu
+[DEBUG] user.script:
+[DEBUG] user.variant:
+[DEBUG] Using 'UTF-8' encoding to copy filtered resources.
+[DEBUG] Using 'UTF-8' encoding to copy filtered properties files.
+[DEBUG] resource with targetPath null
+directory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\resources
+excludes []
+includes []
+[INFO] skip non existing resourceDirectory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\resources
+[DEBUG] no user filter components
+[INFO]
+[INFO] --- compiler:3.13.0:compile (default-compile) @ standalone-swing-chatbot ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=54800, ConflictMarker.markTime=30400, ConflictMarker.nodeCount=22, ConflictIdSorter.graphTime=25300, ConflictIdSorter.topsortTime=15200, ConflictIdSorter.conflictIdCount=14, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=325900, ConflictResolver.conflictItemCount=22, DfDependencyCollector.collectTime=64662200, DfDependencyCollector.transformTime=474800}
+[DEBUG] org.apache.maven.plugins:maven-compiler-plugin:jar:3.13.0
+[DEBUG]    org.apache.maven.shared:maven-shared-utils:jar:3.4.2:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG]       commons-io:commons-io:jar:2.11.0:compile
+[DEBUG]    org.apache.maven.shared:maven-shared-incremental:jar:1.1:compile
+[DEBUG]    org.codehaus.plexus:plexus-java:jar:1.2.0:compile
+[DEBUG]       org.ow2.asm:asm:jar:9.6:compile
+[DEBUG]       com.thoughtworks.qdox:qdox:jar:2.0.3:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-api:jar:2.15.0:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-manager:jar:2.15.0:compile
+[DEBUG]       javax.inject:javax.inject:jar:1:compile
+[DEBUG]       org.codehaus.plexus:plexus-xml:jar:3.0.0:compile (version managed from default)
+[DEBUG]    org.codehaus.plexus:plexus-compiler-javac:jar:2.15.0:runtime
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:4.0.0:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-compiler-plugin:jar:3.13.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-utils:jar:3.4.2
+[DEBUG]   Included: commons-io:commons-io:jar:2.11.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-incremental:jar:1.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-java:jar:1.2.0
+[DEBUG]   Included: org.ow2.asm:asm:jar:9.6
+[DEBUG]   Included: com.thoughtworks.qdox:qdox:jar:2.0.3
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-api:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-manager:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-xml:jar:3.0.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-javac:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:4.0.0
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@33909752]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile:default-compile' with basic configurator -->
+[DEBUG]   (f) annotationProcessorPathsUseDepMgmt = false
+[DEBUG]   (f) basedir = C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final
+[DEBUG]   (f) buildDirectory = C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target
+[DEBUG]   (f) compilePath = [C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes, C:\Users\f.nkutu\.m2-netbeans\repository\com\fasterxml\jackson\core\jackson-databind\2.18.3\jackson-databind-2.18.3.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\fasterxml\jackson\core\jackson-annotations\2.18.3\jackson-annotations-2.18.3.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\fasterxml\jackson\core\jackson-core\2.18.3\jackson-core-2.18.3.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\paradigm\paradigm-core\5.2.0-SNAPSHOT\paradigm-core-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\jl\jar-loader\1.5.0\jar-loader-1.5.0.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-db\5.2.0-SNAPSHOT\common-lib-db-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-log\5.2.0-SNAPSHOT\common-lib-log-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\ch\qos\logback\logback-classic\1.5.21\logback-classic-1.5.21.jar, C:\Users\f.nkutu\.m2-netbeans\repository\ch\qos\logback\logback-core\1.5.21\logback-core-1.5.21.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\slf4j\slf4j-api\2.0.17\slf4j-api-2.0.17.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\slf4j\log4j-over-slf4j\2.0.7\log4j-over-slf4j-2.0.7.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\slf4j\jul-to-slf4j\2.0.7\jul-to-slf4j-2.0.7.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\checkerframework\checker-qual\3.32.0\checker-qual-3.32.0.jar, C:\Users\f.nkutu\.m2-netbeans\repository\net\sourceforge\jtds\jtds\1.3.1\jtds-1.3.1.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-serialization\5.2.0-SNAPSHOT\common-lib-serialization-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-system\5.2.0-SNAPSHOT\common-lib-system-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-util\5.2.0-SNAPSHOT\common-lib-util-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-geo\5.2.0-SNAPSHOT\common-lib-geo-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-networking\5.2.0-SNAPSHOT\common-lib-networking-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\io\github\hakky54\sslcontext-kickstart\8.2.0\sslcontext-kickstart-8.2.0.jar, C:\Users\f.nkutu\.m2-netbeans\repository\junit\junit\4.13.2\junit-4.13.2.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\mockito\mockito-core\5.11.0\mockito-core-5.11.0.jar, C:\Users\f.nkutu\.m2-netbeans\repository\net\bytebuddy\byte-buddy\1.14.12\byte-buddy-1.14.12.jar, C:\Users\f.nkutu\.m2-netbeans\repository\net\bytebuddy\byte-buddy-agent\1.14.12\byte-buddy-agent-1.14.12.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-javasound\5.2.0-SNAPSHOT\common-lib-javasound-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\sun\speech\freetts\1.2\freetts-1.2.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-xml\5.2.0-SNAPSHOT\common-lib-xml-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\jdom\jdom2\2.0.6.1\jdom2-2.0.6.1.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-reports\5.2.0-SNAPSHOT\common-lib-reports-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-gisfactory\5.2.0-SNAPSHOT\common-lib-gisfactory-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-gui\5.2.0-SNAPSHOT\common-lib-gui-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\google\guava\guava\33.0.0-jre\guava-33.0.0-jre.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\google\guava\failureaccess\1.0.2\failureaccess-1.0.2.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\google\errorprone\error_prone_annotations\2.23.0\error_prone_annotations-2.23.0.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\google\j2objc\j2objc-annotations\2.8\j2objc-annotations-2.8.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-milstd\5.2.0-SNAPSHOT\common-lib-milstd-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\simfront\radarmodelAPI\5.0.3\radarmodelAPI-5.0.3.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-fileparser\5.2.0-SNAPSHOT\common-lib-fileparser-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\apache\commons\commons-csv\1.9.0\commons-csv-1.9.0.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\json\json\20231013\json-20231013.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\reflections\reflections\0.10.2\reflections-0.10.2.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\javassist\javassist\3.28.0-GA\javassist-3.28.0-GA.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar, C:\Users\f.nkutu\.m2-netbeans\repository\io\github\classgraph\classgraph\4.8.168\classgraph-4.8.168.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\opencsv\opencsv\3.1\opencsv-3.1.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-licence\5.2.0-SNAPSHOT\common-lib-licence-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\squareup\okhttp3\okhttp\5.0.0-alpha.14\okhttp-5.0.0-alpha.14.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\squareup\okio\okio-jvm\3.9.0\okio-jvm-3.9.0.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\jetbrains\kotlin\kotlin-stdlib\1.9.23\kotlin-stdlib-1.9.23.jar, C:\Users\f.nkutu\.m2-netbeans\repository\org\jetbrains\annotations\13.0\annotations-13.0.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\paradigm\ui\paradigm-ui-framework\5.2.0-SNAPSHOT\paradigm-ui-framework-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\paradigm\service\aiservice\5.2.0-SNAPSHOT\aiservice-5.2.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicoredata\1.0.0-SNAPSHOT\aicoredata-1.0.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\calian-rabbitmq\7.0.0-SNAPSHOT\calian-rabbitmq-7.0.0-SNAPSHOT.jar, C:\Users\f.nkutu\.m2-netbeans\repository\com\rabbitmq\amqp-client\5.18.0\amqp-client-5.18.0.jar]
+[DEBUG]   (f) compileSourceRoots = [C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java]
+[DEBUG]   (f) compilerId = javac
+[DEBUG]   (f) createMissingPackageInfoClass = true
+[DEBUG]   (f) debug = true
+[DEBUG]   (f) debugFileName = javac
+[DEBUG]   (f) enablePreview = false
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) failOnWarning = false
+[DEBUG]   (f) fileExtensions = [jar, class]
+[DEBUG]   (f) forceJavacCompilerUse = false
+[DEBUG]   (f) forceLegacyJavacApi = false
+[DEBUG]   (f) fork = false
+[DEBUG]   (f) generatedSourcesDirectory = C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\generated-sources\annotations
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile {execution: default-compile}
+[DEBUG]   (f) optimize = false
+[DEBUG]   (f) outputDirectory = C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes
+[DEBUG]   (f) parameters = false
+[DEBUG]   (f) project = MavenProject: com.softknf:standalone-swing-chatbot:1.0.0 @ C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\pom.xml
+[DEBUG]   (f) projectArtifact = com.softknf:standalone-swing-chatbot:jar:1.0.0
+[DEBUG]   (s) release = 21
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@25be445f
+[DEBUG]   (f) showCompilationChanges = false
+[DEBUG]   (f) showDeprecation = false
+[DEBUG]   (f) showWarnings = true
+[DEBUG]   (f) skipMultiThreadWarning = false
+[DEBUG]   (f) source = 1.8
+[DEBUG]   (f) staleMillis = 0
+[DEBUG]   (s) target = 1.8
+[DEBUG]   (f) useIncrementalCompilation = true
+[DEBUG]   (f) verbose = false
+[DEBUG] -- end configuration --
+[DEBUG] Using compiler 'javac'.
+[DEBUG] Adding C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\generated-sources\annotations to compile source roots:
+  C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java
+[DEBUG] New compile source roots:
+  C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java
+  C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\generated-sources\annotations
+[DEBUG] CompilerReuseStrategy: reuseCreated
+[DEBUG] useIncrementalCompilation enabled
+[INFO]  Stale source detected: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ChatUIComponent.java
+[INFO]  Stale source detected: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\AICoreAgentRegistry.java
+[INFO]  Stale source detected: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ChatApp.java
+[INFO]  Stale source detected: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ParadigmAgentDiscovery.java
+[INFO]  Stale source detected: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\RabbitMQAgentDiscovery.java
+[INFO]  Stale source detected: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\AICoreHttpDiscovery.java
+[INFO]  Stale source detected: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ChatAgentResponseHandler.java
+[INFO]  Stale source detected: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ChatUIDelegate.java
+[INFO]  Input tree files (+): C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\AICoreAgentRegistry.java
+[INFO]  Input tree files (+): C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\AICoreHttpDiscovery.java
+[INFO]  Input tree files (+): C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ChatAgentResponseHandler.java
+[INFO]  Input tree files (+): C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ChatApp.java
+[INFO]  Input tree files (+): C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ChatUIComponent.java
+[INFO]  Input tree files (+): C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ChatUIDelegate.java
+[INFO]  Input tree files (+): C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ParadigmAgentDiscovery.java
+[INFO]  Input tree files (+): C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\RabbitMQAgentDiscovery.java
+[INFO] Recompiling the module because of changed source code.
+[DEBUG] Classpath:
+[DEBUG]  C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\fasterxml\jackson\core\jackson-databind\2.18.3\jackson-databind-2.18.3.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\fasterxml\jackson\core\jackson-annotations\2.18.3\jackson-annotations-2.18.3.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\fasterxml\jackson\core\jackson-core\2.18.3\jackson-core-2.18.3.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\paradigm\paradigm-core\5.2.0-SNAPSHOT\paradigm-core-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\jl\jar-loader\1.5.0\jar-loader-1.5.0.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-db\5.2.0-SNAPSHOT\common-lib-db-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-log\5.2.0-SNAPSHOT\common-lib-log-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\ch\qos\logback\logback-classic\1.5.21\logback-classic-1.5.21.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\ch\qos\logback\logback-core\1.5.21\logback-core-1.5.21.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\slf4j\slf4j-api\2.0.17\slf4j-api-2.0.17.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\slf4j\log4j-over-slf4j\2.0.7\log4j-over-slf4j-2.0.7.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\slf4j\jul-to-slf4j\2.0.7\jul-to-slf4j-2.0.7.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\checkerframework\checker-qual\3.32.0\checker-qual-3.32.0.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\net\sourceforge\jtds\jtds\1.3.1\jtds-1.3.1.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-serialization\5.2.0-SNAPSHOT\common-lib-serialization-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-system\5.2.0-SNAPSHOT\common-lib-system-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-util\5.2.0-SNAPSHOT\common-lib-util-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-geo\5.2.0-SNAPSHOT\common-lib-geo-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-networking\5.2.0-SNAPSHOT\common-lib-networking-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\io\github\hakky54\sslcontext-kickstart\8.2.0\sslcontext-kickstart-8.2.0.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\junit\junit\4.13.2\junit-4.13.2.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\mockito\mockito-core\5.11.0\mockito-core-5.11.0.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\net\bytebuddy\byte-buddy\1.14.12\byte-buddy-1.14.12.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\net\bytebuddy\byte-buddy-agent\1.14.12\byte-buddy-agent-1.14.12.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-javasound\5.2.0-SNAPSHOT\common-lib-javasound-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\sun\speech\freetts\1.2\freetts-1.2.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-xml\5.2.0-SNAPSHOT\common-lib-xml-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\jdom\jdom2\2.0.6.1\jdom2-2.0.6.1.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-reports\5.2.0-SNAPSHOT\common-lib-reports-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-gisfactory\5.2.0-SNAPSHOT\common-lib-gisfactory-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-gui\5.2.0-SNAPSHOT\common-lib-gui-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\google\guava\guava\33.0.0-jre\guava-33.0.0-jre.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\google\guava\failureaccess\1.0.2\failureaccess-1.0.2.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\google\errorprone\error_prone_annotations\2.23.0\error_prone_annotations-2.23.0.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\google\j2objc\j2objc-annotations\2.8\j2objc-annotations-2.8.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-milstd\5.2.0-SNAPSHOT\common-lib-milstd-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\simfront\radarmodelAPI\5.0.3\radarmodelAPI-5.0.3.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-fileparser\5.2.0-SNAPSHOT\common-lib-fileparser-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\apache\commons\commons-csv\1.9.0\commons-csv-1.9.0.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\json\json\20231013\json-20231013.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\reflections\reflections\0.10.2\reflections-0.10.2.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\javassist\javassist\3.28.0-GA\javassist-3.28.0-GA.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\io\github\classgraph\classgraph\4.8.168\classgraph-4.8.168.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\opencsv\opencsv\3.1\opencsv-3.1.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-licence\5.2.0-SNAPSHOT\common-lib-licence-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\squareup\okhttp3\okhttp\5.0.0-alpha.14\okhttp-5.0.0-alpha.14.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\squareup\okio\okio-jvm\3.9.0\okio-jvm-3.9.0.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\jetbrains\kotlin\kotlin-stdlib\1.9.23\kotlin-stdlib-1.9.23.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\org\jetbrains\annotations\13.0\annotations-13.0.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\paradigm\ui\paradigm-ui-framework\5.2.0-SNAPSHOT\paradigm-ui-framework-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\paradigm\service\aiservice\5.2.0-SNAPSHOT\aiservice-5.2.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicoredata\1.0.0-SNAPSHOT\aicoredata-1.0.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\calian-rabbitmq\7.0.0-SNAPSHOT\calian-rabbitmq-7.0.0-SNAPSHOT.jar
+[DEBUG]  C:\Users\f.nkutu\.m2-netbeans\repository\com\rabbitmq\amqp-client\5.18.0\amqp-client-5.18.0.jar
+[DEBUG] Source roots:
+[DEBUG]  C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java
+[DEBUG]  C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\generated-sources\annotations
+[DEBUG] Command line options:
+[DEBUG] -d C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes -classpath C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\classes;C:\Users\f.nkutu\.m2-netbeans\repository\com\fasterxml\jackson\core\jackson-databind\2.18.3\jackson-databind-2.18.3.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\fasterxml\jackson\core\jackson-annotations\2.18.3\jackson-annotations-2.18.3.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\fasterxml\jackson\core\jackson-core\2.18.3\jackson-core-2.18.3.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\paradigm\paradigm-core\5.2.0-SNAPSHOT\paradigm-core-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\jl\jar-loader\1.5.0\jar-loader-1.5.0.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-db\5.2.0-SNAPSHOT\common-lib-db-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-log\5.2.0-SNAPSHOT\common-lib-log-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\ch\qos\logback\logback-classic\1.5.21\logback-classic-1.5.21.jar;C:\Users\f.nkutu\.m2-netbeans\repository\ch\qos\logback\logback-core\1.5.21\logback-core-1.5.21.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\slf4j\slf4j-api\2.0.17\slf4j-api-2.0.17.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\slf4j\log4j-over-slf4j\2.0.7\log4j-over-slf4j-2.0.7.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\slf4j\jul-to-slf4j\2.0.7\jul-to-slf4j-2.0.7.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\checkerframework\checker-qual\3.32.0\checker-qual-3.32.0.jar;C:\Users\f.nkutu\.m2-netbeans\repository\net\sourceforge\jtds\jtds\1.3.1\jtds-1.3.1.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-serialization\5.2.0-SNAPSHOT\common-lib-serialization-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-system\5.2.0-SNAPSHOT\common-lib-system-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-util\5.2.0-SNAPSHOT\common-lib-util-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-geo\5.2.0-SNAPSHOT\common-lib-geo-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-networking\5.2.0-SNAPSHOT\common-lib-networking-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\io\github\hakky54\sslcontext-kickstart\8.2.0\sslcontext-kickstart-8.2.0.jar;C:\Users\f.nkutu\.m2-netbeans\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\mockito\mockito-core\5.11.0\mockito-core-5.11.0.jar;C:\Users\f.nkutu\.m2-netbeans\repository\net\bytebuddy\byte-buddy\1.14.12\byte-buddy-1.14.12.jar;C:\Users\f.nkutu\.m2-netbeans\repository\net\bytebuddy\byte-buddy-agent\1.14.12\byte-buddy-agent-1.14.12.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-javasound\5.2.0-SNAPSHOT\common-lib-javasound-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\sun\speech\freetts\1.2\freetts-1.2.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-xml\5.2.0-SNAPSHOT\common-lib-xml-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\jdom\jdom2\2.0.6.1\jdom2-2.0.6.1.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-reports\5.2.0-SNAPSHOT\common-lib-reports-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-gisfactory\5.2.0-SNAPSHOT\common-lib-gisfactory-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-gui\5.2.0-SNAPSHOT\common-lib-gui-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\google\guava\guava\33.0.0-jre\guava-33.0.0-jre.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\google\guava\failureaccess\1.0.2\failureaccess-1.0.2.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\google\errorprone\error_prone_annotations\2.23.0\error_prone_annotations-2.23.0.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\google\j2objc\j2objc-annotations\2.8\j2objc-annotations-2.8.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-milstd\5.2.0-SNAPSHOT\common-lib-milstd-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\simfront\radarmodelAPI\5.0.3\radarmodelAPI-5.0.3.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-fileparser\5.2.0-SNAPSHOT\common-lib-fileparser-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\apache\commons\commons-csv\1.9.0\commons-csv-1.9.0.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\json\json\20231013\json-20231013.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\reflections\reflections\0.10.2\reflections-0.10.2.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\javassist\javassist\3.28.0-GA\javassist-3.28.0-GA.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\f.nkutu\.m2-netbeans\repository\io\github\classgraph\classgraph\4.8.168\classgraph-4.8.168.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\opencsv\opencsv\3.1\opencsv-3.1.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-licence\5.2.0-SNAPSHOT\common-lib-licence-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\squareup\okhttp3\okhttp\5.0.0-alpha.14\okhttp-5.0.0-alpha.14.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\squareup\okio\okio-jvm\3.9.0\okio-jvm-3.9.0.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\jetbrains\kotlin\kotlin-stdlib\1.9.23\kotlin-stdlib-1.9.23.jar;C:\Users\f.nkutu\.m2-netbeans\repository\org\jetbrains\annotations\13.0\annotations-13.0.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\paradigm\ui\paradigm-ui-framework\5.2.0-SNAPSHOT\paradigm-ui-framework-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\paradigm\service\aiservice\5.2.0-SNAPSHOT\aiservice-5.2.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicoredata\1.0.0-SNAPSHOT\aicoredata-1.0.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\calian-rabbitmq\7.0.0-SNAPSHOT\calian-rabbitmq-7.0.0-SNAPSHOT.jar;C:\Users\f.nkutu\.m2-netbeans\repository\com\rabbitmq\amqp-client\5.18.0\amqp-client-5.18.0.jar; -sourcepath C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java;C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\generated-sources\annotations; -s C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target\generated-sources\annotations -g --release 21 -encoding UTF-8 -XDuseUnsharedTable=true
+[DEBUG] incrementalBuildHelper#beforeRebuildExecution
+[INFO] Compiling 8 source files with javac [debug release 21] to target\classes
+[DEBUG] incrementalBuildHelper#afterRebuildExecution
+[INFO] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatUIComponent.java: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ChatUIComponent.java uses unchecked or unsafe operations.
+[INFO] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatUIComponent.java: Recompile with -Xlint:unchecked for details.
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR :
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatAgentResponseHandler.java:[34,73] cannot find symbol
+  symbol:   method getAgentURLs()
+  location: variable result of type com.calian.paradigm.service.aiservice.objs.AISGetCommandsRequest
+[ERROR] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/RabbitMQAgentDiscovery.java:[57,29] cannot find symbol
+  symbol:   method getAgentURLs()
+  location: variable response of type com.calian.aicoredata.GetCommandsRequest
+[ERROR] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/RabbitMQAgentDiscovery.java:[57,104] cannot find symbol
+  symbol:   method getAgentURLs()
+  location: variable response of type com.calian.aicoredata.GetCommandsRequest
+[INFO] 3 errors
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.311 s
+[INFO] Finished at: 2026-10-22T13:24:07-04:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project standalone-swing-chatbot: Compilation failure: Compilation failure:
+[ERROR] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatAgentResponseHandler.java:[34,73] cannot find symbol
+[ERROR]   symbol:   method getAgentURLs()
+[ERROR]   location: variable result of type com.calian.paradigm.service.aiservice.objs.AISGetCommandsRequest
+[ERROR] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/RabbitMQAgentDiscovery.java:[57,29] cannot find symbol
+[ERROR]   symbol:   method getAgentURLs()
+[ERROR]   location: variable response of type com.calian.aicoredata.GetCommandsRequest
+[ERROR] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/RabbitMQAgentDiscovery.java:[57,104] cannot find symbol
+[ERROR]   symbol:   method getAgentURLs()
+[ERROR]   location: variable response of type com.calian.aicoredata.GetCommandsRequest
+[ERROR] -> [Help 1]
+org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project standalone-swing-chatbot: Compilation failure
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:333)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:362)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+Caused by: org.apache.maven.plugin.compiler.CompilationFailureException: Compilation failure
+    at org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute (AbstractCompilerMojo.java:1309)
+    at org.apache.maven.plugin.compiler.CompilerMojo.execute (CompilerMojo.java:215)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:362)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+[ERROR]
+[ERROR]
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[DEBUG] Shutting down adapter factory; available factories [file-lock, rwlock-local, semaphore-local, noop]; available name mappers [discriminating, file-gaecv, file-gav, file-hgaecv, file-hgav, file-static, gaecv, gav, static]
+[DEBUG] Shutting down 'file-lock' factory
+[DEBUG] Shutting down 'rwlock-local' factory
+[DEBUG] Shutting down 'semaphore-local' factory
+[DEBUG] Shutting down 'noop' factory
+PS C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final> mvn compile
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ----------------< com.softknf:standalone-swing-chatbot >----------------
+[INFO] Building standalone-swing-chatbot 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/paradigm-core/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/paradigm-core/5.2.0-SNAPSHOT/maven-metadata.xml (1.2 kB at 931 B/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/paradigm/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/paradigm/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 592 B/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.19.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.19.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 12 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml (601 B at 13 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml (998 B at 20 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 13 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-db/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-db/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 2.4 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-libs/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-libs/5.2.0-SNAPSHOT/maven-metadata.xml (613 B at 13 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-log/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-log/5.2.0-SNAPSHOT/maven-metadata.xml (1.2 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-serialization/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-serialization/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 21 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-system/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-system/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-util/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-util/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-geo/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-geo/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-networking/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-networking/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 24 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-javasound/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-javasound/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 2.4 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-xml/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-xml/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 21 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-reports/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-reports/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 2.6 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-gisfactory/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-gisfactory/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-gui/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-gui/5.2.0-SNAPSHOT/maven-metadata.xml (1.2 kB at 25 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-milstd/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-milstd/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 19 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-fileparser/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-fileparser/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 24 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-licence/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-licence/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/ui/paradigm-ui-framework/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/ui/paradigm-ui-framework/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 2.4 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/ui/paradigm-ui/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/ui/paradigm-ui/5.2.0-SNAPSHOT/maven-metadata.xml (614 B at 334 B/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/aiservice/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/aiservice/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 724 B/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/paradigm-services/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/paradigm-services/5.2.0-SNAPSHOT/maven-metadata.xml (625 B at 1.3 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicoredata/1.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicoredata/1.0.0-SNAPSHOT/maven-metadata.xml (988 B at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicore/1.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicore/1.0.0-SNAPSHOT/maven-metadata.xml (769 B at 17 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-parent/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-parent/7.0.0-SNAPSHOT/maven-metadata.xml (775 B at 16 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.16.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.16.0-SNAPSHOT/maven-metadata.xml (787 B at 15 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/calian-rabbitmq/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/calian-rabbitmq/7.0.0-SNAPSHOT/maven-metadata.xml (997 B at 20 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-base/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-base/7.0.0-SNAPSHOT/maven-metadata.xml (773 B at 17 kB/s)
+[INFO]
+[INFO] --- resources:3.4.0:resources (default-resources) @ standalone-swing-chatbot ---
+[INFO] skip non existing resourceDirectory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\resources
+[INFO]
+[INFO] --- compiler:3.13.0:compile (default-compile) @ standalone-swing-chatbot ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 8 source files with javac [debug release 21] to target\classes
+[INFO] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatUIComponent.java: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ChatUIComponent.java uses unchecked or unsafe operations.
+[INFO] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatUIComponent.java: Recompile with -Xlint:unchecked for details.
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR :
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatAgentResponseHandler.java:[34,73] cannot find symbol
+  symbol:   method getAgentURLs()
+  location: variable result of type com.calian.paradigm.service.aiservice.objs.AISGetCommandsRequest
+[INFO] 1 error
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  12.458 s
+[INFO] Finished at: 2026-10-22T13:42:20-04:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project standalone-swing-chatbot: Compilation failure
+[ERROR] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatAgentResponseHandler.java:[34,73] cannot find symbol
+[ERROR]   symbol:   method getAgentURLs()
+[ERROR]   location: variable result of type com.calian.paradigm.service.aiservice.objs.AISGetCommandsRequest
+[ERROR]
+[ERROR] -> [Help 1]
+[ERROR]
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR]
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+PS C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final> mvn -U clean compile
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ----------------< com.softknf:standalone-swing-chatbot >----------------
+[INFO] Building standalone-swing-chatbot 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/paradigm-core/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/paradigm-core/5.2.0-SNAPSHOT/maven-metadata.xml (1.2 kB at 3.4 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/paradigm/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/paradigm/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.19.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.19.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 14 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml (601 B at 13 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml (998 B at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 14 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-db/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-db/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 21 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-libs/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-libs/5.2.0-SNAPSHOT/maven-metadata.xml (613 B at 14 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-log/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-log/5.2.0-SNAPSHOT/maven-metadata.xml (1.2 kB at 27 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-serialization/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-serialization/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-system/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-system/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-util/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-util/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-geo/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-geo/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 21 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-networking/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-networking/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-javasound/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-javasound/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-xml/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-xml/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 21 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-reports/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-reports/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-gisfactory/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-gisfactory/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-gui/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-gui/5.2.0-SNAPSHOT/maven-metadata.xml (1.2 kB at 28 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-milstd/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-milstd/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-fileparser/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-fileparser/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-licence/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-licence/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/ui/paradigm-ui-framework/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/ui/paradigm-ui-framework/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 24 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/ui/paradigm-ui/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/ui/paradigm-ui/5.2.0-SNAPSHOT/maven-metadata.xml (614 B at 13 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/aiservice/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/aiservice/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/paradigm-services/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/paradigm-services/5.2.0-SNAPSHOT/maven-metadata.xml (625 B at 14 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicoredata/1.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicoredata/1.0.0-SNAPSHOT/maven-metadata.xml (988 B at 11 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicore/1.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicore/1.0.0-SNAPSHOT/maven-metadata.xml (769 B at 17 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-parent/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-parent/7.0.0-SNAPSHOT/maven-metadata.xml (775 B at 17 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.16.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.16.0-SNAPSHOT/maven-metadata.xml (787 B at 16 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/calian-rabbitmq/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/calian-rabbitmq/7.0.0-SNAPSHOT/maven-metadata.xml (997 B at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-base/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-base/7.0.0-SNAPSHOT/maven-metadata.xml (773 B at 18 kB/s)
+[INFO]
+[INFO] --- clean:3.2.0:clean (default-clean) @ standalone-swing-chatbot ---
+[INFO] Deleting C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target
+[INFO]
+[INFO] --- resources:3.4.0:resources (default-resources) @ standalone-swing-chatbot ---
+[INFO] skip non existing resourceDirectory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\resources
+[INFO]
+[INFO] --- compiler:3.13.0:compile (default-compile) @ standalone-swing-chatbot ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 8 source files with javac [debug release 21] to target\classes
+[INFO] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatUIComponent.java: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ChatUIComponent.java uses unchecked or unsafe operations.
+[INFO] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatUIComponent.java: Recompile with -Xlint:unchecked for details.
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR :
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatAgentResponseHandler.java:[34,73] cannot find symbol
+  symbol:   method getAgentURLs()
+  location: variable result of type com.calian.paradigm.service.aiservice.objs.AISGetCommandsRequest
+[INFO] 1 error
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.175 s
+[INFO] Finished at: 2026-10-22T13:42:58-04:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project standalone-swing-chatbot: Compilation failure
+[ERROR] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatAgentResponseHandler.java:[34,73] cannot find symbol
+[ERROR]   symbol:   method getAgentURLs()
+[ERROR]   location: variable result of type com.calian.paradigm.service.aiservice.objs.AISGetCommandsRequest
+[ERROR]
+[ERROR] -> [Help 1]
+[ERROR]
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR]
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+PS C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final> mvn -U -e clean compile
+[INFO] Error stacktraces are turned on.
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ----------------< com.softknf:standalone-swing-chatbot >----------------
+[INFO] Building standalone-swing-chatbot 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/paradigm-core/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/paradigm-core/5.2.0-SNAPSHOT/maven-metadata.xml (1.2 kB at 3.5 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/paradigm/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/paradigm/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 21 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.19.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.19.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 14 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml (601 B at 13 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml (998 B at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 13 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-db/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-db/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-libs/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-libs/5.2.0-SNAPSHOT/maven-metadata.xml (613 B at 14 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-log/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-log/5.2.0-SNAPSHOT/maven-metadata.xml (1.2 kB at 24 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-serialization/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-serialization/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-system/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-system/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-util/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-util/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 21 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-geo/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-geo/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-networking/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-networking/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-javasound/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-javasound/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-xml/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-xml/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-reports/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-reports/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-gisfactory/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-gisfactory/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-gui/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-gui/5.2.0-SNAPSHOT/maven-metadata.xml (1.2 kB at 27 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-milstd/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-milstd/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 22 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-fileparser/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-fileparser/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-licence/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-licence/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 24 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/ui/paradigm-ui-framework/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/ui/paradigm-ui-framework/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 20 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/ui/paradigm-ui/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/ui/paradigm-ui/5.2.0-SNAPSHOT/maven-metadata.xml (614 B at 13 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/aiservice/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/aiservice/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 23 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/paradigm-services/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/paradigm/service/paradigm-services/5.2.0-SNAPSHOT/maven-metadata.xml (625 B at 14 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicoredata/1.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicoredata/1.0.0-SNAPSHOT/maven-metadata.xml (988 B at 21 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicore/1.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/aicore/1.0.0-SNAPSHOT/maven-metadata.xml (769 B at 17 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-parent/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-parent/7.0.0-SNAPSHOT/maven-metadata.xml (775 B at 19 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.16.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.16.0-SNAPSHOT/maven-metadata.xml (787 B at 19 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/calian-rabbitmq/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/calian-rabbitmq/7.0.0-SNAPSHOT/maven-metadata.xml (997 B at 24 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-base/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-base/7.0.0-SNAPSHOT/maven-metadata.xml (773 B at 18 kB/s)
+[INFO]
+[INFO] --- clean:3.2.0:clean (default-clean) @ standalone-swing-chatbot ---
+[INFO] Deleting C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\target
+[INFO]
+[INFO] --- resources:3.4.0:resources (default-resources) @ standalone-swing-chatbot ---
+[INFO] skip non existing resourceDirectory C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\resources
+[INFO]
+[INFO] --- compiler:3.13.0:compile (default-compile) @ standalone-swing-chatbot ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 8 source files with javac [debug release 21] to target\classes
+[INFO] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatUIComponent.java: C:\Users\f.nkutu\Downloads\standalone-chatbot-rabbitmq-integration\standalone-chatbot-final\src\main\java\com\softknf\chat\ChatUIComponent.java uses unchecked or unsafe operations.
+[INFO] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatUIComponent.java: Recompile with -Xlint:unchecked for details.
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR :
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatAgentResponseHandler.java:[34,73] cannot find symbol
+  symbol:   method getAgentURLs()
+  location: variable result of type com.calian.paradigm.service.aiservice.objs.AISGetCommandsRequest
+[INFO] 1 error
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.838 s
+[INFO] Finished at: 2026-10-22T13:43:30-04:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project standalone-swing-chatbot: Compilation failure
+[ERROR] /C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatAgentResponseHandler.java:[34,73] cannot find symbol
+[ERROR]   symbol:   method getAgentURLs()
+[ERROR]   location: variable result of type com.calian.paradigm.service.aiservice.objs.AISGetCommandsRequest
+[ERROR]
+[ERROR] -> [Help 1]
+org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project standalone-swing-chatbot: Compilation failure
+/C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatAgentResponseHandler.java:[34,73] cannot find symbol
+  symbol:   method getAgentURLs()
+  location: variable result of type com.calian.paradigm.service.aiservice.objs.AISGetCommandsRequest
+
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:333)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:362)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+Caused by: org.apache.maven.plugin.compiler.CompilationFailureException: Compilation failure
+/C:/Users/f.nkutu/Downloads/standalone-chatbot-rabbitmq-integration/standalone-chatbot-final/src/main/java/com/softknf/chat/ChatAgentResponseHandler.java:[34,73] cannot find symbol
+  symbol:   method getAgentURLs()
+  location: variable result of type com.calian.paradigm.service.aiservice.objs.AISGetCommandsRequest
+
+    at org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute (AbstractCompilerMojo.java:1309)
+    at org.apache.maven.plugin.compiler.CompilerMojo.execute (CompilerMojo.java:215)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:362)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+[ERROR]
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR]
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
