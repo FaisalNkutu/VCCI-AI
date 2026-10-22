@@ -30,7 +30,11 @@ public final class ChatApp extends JFrame {
     private final JButton refresh = new JButton("Refresh Agents");
     private final JButton reset = new JButton("New Chat");
     private final Map<String, JsonNode> registry = new LinkedHashMap<>();
+    private final Map<String, JsonNode> pythonAgents = new LinkedHashMap<>();
+    private final ParadigmAgentDiscovery paradigmDiscovery =
+            new ParadigmAgentDiscovery(this::onParadigmAgents);
     private final List<ObjectNode> history = new ArrayList<>();
+    private final String aiCoreRegistryUrl = System.getenv("AICORE_REGISTRY_URL");
     private String contextId = UUID.randomUUID().toString();
     private String previousAgentId;
 
@@ -92,12 +96,62 @@ public final class ChatApp extends JFrame {
                 if (!id.isBlank()) found.put(a.path("name").asText(id)+" ["+id+"]", a);
             }
             SwingUtilities.invokeLater(() -> {
-                registry.clear(); registry.putAll(found); agents.removeAllItems(); agents.addItem(AUTO);
-                registry.keySet().forEach(agents::addItem);
-                status.setText("Discovered "+found.size()+" agent(s)");
+                pythonAgents.clear(); pythonAgents.putAll(found);
+                rebuildAgentDropdown();
             });
+            if (aiCoreRegistryUrl != null && !aiCoreRegistryUrl.isBlank()) {
+                try {
+                    AICoreHttpDiscovery.Result core = new AICoreHttpDiscovery(aiCoreRegistryUrl).discover();
+                    acceptParadigmAgents(core.commands(), core.urls());
+                } catch (Exception ex) {
+                    append("AI Core discovery", ex.getMessage());
+                }
+            }
         });
     }
+    /** Receives the asynchronous AIService.LIST result without replacing Python agents. */
+    public void acceptParadigmAgents(Map<String, ? extends List<String>> commands,
+                                     Map<String, String> agentURLs) {
+        paradigmDiscovery.acceptResponse(commands, agentURLs);
+    }
+
+    private void onParadigmAgents(List<ParadigmAgentDiscovery.Agent> discovered) {
+        SwingUtilities.invokeLater(this::rebuildAgentDropdown);
+    }
+
+    private void rebuildAgentDropdown() {
+        if (!SwingUtilities.isEventDispatchThread()) {
+            SwingUtilities.invokeLater(this::rebuildAgentDropdown);
+            return;
+        }
+        String selection = (String) agents.getSelectedItem();
+        registry.clear();
+        registry.putAll(pythonAgents);
+        for (ParadigmAgentDiscovery.Agent agent : paradigmDiscovery.snapshot()) {
+            String commandId = agent.commandId();
+            String friendlyName = agent.name();
+            String label = friendlyName + " [AI Core]";
+
+            ObjectNode info = json.createObjectNode();
+            info.put("id", commandId);
+            info.put("commandId", commandId);
+            info.put("name", friendlyName);
+            info.put("type", "aicore");
+            info.put("endpoint", agent.endpoint());
+
+            if (registry.containsKey(label)) {
+                label = friendlyName + " (" + commandId + ") [AI Core]";
+            }
+            registry.put(label, info);
+        }
+        agents.removeAllItems();
+        agents.addItem(AUTO);
+        registry.keySet().forEach(agents::addItem);
+        if (selection != null) agents.setSelectedItem(selection);
+        status.setText("Python: " + pythonAgents.size() + " | AI Core: "
+                + paradigmDiscovery.snapshot().size());
+    }
+
     private ObjectNode context() {
         ObjectNode c=json.createObjectNode(); c.put("userContext",userContext.getText());
         c.put("taskContext",""); c.put("systemInstructions","");
@@ -117,7 +171,10 @@ public final class ChatApp extends JFrame {
             if (AUTO.equals(choice)) {
                 ObjectNode r=json.createObjectNode(); r.put("message",prompt);
                 r.put("contextId",currentContext); if(previousAgentId!=null)r.put("previousAgentId",previousAgentId);
-                r.set("context",shared); ArrayNode a=r.putArray("agents"); snapshot.values().forEach(a::add);
+                r.set("context",shared); ArrayNode a=r.putArray("agents");
+                snapshot.values().stream()
+                        .filter(agent -> !"aicore".equals(agent.path("type").asText()))
+                        .forEach(a::add);
                 JsonNode routed=request("POST","/router/select",r);
                 selected=routed.path("agent");
                 if(selected.isMissingNode()||selected.isNull()) throw new IllegalStateException("No matching agent: "+routed.path("reason").asText());
@@ -125,8 +182,20 @@ public final class ChatApp extends JFrame {
             if(selected==null)throw new IllegalStateException("Select an agent or refresh discovery");
             String id=selected.path("id").asText();
             // The uploaded Python A2A executor supports North agents only.
+            if ("aicore".equalsIgnoreCase(selected.path("type").asText())) {
+                String endpoint = selected.path("endpoint").asText("");
+                if (endpoint.isBlank()) throw new IllegalStateException("AI Core agent has no endpoint: " + id);
+                String coreAnswer = sendAICore(endpoint, prompt, shared);
+                previousAgentId = id;
+                synchronized (history) {
+                    history.add(turn("user", prompt, null));
+                    history.add(turn("assistant", coreAnswer, id));
+                }
+                SwingUtilities.invokeLater(() -> append(selected.path("name").asText(id), coreAnswer));
+                return;
+            }
             if (!"north".equalsIgnoreCase(selected.path("type").asText("north")))
-                throw new IllegalStateException("Non-North agents require their own endpoint adapter");
+                throw new IllegalStateException("Unsupported agent type: " + selected.path("type").asText());
             ObjectNode rpc=json.createObjectNode();rpc.put("jsonrpc","2.0");rpc.put("id",UUID.randomUUID().toString());rpc.put("method","SendStreamingMessage");
             ObjectNode params=rpc.putObject("params");ObjectNode message=params.putObject("message");
             message.put("messageId",UUID.randomUUID().toString());message.put("role","ROLE_USER");
@@ -141,6 +210,32 @@ public final class ChatApp extends JFrame {
             String displayName=selected.path("name").asText(id);
             SwingUtilities.invokeLater(() -> append(displayName,finalAnswer));
         });
+    }
+
+    /** Direct HTTP execution for AI Core agents exposing a JSON POST endpoint. */
+    private String sendAICore(String endpoint, String prompt, ObjectNode shared) throws Exception {
+        URI target = URI.create(endpoint);
+        if (!List.of("http", "https").contains(target.getScheme()))
+            throw new IllegalStateException("Unsupported AI Core endpoint scheme: " + endpoint);
+        ObjectNode body = json.createObjectNode();
+        body.put("message", prompt);
+        body.put("contextId", contextId);
+        body.set("context", shared);
+        HttpRequest req = HttpRequest.newBuilder(target)
+                .timeout(Duration.ofSeconds(180))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(json.writeValueAsString(body))).build();
+        HttpResponse<String> resp = http.send(req, HttpResponse.BodyHandlers.ofString());
+        if (resp.statusCode() / 100 != 2)
+            throw new IllegalStateException("AI Core endpoint HTTP " + resp.statusCode() + ": " + resp.body());
+        JsonNode result = json.readTree(resp.body());
+        if (result.hasNonNull("error")) throw new IllegalStateException(result.path("error").toString());
+        for (String field : List.of("answer", "response", "text", "message")) {
+            JsonNode value = result.path(field);
+            if (value.isTextual() && !value.asText().isBlank()) return value.asText();
+        }
+        String extracted = extractText(result.path("result").isMissingNode() ? result : result.path("result"));
+        return extracted.isBlank() ? result.toPrettyString() : extracted;
     }
 
     /** Stream A2A JSON-RPC events from the Python service. */
