@@ -1,10 +1,1 @@
-System.out.println("===== AI CORE DISCOVERY RESPONSE =====");
-
-commands.forEach((commandId, values) ->
-    System.out.println(
-        "COMMAND = " + commandId
-        + " | FRIENDLY DATA = " + values
-    )
-);
-
-System.out.println("======================================");
+$p = ".\src\main\java\com\softknf\chat\ParadigmAgentDiscovery.java"; Write-Host "FILE:" (Resolve-Path $p); $i = 0; Get-Content $p | ForEach-Object { "{0,4}: {1}" -f (++$i), $_ }
