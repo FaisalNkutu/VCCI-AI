@@ -1,1 +1,4 @@
 $p = ".\src\main\java\com\softknf\chat\ParadigmAgentDiscovery.java"; Write-Host "FILE:" (Resolve-Path $p); $i = 0; Get-Content $p | ForEach-Object { "{0,4}: {1}" -f (++$i), $_ }
+
+
+mvn clean compile 2>&1 | Tee-Object -FilePath compile-errors.txt
