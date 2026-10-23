@@ -2,3 +2,6 @@ $p = ".\src\main\java\com\softknf\chat\ParadigmAgentDiscovery.java"; Write-Host 
 
 
 mvn clean compile 2>&1 | Tee-Object -FilePath compile-errors.txt
+
+
+$p = ".\src\main\java\com\softknf\chat\ParadigmAgentDiscovery.java"; $s = [System.IO.File]::ReadAllText((Resolve-Path $p).Path); $i = $s.IndexOf("package com.softknf.chat;"); if ($i -ge 0) { [System.IO.File]::WriteAllText((Resolve-Path $p).Path, $s.Substring($i), [System.Text.UTF8Encoding]::new($false)); Write-Host "Removed invalid content before package declaration" } else { Write-Host "Package declaration not found; file unchanged" }
