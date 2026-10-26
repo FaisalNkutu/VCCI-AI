@@ -1,0 +1,5 @@
+Get-NetTCPConnection -LocalPort 8787 -State Listen | Select-Object LocalAddress,LocalPort,OwningProcess
+
+Get-CimInstance Win32_Process -Filter "ProcessId = YOUR_PID" | Select-Object ProcessId,CommandLine
+
+$body = @{agentId="translation-agent";message="Translate Good Morning into French";contextId=[guid]::NewGuid().ToString();context=@{}} | ConvertTo-Json -Depth 5; try {Invoke-RestMethod -Uri "http://127.0.0.1:8787/api/ai-core/execute" -Method POST -ContentType "application/json" -Body $body | ConvertTo-Json -Depth 10} catch {$_.ErrorDetails.Message; $_.Exception.Message}
