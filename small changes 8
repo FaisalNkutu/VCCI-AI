@@ -1,0 +1,8 @@
+snapshot.values().forEach(agent -> {
+    ObjectNode candidate = agent.deepCopy();
+    candidate.put("description",
+            candidate.path("description").asText("")
+            + " " + candidate.path("name").asText("")
+            + " " + candidate.path("commandId").asText(""));
+    a.add(candidate);
+});
