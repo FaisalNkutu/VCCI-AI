@@ -1,0 +1,5 @@
+cd "$HOME\Downloads\CALIAN_AI_FOUR_SKINS_OLLAMA_FIXED\PYTHON_BACKEND"
+
+python -m pip install fastapi "uvicorn[standard]" httpx requests
+
+python -m uvicorn main:app --host 127.0.0.1 --port 8000
