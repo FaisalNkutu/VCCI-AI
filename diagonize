@@ -1,0 +1,84 @@
+# CALIAN AI - OLLAMA ROUTER RECOVERY
+
+$ErrorActionPreference = "Stop"
+
+$backend = "$HOME\Downloads\CALIAN_AI_FOUR_SKINS_OLLAMA_FIXED\PYTHON_BACKEND"
+
+Write-Host "`n=== CALIAN AI RECOVERY ===" -ForegroundColor Cyan
+
+# 1. Verify backend
+if (!(Test-Path "$backend\main.py")) {
+    Write-Host "ERROR: Python backend not found." -ForegroundColor Red
+    exit
+}
+
+# 2. Install Python dependencies
+Write-Host "`nInstalling Python dependencies..."
+python -m pip install fastapi "uvicorn[standard]" httpx requests
+
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Dependency installation failed." -ForegroundColor Red
+    exit
+}
+
+# 3. Verify Ollama
+Write-Host "`nChecking Ollama..."
+try {
+    $models = Invoke-RestMethod "http://127.0.0.1:11434/api/tags"
+    $models.models.name
+}
+catch {
+    Write-Host "Starting Ollama..."
+    Start-Process -FilePath "ollama" -ArgumentList "serve" -WindowStyle Minimized
+    Start-Sleep -Seconds 5
+}
+
+# 4. Check whether port 8000 is occupied
+$port = Get-NetTCPConnection -LocalPort 8000 `
+    -State Listen -ErrorAction SilentlyContinue
+
+if ($port) {
+    Write-Host "Port 8000 already occupied by PID $($port.OwningProcess)."
+    Write-Host "Existing process will NOT be terminated."
+}
+else {
+    # 5. Start Python router
+    Write-Host "`nStarting CALIAN AI Python router..."
+
+    Start-Process powershell.exe -ArgumentList @(
+        "-NoExit",
+        "-Command",
+        "Set-Location '$backend'; python -m uvicorn main:app --host 127.0.0.1 --port 8000"
+    )
+
+    Start-Sleep -Seconds 8
+}
+
+# 6. Verify router
+Write-Host "`nChecking Python router..."
+
+try {
+    $response = Invoke-WebRequest `
+        "http://127.0.0.1:8000/openapi.json" `
+        -UseBasicParsing
+
+    Write-Host "Python router responding: HTTP $($response.StatusCode)" `
+        -ForegroundColor Green
+}
+catch {
+    Write-Host "Router not responding. Inspect the Python server window." `
+        -ForegroundColor Red
+}
+
+# 7. Verify Ollama again
+try {
+    $models = Invoke-RestMethod "http://127.0.0.1:11434/api/tags"
+
+    Write-Host "`nOLLAMA CONNECTED" -ForegroundColor Green
+    $models.models.name
+}
+catch {
+    Write-Host "Ollama unavailable." -ForegroundColor Red
+}
+
+Write-Host "`n=== RECOVERY CHECK COMPLETE ===" -ForegroundColor Cyan
