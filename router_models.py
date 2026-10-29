@@ -1,59 +1,32 @@
-from typing import List, Optional
-
-from pydantic import BaseModel, Field
-
+from typing import Optional
+from pydantic import BaseModel, Field, ConfigDict
+from conversation_context import ConversationContext
 
 class RouterSkill(BaseModel):
-
+    model_config = ConfigDict(extra='ignore')
     id: Optional[str] = None
-
     name: Optional[str] = None
-
-    description: str = ""
-
-    tags: List[str] = Field(
-        default_factory=list
-    )
-
-    examples: List[str] = Field(
-        default_factory=list
-    )
-
+    description: str = ''
+    tags: list[str] = Field(default_factory=list)
+    examples: list[str] = Field(default_factory=list)
 
 class RouterAgent(BaseModel):
-
-    id: str
-
-    name: str
-
-    description: str = ""
-
-    skills: List[RouterSkill] = Field(
-        default_factory=list
-    )
-
+    model_config = ConfigDict(extra='ignore')
+    id: str = Field(min_length=1)
+    name: str = Field(min_length=1)
+    description: str = ''
+    skills: list[RouterSkill] = Field(default_factory=list)
 
 class RouterRequest(BaseModel):
-
-    message: str
-
-    contextId: Optional[str] = None
-
-    previousAgentId: Optional[str] = None
-
-    agents: List[RouterAgent] = Field(
-        default_factory=list
-    )
-
+    message: str = Field(min_length=1, max_length=20000)
+    contextId: Optional[str] = Field(default=None, max_length=256)
+    previousAgentId: Optional[str] = Field(default=None, max_length=256)
+    agents: list[RouterAgent] = Field(default_factory=list, max_length=250)
+    context: ConversationContext = Field(default_factory=ConversationContext)
 
 class RouterResponse(BaseModel):
-
     agentId: Optional[str] = None
-
     agentName: Optional[str] = None
-
-    confidence: float = 0.0
-
-    reason: str = ""
-
-    method: str = "none"
+    confidence: float = Field(default=0.0, ge=0, le=1)
+    reason: str = ''
+    method: str = 'none'

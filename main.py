@@ -1,993 +1,135 @@
+"""VCCI AI service: client-managed conversation context, no local context database."""
 import logging
 import os
 from typing import Any
-
-import uvicorn
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
-
+from conversation_context import ConversationContext
 from north import AsyncNorthClient, NorthClient
-
 from a2a.server.request_handlers import DefaultRequestHandler
-from a2a.server.routes import (
-    add_a2a_routes_to_fastapi,
-    create_agent_card_routes,
-    create_jsonrpc_routes,
-)
+from a2a.server.routes import add_a2a_routes_to_fastapi, create_agent_card_routes, create_jsonrpc_routes
 from a2a.server.tasks import InMemoryTaskStore
-from a2a.types import (
-    AgentCapabilities,
-    AgentCard,
-    AgentInterface,
-    AgentSkill,
-)
+from a2a.types import AgentCapabilities, AgentCard, AgentInterface, AgentSkill
 from a2a.utils import DEFAULT_RPC_URL, TransportProtocol
-
 from agent_executor import NorthAgentExecutor
-
-
-# ============================================================
-# ENVIRONMENT
-# ============================================================
+from agent_router import AgentRouter
+from router_api import create_router_api
+from router_models import RouterRequest, RouterAgent
 
 load_dotenv()
+logging.basicConfig(level=os.getenv('LOG_LEVEL','INFO'))
+logger = logging.getLogger('vcci')
+HOST = os.getenv('HOST','127.0.0.1')
+PORT = int(os.getenv('PORT','9999'))
+NORTH_BASE_URL = os.getenv('NORTH_BASE_URL','https://north.canadacentral.cloudapp.azure.com/api')
+NORTH_AUTH_TOKEN = os.environ['NORTH_AUTH_TOKEN']
+NORTH_AGENT_ID = os.environ['NORTH_AGENT_ID']
 
-HOST = os.getenv("HOST", "127.0.0.1")
-PORT = int(os.getenv("PORT", "9999"))
+north_client = AsyncNorthClient(auth_token=NORTH_AUTH_TOKEN, base_url=NORTH_BASE_URL)
+north_sync_client = NorthClient(auth_token=NORTH_AUTH_TOKEN, base_url=NORTH_BASE_URL)
+agent_router = AgentRouter()
 
-NORTH_BASE_URL = os.getenv(
-    "NORTH_BASE_URL",
-    "https://north.canadacentral.cloudapp.azure.com/api",
-)
+# Keep existing A2A construction compatible with the uploaded working version.
+north_agent = north_sync_client.agents.get(NORTH_AGENT_ID)
 
-NORTH_AUTH_TOKEN = os.environ["NORTH_AUTH_TOKEN"]
-NORTH_AGENT_ID = os.environ["NORTH_AGENT_ID"]
+def value(obj: Any, key: str, default: Any='') -> Any:
+    return obj.get(key, default) if isinstance(obj,dict) else getattr(obj,key,default)
 
+def normalize(agent: Any) -> dict:
+    aid = str(value(agent,'id') or value(agent,'agent_id') or '').strip()
+    name = str(value(agent,'name') or aid).strip()
+    return {'id':aid, 'name':name, 'description':str(value(agent,'description') or ''),
+            'endpoint':str(value(agent,'endpoint') or value(agent,'url') or ''),
+            'streaming':True, 'type':'north','configured':True,'active':True,
+            'skills':[]}
 
-# ============================================================
-# LOGGING
-# ============================================================
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s %(levelname)s %(name)s - %(message)s",
-)
-
-logger = logging.getLogger("main")
-
-
-# ============================================================
-# NORTH CLIENTS
-# ============================================================
-
-#
-# Async client:
-# Used by NorthAgentExecutor when VCCI sends an AI request.
-#
-north_client = AsyncNorthClient(
-    auth_token=NORTH_AUTH_TOKEN,
-    base_url=NORTH_BASE_URL,
-)
-
-#
-# Sync client:
-# Used for startup information and agent discovery.
-#
-north_sync_client = NorthClient(
-    auth_token=NORTH_AUTH_TOKEN,
-    base_url=NORTH_BASE_URL,
-)
-
-
-# ============================================================
-# LOAD DEFAULT NORTH AGENT
-# ============================================================
-
-logger.info(
-    "Loading default North agent: %s",
-    NORTH_AGENT_ID,
-)
-
-north_agent = north_sync_client.agents.get(
-    NORTH_AGENT_ID
-)
-
-logger.info(
-    "Default North agent loaded: %s",
-    getattr(
-        north_agent,
-        "name",
-        NORTH_AGENT_ID,
-    ),
-)
-
-
-# ============================================================
-# HELPER FUNCTIONS
-# ============================================================
-
-def get_value(
-    obj: Any,
-    *names: str,
-    default: Any = "",
-) -> Any:
-
-    if obj is None:
-        return default
-
-    for name in names:
-
-        if isinstance(obj, dict):
-            value = obj.get(name)
-        else:
-            value = getattr(
-                obj,
-                name,
-                None,
-            )
-
-        if value is not None:
-            return value
-
-    return default
-
-
-def normalize_agent(
-    agent: Any,
-) -> dict[str, Any]:
-
-    agent_id = str(
-        get_value(
-            agent,
-            "id",
-            "agent_id",
-            default="",
-        )
-    ).strip()
-
-    name = str(
-        get_value(
-            agent,
-            "name",
-            default=agent_id,
-        )
-    ).strip()
-
-    description = str(
-        get_value(
-            agent,
-            "description",
-            default="",
-        )
-    ).strip()
-
-    endpoint = str(
-        get_value(
-            agent,
-            "endpoint",
-            "url",
-            default="",
-        )
-    ).strip()
-
-    if not agent_id:
-        agent_id = name
-
-    if not name:
-        name = agent_id
-
-    return {
-        "id": agent_id,
-        "name": name,
-        "description": description,
-        "endpoint": endpoint,
-        "streaming": True,
-        "type": "north",
-        "configured": True,
-        "active": True,
-    }
-
-
-# ============================================================
-# NORTH AGENT DISCOVERY
-# ============================================================
-
-def discover_agents() -> list[dict[str, Any]]:
-
-    discovered: list[dict[str, Any]] = []
-
-    logger.info(
-        "Discovering available North agents..."
-    )
-
+def discover_agents() -> list[dict]:
+    agents = {}
     try:
-
         result = north_sync_client.agents.list()
-
-        logger.info(
-            "North agents.list() returned type: %s",
-            type(result),
-        )
-
-        logger.info(
-            "North agents.list() returned: %s",
-            result,
-        )
-
-        # ----------------------------------------------------
-        # North SDK currently appears to return a normal list
-        # in your environment.
-        #
-        # But support several possible SDK return structures.
-        # ----------------------------------------------------
-
-        if result is None:
-
-            raw_agents = []
-
-        elif isinstance(
-            result,
-            (list, tuple),
-        ):
-
-            raw_agents = list(result)
-
-        elif isinstance(result, dict):
-
-            raw_agents = (
-                result.get("agents")
-                or result.get("items")
-                or result.get("data")
-                or []
-            )
-
+        if isinstance(result, (list,tuple)):
+            raw = result
+        elif isinstance(result,dict):
+            raw = result.get('agents') or result.get('items') or result.get('data') or []
         else:
+            raw = value(result,'agents') or value(result,'items') or value(result,'data') or []
+        for item in raw:
+            normalized = normalize(item)
+            if normalized['id']:
+                agents[normalized['id']] = normalized
+    except Exception:
+        logger.exception('North discovery failed; retaining configured default agent')
+    fallback = normalize(north_agent)
+    fallback['id'] = fallback['id'] or NORTH_AGENT_ID
+    fallback['name'] = fallback['name'] or NORTH_AGENT_ID
+    agents.setdefault(fallback['id'], fallback)
+    return sorted(agents.values(), key=lambda a:a['name'].lower())
 
-            raw_agents = (
-                getattr(
-                    result,
-                    "agents",
-                    None,
-                )
-                or getattr(
-                    result,
-                    "items",
-                    None,
-                )
-                or getattr(
-                    result,
-                    "data",
-                    None,
-                )
-                or []
-            )
+skill = AgentSkill(id=NORTH_AGENT_ID, name=north_agent.name,
+                   description=north_agent.description or '',tags=['north'],
+                   input_modes=['text/plain'], output_modes=['text/plain'])
+agent_card = AgentCard(name=north_agent.name, description=north_agent.description or '',
+                       version='1.1.0', default_input_modes=['text/plain'],
+                       default_output_modes=['text/plain'], capabilities=AgentCapabilities(streaming=True),
+                       supported_interfaces=[AgentInterface(url=os.getenv('PUBLIC_A2A_URL',f'http://{HOST}:{PORT}'),
+                       protocol_binding=TransportProtocol.JSONRPC,protocol_version='1.0')], skills=[skill])
+request_handler = DefaultRequestHandler(agent_executor=NorthAgentExecutor(north_client,NORTH_AGENT_ID),
+                                        task_store=InMemoryTaskStore(),agent_card=agent_card)
+app = FastAPI(title='VCCI AI Service',version='1.1.0')
 
-        for item in raw_agents:
-
-            normalized = normalize_agent(
-                item
-            )
-
-            if (
-                normalized["id"]
-                or normalized["name"]
-            ):
-
-                discovered.append(
-                    normalized
-                )
-
-    except Exception as exc:
-
-        logger.exception(
-            "North agent discovery failed: %s",
-            exc,
-        )
-
-
-    # ========================================================
-    # IMPORTANT FALLBACK
-    #
-    # On your machine:
-    #
-    #     north_sync_client.agents.list()
-    #
-    # is returning:
-    #
-    #     []
-    #
-    # BUT:
-    #
-    #     north_sync_client.agents.get(NORTH_AGENT_ID)
-    #
-    # successfully returns Faisal's agent.
-    #
-    # Therefore NEVER return an empty registry when the
-    # configured/default agent was successfully loaded.
-    # ========================================================
-
-    default_agent = normalize_agent(
-        north_agent
-    )
-
-    if not default_agent["id"]:
-        default_agent["id"] = NORTH_AGENT_ID
-
-    if not default_agent["name"]:
-        default_agent["name"] = (
-            NORTH_AGENT_ID
-        )
-
-    already_present = any(
-        str(
-            item.get(
-                "id",
-                "",
-            )
-        ).strip()
-        == str(
-            default_agent["id"]
-        ).strip()
-        for item in discovered
-    )
-
-    if not already_present:
-
-        logger.info(
-            "Adding configured default North "
-            "agent to registry: %s",
-            default_agent["name"],
-        )
-
-        discovered.append(
-            default_agent
-        )
-
-
-    # Remove duplicates
-
-    unique_agents = {}
-
-    for agent in discovered:
-
-        key = (
-            agent.get("id")
-            or agent.get("name")
-        )
-
-        if key:
-            unique_agents[
-                str(key)
-            ] = agent
-
-
-    agents = list(
-        unique_agents.values()
-    )
-
-    agents.sort(
-        key=lambda item: str(
-            item.get(
-                "name",
-                "",
-            )
-        ).lower()
-    )
-
-    logger.info(
-        "Returning %d agent(s).",
-        len(agents),
-    )
-
-    for agent in agents:
-
-        logger.info(
-            "Agent: %s | id=%s",
-            agent.get("name"),
-            agent.get("id"),
-        )
-
-    return agents
-
-
-# ============================================================
-# A2A SKILL
-# ============================================================
-
-skill = AgentSkill(
-    id=NORTH_AGENT_ID,
-    name=north_agent.name,
-    description=north_agent.description,
-    tags=[
-        "north",
-    ],
-    input_modes=[
-        "text/plain",
-    ],
-    output_modes=[
-        "text/plain",
-    ],
-)
-
-
-# ============================================================
-# A2A AGENT CARD
-#
-# KEEP THIS IN THE SAME FORM AS YOUR ORIGINAL WORKING FILE.
-# ============================================================
-
-agent_card = AgentCard(
-    name=north_agent.name,
-    description=north_agent.description,
-    version="0.1.0",
-
-    default_input_modes=[
-        "text/plain",
-    ],
-
-    default_output_modes=[
-        "text/plain",
-    ],
-
-    capabilities=AgentCapabilities(
-        streaming=True
-    ),
-
-    supported_interfaces=[
-        AgentInterface(
-            url=f"http://{HOST}:{PORT}",
-            protocol_binding=(
-                TransportProtocol.JSONRPC
-            ),
-            protocol_version="1.0",
-        )
-    ],
-
-    skills=[
-        skill
-    ],
-)
-
-
-# ============================================================
-# A2A REQUEST HANDLER
-#
-# THIS IS THE SAME CONSTRUCTION AS YOUR WORKING VERSION.
-# ============================================================
-
-request_handler = DefaultRequestHandler(
-    agent_executor=NorthAgentExecutor(
-        north_client,
-        NORTH_AGENT_ID,
-    ),
-    task_store=InMemoryTaskStore(),
-    agent_card=agent_card,
-)
-
-
-# ============================================================
-# FASTAPI
-# ============================================================
-
-app = FastAPI(
-    title="VCCI AI Service",
-    version="1.0.0",
-)
-
-
-# ============================================================
-# HEALTH ENDPOINT
-# ============================================================
-
-@app.get("/health")
+@app.get('/health')
 async def health():
-
-    return {
-        "status": "ok",
-        "service": "VCCI AI Service",
-        "host": HOST,
-        "port": PORT,
-        "defaultAgentId": (
-            NORTH_AGENT_ID
-        ),
-        "defaultAgentName": (
-            north_agent.name
-        ),
-    }
-
-
-# ============================================================
-# AGENT REGISTRY
-#
-# Java AgentRegistryClient calls:
-#
-#     GET http://127.0.0.1:9999/agents
-#
-# ============================================================
-
-@app.get("/agents")
-async def get_agents():
-
-    logger.info(
-        "VCCI requested agent discovery."
-    )
-
-    agents = discover_agents()
-
-    return {
-        "agents": agents,
-        "count": len(agents),
-        "discovery": "north",
-    }
-
-
-# ============================================================
-# SIMPLE AUTO ROUTER
-# ============================================================
-
-def choose_agent(
-    message: str,
-    agents: list[dict[str, Any]],
-):
-
-    if not agents:
-        return None
-
-    text = message.lower().strip()
-
-    best_agent = None
-    best_score = 0
-    best_matches = []
-
-    # --------------------------------------------------------
-    # Intent synonyms.
-    #
-    # This bridges normal user language to agent names.
-    #
-    # Example:
-    #   "Translate hello into French"
-    #           ->
-    #   translation-agent
-    #
-    # NOT hard-coding an agent ID here.
-    # just expanding words so "translate" can match
-    # "translation".
-    # --------------------------------------------------------
-
-    synonym_groups = [
-        # Translation intent
-        {
-            "translate",
-            "translation",
-            "translator",
-            "language",
-            "french",
-            "spanish",
-            "german",
-            "italian",
-            "russian",
-        },
-    
-        # Dice intent
-        {
-            "dice",
-            "die",
-            "roll",
-            "random",
-        },
-    
-        # Structured-text intent
-        {
-            "structured",
-            "structuredtext",
-            "structure",
-            "structurize",
-            "json",
-            "fields",
-            "schema",
-            "format",
-        },
-    
-        # Database intent
-        {
-            "db",
-            "database",
-            "sql",
-            "query",
-            "records",
-            "table",
-            "tables",
-        },
-    
-        # Speech / transcription intent
-        {
-            "speech",
-            "transcribe",
-            "transcription",
-            "audio",
-            "voice",
-        },
-    
-        # Social-media intent
-        {
-            "social",
-            "media",
-            "post",
-            "posts",
-            "linkedin",
-        },
-    ]
-
-    expanded_terms = set(
-        text
-        .replace("-", " ")
-        .replace("_", " ")
-        .split()
-    )
-
-    # Expand request terms with related intent words.
-
-    for group in synonym_groups:
-
-        if expanded_terms.intersection(group):
-            expanded_terms.update(group)
-
-    # --------------------------------------------------------
-    # Score each supplied agent.
-    # --------------------------------------------------------
-
-    for agent in agents:
-
-        score = 0
-        matches = []
-
-        name = str(
-            agent.get(
-                "name",
-                "",
-            )
-        ).lower()
-
-        description = str(
-            agent.get(
-                "description",
-                "",
-            )
-        ).lower()
-
-        # ----------------------------------------------------
-        # Build searchable agent text.
-        # ----------------------------------------------------
-
-        searchable_parts = [
-            name,
-            description,
-        ]
-
-        # Skills may be strings or dictionaries.
-
-        skills = agent.get(
-            "skills",
-            [],
-        )
-
-        if isinstance(skills, list):
-
-            for skill in skills:
-
-                if isinstance(skill, dict):
-
-                    searchable_parts.extend([
-                        str(
-                            skill.get(
-                                "id",
-                                "",
-                            )
-                        ),
-                        str(
-                            skill.get(
-                                "name",
-                                "",
-                            )
-                        ),
-                        str(
-                            skill.get(
-                                "description",
-                                "",
-                            )
-                        ),
-                    ])
-
-                    tags = skill.get(
-                        "tags",
-                        [],
-                    )
-
-                    if isinstance(tags, list):
-                        searchable_parts.extend(
-                            str(tag)
-                            for tag in tags
-                        )
-
-                    examples = skill.get(
-                        "examples",
-                        [],
-                    )
-
-                    if isinstance(examples, list):
-                        searchable_parts.extend(
-                            str(example)
-                            for example in examples
-                        )
-
-                else:
-
-                    searchable_parts.append(
-                        str(skill)
-                    )
-
-        searchable_text = " ".join(
-            searchable_parts
-        ).lower()
-
-        searchable_words = set(
-            searchable_text
-            .replace("-", " ")
-            .replace("_", " ")
-            .replace(",", " ")
-            .replace(".", " ")
-            .replace(":", " ")
-            .split()
-        )
-
-        # ----------------------------------------------------
-        # Direct request-word matches.
-        # ----------------------------------------------------
-
-        for term in expanded_terms:
-
-            if len(term) < 3:
-                continue
-
-            if term in searchable_words:
-
-                score += 4
-                matches.append(term)
-
-                continue
-
-            # ------------------------------------------------
-            # Prefix matching handles:
-            #
-            # translate   <-> translation
-            # translating <-> translator
-            #
-            # without requiring exact equality.
-            # ------------------------------------------------
-
-            for agent_word in searchable_words:
-
-                if len(agent_word) < 4:
-                    continue
-
-                common_length = min(
-                    len(term),
-                    len(agent_word),
-                    6,
-                )
-
-                if common_length >= 4:
-
-                    if (
-                        term[:common_length]
-                        == agent_word[:common_length]
-                    ):
-
-                        score += 2
-                        matches.append(
-                            f"{term}~{agent_word}"
-                        )
-                        break
-
-        # ----------------------------------------------------
-        # Give agent-name matches extra weight.
-        # ----------------------------------------------------
-
-        name_words = (
-            name
-            .replace("-", " ")
-            .replace("_", " ")
-            .split()
-        )
-
-        for name_word in name_words:
-
-            if (
-                len(name_word) >= 3
-                and name_word in expanded_terms
-            ):
-
-                score += 5
-
-        logger.info(
-            "Router candidate: %s | score=%s | matches=%s",
-            agent.get(
-                "name",
-                agent.get(
-                    "id",
-                    "",
-                ),
-            ),
-            score,
-            matches,
-        )
-
-        if score > best_score:
-
-            best_score = score
-            best_agent = agent
-            best_matches = matches
-
-    # --------------------------------------------------------
-    # Existing one-agent fallback.
-    # --------------------------------------------------------
-
-    if (
-        best_agent is None
-        and len(agents) == 1
-    ):
-
-        best_agent = agents[0]
-
-        return {
-            "agent": best_agent,
-            "confidence": 0.50,
-            "reason": (
-                "Only one available agent "
-                "is currently registered."
-            ),
-        }
-
-    # --------------------------------------------------------
-    # More than one agent and nothing matched.
-    # Do NOT guess.
-    # --------------------------------------------------------
-
-    if best_agent is None:
-
-        return None
-
-    confidence = min(
-        0.95,
-        0.55 + best_score * 0.03,
-    )
-
-    return {
-        "agent": best_agent,
-        "confidence": confidence,
-        "reason": (
-            "Agent selected by matching request "
-            "intent against agent name, description "
-            "and skills. "
-            f"Matches: {best_matches}"
-        ),
-    }
-
-# ============================================================
-# AUTO ROUTER ENDPOINT
-# ============================================================
-
-@app.post("/router/select")
-async def router_select(
-    payload: dict[str, Any],
-):
-
-    message = str(
-        payload.get(
-            "message",
-            "",
-        )
-    ).strip()
-
+    return {'status':'ok','service':'VCCI AI Service'}
+
+@app.get('/ready')
+async def ready():
+    # Readiness reflects successful startup discovery, not a live North health probe.
+    return {'status': 'ready', 'defaultAgentId': NORTH_AGENT_ID}
+
+@app.get('/agents')
+async def agents():
+    discovered=discover_agents()
+    return {'agents':discovered,'count':len(discovered),'discovery':'north'}
+
+# Preserve legacy Java UI response contract: {agent, confidence, reason}.
+@app.post('/router/select')
+async def select_legacy(payload:dict[str,Any]):
+    message=str(payload.get('message') or '').strip()
     if not message:
+        return JSONResponse(status_code=400,content={'agent':None,'confidence':0,'reason':'Message cannot be empty'})
+    supplied=payload.get('agents')
+    if not isinstance(supplied, list):
+        supplied = []
+    # The Java VCCI client owns the agent registry and conversation context.
+    # Accept Java-provided agents for routing; do not mistake them for North agents.
+    # Only bind to localhost unless a separate authentication layer is installed.
+    candidates = supplied[:250] if supplied else discover_agents()
+    # Preserve the original agent dictionary including endpoint for Java manual routing.
+    valid=[]
+    for item in candidates[:250]:
+        if not isinstance(item,dict):
+            continue
+        normalized=dict(item)
+        normalized['id']=str(item.get('id') or item.get('agentId') or '').strip()
+        normalized['name']=str(item.get('name') or normalized['id']).strip()
+        if normalized['id'] and normalized['name']:
+            valid.append(normalized)
+    if len(message) > 16000:
+        raise HTTPException(status_code=413, detail='Message too long')
+    request=RouterRequest(message=message, contextId=payload.get('contextId'),
+                          previousAgentId=payload.get('previousAgentId'),
+                          context=ConversationContext.model_validate(payload.get('context') or {}),
+                          agents=[RouterAgent.model_validate(a) for a in valid])
+    decision=await agent_router.route(request)
+    selected=next((a for a in valid if a['id']==decision.agentId),None)
+    return {'agent':selected,'confidence':decision.confidence,'reason':decision.reason,
+            'agentId':decision.agentId,'agentName':decision.agentName,'method':decision.method}
 
-        return JSONResponse(
-            status_code=400,
-            content={
-                "agent": None,
-                "confidence": 0.0,
-                "reason": (
-                    "Message cannot be empty."
-                ),
-            },
-        )
+app.include_router(create_router_api(agent_router))
+add_a2a_routes_to_fastapi(app,agent_card_routes=create_agent_card_routes(agent_card),
+                          jsonrpc_routes=create_jsonrpc_routes(request_handler,DEFAULT_RPC_URL))
 
-
-    available_agents = payload.get(
-        "agents",
-        [],
-    )
-
-    if not isinstance(
-        available_agents,
-        list,
-    ):
-
-        available_agents = []
-
-
-    # If Java did not send the list,
-    # discover it directly.
-
-    if not available_agents:
-
-        available_agents = (
-            discover_agents()
-        )
-
-
-    result = choose_agent(
-        message,
-        available_agents,
-    )
-
-
-    if result is None:
-
-        return {
-            "agent": None,
-            "confidence": 0.0,
-            "reason": (
-                "No suitable agent "
-                "could be selected."
-            ),
-        }
-
-
-    logger.info(
-        "Router selected agent: %s",
-        result["agent"].get(
-            "name"
-        ),
-    )
-
-    return result
-
-
-# ============================================================
-# A2A ROUTES
-#
-# THIS IS THE EXACT REGISTRATION STYLE FROM YOUR
-# ORIGINAL WORKING main.py.
-# ============================================================
-
-add_a2a_routes_to_fastapi(
-    app,
-
-    agent_card_routes=(
-        create_agent_card_routes(
-            agent_card
-        )
-    ),
-
-    jsonrpc_routes=(
-        create_jsonrpc_routes(
-            request_handler,
-            DEFAULT_RPC_URL,
-        )
-    ),
-)
-
-
-# ============================================================
-# START
-# ============================================================
-
-if __name__ == "__main__":
-
-    uvicorn.run(
-        app,
-        host=HOST,
-        port=PORT,
-    )
+if __name__=='__main__':
+    import uvicorn
+    uvicorn.run(app,host=HOST,port=PORT)
