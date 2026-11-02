@@ -1,0 +1,297 @@
+Important to have an access to the streamlit UI !!!
+--- I'd recommend to use this link: http://127.0.0.1:8501/ if the localhost link  (http://localhost:8501) got a bug, or it's taking a long time to make the interface be appeared ...
+pipeline-reqa-sql
+Local Text-to-SQL Agent — query any relational database in natural language.
+100% local, zero data leaves your machine.
+
+Pipeline Architecture
+User Query (natural language)
+        │
+        ▼
+┌───────────────────┐
+│  1. Embedding     │  ← local fastembed (BAAI/bge-small-en-v1.5, CPU)
+└────────┬──────────┘
+         │ vector
+         ▼
+┌───────────────────┐    ┌─────────────────────────────┐
+│  2. Schema RAG    │◄───│  Qdrant (local Vector DB)   │
+│  (top-k tables)   │    │  + full table list           │
+└────────┬──────────┘    └─────────────────────────────┘
+         │ contextualized schema
+         ▼
+┌───────────────────┐
+│  3. SQL Generator │  ← LLM (Ollama/Mistral, 100% local)
+│     (LLM #1)      │    generates SQL from question + schema
+└────────┬──────────┘
+         │ raw SQL
+         ▼
+┌───────────────────┐
+│  4. Static Check  │  ← sqlglot (MariaDB syntax + SELECT-only)
+│   (sqlglot)       │    if invalid → retry to SQL Generator (max 3x)
+└────────┬──────────┘
+         │ valid SQL
+         ▼
+┌───────────────────┐
+│  5. EXPLAIN       │  ← MariaDB EXPLAIN (dry-run, zero data read)
+│   (dry-run)       │    if failure → Circuit Breaker → Graceful Failure
+└────────┬──────────┘
+         │ plan OK
+         ▼
+┌───────────────────┐    ┌──────────────────┐
+│  6. DB Execution  │◄───│  MariaDB 11.4    │
+│                   │    │  (local SQL DB)  │
+└────────┬──────────┘    └──────────────────┘
+         │ raw results (rows)
+         ▼
+┌───────────────────┐
+│  7. Renderer      │  ← LLM (Ollama/Mistral, same model)
+│     (LLM #2)      │    formats results into a natural language response
+└────────┬──────────┘
+         │
+         ▼
+   Final Response
+
+─────────────────────────────
+Circuit Breaker (cross-cutting)
+  → opens after 3 consecutive failures (EXPLAIN or Execution)
+  → Graceful Failure: clear message to the user
+─────────────────────────────
+
+Tech Stack
+   Component    Technology    Role   SQL LLMOllama + CodestralSQL generation (specialized)Render LLMOllama + Mistral 7BNatural language responseVector DBQdrant v1.12Semantic schema searchEmbeddingsfastembed / BAAI/bge-small-en-v1.5Local vectorization (CPU)DatabaseMariaDB 11.4Data sourceSQL validationsqlglotStatic syntax validationAPIFastAPI + uvicornREST interface  
+
+Quick Start
+1. Disable native Ollama (if installed)
+If Ollama is running on your machine, it occupies port 11434 — stop it before launching Docker:
+sudo systemctl stop ollama
+sudo systemctl disable ollama
+2. Start all services
+docker compose up -d
+Docker automatically handles:
+
+installing Python dependencies (pip install)
+setting up the environment (.env.example used directly)
+downloading codestral and mistral into Ollama (first start only)
+
+Verify everything is running:
+docker compose ps
+3. Ingest your database schema
+# With the provided test schema:
+docker compose run --rm ingest example.sql
+
+# Or with your own schema:
+docker compose run --rm ingest /app/my-schema.sql
+
+
+# Ingest 
+docker compose run --rm ingest.py calian_full_nodata.sql
+
+
+4. Query the database
+A2A
+python a2a_nl2sql_client.py --query="Show the 10 rows from combat_power_metrics_results"
+A2A JSON payload
+{
+    "GenerateSQL": {
+        "Request": "GenerateSQL",
+        "Query": "Show the 10 rows from combat_power_metrics_results",
+        "options": {  "debug" : true    }
+    }
+}
+A2A JSON Response
+{
+    "Success": true,
+    "used_skill": "GenerateSQL",
+    "Request": {
+        "Request": "GenerateSQL",
+        "Query": "Show the 10 rows from combat_power_metrics_results",
+        "options": {
+            "debug": true
+        }
+    },
+    "Response": {
+        "success": true,
+        "answer": "The query returned 10 row(s).\\n\\n| Cpower Metrics Result Id | Cpower |\\n| --- | --- |\\n| 1 | 100.00 |\\n| 2 | 0.00 |\\n| 3 | 0.00 |\\n| 4 | 100.00 |\\n| 5 | 0.00 |\\n| 6 | 100.00 |\\n| 7 | 100.00 |\\n| 8 | 100.00 |\\n| 9 | 0.00 |\\n| 10 | 100.00 |",
+        "sql": "SELECT * FROM combat_power_metrics_results LIMIT 10",
+        "rows": [
+            {
+                "cpower_metrics_result_id": 1,
+                "cpower": "100.00"
+            },
+            {
+                "cpower_metrics_result_id": 2,
+                "cpower": "0.00"
+            },
+            {
+                "cpower_metrics_result_id": 3,
+                "cpower": "0.00"
+            },
+            {
+                "cpower_metrics_result_id": 4,
+                "cpower": "100.00"
+            },
+            {
+                "cpower_metrics_result_id": 5,
+                "cpower": "0.00"
+            },
+            {
+                "cpower_metrics_result_id": 6,
+                "cpower": "100.00"
+            },
+            {
+                "cpower_metrics_result_id": 7,
+                "cpower": "100.00"
+            },
+            {
+                "cpower_metrics_result_id": 8,
+                "cpower": "100.00"
+            },
+            {
+                "cpower_metrics_result_id": 9,
+                "cpower": "0.00"
+            },
+            {
+                "cpower_metrics_result_id": 10,
+                "cpower": "100.00"
+            }
+        ],
+        "row_count": 10,
+        "attempts": 1,
+        "error": "",
+        "explanation": {
+            "intent": "data_query",
+            "retrieved_tables": [
+                {
+                    "name": "combat_power_metrics_results",
+                    "score": 0.3067,
+                    "cosine_score": 0.802,
+                    "domain": "",
+                    "source": "rag"
+                },
+                {
+                    "name": "metrics_results",
+                    "score": 0.3039,
+                    "cosine_score": 0.7925,
+                    "domain": "Performance Metrics & After-Action Review",
+                    "source": "rag"
+                },
+                {
+                    "name": "entity_watch_metrics_results",
+                    "score": 0.0,
+                    "cosine_score": 0.0,
+                    "domain": "Intelligence",
+                    "source": "fk_expansion"
+                },
+                {
+                    "name": "combat_power_metrics_spec",
+                    "score": 0.2814,
+                    "cosine_score": 0.7707,
+                    "domain": "Operations",
+                    "source": "rag"
+                },
+                {
+                    "name": "rates_of_movement_metrics_results",
+                    "score": 0.0,
+                    "cosine_score": 0.0,
+                    "domain": "General",
+                    "source": "fk_expansion"
+                }
+            ],
+            "total_tables_in_db": 254,
+            "schema_preview": "-- =====================================================\\n-- Retrieved Schema Context\\n-- =====================================================\\n\\n-- Relevance: 0.3067\\n-- [] combat_power_metrics_results\\n-- Description: \\nCREATE TABLE combat_power_metrics_results (\\n    cpower_metrics_result_id  INT(10) UNSIGNED NOT NULL\\n    cpower  DECIMAL(6, 2)\\n);\\n\\n-- Relevance: 0.3039\\n-- [Performance Metrics & After-Action Review] metrics_results\\n-- Description: Table storing records for: metrics results (7 attributes). Referenced by combat_power_metrics_results, ctrl_measure_occupation_metrics_results, enemy_engagement_metrics_results, entity_watch_metrics_results, fratricide_metrics_results, hhour_metrics_results, lvcts_trainee_metrics_results, picture_of_enemy_metrics_results, rates_of_movement_metrics_results.\\n-- Primary key: metrics_result_id\\n-- Also known as: metric results, performance results, measur",
+            "attempts": [
+                {
+                    "n": 1,
+                    "sql": "SELECT * FROM combat_power_metrics_results LIMIT 10",
+                    "failed_at": null,
+                    "error": ""
+                }
+            ],
+            "confidence": {
+                "score": 0.9154,
+                "rag_conf": 0.7884,
+                "gen_conf": 1.0
+            }
+        }
+    }
+}
+HTTP
+curl -X POST http://localhost:8080/query \
+  -H "Content-Type: application/json" \
+  -d '{"question": "Show the 10 rows from combat_power_metrics_results"}'
+5. Check agent health
+curl http://localhost:8080/health
+
+Switching LLM Models
+The pipeline is designed to be LLM-agnostic. All implementations inherit from agent/llm/base.py.
+Ollama (local, default)
+LLM_PROVIDER=ollama
+OLLAMA_MODEL=mistral        # or codestral, phi4, codellama:7b, llama3.1:8b
+OLLAMA_BASE_URL=http://localhost:11434
+OpenAI-compatible API (Mistral API, LM Studio, Groq…)
+LLM_PROVIDER=openai_compat
+OPENAI_COMPAT_BASE_URL=https://api.mistral.ai/v1
+OPENAI_COMPAT_API_KEY=your-key
+OPENAI_COMPAT_MODEL=mistral-small-latest
+Plugging in a new LLM
+# agent/llm/my_llm.py
+from agent.llm.base import BaseLLM
+
+class MyLLM(BaseLLM):
+    def complete(self, system: str, messages: list[dict], max_tokens: int = 1024) -> str:
+        # your implementation here
+        ...
+Then in api.py, add the branch in _build_llm().
+
+Project Structure
+pipeline-reqa-sql/
+├── docker-compose.yml     # MariaDB + Qdrant + Ollama
+├── .env.example           # Configuration template
+├── requirements.txt
+├── config.py              # Environment variable reader
+├── ingest.py              # SQL schema ingestion → Qdrant
+├── api.py                 # FastAPI (POST /query, GET /health)
+└── agent/
+    ├── llm/
+    │   ├── base.py            # Abstract BaseLLM interface
+    │   ├── ollama_llm.py      # Ollama implementation
+    │   └── openai_compat.py   # OpenAI-compatible implementation
+    ├── circuit_breaker.py     # Circuit breaker (opens after N failures)
+    ├── embedder.py            # Local embedding model (fastembed)
+    ├── schema_rag.py          # Semantic search in Qdrant
+    ├── sql_generator.py       # SQL generation via LLM
+    ├── static_check.py        # sqlglot syntax validation
+    ├── dry_run.py             # MariaDB EXPLAIN (dry-run)
+    ├── executor.py            # Actual MariaDB execution
+    ├── renderer.py            # Natural language rendering via LLM
+    └── pipeline.py            # Main orchestrator
+
+API Response
+{
+  "success": true,
+  "answer": "3 products are below the reorder threshold...",
+  "sql": "SELECT p.sku, p.product_name, i.quantity_on_hand, i.reorder_level FROM inventory i JOIN products p ON i.product_id = p.product_id WHERE i.quantity_on_hand <= i.reorder_level LIMIT 100;",
+  "row_count": 3,
+  "attempts": 1,
+  "error": ""
+}
+
+Recommended LLM Models (open, commercial, NATO countries)
+All models below run 100% locally via Ollama — no data leaves your machine.
+   Model    Organization    Country    RAM    SQL Quality    Notes   mistral:7bMistral AIFrance~5 GB★★★★☆Default configuredllama3.1:8bMetaUSA~6 GB★★★★★Great all-roundercodellama:7bMetaUSA~4 GB★★★★☆Specialized for code/SQLphi4:14bMicrosoftUSA~9 GB★★★★★More powerful, heaviercodestralMistral AIFrance~9 GB★★★★★Specialized for code/SQL  
+
+Text-to-SQL recommendation: codestral (specialized) or phi4:14b (high-performance all-rounder).
+
+ollama pull mistral                 # default
+ollama pull codestral               # best for text-to-SQL
+ollama pull phi4                    # best general quality
+ollama pull codellama:7b            # alternative for code
+ollama pull llama3.1:8b             # general-purpose
+Important: Increasing the context size of the model
+Models are setup by default to work on with a smaller context size than what they are capable.
+codestral is set a 4KB by default, but it is capable of 32 KB.
+4KB is way too small for the project. codestral is capable of 32kb.
+Create a file 'codestral_32k.modelfile', and write the following content
+FROM codestral:latest
+PARAMETER num_ctx 32768
+ollama model create codestral_32k -f codestral_32k.modelfile
