@@ -1,0 +1,165 @@
+PS C:\Windows\system32> Get-Content "$HOME\Downloads\CALIAN_AI_OLLAMA_FIXED_SOURCE\CALIAN_AI_ELECTRON_THEMES\server\index.ts" | Select-String "ollama|generate|chat" -Context 3,5
+
+  app.use(express.json({limit:'1mb'}));
+  const PORT = Number(process.env.PORT || 8797);
+  const PYTHON_SERVICE_URL = process.env.PYTHON_SERVICE_URL || 'http://127.0.0.1:9999';
+> // The selection-only Ollama service is separate from the executable Python A2A service.
+> const OLLAMA_ROUTER_URL = process.env.OLLAMA_ROUTER_URL || 'http://127.0.0.1:9999';
+  const AI_CORE_REGISTRY_URL = process.env.AI_CORE_REGISTRY_URL || 'http://127.0.0.1:9801/api/ai-core/agents';
+  const PARADIGM_BRIDGE_TOKEN = process.env.PARADIGM_BRIDGE_TOKEN || '';
+  let paradigmSnapshot: {commandList: Record<string,string[]>;agentURLs:Record<string,string>} | null = null;
+  // Explicitly configured upstreams only; the browser cannot supply arbitrary target URLs.
+  const discoveredEndpoints = new Set<string>();
+> const allowed = new Set([PYTHON_SERVICE_URL,OLLAMA_ROUTER_URL,AI_CORE_REGISTRY_URL,...(process.env.AI_CORE_ENDPOINTS
+|| '').split(',')].filter(Boolean).map(s=>s.replace(/\/+$/,'')));
+  function validate(urlText:string) {
+   const u = new URL(urlText);
+   if (!['http:','https:'].includes(u.protocol) || u.username || u.password || u.hash) throw new Error('Invalid
+upstream URL');
+>  if (!discoveredEndpoints.has(u.href) && ![...allowed].some(base => { const b=new URL(base); return
+u.origin===b.origin && (u.pathname===b.pathname || ((base===PYTHON_SERVICE_URL &&
+['/','/agents','/router/select'].includes(u.pathname)) || (base===OLLAMA_ROUTER_URL &&
+u.pathname==='/router/select'))); })) throw new Error('Upstream not allowlisted');
+   // No user-supplied upstreams, preventing arbitrary proxy access.
+   return u;
+  }
+  async function forward(url:string,method:'GET'|'POST',payload?:unknown,stream=false){
+   const target=validate(url);
+  }
+  const fail=(res:express.Response,e:unknown)=>res.status(502).json({error:e instanceof Error?e.message:String(e)});
+  app.get('/api/health',(_req,res)=>res.json({status:'ready',pythonService:PYTHON_SERVICE_URL,aiCoreConfigured:Boolean(
+AI_CORE_REGISTRY_URL)}));
+> // The local assistant executes against Ollama even when the optional Python router is offline.
+> const LOCAL_OLLAMA_AGENT={id:'local-ollama',name:'Local Ollama Assistant',description:'Local llama3.2 chat and
+translation',type:'north',streaming:false,configured:true,active:true,endpoint:'local',skills:[]};
+  app.get('/api/agents',async(_req,res)=>{
+   try {
+    const upstream=await forward(PYTHON_SERVICE_URL.replace(/\/+$/,'')+'/agents','GET');
+    if(!upstream.ok)throw new Error(`Python router HTTP ${upstream.status}`);
+    const data:any=await upstream.json();
+>   const agents=Array.isArray(data?.agents)?data.agents.filter((a:any)=>a?.id!=='local-ollama'):[];
+>   agents.unshift(LOCAL_OLLAMA_AGENT);
+    res.json({...data,agents,count:agents.length});
+>  }catch{res.json({agents:[LOCAL_OLLAMA_AGENT],count:1,discovery:'local-ollama; Python router offline'});}
+  });
+> app.post('/api/ollama/chat',async(req,res)=>{
+   const {message,context}=req.body||{};
+   if(typeof message!=='string'||!message.trim()||message.length>16000){res.status(400).json({error:'Message must be
+1-16000 characters'});return;}
+   const history=Array.isArray(context?.conversationHistory)?context.conversationHistory.slice(-12):[];
+   const system=[context?.systemInstructions,context?.userContext&&`User context:
+${context.userContext}`,context?.taskContext&&`Task context: ${context.taskContext}`].filter(x=>typeof
+x==='string'&&x.trim()).join('\n');
+   const messages=[...(system?[{role:'system',content:system}]:[]),...history.filter((t:any)=>['user','assistant'].incl
+udes(t?.role)&&typeof
+t.content==='string').map((t:any)=>({role:t.role,content:t.content.slice(0,16000)})),{role:'user',content:message}];
+   try{
+>   const upstream=await fetch((process.env.OLLAMA_URL||'http://127.0.0.1:11434').replace(/\/+$/,'')+'/api/chat',{metho
+d:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:process.env.OLLAMA_MODEL||'llama3.2:lat
+est',stream:false,messages}),signal:AbortSignal.timeout(180000)});
+>   if(!upstream.ok){res.status(502).json({error:`Ollama HTTP ${upstream.status}: ${(await
+upstream.text()).slice(0,500)}`});return;}
+    const output:any=await upstream.json();
+    const answer=output?.message?.content;
+>   if(typeof answer!=='string'||!answer.trim())throw new Error('Ollama returned no text');
+    res.json({text:answer,model:output.model});
+>  }catch(e){res.status(502).json({error:'Cannot reach Ollama at
+'+(process.env.OLLAMA_URL||'http://127.0.0.1:11434')+': '+(e instanceof Error?e.message:String(e))});}
+  });
+  app.post('/api/paradigm/discovery',(req,res)=>{
+   if (!PARADIGM_BRIDGE_TOKEN || req.get('X-Paradigm-Bridge-Token') !== PARADIGM_BRIDGE_TOKEN)
+{res.status(403).json({error:'Paradigm bridge token required'});return;}
+   const {commandList,agentURLs}=req.body||{};
+   if (!commandList || typeof commandList!=='object' || Array.isArray(commandList) || !agentURLs || typeof
+agentURLs!=='object' || Array.isArray(agentURLs)) {res.status(400).json({error:'Expected commandList and agentURLs
+objects'});return;}
+  });
+  app.get('/api/ai-core/agents',async(_req,res)=>{try{const upstream=await
+forward(AI_CORE_REGISTRY_URL,'GET');if(!upstream.ok)throw new Error(`AI Core registry HTTP ${upstream.status}`);await
+relay(res,upstream);}catch(e){if(paradigmSnapshot){res.json(paradigmSnapshot);return;}fail(res,e);}});
+  // Route against the server-discovered registry, never caller-supplied endpoints.
+> // Ollama selects only among server-discovered executable agents. Never execute local-ollama placeholder.
+  const routeWords=(v:string)=>new Set((v.toLowerCase().match(/[a-z0-9]+/g)||[]).filter(w=>w.length>2));
+  const routeGroups=[['translate','translation','translator','french','spanish','german','language'],['dice','roll','ra
+ndom'],['database','sql','query','records','tables','table','db'],['speech','transcribe','transcription','audio','voice
+'],['social','media','linkedin','post','posts'],['json','structured','schema','format','fields']];
+  function expandRoute(v:string){const words=routeWords(v);for(const group of
+routeGroups)if(group.some(w=>words.has(w)))group.forEach(w=>words.add(w));return words;}
+  function overlaps(a:Set<string>,b:Set<string>){let n=0;for(const w of a)if(b.has(w))n++;return n;}
+  type RouteAgent={id:string;name:string;type:'north'|'aicore';description:string;commands:string[]};
+   const candidates:RouteAgent[]=requested.filter((r:any)=>r && typeof r.id==='string' && r.id.length<150 &&
+['north','aicore'].includes(r.type))
+    .map((r:any)=>{const known=trusted.find(t=>t.id===r.id && t.type===r.type);return known || {id:r.id,name:String(r.n
+ame||r.id).slice(0,200),type:r.type,description:String(r.description||'').slice(0,2000),commands:Array.isArray(r.comman
+ds)?r.commands.filter((c:any)=>typeof c==='string').slice(0,50):[]};});
+   if(!candidates.length){res.json({agent:null,confidence:0,reason:'No discovered agents supplied by Electron
+UI'});return;}
+>  // PRIMARY: invoke local Ollama directly, rather than depending on the Python router.
+   try {
+    const catalog=candidates.map(a=>({id:a.id,name:a.name,type:a.type,description:a.description,commands:a.commands}));
+>   const ollama=await fetch((process.env.OLLAMA_URL||'http://127.0.0.1:11434').replace(/\/+$/,'')+'/api/chat',{
+     method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(30000),
+>    body:JSON.stringify({model:process.env.OLLAMA_MODEL||'llama3.2:latest',stream:false,format:'json',options:{tempera
+ture:0},messages:[
+      {role:'system',content:'You are CALIAN AI agent selector. Choose ONE best agent from this catalog. Reply ONLY
+valid JSON {"agentId":"exact-id","reason":"short explanation"}. Never invent IDs. Catalog: '+JSON.stringify(catalog)},
+      {role:'user',content:message}
+     ]})
+    });
+>   if(!ollama.ok)throw new Error('Ollama HTTP '+ollama.status);
+>   const output:any=await ollama.json();
+    const decision=JSON.parse(String(output?.message?.content||'{}'));
+    const selected=candidates.find(a=>a.id===decision.agentId);
+>   if(selected){res.json({agent:{id:selected.id,name:selected.name,type:selected.type},agentId:selected.id,agentName:s
+elected.name,confidence:.8,reason:String(decision.reason||'Chosen by Ollama').slice(0,500),method:'ollama'});return;}
+>   throw new Error('Ollama did not return a registered agent ID');
+>  }catch(error){console.warn('Direct Ollama unavailable, attempting Python Ollama router:',error);}
+>  // Secondary: existing Python Ollama router, then trusted metadata fallback.
+   try {
+>   const upstream=await forward(OLLAMA_ROUTER_URL.replace(/\/+$/,'')+'/router/select','POST',{
+     message,agents:candidates.map(a=>({id:a.id,name:a.name,type:a.type,description:a.description,commands:a.commands,s
+kills:a.commands.map((c,i)=>({id:`command-${i}`,name:c,description:c,tags:[],examples:[]}))})),contextId:req.body?.cont
+extId,context:req.body?.context
+    });
+    if(upstream.ok){const choice:any=await upstream.json();const id=String(choice.agentId||choice.agent?.id||'');const
+selected=candidates.find(a=>a.id===id);
+>    if(selected&&choice.method==='ollama'){res.json({agent:{id:selected.id,name:selected.name,type:selected.type},agen
+tId:selected.id,agentName:selected.name,confidence:Number(choice.confidence)||.8,reason:String(choice.reason||'Selected
+ by Python Ollama'),method:'ollama'});return;}}
+   }catch(error){console.warn('Python router unavailable; using metadata fallback:',error);}
+   const query=expandRoute(message);const ranked=candidates.map(a=>({agent:a,score:5*overlaps(query,routeWords(a.name))
++2*overlaps(query,routeWords(a.commands.join('
+')))+overlaps(query,routeWords(a.description))})).sort((a,b)=>b.score-a.score||a.agent.id.localeCompare(b.agent.id));
+   const best=ranked[0];if(best.score===0&&ranked.length!==1){res.json({agent:null,confidence:0,reason:'No agent
+capability matched the request'});return;}
+   if(ranked.length>1&&ranked[1].score===best.score){res.json({agent:null,confidence:0,reason:'Ambiguous match between
+multiple agents'});return;}
+   res.json({agent:{id:best.agent.id,name:best.agent.name,type:best.agent.type},agentId:best.agent.id,agentName:best.ag
+ent.name,confidence:best.score?Math.min(.95,.55+best.score*.04):.5,reason:best.score?'Selected using trusted agent
+metadata':'Only one registered agent is available',method:'metadata'});
+  app.post('/api/a2a',async(req,res)=>{
+    // The bundled Python router exposes discovery and selection, NOT an A2A executor.
+    // Reject unsupported execution clearly instead of forwarding to its missing '/' route.
+>   res.status(503).json({error:'Python A2A execution service is not configured. Local Ollama Assistant works through
+/api/ollama/chat. Configure PYTHON_SERVICE_URL to a real A2A executor for other Python agents.'});
+  });
+  app.post('/api/ai-core/execute',async(req,res)=>{
+   const {agentId,message,contextId,context}=req.body || {};
+   if(typeof agentId!=='string'||typeof message!=='string'||typeof
+contextId!=='string'){res.status(400).json({error:'Invalid request'});return;}
+   // Client does not control destination. Registry endpoints must be explicitly allowlisted.
+    let id:string|undefined;
+    try {
+     const input=JSON.parse(raw.toString());id=input.id;
+>    if(typeof id!=='string'||id.length>100||!['/api/health','/api/agents','/api/ai-core/agents','/api/router/select','
+/api/a2a','/api/ai-core/execute','/api/ollama/chat'].includes(input.path)||!['GET','POST'].includes(input.method))throw
+ new Error('Invalid socket request');
+     // Existing trusted Express routes retain all validation and upstream protections.
+     const response=await fetch(`http://127.0.0.1:${PORT}${input.path}`,{method:input.method,headers:{'Content-Type':'a
+pplication/json'},body:input.method==='POST'?JSON.stringify(input.body):undefined,signal:AbortSignal.timeout(180000)});
+     if(!response.ok){send({id,type:'error',error:`HTTP ${response.status}: ${await response.text()}`});return;}
+     if(input.path==='/api/a2a'){
+      if(!response.body)throw new Error('Missing A2A stream');
+
+
+PS C:\Windows\system32>
