@@ -1,0 +1,157 @@
+cd C:\dev - Copy\ai-core; "JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.10.7-hotspot" M2_HOME=C:\\Users\\f.nkutu\\sf-ci-tools\\maven cmd /c "\"C:\\Users\\f.nkutu\\sf-ci-tools\\maven\\bin\\mvn.cmd\" -DskipTests=true \"-Dmaven.ext.class.path=C:\\Program Files\\NetBeans-19\\netbeans\\java\\maven-nblib\\netbeans-eventspy.jar\" --also-make --projects aicore --no-transfer-progress install"
+Scanning for projects...
+------------------------------------------------------------------------
+Reactor Build Order:
+
+AI Core Projects                                                   [pom]
+AI Core Data Model                                                 [jar]
+AI Core App                                                        [jar]
+
+-------------------------< com.calian:aicore >--------------------------
+Building AI Core Projects 1.0.0-SNAPSHOT                           [1/3]
+  from pom.xml
+--------------------------------[ pom ]---------------------------------
+
+--- git-commit-id:9.0.2:revision (get-the-git-infos) @ aicore ---
+
+--- enforcer:3.5.0:enforce (enforce-sf-build-standards) @ aicore ---
+Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+Rule 3: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+Rule 4: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+Rule 5: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+Rule 6: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+Rule 7: org.apache.maven.enforcer.rules.BannedPlugins passed
+
+--- enforcer:3.5.0:enforce (enforce-sf-package-standards) @ aicore ---
+Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+Rule 3: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+Rule 4: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+Rule 5: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+Rule 6: org.apache.maven.enforcer.rules.BannedPlugins passed
+
+--- artifactory:3.7.0:publish (attach-properties) @ aicore ---
+
+--- git-commit-id:9.0.2:revision (write-git-commit-properties-to-file) @ aicore ---
+
+--- git-commit-id:9.0.2:revision (write-all-git-properties-to-file) @ aicore ---
+
+--- build-helper:3.6.0:parse-version (parse-version) @ aicore ---
+
+--- build-helper:3.6.0:timestamp-property (set-date-for-application-version) @ aicore ---
+
+--- remote-resources:3.3.0:process (process-license-resource) @ aicore ---
+Preparing remote bundle com.simfront.ott.license:ott_v1:1.0
+Copying 1 resource from 1 bundle.
+
+--- build-helper:3.6.0:attach-artifact (attach-passport-file) @ aicore ---
+
+--- install:3.1.4:install (default-install) @ aicore ---
+Installing C:\dev - Copy\ai-core\pom.xml to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicore\1.0.0-SNAPSHOT\aicore-1.0.0-SNAPSHOT.pom
+Installing C:\dev - Copy\ai-core\target\passport.properties to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicore\1.0.0-SNAPSHOT\aicore-1.0.0-SNAPSHOT.txt
+
+-----------------------< com.calian:aicoredata >------------------------
+Building AI Core Data Model 1.0.0-SNAPSHOT                         [2/3]
+  from aicoredata\pom.xml
+--------------------------------[ jar ]---------------------------------
+The POM for com.calian.common.lib:common-lib-rabbitmq:jar:5.2.0-20261104.164233-4 is invalid, transitive dependencies (if any) will not be available: 1 problem was encountered while building the effective model for com.calian.common.lib:common-lib-rabbitmq:5.2.0-SNAPSHOT
+'dependencies.dependency.version' for com.rabbitmq:amqp-client:jar is missing. @ 
+
+
+--- git-commit-id:9.0.2:revision (get-the-git-infos) @ aicoredata ---
+
+--- enforcer:3.5.0:enforce (enforce-sf-build-standards) @ aicoredata ---
+Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+Rule 5: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+Rule 6: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+Rule 7: org.apache.maven.enforcer.rules.BannedPlugins passed
+
+--- enforcer:3.5.0:enforce (enforce-sf-package-standards) @ aicoredata ---
+Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+Rule 4: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+Rule 5: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+Rule 6: org.apache.maven.enforcer.rules.BannedPlugins passed
+
+--- artifactory:3.7.0:publish (attach-properties) @ aicoredata ---
+
+--- git-commit-id:9.0.2:revision (write-git-commit-properties-to-file) @ aicoredata ---
+
+--- git-commit-id:9.0.2:revision (write-all-git-properties-to-file) @ aicoredata ---
+
+--- build-helper:3.6.0:parse-version (parse-version) @ aicoredata ---
+
+--- build-helper:3.6.0:timestamp-property (set-date-for-application-version) @ aicoredata ---
+
+--- remote-resources:3.3.0:process (process-license-resource) @ aicoredata ---
+Preparing remote bundle com.simfront.ott.license:ott_v1:1.0
+Copying 1 resource from 1 bundle.
+
+--- resources:3.3.1:resources (default-resources) @ aicoredata ---
+skip non existing resourceDirectory C:\dev - Copy\ai-core\aicoredata\src\main\resources
+Copying 1 resource from target\maven-shared-archive-resources to target\classes
+
+--- compiler:3.14.0:compile (default-compile) @ aicoredata ---
+Recompiling the module because of changed source code.
+Compiling 17 source files with javac [debug release 21] to target\classes
+-------------------------------------------------------------
+COMPILATION WARNING : 
+-------------------------------------------------------------
+unknown enum constant com.fasterxml.jackson.annotation.JsonTypeInfo.Id.CLASS
+  reason: class file for com.fasterxml.jackson.annotation.JsonTypeInfo$Id not found
+unknown enum constant com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY
+  reason: class file for com.fasterxml.jackson.annotation.JsonTypeInfo$As not found
+2 warnings 
+-------------------------------------------------------------
+-------------------------------------------------------------
+COMPILATION ERROR : 
+-------------------------------------------------------------
+com/calian/aicoredata/datatype/AIObject.java:[11,40] cannot access com.calian.common.lib.system.SystemObject
+  class file for com.calian.common.lib.system.SystemObject not found
+com/calian/aicoredata/comms/RabbitMQComm.java:[8,33] package com.calian.common.lib.log does not exist
+com/calian/aicoredata/comms/RabbitMQComm.java:[20,17] package org.slf4j does not exist
+com/calian/aicoredata/comms/RabbitMQComm.java:[32,25] cannot find symbol
+  symbol:   class Logger
+  location: class com.calian.aicoredata.comms.RabbitMQComm
+com/calian/aicoredata/comms/RabbitMQComm.java:[32,37] cannot find symbol
+  symbol:   variable Log
+  location: class com.calian.aicoredata.comms.RabbitMQComm
+5 errors 
+-------------------------------------------------------------
+------------------------------------------------------------------------
+Reactor Summary for AI Core Projects 1.0.0-SNAPSHOT:
+
+AI Core Projects ................................... SUCCESS [  7.038 s]
+AI Core Data Model ................................. FAILURE [  1.639 s]
+AI Core App ........................................ SKIPPED
+------------------------------------------------------------------------
+BUILD FAILURE
+------------------------------------------------------------------------
+Total time:  9.978 s
+Finished at: 2026-11-04T14:32:22-05:00
+------------------------------------------------------------------------
+Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.0:compile (default-compile) on project aicoredata: Compilation failure: Compilation failure: 
+com/calian/aicoredata/datatype/AIObject.java:[11,40] cannot access com.calian.common.lib.system.SystemObject
+  class file for com.calian.common.lib.system.SystemObject not found
+com/calian/aicoredata/comms/RabbitMQComm.java:[8,33] package com.calian.common.lib.log does not exist
+com/calian/aicoredata/comms/RabbitMQComm.java:[20,17] package org.slf4j does not exist
+com/calian/aicoredata/comms/RabbitMQComm.java:[32,25] cannot find symbol
+  symbol:   class Logger
+  location: class com.calian.aicoredata.comms.RabbitMQComm
+com/calian/aicoredata/comms/RabbitMQComm.java:[32,37] cannot find symbol
+  symbol:   variable Log
+  location: class com.calian.aicoredata.comms.RabbitMQComm
+-> [Help 1]
+
+To see the full stack trace of the errors, re-run Maven with the -e switch.
+Re-run Maven using the -X switch to enable full debug logging.
+
+For more information about the errors and possible solutions, please read the following articles:
+[Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+
+After correcting the problems, you can resume the build with the command
+  mvn <args> -rf :aicoredata
