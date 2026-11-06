@@ -1,0 +1,230 @@
+#
+#   Core test client
+#   Client for testing a2a_core_agent.py
+#
+#   based on the A2A samples hello world
+#
+import logging
+
+from typing import Any
+from uuid import uuid4
+import os
+import httpx
+from dotenv import load_dotenv
+
+from a2a.client import A2ACardResolver, A2AClient
+from a2a.types import (
+    AgentCard,
+    MessageSendParams,
+    SendMessageRequest,
+    SendStreamingMessageRequest,
+)
+from a2a.utils.constants import (
+    AGENT_CARD_WELL_KNOWN_PATH,
+    EXTENDED_AGENT_CARD_PATH,
+)
+
+import datetime
+import json
+import sys
+sys.path.insert(0,"a2a_common")
+import traceback
+import argparse
+
+import logging
+logging.basicConfig(level=logging.DEBUG,format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger("A2A") 
+
+#=======================   config.json  ====================================================
+sys.path.insert(0, "../") # add this path to get the config in root dir
+from config.settings import get_settings
+#===========================================================================================
+
+from a2a_common.a2a_base_client_setup import A2AClientSend
+from agent.rated_rules_file import load_rules_file
+
+
+generate_sql_request ={ 
+    "GenerateSQL" :  
+    {
+        "Request": "GenerateSQL",
+        "Query": "__QUERY__",
+        "options" : {  'debug' : False, 'force' : False, "langfuse_tag" : "test" }
+    }
+}
+
+
+
+test_rules =[ { "AI_response": "I dont know how to do this",
+             "Q" : "What are the scheduled dispatch timestamps and bulk commodity quantities allocated in resupply transactions originating from source supply point [x] for brigade sustainment?",
+        #    "Rule": "check data rows; name_txt for the RESUPPLY activities and descr_txt for the info regarding the exact items and quantities"
+            "Rule": "find entries in 'act_event' table where column 'subcat_code' value is 'RESPLN'; JOIN with 'act' table and select all columns of 'act' ",
+            "rating" : 5
+
+ }]
+
+
+ingest_request = {
+    "Ingest": {
+        "Request": "Ingest",
+        "Operation" : "Set",
+        "INGEST_OPTIONS" : "--verbose --neo4j-import --reindex ",
+        "Rules" : test_rules,         
+        "options": {  'debug' : False, 'force' : False, "langfuse_tag" : "ingest" }
+    }
+}
+
+#
+#   Get the response that is stored in [results] [artifacts] [parts][text]
+#        
+@staticmethod
+def extract_json_from_response( response ):      
+    jsondict =  {}          
+    try:
+        artifacts = response.root.result.artifacts
+        jsonstr = "{}"
+        for i in range(0, len(artifacts)):            
+            parts = artifacts[i].parts
+            for p in range( 0, len(parts) ):
+                part = parts[p]
+                if hasattr(part.root, 'text'):
+                    jsonstr = part.root.text        
+        jsondict = json.loads(jsonstr)     
+    except Exception as e:
+        traceback.print_exc()
+        print( "COMPLETE RESPONSE=" + str(response) )                                                                    
+    return jsondict
+    
+
+
+def on_response_dummy(resp ):
+    pass
+    #print("on_response_dummy() ->" +  str(resp) )
+    #jsonresp = extract_json_from_response(resp)
+    #print( str( jsonresp ) )
+
+
+def send_query_request(args):
+    
+
+    generate_sql_request["GenerateSQL"]["Query"] = args.query    
+    generate_sql_request["GenerateSQL"]["options"]["debug"] = args.debug
+    generate_sql_request["GenerateSQL"]["options"]["force"] = args.force
+    generate_sql_request["GenerateSQL"]["options"]["langfuse_tag"] = args.langfuse_tag
+    generate_sql_request["GenerateSQL"]["options"]["rag_num_rated_rules"] = args.rag_num_rated_rules    
+    generate_sql_request["GenerateSQL"]["options"]["rag_min_rating"] = args.rag_min_rating
+    generate_sql_request["GenerateSQL"]["options"]["pipeline"] = args.pipeline
+    
+    if args.ambi_choice != None:
+        generate_sql_request["GenerateSQL"]["options"]["ambi_choice"] = args.ambi_choice
+        
+
+    print(f"python a2a_nl2sql_client.py --query=\"{args.query}\"")
+    print("\n======================================= SENDING QUERY ... ==========================================")
+    response = asyncio.run(  A2AClientSend( settings.A2A_HOST, settings.A2A_PORT, generate_sql_request , False, on_response_dummy, path=settings.A2A_PATH)   )      
+    print("\n========================================= RESPONSE ==================================================")
+    jsonresp = extract_json_from_response( response )
+    print( f"{json.dumps(jsonresp, indent=4, sort_keys=True)}" )
+
+
+
+
+
+def send_ingest_request(args, rules=[]):
+    
+    
+    ingest_request["Ingest"]["INGEST_OPTIONS"] = args.INGEST_OPTIONS
+    
+  
+    print( f"Loading and ingesting {len(rules)} Rules"  )    
+    ingest_request["Ingest"]["Rules"] = rules
+    ingest_request["Ingest"]["options"]["debug"] = args.debug
+    ingest_request["Ingest"]["options"]["force"] = args.force
+    ingest_request["Ingest"]["options"]["langfuse_tag"] = args.langfuse_tag
+
+    print(f"python a2a_nl2sql_client.py --ingest INGEST_OPTIONS=\"...\"")
+    print("\n======================================= SENDING QUERY ... ==========================================")
+    response = asyncio.run(  A2AClientSend( settings.A2A_HOST, settings.A2A_PORT, ingest_request , False, on_response_dummy, path=settings.A2A_PATH)   )      
+    print("\n========================================= RESPONSE ==================================================")
+    jsonresp = extract_json_from_response( response )
+    print( f"{json.dumps(jsonresp, indent=4, sort_keys=True)}" )
+
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Ingest JSON table definitions into Qdrant")
+
+    #
+    # 2 Main request types: query and ingest
+    #
+
+    # 1: query. see docs/a2a_query.json
+    parser.add_argument("--query", default="Show the current holdings of '5AMB 3 Surg Coy OC'"   ,  help="Question to ask in Natural language")
+    parser.add_argument("--pipeline", default="base"   ,  help="what pipeline to use base|ambi|agent|auto ")
+    
+    # AmbiSQL Choice, when "--pipeline ambi" is supplied
+    parser.add_argument("--ambi-choice", default=None   ,  help="choice to answer ambisql. #Note: 1 means element 0")
+
+
+
+
+    
+    # 
+    parser.add_argument("--qlist", default=None   ,  help="File with List Question to ask in Natural language")
+    parser.add_argument("--debug", action="store_true",  help="Debug Mode, will return full context RAG and more")
+    parser.add_argument("--force", action="store_true",  help="Try responding anyways even if there are confidence issues or score fail")
+
+    parser.add_argument("--rag_num_rated_rules", default=0,  help="number of rated rules to allow in RAG")
+    parser.add_argument("--rag_min_rating", default=3,  help="minimum rating necessary to use rule")
+        
+    parser.add_argument("--langfuse_tag", default="test",  help="Tag for Lanfuse traces. Example: 'LN25'")
+    parser.add_argument("--qlist_file", default=None   ,  help="File with List Question to ask in Natural language")
+
+    # 2: ingest. see docs/a2a_ingest.json
+    parser.add_argument("--ingest",  action="store_true",  help="Trigger the ingest.")    
+    parser.add_argument("--INGEST_OPTIONS", default="--verbose --neo4j-import --reindex"  ,  help="options for ingest. This option completely overrides what is set in .env")    
+    parser.add_argument("--ingest-file", default = [], action="append", help="(Optionnal) list of rules.csv files to ingest. ")
+    parser.add_argument("--delete-all-rules",  action="store_true",  help="delete all rules in qdrant")
+
+    
+    args = parser.parse_args()
+
+
+
+    import asyncio
+    load_dotenv()
+    settings = get_settings()
+    logger.info(f"settings.A2A_HOST={settings.A2A_HOST}")
+
+    if args.ingest:
+        rules=[]
+        ingest_files = getattr(args, "ingest_file", []) or []
+        for fname in ingest_files:
+            print(f"ingest-file: {fname}")
+            rules.extend( load_rules_file(fname, 3) )
+
+        send_ingest_request( args, rules )
+
+    elif args.qlist != None:        
+        with open( args.qlist, "r" ) as file:
+            fcontent = file.read()
+            lines = fcontent.split("\n")
+            l = len(lines)
+            i = 0
+            for query in lines:
+                if query != None and len(query) > 5:
+                    print( f"=================================({i}/{l})========================================" )
+                    print( f"{query}")
+                    print( f"=================================================================================" )
+
+                    send_query_request( args )
+                i +=1 # count also the empty lines
+    else:
+        send_query_request( args )
+   
+    
+    
+
+
+
+
