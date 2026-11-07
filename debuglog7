@@ -1,0 +1,742 @@
+name: pipeline-reqa-sql-mcp
+services:
+  a2a:
+    restart: unless-stopped
+    container_name: reqa-a2a
+    environment:
+      A2A_HOST: http://127.0.0.1
+      A2A_PATH: ""
+      A2A_PORT: "5022"
+      CB_THRESHOLD: "3"
+      DB_HOST: host.docker.internal
+      DB_NAME: calian_ln25
+      DB_PASSWORD: ""
+      DB_PORT: "3306"
+      DB_USER: readonly_user
+      EMBEDDING_MODEL: nomic-ai/nomic-embed-text-v1.5
+      EXCLUDE_METRICS_TABLES: "0"
+      HF_HUB_OFFLINE: "1"
+      INGEST_OPTIONS: ' --verbose --rrfile  RAG/rated_responses_LN25.xlsx --neo4j-import '
+      KB_FILE: RAG/KB_production_rezwan.json
+      LANGFUSE_BASE_URL: http://127.0.0.1:3000
+      LANGFUSE_ENABLED: "1"
+      LANGFUSE_PUBLIC_KEY: pk-lf-00deadbeef7acdef1234567890abcdef
+      LANGFUSE_SECRET_KEY: sk-lf-00deadbeef70abcdef12344785abcdef
+      LLM_PROVIDER: ollama
+      MAX_ROWS: "100"
+      MAX_SQL_RETRIES: "3"
+      NEO4J_HOST: neo4j://neo4j
+      NEO4J_PASSWORD: 
+      NEO4J_PORT: "7687"
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: mistral:latest
+      OLLAMA_RENDER_MODEL: mistral:latest
+      OLLAMA_SQL_MODEL: a-kore/Arctic-Text2SQL-R1-7B:latest
+      QDRANT_COLLECTION: KB_full_update2_0001
+      QDRANT_COLLECTION_2: KB_production_rezwan_001
+      QDRANT_HOST: qdrant
+      QDRANT_PORT: "6333"
+      RAG_MAX_SCHEMA_CONTEXT_CHARS: "32768"
+      RAG_MULTI_TABLE_SAMPLE_QUERIES_LIMIT: "3"
+      REQA_API_HOST: 127.0.0.1
+      REQA_CATALOG_MIN_OVERLAP: "0.98"
+      REQA_NEGATIVE_PREFLIGHT: "1"
+      REQA_SQL_PLANNER: "0"
+      REQA_TIME_BUDGET_S: "340"
+      RERANKER_MODEL: cross-encoder/ms-marco-MiniLM-L-6-v2
+      SCHEMA_FILE: vcci_aio_5.2.0_snapshot_9754_database_schema_2026-07-29.sql
+      TOP_K_TABLES: "5"
+    extra_hosts:
+      - host.docker.internal=host-gateway
+    networks:
+      shared_network: null
+    volumes:
+      - type: bind
+        source: C:\Users\f.nkutu\pipeline-reqa-sql-mcp
+        target: /app
+        bind: {}
+      - type: bind
+        source: C:\Users\f.nkutu\.cache\huggingface
+        target: /root/.cache/huggingface
+        bind: {}
+    build:
+      context: C:\Users\f.nkutu\pipeline-reqa-sql-mcp
+      dockerfile: Dockerfile.a2a
+    depends_on:
+      api:
+        condition: service_started
+        required: true
+    ports:
+      - mode: ingress
+        target: 5022
+        published: "5022"
+        protocol: tcp
+  api:
+    restart: unless-stopped
+    container_name: reqa-api
+    environment:
+      A2A_HOST: http://127.0.0.1
+      A2A_PATH: ""
+      A2A_PORT: "5022"
+      CB_THRESHOLD: "3"
+      DB_HOST: host.docker.internal
+      DB_NAME: calian_ln25
+      DB_PASSWORD: ""
+      DB_PORT: "3306"
+      DB_USER: readonly_user
+      EMBEDDING_MODEL: nomic-ai/nomic-embed-text-v1.5
+      EXCLUDE_METRICS_TABLES: "0"
+      HF_HUB_OFFLINE: "1"
+      INGEST_OPTIONS: ' --verbose --rrfile  RAG/rated_responses_LN25.xlsx --neo4j-import '
+      KB_FILE: RAG/KB_production_rezwan.json
+      LANGFUSE_BASE_URL: http://127.0.0.1:3000
+      LANGFUSE_ENABLED: "1"
+      LANGFUSE_PUBLIC_KEY: pk-lf-00deadbeef7acdef1234567890abcdef
+      LANGFUSE_SECRET_KEY: sk-lf-00deadbeef70abcdef12344785abcdef
+      LLM_PROVIDER: ollama
+      MAX_ROWS: "100"
+      MAX_SQL_RETRIES: "3"
+      NEO4J_HOST: neo4j://neo4j
+      NEO4J_PASSWORD: 
+      NEO4J_PORT: "7687"
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: mistral:latest
+      OLLAMA_RENDER_MODEL: mistral:latest
+      OLLAMA_SQL_MODEL: a-kore/Arctic-Text2SQL-R1-7B:latest
+      QDRANT_COLLECTION: KB_full_update2_0001
+      QDRANT_COLLECTION_2: KB_production_rezwan_001
+      QDRANT_HOST: qdrant
+      QDRANT_PORT: "6333"
+      RAG_MAX_SCHEMA_CONTEXT_CHARS: "32768"
+      RAG_MULTI_TABLE_SAMPLE_QUERIES_LIMIT: "3"
+      REQA_API_HOST: 127.0.0.1
+      REQA_CATALOG_MIN_OVERLAP: "0.98"
+      REQA_NEGATIVE_PREFLIGHT: "1"
+      REQA_SQL_PLANNER: "0"
+      REQA_TIME_BUDGET_S: "340"
+      RERANKER_MODEL: cross-encoder/ms-marco-MiniLM-L-6-v2
+      SCHEMA_FILE: vcci_aio_5.2.0_snapshot_9754_database_schema_2026-07-29.sql
+      TOP_K_TABLES: "5"
+    networks:
+      shared_network: null
+    volumes:
+      - type: bind
+        source: C:\Users\f.nkutu\pipeline-reqa-sql-mcp
+        target: /app
+        bind: {}
+    build:
+      context: C:\Users\f.nkutu\pipeline-reqa-sql-mcp
+      dockerfile: Dockerfile
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python -c "import urllib.request; urllib.request.urlopen('http://ollama:11434/health')"
+          || exit 1
+      timeout: 5s
+      interval: 10s
+      retries: 3
+      start_period: 1m0s
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "8080"
+        protocol: tcp
+  app:
+    restart: unless-stopped
+    container_name: reqa-app
+    environment:
+      A2A_HOST: http://127.0.0.1
+      A2A_PATH: ""
+      A2A_PORT: "5022"
+      CB_THRESHOLD: "3"
+      DB_HOST: host.docker.internal
+      DB_NAME: calian_ln25
+      DB_PASSWORD: ""
+      DB_PORT: "3306"
+      DB_USER: readonly_user
+      EMBEDDING_MODEL: nomic-ai/nomic-embed-text-v1.5
+      EXCLUDE_METRICS_TABLES: "0"
+      HF_HUB_OFFLINE: "1"
+      INGEST_OPTIONS: ' --verbose --rrfile  RAG/rated_responses_LN25.xlsx --neo4j-import '
+      KB_FILE: RAG/KB_production_rezwan.json
+      LANGFUSE_BASE_URL: http://127.0.0.1:3000
+      LANGFUSE_ENABLED: "1"
+      LANGFUSE_PUBLIC_KEY: pk-lf-00deadbeef7acdef1234567890abcdef
+      LANGFUSE_SECRET_KEY: sk-lf-00deadbeef70abcdef12344785abcdef
+      LLM_PROVIDER: ollama
+      MAX_ROWS: "100"
+      MAX_SQL_RETRIES: "3"
+      NEO4J_HOST: neo4j://neo4j
+      NEO4J_PASSWORD: 
+      NEO4J_PORT: "7687"
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: mistral:latest
+      OLLAMA_RENDER_MODEL: mistral:latest
+      OLLAMA_SQL_MODEL: a-kore/Arctic-Text2SQL-R1-7B:latest
+      PYTHONUNBUFFERED: "1"
+      QDRANT_COLLECTION: KB_full_update2_0001
+      QDRANT_COLLECTION_2: KB_production_rezwan_001
+      QDRANT_HOST: qdrant
+      QDRANT_PORT: "6333"
+      RAG_MAX_SCHEMA_CONTEXT_CHARS: "32768"
+      RAG_MULTI_TABLE_SAMPLE_QUERIES_LIMIT: "3"
+      REQA_API_HOST: api
+      REQA_API_PORT: "8080"
+      REQA_CATALOG_MIN_OVERLAP: "0.98"
+      REQA_NEGATIVE_PREFLIGHT: "1"
+      REQA_SQL_PLANNER: "0"
+      REQA_TIME_BUDGET_S: "340"
+      RERANKER_MODEL: cross-encoder/ms-marco-MiniLM-L-6-v2
+      SCHEMA_FILE: vcci_aio_5.2.0_snapshot_9754_database_schema_2026-07-29.sql
+      STREAMLIT_CLIENT_SHOWERRORDETAILS: "true"
+      STREAMLIT_LOGGER_LEVEL: info
+      STREAMLIT_SERVER_ENABLEXSRFPROTECTION: "false"
+      TOP_K_TABLES: "5"
+    extra_hosts:
+      - host.docker.internal=host-gateway
+    networks:
+      shared_network: null
+    volumes:
+      - type: bind
+        source: C:\Users\f.nkutu\pipeline-reqa-sql-mcp
+        target: /app
+        bind: {}
+      - type: bind
+        source: C:\Users\f.nkutu\.cache\huggingface
+        target: /root/.cache/huggingface
+        bind: {}
+    build:
+      context: C:\Users\f.nkutu\pipeline-reqa-sql-mcp
+      dockerfile: Dockerfile.streamlit
+    depends_on:
+      api:
+        condition: service_started
+        required: true
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python -c "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health')"
+          || exit 1
+      timeout: 10s
+      interval: 15s
+      retries: 5
+      start_period: 1m30s
+    ports:
+      - mode: ingress
+        target: 8501
+        published: "8501"
+        protocol: tcp
+  clickhouse:
+    restart: always
+    environment:
+      CLICKHOUSE_DB: default
+      CLICKHOUSE_PASSWORD: 
+      CLICKHOUSE_USER: clickhouse
+    image: docker.io/clickhouse/clickhouse-server:25.12
+    networks:
+      default: null
+    user: 101:101
+    volumes:
+      - type: volume
+        source: langfuse_clickhouse_data
+        target: /var/lib/clickhouse
+        volume: {}
+      - type: volume
+        source: langfuse_clickhouse_logs
+        target: /var/log/clickhouse-server
+        volume: {}
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit
+          1
+      timeout: 5s
+      interval: 5s
+      retries: 10
+      start_period: 1s
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8123
+        published: "8123"
+        protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 9000
+        published: "9000"
+        protocol: tcp
+  ingest:
+    restart: 'no'
+    container_name: reqa-ingest
+    entrypoint:
+      - sh
+      - -c
+      - 'python ingest.py vcci_aio_5.2.0_snapshot_9754_database_schema_2026-07-29.sql
+        --kb RAG/KB_production_rezwan.json  --verbose --rrfile  RAG/rated_responses_LN25.xlsx
+        --neo4j-import '
+    environment:
+      A2A_HOST: http://127.0.0.1
+      A2A_PATH: ""
+      A2A_PORT: "5022"
+      CB_THRESHOLD: "3"
+      DB_HOST: host.docker.internal
+      DB_NAME: calian_ln25
+      DB_PASSWORD: ""
+      DB_PORT: "3306"
+      DB_USER: readonly_user
+      EMBEDDING_MODEL: nomic-ai/nomic-embed-text-v1.5
+      EXCLUDE_METRICS_TABLES: "0"
+      HF_HUB_OFFLINE: "0"
+      INGEST_OPTIONS: ' --verbose --rrfile  RAG/rated_responses_LN25.xlsx --neo4j-import '
+      KB_FILE: RAG/KB_production_rezwan.json
+      LANGFUSE_BASE_URL: http://127.0.0.1:3000
+      LANGFUSE_ENABLED: "1"
+      LANGFUSE_PUBLIC_KEY: pk-lf-00deadbeef7acdef1234567890abcdef
+      LANGFUSE_SECRET_KEY: sk-lf-00deadbeef70abcdef12344785abcdef
+      LLM_PROVIDER: ollama
+      MAX_ROWS: "100"
+      MAX_SQL_RETRIES: "3"
+      NEO4J_HOST: neo4j://neo4j
+      NEO4J_PASSWORD: 
+      NEO4J_PORT: "7687"
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: mistral:latest
+      OLLAMA_RENDER_MODEL: mistral:latest
+      OLLAMA_SQL_MODEL: a-kore/Arctic-Text2SQL-R1-7B:latest
+      QDRANT_COLLECTION: KB_full_update2_0001
+      QDRANT_COLLECTION_2: KB_production_rezwan_001
+      QDRANT_HOST: qdrant
+      QDRANT_PORT: "6333"
+      RAG_MAX_SCHEMA_CONTEXT_CHARS: "32768"
+      RAG_MULTI_TABLE_SAMPLE_QUERIES_LIMIT: "3"
+      REQA_API_HOST: 127.0.0.1
+      REQA_CATALOG_MIN_OVERLAP: "0.98"
+      REQA_NEGATIVE_PREFLIGHT: "1"
+      REQA_SQL_PLANNER: "0"
+      REQA_TIME_BUDGET_S: "340"
+      RERANKER_MODEL: cross-encoder/ms-marco-MiniLM-L-6-v2
+      SCHEMA_FILE: vcci_aio_5.2.0_snapshot_9754_database_schema_2026-07-29.sql
+      TOP_K_TABLES: "5"
+    networks:
+      shared_network: null
+    volumes:
+      - type: bind
+        source: C:\Users\f.nkutu\pipeline-reqa-sql-mcp
+        target: /app
+        bind: {}
+    build:
+      context: C:\Users\f.nkutu\pipeline-reqa-sql-mcp
+      dockerfile: Dockerfile.ingest
+    depends_on:
+      qdrant:
+        condition: service_started
+        required: true
+  langfuse-web:
+    restart: always
+    environment:
+      AWS_ACCESS_KEY_ID: ""
+      AWS_PROFILE: ""
+      AWS_SECRET_ACCESS_KEY: ""
+      AWS_SESSION_TOKEN: ""
+      CLICKHOUSE_CLUSTER_ENABLED: "false"
+      CLICKHOUSE_MIGRATION_URL: clickhouse://clickhouse:9000
+      CLICKHOUSE_PASSWORD: 
+      CLICKHOUSE_URL: http://clickhouse:8123
+      CLICKHOUSE_USER: clickhouse
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      EMAIL_FROM_ADDRESS: ""
+      ENCRYPTION_KEY: "0000000000000000000000000000000000000000000000000000000000000000"
+      LANGFUSE_AI_API_KEY: ""
+      LANGFUSE_AI_AWS_BEDROCK_REGION: ""
+      LANGFUSE_AI_BASE_URL: ""
+      LANGFUSE_AI_EXTRA_HEADERS: ""
+      LANGFUSE_AI_MODEL: ""
+      LANGFUSE_AI_PROVIDER: ""
+      LANGFUSE_AI_SMALL_MODEL: ""
+      LANGFUSE_AI_USE_RESPONSES_API: ""
+      LANGFUSE_BULLMQ_SKIP_REDIS_VERSION_CHECK: "false"
+      LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: "false"
+      LANGFUSE_EVALUATOR_MEDIA_INLINE_MAX_BYTES: ""
+      LANGFUSE_EVALUATOR_MEDIA_TRANSPORT: ""
+      LANGFUSE_IN_APP_AGENT_AWS_PROFILE: ""
+      LANGFUSE_IN_APP_AGENT_ENABLED: ""
+      LANGFUSE_IN_APP_AGENT_MAX_ACTIVE_RUNS_PER_ORG: ""
+      LANGFUSE_IN_APP_AGENT_MAX_ACTIVE_RUNS_PER_USER: ""
+      LANGFUSE_IN_APP_AGENT_RUN_QUEUE_PROCESSING_CONCURRENCY: ""
+      LANGFUSE_IN_APP_AGENT_SANDBOX_AWS_LAMBDA_MICROVM_EGRESS_NETWORK_CONNECTOR_ARN: ""
+      LANGFUSE_IN_APP_AGENT_SANDBOX_AWS_LAMBDA_MICROVM_EXECUTION_ROLE_ARN: ""
+      LANGFUSE_IN_APP_AGENT_SANDBOX_AWS_LAMBDA_MICROVM_IMAGE_IDENTIFIER: ""
+      LANGFUSE_IN_APP_AGENT_SANDBOX_AWS_LAMBDA_MICROVM_REGION: ""
+      LANGFUSE_IN_APP_AGENT_SANDBOX_PROVIDER: ""
+      LANGFUSE_INGESTION_CLICKHOUSE_WRITE_INTERVAL_MS: ""
+      LANGFUSE_INGESTION_QUEUE_DELAY_MS: ""
+      LANGFUSE_INIT_ORG_ID: ""
+      LANGFUSE_INIT_ORG_NAME: ""
+      LANGFUSE_INIT_PROJECT_ID: ""
+      LANGFUSE_INIT_PROJECT_NAME: ""
+      LANGFUSE_INIT_PROJECT_PUBLIC_KEY: ""
+      LANGFUSE_INIT_PROJECT_SECRET_KEY: ""
+      LANGFUSE_INIT_USER_EMAIL: ""
+      LANGFUSE_INIT_USER_NAME: ""
+      LANGFUSE_INIT_USER_PASSWORD: ""
+      LANGFUSE_JSON_BAD_UNICODE_ESCAPE: ""
+      LANGFUSE_LLM_CONNECTION_WHITELISTED_HOST: ""
+      LANGFUSE_LLM_CONNECTION_WHITELISTED_IP_SEGMENTS: ""
+      LANGFUSE_LLM_CONNECTION_WHITELISTED_IPS: ""
+      LANGFUSE_MARKDOWN_RENDER_CHARACTER_LIMIT: ""
+      LANGFUSE_MCP_ALLOWED_HOSTS: ""
+      LANGFUSE_MCP_BASE_URL: ""
+      LANGFUSE_OBSERVATION_FIELD_OVERFLOW_ENABLED: "false"
+      LANGFUSE_OBSERVATION_FIELD_SIZE_LIMIT_BYTES: "2097152"
+      LANGFUSE_OCI_AUTH_TYPE: 
+      LANGFUSE_S3_BATCH_EXPORT_ACCESS_KEY_ID: minio
+      LANGFUSE_S3_BATCH_EXPORT_BUCKET: langfuse
+      LANGFUSE_S3_BATCH_EXPORT_ENABLED: "false"
+      LANGFUSE_S3_BATCH_EXPORT_ENDPOINT: http://minio:9000
+      LANGFUSE_S3_BATCH_EXPORT_EXTERNAL_ENDPOINT: http://localhost:9090
+      LANGFUSE_S3_BATCH_EXPORT_FORCE_PATH_STYLE: "true"
+      LANGFUSE_S3_BATCH_EXPORT_PREFIX: exports/
+      LANGFUSE_S3_BATCH_EXPORT_REGION: auto
+      LANGFUSE_S3_BATCH_EXPORT_SECRET_ACCESS_KEY: miniosecret
+      LANGFUSE_S3_EVENT_UPLOAD_ACCESS_KEY_ID: minio
+      LANGFUSE_S3_EVENT_UPLOAD_BUCKET: langfuse
+      LANGFUSE_S3_EVENT_UPLOAD_ENDPOINT: http://minio:9000
+      LANGFUSE_S3_EVENT_UPLOAD_FORCE_PATH_STYLE: "true"
+      LANGFUSE_S3_EVENT_UPLOAD_PREFIX: events/
+      LANGFUSE_S3_EVENT_UPLOAD_REGION: auto
+      LANGFUSE_S3_EVENT_UPLOAD_SECRET_ACCESS_KEY: miniosecret
+      LANGFUSE_S3_MEDIA_UPLOAD_ACCESS_KEY_ID: minio
+      LANGFUSE_S3_MEDIA_UPLOAD_BUCKET: langfuse
+      LANGFUSE_S3_MEDIA_UPLOAD_ENDPOINT: http://localhost:9090
+      LANGFUSE_S3_MEDIA_UPLOAD_FORCE_PATH_STYLE: "true"
+      LANGFUSE_S3_MEDIA_UPLOAD_INTERNAL_ENDPOINT: http://minio:9000
+      LANGFUSE_S3_MEDIA_UPLOAD_PREFIX: media/
+      LANGFUSE_S3_MEDIA_UPLOAD_REGION: auto
+      LANGFUSE_S3_MEDIA_UPLOAD_SECRET_ACCESS_KEY: miniosecret
+      LANGFUSE_USE_AZURE_BLOB: "false"
+      LANGFUSE_USE_OCI_NATIVE_OBJECT_STORAGE: "false"
+      NEXTAUTH_SECRET: 
+      NEXTAUTH_URL: http://localhost:3000
+      REDIS_AUTH: 
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_TLS_CA: /certs/ca.crt
+      REDIS_TLS_CERT: /certs/redis.crt
+      REDIS_TLS_ENABLED: "false"
+      REDIS_TLS_KEY: /certs/redis.key
+      SALT: mysalt
+      SMTP_CONNECTION_URL: ""
+      TELEMETRY_ENABLED: "true"
+    image: docker.langfuse.com/langfuse/langfuse:4
+    networks:
+      default: null
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+        required: true
+      minio:
+        condition: service_healthy
+        required: true
+      postgres:
+        condition: service_healthy
+        required: true
+      redis:
+        condition: service_healthy
+        required: true
+    ports:
+      - mode: ingress
+        target: 3000
+        published: "3000"
+        protocol: tcp
+  langfuse-worker:
+    restart: always
+    environment:
+      AWS_ACCESS_KEY_ID: ""
+      AWS_PROFILE: ""
+      AWS_SECRET_ACCESS_KEY: ""
+      AWS_SESSION_TOKEN: ""
+      CLICKHOUSE_CLUSTER_ENABLED: "false"
+      CLICKHOUSE_MIGRATION_URL: clickhouse://clickhouse:9000
+      CLICKHOUSE_PASSWORD: 
+      CLICKHOUSE_URL: http://clickhouse:8123
+      CLICKHOUSE_USER: clickhouse
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      EMAIL_FROM_ADDRESS: ""
+      ENCRYPTION_KEY: "0000000000000000000000000000000000000000000000000000000000000000"
+      LANGFUSE_AI_API_KEY: ""
+      LANGFUSE_AI_AWS_BEDROCK_REGION: ""
+      LANGFUSE_AI_BASE_URL: ""
+      LANGFUSE_AI_EXTRA_HEADERS: ""
+      LANGFUSE_AI_MODEL: ""
+      LANGFUSE_AI_PROVIDER: ""
+      LANGFUSE_AI_SMALL_MODEL: ""
+      LANGFUSE_AI_USE_RESPONSES_API: ""
+      LANGFUSE_BULLMQ_SKIP_REDIS_VERSION_CHECK: "false"
+      LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: "false"
+      LANGFUSE_EVALUATOR_MEDIA_INLINE_MAX_BYTES: ""
+      LANGFUSE_EVALUATOR_MEDIA_TRANSPORT: ""
+      LANGFUSE_IN_APP_AGENT_AWS_PROFILE: ""
+      LANGFUSE_IN_APP_AGENT_ENABLED: ""
+      LANGFUSE_IN_APP_AGENT_RUN_QUEUE_PROCESSING_CONCURRENCY: ""
+      LANGFUSE_IN_APP_AGENT_SANDBOX_AWS_LAMBDA_MICROVM_EGRESS_NETWORK_CONNECTOR_ARN: ""
+      LANGFUSE_IN_APP_AGENT_SANDBOX_AWS_LAMBDA_MICROVM_EXECUTION_ROLE_ARN: ""
+      LANGFUSE_IN_APP_AGENT_SANDBOX_AWS_LAMBDA_MICROVM_IMAGE_IDENTIFIER: ""
+      LANGFUSE_IN_APP_AGENT_SANDBOX_AWS_LAMBDA_MICROVM_REGION: ""
+      LANGFUSE_IN_APP_AGENT_SANDBOX_PROVIDER: ""
+      LANGFUSE_INGESTION_CLICKHOUSE_WRITE_INTERVAL_MS: ""
+      LANGFUSE_INGESTION_QUEUE_DELAY_MS: ""
+      LANGFUSE_JSON_BAD_UNICODE_ESCAPE: ""
+      LANGFUSE_LLM_CONNECTION_WHITELISTED_HOST: ""
+      LANGFUSE_LLM_CONNECTION_WHITELISTED_IP_SEGMENTS: ""
+      LANGFUSE_LLM_CONNECTION_WHITELISTED_IPS: ""
+      LANGFUSE_MCP_BASE_URL: ""
+      LANGFUSE_OBSERVATION_FIELD_OVERFLOW_ENABLED: "false"
+      LANGFUSE_OBSERVATION_FIELD_SIZE_LIMIT_BYTES: "2097152"
+      LANGFUSE_OCI_AUTH_TYPE: 
+      LANGFUSE_S3_BATCH_EXPORT_ACCESS_KEY_ID: 
+      LANGFUSE_S3_BATCH_EXPORT_BUCKET: langfuse
+      LANGFUSE_S3_BATCH_EXPORT_ENABLED: "false"
+      LANGFUSE_S3_BATCH_EXPORT_ENDPOINT: http://minio:9000
+      LANGFUSE_S3_BATCH_EXPORT_EXTERNAL_ENDPOINT: http://localhost:9090
+      LANGFUSE_S3_BATCH_EXPORT_FORCE_PATH_STYLE: "true"
+      LANGFUSE_S3_BATCH_EXPORT_PREFIX: exports/
+      LANGFUSE_S3_BATCH_EXPORT_REGION: auto
+      LANGFUSE_S3_BATCH_EXPORT_SECRET_ACCESS_KEY: miniosecret
+      LANGFUSE_S3_EVENT_UPLOAD_ACCESS_KEY_ID: minio
+      LANGFUSE_S3_EVENT_UPLOAD_BUCKET: langfuse
+      LANGFUSE_S3_EVENT_UPLOAD_ENDPOINT: http://minio:9000
+      LANGFUSE_S3_EVENT_UPLOAD_FORCE_PATH_STYLE: "true"
+      LANGFUSE_S3_EVENT_UPLOAD_PREFIX: events/
+      LANGFUSE_S3_EVENT_UPLOAD_REGION: auto
+      LANGFUSE_S3_EVENT_UPLOAD_SECRET_ACCESS_KEY: miniosecret
+      LANGFUSE_S3_MEDIA_UPLOAD_ACCESS_KEY_ID: minio
+      LANGFUSE_S3_MEDIA_UPLOAD_BUCKET: langfuse
+      LANGFUSE_S3_MEDIA_UPLOAD_ENDPOINT: http://minio:9000
+      LANGFUSE_S3_MEDIA_UPLOAD_FORCE_PATH_STYLE: "true"
+      LANGFUSE_S3_MEDIA_UPLOAD_PREFIX: media/
+      LANGFUSE_S3_MEDIA_UPLOAD_REGION: auto
+      LANGFUSE_S3_MEDIA_UPLOAD_SECRET_ACCESS_KEY: miniosecret
+      LANGFUSE_USE_AZURE_BLOB: "false"
+      LANGFUSE_USE_OCI_NATIVE_OBJECT_STORAGE: "false"
+      NEXTAUTH_URL: http://localhost:3000
+      REDIS_AUTH: 
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_TLS_CA: /certs/ca.crt
+      REDIS_TLS_CERT: /certs/redis.crt
+      REDIS_TLS_ENABLED: "false"
+      REDIS_TLS_KEY: /certs/redis.key
+      SALT: mysalt
+      SMTP_CONNECTION_URL: ""
+      TELEMETRY_ENABLED: "true"
+    image: docker.langfuse.com/langfuse/langfuse-worker:4
+    networks:
+      default: null
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+        required: true
+      minio:
+        condition: service_healthy
+        required: true
+      postgres:
+        condition: service_healthy
+        required: true
+      redis:
+        condition: service_healthy
+        required: true
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 3030
+        published: "3030"
+        protocol: tcp
+  minio:
+    restart: always
+    command:
+      - -c
+      - mkdir -p /data/langfuse && minio server --address ":9000" --console-address
+        ":9001" /data
+    entrypoint:
+      - sh
+    environment:
+      MINIO_ROOT_PASSWORD: 
+      MINIO_ROOT_USER: minio
+    image: cgr.dev/chainguard/minio
+    networks:
+      default: null
+    volumes:
+      - type: volume
+        source: langfuse_minio_data
+        target: /data
+        volume: {}
+    healthcheck:
+      test:
+        - CMD
+        - mc
+        - ready
+        - local
+      timeout: 5s
+      interval: 1s
+      retries: 5
+      start_period: 1s
+    ports:
+      - mode: ingress
+        target: 9000
+        published: "9090"
+        protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 9001
+        published: "9091"
+        protocol: tcp
+  neo4j:
+    restart: always
+    container_name: neo4j-server
+    environment:
+      NEO4J_AUTH: 
+      NEO4J_apoc_export_file_enabled: "true"
+      NEO4J_apoc_import_file_enabled: "true"
+      NEO4J_dbms_security_procedures_unrestricted: apoc.*
+      NEO4JLABS_PLUGINS: '["apoc"]'
+    networks:
+      shared_network: null
+    volumes:
+      - type: bind
+        source: C:\Users\f.nkutu\pipeline-reqa-sql-mcp\neo4j\neo4j-server\neo4j\import
+        target: /var/lib/neo4j/import
+        bind: {}
+      - type: bind
+        source: C:\Users\f.nkutu\pipeline-reqa-sql-mcp\neo4j\neo4j-server\neo4j\plugins
+        target: /plugins
+        bind: {}
+      - type: bind
+        source: C:\Users\f.nkutu\pipeline-reqa-sql-mcp\neo4j\neo4j-server\scripts
+        target: /scripts
+        bind: {}
+    build:
+      context: C:\Users\f.nkutu\pipeline-reqa-sql-mcp\neo4j\neo4j-server
+      dockerfile: Dockerfile.neo4j
+    ports:
+      - mode: ingress
+        target: 7474
+        published: "7474"
+        protocol: tcp
+      - mode: ingress
+        target: 7687
+        published: "7687"
+        protocol: tcp
+  postgres:
+    restart: always
+    environment:
+      PGTZ: UTC
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: 
+      POSTGRES_USER: postgres
+      TZ: UTC
+    image: docker.io/postgres:17
+    networks:
+      default: null
+    volumes:
+      - type: volume
+        source: langfuse_postgres_data
+        target: /var/lib/postgresql/data
+        volume: {}
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U postgres
+      timeout: 3s
+      interval: 3s
+      retries: 10
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 5432
+        published: "5432"
+        protocol: tcp
+  qdrant:
+    restart: unless-stopped
+    container_name: reqa-qdrant
+    environment:
+      HF_HUB_OFFLINE: "1"
+      QDRANT__LOG_LEVEL: INFO
+      QDRANT__STORAGE__SNAPSHOTS_PATH: /qdrant/snapshots
+    extra_hosts:
+      - host.docker.internal=host-gateway
+    image: qdrant/qdrant:latest
+    networks:
+      shared_network: null
+    volumes:
+      - type: volume
+        source: qdrant_data
+        target: /qdrant/storage
+        volume: {}
+      - type: volume
+        source: qdrant_snapshots
+        target: /qdrant/snapshots
+        volume: {}
+    ports:
+      - mode: ingress
+        target: 6333
+        published: "6333"
+        protocol: tcp
+      - mode: ingress
+        target: 6334
+        published: "6334"
+        protocol: tcp
+  redis:
+    restart: always
+    command:
+      - --requirepass
+      - myredissecret
+      - --maxmemory-policy
+      - noeviction
+    image: docker.io/redis:7
+    networks:
+      default: null
+    volumes:
+      - type: volume
+        source: langfuse_redis_data
+        target: /data
+        volume: {}
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      timeout: 10s
+      interval: 3s
+      retries: 10
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 6379
+        published: "6379"
+        protocol: tcp
+networks:
+  default:
+    name: pipeline-reqa-sql-mcp_default
+  shared_network:
+    name: pipeline-reqa-sql-mcp_shared_network
+    driver: bridge
+volumes:
+  langfuse_clickhouse_data:
+    name: pipeline-reqa-sql-mcp_langfuse_clickhouse_data
+    driver: local
+  langfuse_clickhouse_logs:
+    name: pipeline-reqa-sql-mcp_langfuse_clickhouse_logs
+    driver: local
+  langfuse_minio_data:
+    name: pipeline-reqa-sql-mcp_langfuse_minio_data
+    driver: local
+  langfuse_postgres_data:
+    name: pipeline-reqa-sql-mcp_langfuse_postgres_data
+    driver: local
+  langfuse_redis_data:
+    name: pipeline-reqa-sql-mcp_langfuse_redis_data
+    driver: local
+  qdrant_data:
+    name: pipeline-reqa-sql-mcp_qdrant_data
+  qdrant_snapshots:
+    name: pipeline-reqa-sql-mcp_qdrant_snapshots
