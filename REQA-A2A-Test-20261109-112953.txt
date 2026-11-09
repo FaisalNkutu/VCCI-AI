@@ -1,0 +1,33 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261109112953
+Username: SIMFRONT\f.nkutu
+RunAs User: SIMFRONT\f.nkutu
+Configuration Name: 
+Machine: SF-LP-148 (Microsoft Windows NT 10.0.26100.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Test-REQA-A2A-Repair.ps1
+Process ID: 29304
+PSVersion: 5.1.26100.8875
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.8875
+BuildVersion: 10.0.26100.8875
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+REQA A2A compatibility test (non-destructive)
+Requirements backup: C:\Users\f.nkutu\pipeline-reqa-sql-mcp\requirements.txt.backup-20261109-112953
+Temporarily testing a2a-sdk==0.3.22 in API image.
+
+Testing imports in isolated, one-off API container.
+
+Checking application server module import.
+
+PASS: Test imports succeeded. No running containers were replaced.
+Note: This does not guarantee runtime compatibility. Review report before deployment.
+Original requirements.txt restored.
+**********************
+Windows PowerShell transcript end
+End time: 20261109115144
+**********************
