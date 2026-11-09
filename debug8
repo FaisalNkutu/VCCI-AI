@@ -1,0 +1,354 @@
+PS C:\Users\f.nkutu\pipeline-reqa-sql-mcp> Get-ChildItem -Recurse -Filter *.py |
+>> Select-String -Pattern '\bresp\b|def validate|Validation error' -Context 5,5
+
+  a2a_nl2sql_client.py:95:        print( "COMPLETE RESPONSE=" + str(response) )
+  a2a_nl2sql_client.py:96:    return jsondict
+  a2a_nl2sql_client.py:97:
+  a2a_nl2sql_client.py:98:
+  a2a_nl2sql_client.py:99:
+> a2a_nl2sql_client.py:100:def on_response_dummy(resp ):
+  a2a_nl2sql_client.py:101:    pass
+> a2a_nl2sql_client.py:102:    #print("on_response_dummy() ->" +  str(resp) )
+> a2a_nl2sql_client.py:103:    #jsonresp = extract_json_from_response(resp)
+  a2a_nl2sql_client.py:104:    #print( str( jsonresp ) )
+  a2a_nl2sql_client.py:105:
+  a2a_nl2sql_client.py:106:
+  a2a_nl2sql_client.py:107:def send_query_request(args):
+  a2a_nl2sql_client.py:108:
+  app.py:349:                # v2 (multi-agent orchestrator) has no progress_callback
+  app.py:350:                # support yet -- unchanged single blocking call, same error
+  app.py:351:                # handling as before.
+  app.py:352:                with st.spinner("Processing your question..."):
+  app.py:353:                    try:
+> app.py:354:                        resp = requests.post(
+  app.py:355:                            f"{api_url}/v2/query",
+  app.py:356:                            json={"question": question.strip()},
+  app.py:357:                            headers=headers,
+  app.py:358:                            timeout=API_QUERY_TIMEOUT,
+  app.py:359:                        )
+> app.py:360:                        resp.raise_for_status()
+> app.py:361:                        data = resp.json()
+  app.py:362:                        elapsed = time.time() - t0
+  app.py:363:                    except requests.exceptions.Timeout:
+  app.py:364:                        st.error("❌ API request timeout (>400s)")
+  app.py:365:                        st.stop()
+  app.py:366:                    except requests.exceptions.ConnectionError:
+  AttributeMetaData.py:12826:                           ['UNCORR', 'Uncorrelated enemy and unknown'],
+  AttributeMetaData.py:12827:                           ['PLNORD', 'Plans/Orders']]]],
+  AttributeMetaData.py:12828:
+  AttributeMetaData.py:12829:   ['OIG_ORG_ASSOC',
+  AttributeMetaData.py:12830:           ['cat_code', [
+> AttributeMetaData.py:12831:                           ['RESP', 'Is under operational responsibility of'],
+  AttributeMetaData.py:12832:                           ['PROXY', 'Is under proxy responsibility for']]]],
+  AttributeMetaData.py:12833:
+  AttributeMetaData.py:12834:   ['ORBIT_AREA',
+  AttributeMetaData.py:12835:           ['alignment_code', [
+  AttributeMetaData.py:12836:                           ['CENTRE', 'Centre'],
+  run_eval.py:88:
+  run_eval.py:89:def run_one_query(api_url: str, api_key: str, question: str, timeout: int) -> dict:
+  run_eval.py:90:    headers = {"X-API-Key": api_key} if api_key else {}
+  run_eval.py:91:    t0 = time.time()
+  run_eval.py:92:    try:
+> run_eval.py:93:        resp = requests.post(
+  run_eval.py:94:            f"{api_url}/query",
+  run_eval.py:95:            json={"question": question},
+  run_eval.py:96:            headers=headers,
+  run_eval.py:97:            timeout=timeout,
+  run_eval.py:98:        )
+> run_eval.py:99:        resp.raise_for_status()
+> run_eval.py:100:        data = resp.json()
+  run_eval.py:101:        elapsed = time.time() - t0
+  run_eval.py:102:        conf_block = (data.get("explanation") or {}).get("confidence", {}) or {}
+  run_eval.py:103:        confidence   = conf_block.get("score")
+  run_eval.py:104:        score_strict = conf_block.get("score_strict")
+  run_eval.py:105:        rag_conf     = conf_block.get("rag_conf")
+  squash_run_eval.py:146:
+  squash_run_eval.py:147:def run_one_query(api_url: str, api_key: str, question: str, timeout: int) -> dict:
+  squash_run_eval.py:148:    headers = {"X-API-Key": api_key} if api_key else {}
+  squash_run_eval.py:149:    t0 = time.time()
+  squash_run_eval.py:150:    try:
+> squash_run_eval.py:151:        resp = requests.post(
+  squash_run_eval.py:152:            f"{api_url}/query",
+  squash_run_eval.py:153:            json={"question": question},
+  squash_run_eval.py:154:            headers=headers,
+  squash_run_eval.py:155:            timeout=timeout,
+  squash_run_eval.py:156:        )
+> squash_run_eval.py:157:        resp.raise_for_status()
+> squash_run_eval.py:158:        data = resp.json()
+  squash_run_eval.py:159:        elapsed = time.time() - t0
+  squash_run_eval.py:160:        conf_block = (data.get("explanation") or {}).get("confidence", {}) or {}
+  squash_run_eval.py:161:        confidence   = conf_block.get("score")
+  squash_run_eval.py:162:        score_strict = conf_block.get("score_strict")
+  squash_run_eval.py:163:        rag_conf     = conf_block.get("rag_conf")
+  a2a_common\a2a_base_client_setup.py:168:    if streaming == False:
+  a2a_common\a2a_base_client_setup.py:169:        request = SendMessageRequest(
+  a2a_common\a2a_base_client_setup.py:170:            id=str(uuid4()), params=MessageSendParams(**send_message_payload)
+  a2a_common\a2a_base_client_setup.py:171:        )
+  a2a_common\a2a_base_client_setup.py:172:        response = await client.send_message(request)
+> a2a_common\a2a_base_client_setup.py:173:        resp = response.model_dump(mode='json', exclude_none=True)
+  a2a_common\a2a_base_client_setup.py:174:
+  a2a_common\a2a_base_client_setup.py:175:        if callback != None:
+> a2a_common\a2a_base_client_setup.py:176:            callback( resp )
+  a2a_common\a2a_base_client_setup.py:177:
+  a2a_common\a2a_base_client_setup.py:178:        return response
+  a2a_common\a2a_base_client_setup.py:179:    else:
+  a2a_common\a2a_base_client_setup.py:180:        #
+  a2a_common\a2a_base_client_setup.py:181:        #   Streaming option
+  a2a_common\a2a_base_client_setup.py:187:        )
+  a2a_common\a2a_base_client_setup.py:188:
+  a2a_common\a2a_base_client_setup.py:189:        stream_response = client.send_message_streaming(streaming_request)
+  a2a_common\a2a_base_client_setup.py:190:
+  a2a_common\a2a_base_client_setup.py:191:        async for chunk in stream_response:
+> a2a_common\a2a_base_client_setup.py:192:            resp = chunk.model_dump(mode='json', exclude_none=True)
+  a2a_common\a2a_base_client_setup.py:193:
+  a2a_common\a2a_base_client_setup.py:194:            if callback != None:
+> a2a_common\a2a_base_client_setup.py:195:                callback( resp )
+  a2a_common\a2a_base_client_setup.py:196:                pass
+  a2a_common\a2a_base_client_setup.py:197:    if streaming and callback is not None:
+  a2a_common\a2a_base_client_setup.py:198:        callback("DONE")
+  a2a_common\a2a_base_client_setup.py:199:    return None
+  a2a_common\a2a_base_client_setup.py:200:
+  a2a_common\a2a_base_client_setup.py:243:        if streaming == False:
+  a2a_common\a2a_base_client_setup.py:244:            request = SendMessageRequest(
+  a2a_common\a2a_base_client_setup.py:245:                id=str(uuid4()), params=MessageSendParams(**send_message_payload)
+  a2a_common\a2a_base_client_setup.py:246:            )
+  a2a_common\a2a_base_client_setup.py:247:            response = await self.client.send_message(request)
+> a2a_common\a2a_base_client_setup.py:248:            resp = response.model_dump(mode='json', exclude_none=True)
+  a2a_common\a2a_base_client_setup.py:249:
+  a2a_common\a2a_base_client_setup.py:250:            if callback != None:
+> a2a_common\a2a_base_client_setup.py:251:                callback( resp )
+  a2a_common\a2a_base_client_setup.py:252:
+  a2a_common\a2a_base_client_setup.py:253:            return response
+  a2a_common\a2a_base_client_setup.py:254:        else:
+  a2a_common\a2a_base_client_setup.py:255:
+  a2a_common\a2a_base_client_setup.py:256:            #
+  a2a_common\a2a_base_client_setup.py:262:            )
+  a2a_common\a2a_base_client_setup.py:263:
+  a2a_common\a2a_base_client_setup.py:264:            stream_response = self.client.send_message_streaming(streaming_request)
+  a2a_common\a2a_base_client_setup.py:265:
+  a2a_common\a2a_base_client_setup.py:266:            async for chunk in stream_response:
+> a2a_common\a2a_base_client_setup.py:267:                resp = chunk.model_dump(mode='json', exclude_none=True)
+  a2a_common\a2a_base_client_setup.py:268:
+  a2a_common\a2a_base_client_setup.py:269:                if callback != None:
+> a2a_common\a2a_base_client_setup.py:270:                    callback( resp )
+  a2a_common\a2a_base_client_setup.py:271:                    pass
+  a2a_common\a2a_base_client_setup.py:272:        return None
+  a2a_common\a2a_base_client_setup.py:273:
+  agent\pipeline.py:2766:
+  agent\pipeline.py:2767:                except SQLValidationError as e:
+  agent\pipeline.py:2768:
+  agent\pipeline.py:2769:                    logger.exception("SQL_VALIDATION_TRACEBACK")
+  agent\pipeline.py:2770:
+> agent\pipeline.py:2771:                    error_feedback = f"Validation error: {e}"
+  agent\pipeline.py:2772:                    attempt_info.update(failed_at="static_check", error=str(e))
+  agent\pipeline.py:2773:                    explanation["attempts"].append(attempt_info)
+  agent\pipeline.py:2774:
+  agent\pipeline.py:2775:                    logger.info(
+  agent\pipeline.py:2776:                        f"RUN[{attempt}] SQL validation failed: {e}"
+  agent\pipeline.py:2817:                    # infrastructure problem. It must NOT count toward the
+  agent\pipeline.py:2818:                    # circuit breaker (which exists to detect the LLM API/DB
+  agent\pipeline.py:2819:                    # being down, not the LLM occasionally proposing invalid
+  agent\pipeline.py:2820:                    # SQL), and the error message IS useful feedback for the
+  agent\pipeline.py:2821:                    # next attempt, unlike a genuine API exception.
+> agent\pipeline.py:2822:                    error_feedback = f"Validation error: {e}"
+  agent\pipeline.py:2823:                    attempt_info.update(failed_at="static_check", error=str(e))
+  agent\pipeline.py:2824:                    explanation["attempts"].append(attempt_info)
+  agent\pipeline.py:2825:                    logger.info(f"RUN[{attempt}] SQL validation failed: {e}")
+  agent\pipeline.py:2826:                    continue
+  agent\pipeline.py:2827:                except GroundingViolation as e:
+  agent\llm\ollama_llm.py:182:            # Ollama's status code alone is not actionable (400 can mean
+  agent\llm\ollama_llm.py:183:            # context overflow, invalid model/options, or a malformed
+  agent\llm\ollama_llm.py:184:            # request). Preserve the server-provided reason in the A2A log.
+  agent\llm\ollama_llm.py:185:            logger.error(
+  agent\llm\ollama_llm.py:186:                "Ollama request failed status=%s model=%s response=%s",
+> agent\llm\ollama_llm.py:187:                resp.status_code,
+  agent\llm\ollama_llm.py:188:                self.model,
+> agent\llm\ollama_llm.py:189:                resp.text[:1000],
+  agent\llm\ollama_llm.py:190:            )
+  agent\llm\ollama_llm.py:191:            raise
+  agent\llm\ollama_llm.py:192:
+  agent\llm\ollama_llm.py:193:        except Exception as e:
+  agent\llm\ollama_llm.py:194:            print( f"RESPONSE_DATA={response_data}")
+  agent\llm\openai_compat.py:24:        all_messages = []
+  agent\llm\openai_compat.py:25:        if system:
+  agent\llm\openai_compat.py:26:            all_messages.append({"role": "system", "content": system})
+  agent\llm\openai_compat.py:27:        all_messages.extend(messages)
+  agent\llm\openai_compat.py:28:
+> agent\llm\openai_compat.py:29:        resp = self._client.chat.completions.create(
+  agent\llm\openai_compat.py:30:            model=self.model,
+  agent\llm\openai_compat.py:31:            messages=all_messages,
+  agent\llm\openai_compat.py:32:            max_tokens=max_tokens,
+  agent\llm\openai_compat.py:33:        )
+> agent\llm\openai_compat.py:34:        return resp.choices[0].message.content.strip()
+  agent\pipelines\dbagent_pipeline.py:1016:                # infrastructure problem. It must NOT count toward the
+  agent\pipelines\dbagent_pipeline.py:1017:                # circuit breaker (which exists to detect the LLM API/DB
+  agent\pipelines\dbagent_pipeline.py:1018:                # being down, not the LLM occasionally proposing invalid
+  agent\pipelines\dbagent_pipeline.py:1019:                # SQL), and the error message IS useful feedback for the
+  agent\pipelines\dbagent_pipeline.py:1020:                # next attempt, unlike a genuine API exception.
+> agent\pipelines\dbagent_pipeline.py:1021:                error_feedback = f"Validation error: {e}"
+  agent\pipelines\dbagent_pipeline.py:1022:                attempt_info.update(failed_at="static_check", error=str(e))
+  agent\pipelines\dbagent_pipeline.py:1023:                explanation["attempts"].append(attempt_info)
+  agent\pipelines\dbagent_pipeline.py:1024:                logger.info(f"RUN[{attempt}] SQL validation failed: {e}")
+  agent\pipelines\dbagent_pipeline.py:1025:                continue
+  agent\pipelines\dbagent_pipeline.py:1026:            except Exception as e:
+  query_analysis\relationship_validator.py:250:        return chain
+  query_analysis\relationship_validator.py:251:
+  query_analysis\relationship_validator.py:252:
+  query_analysis\relationship_validator.py:253:
+  query_analysis\relationship_validator.py:254:
+> query_analysis\relationship_validator.py:255:    def validate(
+  query_analysis\relationship_validator.py:256:        self,
+  query_analysis\relationship_validator.py:257:        mandatory_tables: set[str]        # All list of tables from grounding
+  query_analysis\relationship_validator.py:258:    ) -> RelationshipValidationResult:
+  query_analysis\relationship_validator.py:259:
+  query_analysis\relationship_validator.py:260:
+  query_analysis\relationship_validator_1.py:203:
+  query_analysis\relationship_validator_1.py:204:        self.fk_graph = build_fk_graph()
+  query_analysis\relationship_validator_1.py:205:
+  query_analysis\relationship_validator_1.py:206:
+  query_analysis\relationship_validator_1.py:207:
+> query_analysis\relationship_validator_1.py:208:    def validate(
+  query_analysis\relationship_validator_1.py:209:        self,
+  query_analysis\relationship_validator_1.py:210:        mandatory_tables: set[str]
+  query_analysis\relationship_validator_1.py:211:    ) -> RelationshipValidationResult:
+  query_analysis\relationship_validator_1.py:212:
+  query_analysis\relationship_validator_1.py:213:        logger.warning(
+  RAG\gen_domain_map.py:270:        domains=_domains_for_prompt(),
+  RAG\gen_domain_map.py:271:        table=table_name,
+  RAG\gen_domain_map.py:272:        description=entry.get("table_description", ""),
+  RAG\gen_domain_map.py:273:        columns=col_summary,
+  RAG\gen_domain_map.py:274:    )
+> RAG\gen_domain_map.py:275:    resp = ollama.chat(
+  RAG\gen_domain_map.py:276:        model=model,
+  RAG\gen_domain_map.py:277:        messages=[
+  RAG\gen_domain_map.py:278:            {"role": "system", "content": _SYSTEM},
+  RAG\gen_domain_map.py:279:            {"role": "user",   "content": prompt},
+  RAG\gen_domain_map.py:280:        ],
+  RAG\gen_domain_map.py:281:        options={"temperature": 0, "num_predict": 64},
+  RAG\gen_domain_map.py:282:    )
+> RAG\gen_domain_map.py:283:    raw = resp["message"]["content"].strip()
+  RAG\gen_domain_map.py:284:    domains = _extract_json_array(raw)
+  RAG\gen_domain_map.py:285:    # keep only values from the authoritative hierarchy (top-level or sub-domain)
+  RAG\gen_domain_map.py:286:    return [d for d in domains if d in _ALL_DOMAINS]
+  RAG\gen_domain_map.py:287:
+  RAG\gen_domain_map.py:288:
+  RAG\query_expander.py:87:        kb_context=kb_context,
+  RAG\query_expander.py:88:        n=n_rewrites,
+  RAG\query_expander.py:89:    )
+  RAG\query_expander.py:90:
+  RAG\query_expander.py:91:    try:
+> RAG\query_expander.py:92:        resp = ollama.chat(
+  RAG\query_expander.py:93:            model=settings.ollama_render_model,
+  RAG\query_expander.py:94:            messages=[
+  RAG\query_expander.py:95:                {"role": "system", "content": _SYSTEM},
+  RAG\query_expander.py:96:                {"role": "user",   "content": prompt},
+  RAG\query_expander.py:97:            ],
+  RAG\query_expander.py:98:            options={"temperature": 0.4, "num_predict": 256},
+  RAG\query_expander.py:99:        )
+> RAG\query_expander.py:100:        raw = resp["message"]["content"].strip()
+  RAG\query_expander.py:101:        rewrites = [
+  RAG\query_expander.py:102:            ln.strip()
+  RAG\query_expander.py:103:            for ln in raw.splitlines()
+  RAG\query_expander.py:104:            if ln.strip() and len(ln.strip()) > 10
+  RAG\query_expander.py:105:        ][:n_rewrites]
+  RAG\sample_query_generator.py:257:# LLM call
+  RAG\sample_query_generator.py:258:# ---------------------------------------------------------------------------
+  RAG\sample_query_generator.py:259:
+  RAG\sample_query_generator.py:260:def _call_llm(prompt: str, temperature: float = 0.75) -> list[str]:
+  RAG\sample_query_generator.py:261:    settings = get_settings()
+> RAG\sample_query_generator.py:262:    resp = ollama.chat(
+  RAG\sample_query_generator.py:263:        model=settings.ollama_render_model,
+  RAG\sample_query_generator.py:264:        messages=[
+  RAG\sample_query_generator.py:265:            {"role": "system", "content": _SYSTEM},
+  RAG\sample_query_generator.py:266:            {"role": "user", "content": prompt},
+  RAG\sample_query_generator.py:267:        ],
+  RAG\sample_query_generator.py:268:        options={"temperature": temperature, "num_predict": 600},
+  RAG\sample_query_generator.py:269:    )
+  RAG\sample_query_generator.py:270:
+  RAG\sample_query_generator.py:271:    # Handle both old dict API and new Pydantic model API
+> RAG\sample_query_generator.py:272:    if hasattr(resp, "message"):
+> RAG\sample_query_generator.py:273:        raw = resp.message.content
+  RAG\sample_query_generator.py:274:    else:
+> RAG\sample_query_generator.py:275:        raw = resp["message"]["content"]
+  RAG\sample_query_generator.py:276:
+  RAG\sample_query_generator.py:277:    raw = raw.strip()
+  RAG\sample_query_generator.py:278:
+  RAG\sample_query_generator.py:279:    lines = []
+  RAG\sample_query_generator.py:280:    for ln in raw.splitlines():
+  RAG\files\generate_table_domains.py:121:        "options": {"temperature": 0.1},
+  RAG\files\generate_table_domains.py:122:    }).encode("utf-8")
+  RAG\files\generate_table_domains.py:123:    req = urllib_request.Request(
+  RAG\files\generate_table_domains.py:124:        OLLAMA_URL, data=payload, headers={"Content-Type": "application/json"}
+  RAG\files\generate_table_domains.py:125:    )
+> RAG\files\generate_table_domains.py:126:    with urllib_request.urlopen(req, timeout=timeout) as resp:
+> RAG\files\generate_table_domains.py:127:        body = json.loads(resp.read().decode("utf-8"))
+  RAG\files\generate_table_domains.py:128:    return body.get("response", "").strip()
+  RAG\files\generate_table_domains.py:129:
+  RAG\files\generate_table_domains.py:130:
+  RAG\files\generate_table_domains.py:131:def parse_domain_list(raw_response: str) -> list[str]:
+  RAG\files\generate_table_domains.py:132:    """Extract a JSON array of strings from the model's raw response,
+  RAG\files\generate_table_keywords_llm.py:96:        "options": {"temperature": 0.4},
+  RAG\files\generate_table_keywords_llm.py:97:    }).encode("utf-8")
+  RAG\files\generate_table_keywords_llm.py:98:    req = urllib_request.Request(
+  RAG\files\generate_table_keywords_llm.py:99:        OLLAMA_URL, data=payload, headers={"Content-Type": "application/json"}
+  RAG\files\generate_table_keywords_llm.py:100:    )
+> RAG\files\generate_table_keywords_llm.py:101:    with urllib_request.urlopen(req, timeout=timeout) as resp:
+> RAG\files\generate_table_keywords_llm.py:102:        body = json.loads(resp.read().decode("utf-8"))
+  RAG\files\generate_table_keywords_llm.py:103:    return body.get("response", "").strip()
+  RAG\files\generate_table_keywords_llm.py:104:
+  RAG\files\generate_table_keywords_llm.py:105:
+  RAG\files\generate_table_keywords_llm.py:106:def parse_keyword_list(raw_response: str) -> list[str]:
+  RAG\files\generate_table_keywords_llm.py:107:    text = raw_response.strip()
+  RAG\files\rephrase_with_ollama.py:48:    }).encode("utf-8")
+  RAG\files\rephrase_with_ollama.py:49:
+  RAG\files\rephrase_with_ollama.py:50:    req = urllib_request.Request(
+  RAG\files\rephrase_with_ollama.py:51:        OLLAMA_URL, data=payload, headers={"Content-Type": "application/json"}
+  RAG\files\rephrase_with_ollama.py:52:    )
+> RAG\files\rephrase_with_ollama.py:53:    with urllib_request.urlopen(req, timeout=timeout) as resp:
+> RAG\files\rephrase_with_ollama.py:54:        body = json.loads(resp.read().decode("utf-8"))
+  RAG\files\rephrase_with_ollama.py:55:    return body.get("response", "").strip().strip('"')
+  RAG\files\rephrase_with_ollama.py:56:
+  RAG\files\rephrase_with_ollama.py:57:
+  RAG\files\rephrase_with_ollama.py:58:def rephrase_file(input_path: Path, output_path: Path, model: str,
+  RAG\files\rephrase_with_ollama.py:59:                   tables_filter: list[str] | None, limit: int | None,
+  Testing\MIDAS\run_eval.py:96:def _post_json(url: str, payload: dict, api_key: str = "",
+  Testing\MIDAS\run_eval.py:97:               timeout: float = 30.0) -> tuple[int, dict]:
+  Testing\MIDAS\run_eval.py:98:    req = urllib.request.Request(
+  Testing\MIDAS\run_eval.py:99:        url, data=json.dumps(payload).encode("utf-8"),
+  Testing\MIDAS\run_eval.py:100:        headers=_headers(api_key), method="POST")
+> Testing\MIDAS\run_eval.py:101:    with urllib.request.urlopen(req, timeout=timeout) as resp:
+> Testing\MIDAS\run_eval.py:102:        return resp.status, json.loads(resp.read().decode("utf-8"))
+  Testing\MIDAS\run_eval.py:103:
+  Testing\MIDAS\run_eval.py:104:
+  Testing\MIDAS\run_eval.py:105:def _get_json(url: str, api_key: str = "",
+  Testing\MIDAS\run_eval.py:106:              timeout: float = 30.0) -> tuple[int, dict]:
+  Testing\MIDAS\run_eval.py:107:    req = urllib.request.Request(url, headers=_headers(api_key))
+> Testing\MIDAS\run_eval.py:108:    with urllib.request.urlopen(req, timeout=timeout) as resp:
+> Testing\MIDAS\run_eval.py:109:        return resp.status, json.loads(resp.read().decode("utf-8"))
+  Testing\MIDAS\run_eval.py:110:
+  Testing\MIDAS\run_eval.py:111:
+  Testing\MIDAS\run_eval.py:112:def start_job(api: str, question: str, api_key: str = "") -> str:
+  Testing\MIDAS\run_eval.py:113:    """POST /query/start -> job_id. Tries the payload keys the API may use."""
+  Testing\MIDAS\run_eval.py:114:    last_err = None
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:96:def _post_json(url: str, payload: dict, api_key: str = "",
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:97:               timeout: float = 30.0) -> tuple[int, dict]:
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:98:    req = urllib.request.Request(
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:99:        url, data=json.dumps(payload).encode("utf-8"),
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:100:        headers=_headers(api_key), method="POST")
+> Testing\nl2sql_evaluation\MIDAS\run_eval.py:101:    with urllib.request.urlopen(req, timeout=timeout) as resp:
+> Testing\nl2sql_evaluation\MIDAS\run_eval.py:102:        return resp.status, json.loads(resp.read().decode("utf-8"))
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:103:
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:104:
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:105:def _get_json(url: str, api_key: str = "",
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:106:              timeout: float = 30.0) -> tuple[int, dict]:
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:107:    req = urllib.request.Request(url, headers=_headers(api_key))
+> Testing\nl2sql_evaluation\MIDAS\run_eval.py:108:    with urllib.request.urlopen(req, timeout=timeout) as resp:
+> Testing\nl2sql_evaluation\MIDAS\run_eval.py:109:        return resp.status, json.loads(resp.read().decode("utf-8"))
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:110:
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:111:
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:112:def start_job(api: str, question: str, api_key: str = "") -> str:
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:113:    """POST /query/start -> job_id. Tries the payload keys the API may use."""
+  Testing\nl2sql_evaluation\MIDAS\run_eval.py:114:    last_err = None
+
+
+PS C:\Users\f.nkutu\pipeline-reqa-sql-mcp>
