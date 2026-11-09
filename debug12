@@ -1,0 +1,129 @@
+PS C:\Users\f.nkutu\pipeline-reqa-sql-mcp> powershell -NoProfile -ExecutionPolicy Bypass -File .\START-AND-VERIFY.ps1
+Validating Docker Compose configuration...
+Building API and A2A images...
+[+] Building 2.0s (14/14) FINISHED
+ => [internal] load local bake definitions                                                                         0.0s
+ => => reading from stdin 1.02kB                                                                                   0.0s
+ => [api internal] load build definition from Dockerfile                                                           0.0s
+ => => transferring dockerfile: 415B                                                                               0.0s
+ => [a2a internal] load build definition from Dockerfile.a2a                                                       0.1s
+ => => transferring dockerfile: 192B                                                                               0.0s
+ => [api internal] load metadata for docker.io/library/python:3.11-slim                                            0.8s
+ => [api internal] load .dockerignore                                                                              0.0s
+ => => transferring context: 158B                                                                                  0.0s
+ => [api 1/4] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b59  0.0s
+ => => resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84  0.0s
+ => [a2a internal] load build context                                                                              0.0s
+ => => transferring context: 1.21kB                                                                                0.0s
+ => CACHED [api 2/4] WORKDIR /app                                                                                  0.0s
+ => CACHED [api 3/4] COPY requirements.txt .                                                                       0.0s
+ => CACHED [a2a 4/4] RUN pip install --no-cache-dir -r requirements.txt                                            0.0s
+ => [api] exporting to image                                                                                       0.2s
+ => => exporting layers                                                                                            0.0s
+ => => exporting manifest sha256:38711477456da80b3ba9c772c5fc094e0faef2df8236f8d99ac7519cc4a22ff3                  0.0s
+ => => exporting config sha256:05adf68e3760af9b70fc784819c84f308e1d045f15d7b4acb8232401bba5adb5                    0.0s
+ => => exporting attestation manifest sha256:444607ff4355b4767a4fe833e207f572f05259b0460892a29dc805855c5d7aa4      0.0s
+ => => exporting manifest list sha256:d9747a944886ed5cde51b6ed02e2e928edd5c378ec1486f1128ae00429c2e9a0             0.0s
+ => => naming to docker.io/library/pipeline-reqa-sql-mcp-api:latest                                                0.0s
+ => => unpacking to docker.io/library/pipeline-reqa-sql-mcp-api:latest                                             0.0s
+ => [a2a] exporting to image                                                                                       0.2s
+ => => exporting layers                                                                                            0.0s
+ => => exporting manifest sha256:8bd40d60068400d8657276d5e0d7bce4c17f60ef210519b83ed43a280f68f4af                  0.0s
+ => => exporting config sha256:6251e2f8388e65036c4a9f606c9ee8ceee0f102b04fec5568a9b28f08200d840                    0.0s
+ => => exporting attestation manifest sha256:5aea7a23ed132ffccc4f502c6ea10ac43c9cbf7e0f097aa4835e74db73887512      0.0s
+ => => exporting manifest list sha256:d7c62d2bf517fd18f8d37d10455758aa29285ac0c8457ad5345c1d61da030913             0.0s
+ => => naming to docker.io/library/pipeline-reqa-sql-mcp-a2a:latest                                                0.0s
+ => => unpacking to docker.io/library/pipeline-reqa-sql-mcp-a2a:latest                                             0.0s
+ => [api] resolving provenance for metadata file                                                                   0.0s
+ => [a2a] resolving provenance for metadata file                                                                   0.0s
+[+] build 2/2
+ ✔ Image pipeline-reqa-sql-mcp-api Built                                                                            2.3s
+ ✔ Image pipeline-reqa-sql-mcp-a2a Built                                                                            2.3s
+Starting API and A2A (other services are unchanged)...
+[+] up 2/2
+ ✔ Container reqa-api Started                                                                                       9.0s
+ ✔ Container reqa-a2a Started                                                                                       5.7s
+NAME       IMAGE                       COMMAND                  SERVICE   CREATED          STATUS                             PORTS
+reqa-a2a   pipeline-reqa-sql-mcp-a2a   "python a2a_nl2sql_a…"   a2a       26 seconds ago   Up 20 seconds                      0.0.0.0:5022->5022/tcp, [::]:5022->5022/tcp
+reqa-api   pipeline-reqa-sql-mcp-api   "uvicorn api:app --h…"   api       30 seconds ago   Up 21 seconds (health: starting)   0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+API health response:
+WARNING: The underlying connection was closed: The connection was closed unexpectedly.
+Recent API and A2A logs:
+reqa-a2a  | 2026-11-09 19:28:00,623 - ERROR - USING_RELATIONSHIP_VALIDATOR_PY
+reqa-a2a  | 2026-11-09 19:28:01,391 - INFO - ===================================== a2a_nl2sql_agent.py main ==============================================================
+reqa-a2a  | 2026-11-09 19:28:01,391 - INFO - == CREATING A2A NL2SQL Agent ===
+reqa-a2a  | 2026-11-09 19:28:01,398 - INFO - DB_NAME=calian_ln25
+reqa-a2a  | 2026-11-09 19:28:01,398 - INFO - A2A_HOST=http://a2a
+reqa-a2a  | 2026-11-09 19:28:01,398 - INFO - A2A_PORT=5022
+reqa-a2a  | 2026-11-09 19:28:01,398 - INFO - A2A_PATH=
+reqa-a2a  | 2026-11-09 19:28:01,398 - INFO - =================================================================
+reqa-a2a  | 2026-11-09 19:28:01,398 - INFO - get_agent_card URL=http://a2a:5022
+reqa-a2a  | 2026-11-09 19:28:01,398 - INFO - =================================================================
+reqa-a2a  | 2026-11-09 19:28:01,399 - DEBUG - Using selector: EpollSelector
+reqa-api  | 2026-11-09 19:27:57,488 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.get_task, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,488 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.get_task_callback, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,488 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.resubscribe, is_async_func False
+reqa-api  | 2026-11-09 19:27:57,489 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.send_message, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,489 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.send_message_streaming, is_async_func False
+reqa-api  | 2026-11-09 19:27:57,489 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.set_task_callback, is_async_func True
+reqa-a2a  | /app/a2a_common/a2a_base_agent_setup.py:117: UserWarning: [EXPERIMENTAL] A2aAgentExecutorConfig: ADK Implementation for A2A support (A2aAgentExecutor, RemoteA2aAgent and corresponding supporting components etc.) is in experimental mode and is subjected to breaking changes. A2A protocol and SDK arethemselves not experimental. Once it's stable enough the experimental mode will be removed. Your feedback is welcome.
+reqa-a2a  |   config = A2aAgentExecutorConfig()
+reqa-api  | 2026-11-09 19:27:57,773 - DEBUG - DatabaseTaskStore not loaded. This is expected if database dependencies are not installed. Error: DatabaseTaskStore requires SQLAlchemy and a database driver. Install with one of: 'pip install a2a-sdk[postgresql]', 'pip install a2a-sdk[mysql]', 'pip install a2a-sdk[sqlite]', or 'pip install a2a-sdk[sql]'
+reqa-api  | 2026-11-09 19:27:57,783 - DEBUG - Trace all class None, None
+reqa-api  | 2026-11-09 19:27:57,783 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler._cleanup_producer, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,783 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler._register_producer, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,783 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler._run_event_stream, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,783 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler._send_push_notification_if_needed, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,783 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler._setup_message_execution, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,784 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler._track_background_task, is_async_func False
+reqa-api  | 2026-11-09 19:27:57,784 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler._validate_task_id_match, is_async_func False
+reqa-api  | 2026-11-09 19:27:57,784 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler.on_cancel_task, is_async_func True
+reqa-a2a  | /app/a2a_common/a2a_base_agent_setup.py:118: UserWarning: [EXPERIMENTAL] A2aAgentExecutor: ADK Implementation for A2A support (A2aAgentExecutor, RemoteA2aAgent and corresponding supporting components etc.) is in experimental mode and is subjected to breaking changes. A2A protocol and SDK arethemselves not experimental. Once it's stable enough the experimental mode will be removed. Your feedback is welcome.
+reqa-api  | 2026-11-09 19:27:57,784 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler.on_delete_task_push_notification_config, is_async_func True
+reqa-a2a  |   executor = A2aAgentExecutor(runner=runner, config=config)
+reqa-a2a  | 2026-11-09 19:28:01,406 - DEBUG - Initializing InMemoryTaskStore
+reqa-api  | 2026-11-09 19:27:57,784 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler.on_get_task, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,784 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler.on_get_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,784 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler.on_list_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,784 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler.on_message_send, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,784 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler.on_message_send_stream, is_async_func False
+reqa-api  | 2026-11-09 19:27:57,784 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler.on_resubscribe_to_task, is_async_func False
+reqa-api  | 2026-11-09 19:27:57,784 - DEBUG - Start tracing for a2a.server.request_handlers.default_request_handler.DefaultRequestHandler.on_set_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,785 - DEBUG - Trace all class None, None
+reqa-api  | 2026-11-09 19:27:57,785 - DEBUG - Start tracing for a2a.server.request_handlers.jsonrpc_handler.JSONRPCHandler.delete_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,786 - DEBUG - Start tracing for a2a.server.request_handlers.jsonrpc_handler.JSONRPCHandler.get_authenticated_extended_card, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,786 - DEBUG - Start tracing for a2a.server.request_handlers.jsonrpc_handler.JSONRPCHandler.get_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,786 - DEBUG - Start tracing for a2a.server.request_handlers.jsonrpc_handler.JSONRPCHandler.list_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,786 - DEBUG - Start tracing for a2a.server.request_handlers.jsonrpc_handler.JSONRPCHandler.on_cancel_task, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,786 - DEBUG - Start tracing for a2a.server.request_handlers.jsonrpc_handler.JSONRPCHandler.on_get_task, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,786 - DEBUG - Start tracing for a2a.server.request_handlers.jsonrpc_handler.JSONRPCHandler.on_message_send, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,786 - DEBUG - Start tracing for a2a.server.request_handlers.jsonrpc_handler.JSONRPCHandler.on_message_send_stream, is_async_func False
+reqa-api  | 2026-11-09 19:27:57,786 - DEBUG - Start tracing for a2a.server.request_handlers.jsonrpc_handler.JSONRPCHandler.on_resubscribe_to_task, is_async_func False
+reqa-api  | 2026-11-09 19:27:57,786 - DEBUG - Start tracing for a2a.server.request_handlers.jsonrpc_handler.JSONRPCHandler.set_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,787 - DEBUG - Trace all class None, None
+reqa-api  | 2026-11-09 19:27:57,787 - DEBUG - Start tracing for a2a.server.request_handlers.rest_handler.RESTHandler.get_push_notification, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,787 - DEBUG - Start tracing for a2a.server.request_handlers.rest_handler.RESTHandler.list_push_notifications, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,787 - DEBUG - Start tracing for a2a.server.request_handlers.rest_handler.RESTHandler.list_tasks, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,787 - DEBUG - Start tracing for a2a.server.request_handlers.rest_handler.RESTHandler.on_cancel_task, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,787 - DEBUG - Start tracing for a2a.server.request_handlers.rest_handler.RESTHandler.on_get_task, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,787 - DEBUG - Start tracing for a2a.server.request_handlers.rest_handler.RESTHandler.on_message_send, is_async_func True
+reqa-api  | 2026-11-09 19:27:57,787 - DEBUG - Start tracing for a2a.server.request_handlers.rest_handler.RESTHandler.on_message_send_stream, is_async_func False
+reqa-api  | 2026-11-09 19:27:57,787 - DEBUG - Start tracing for a2a.server.request_handlers.rest_handler.RESTHandler.on_resubscribe_to_task, is_async_func False
+reqa-api  | 2026-11-09 19:27:57,787 - DEBUG - Start tracing for a2a.server.request_handlers.rest_handler.RESTHandler.set_push_notification, is_async_func True
+reqa-api  | 2026-11-09 19:27:59,054 - DEBUG - LiteLlm not available; Gemma3Ollama will not be defined: LiteLLM support requires: pip install google-adk[extensions]
+reqa-api  | 2026-11-09 19:28:00,936 - INFO - *****************************************************************************************************************
+reqa-api  | 2026-11-09 19:28:00,936 - INFO - *    get_pipeline_instance(None)
+reqa-api  | 2026-11-09 19:28:00,936 - INFO - *****************************************************************************************************************
+reqa-api  | 2026-11-09 19:28:00,936 - INFO - BASE PIPELINE INSTANCE
+reqa-api  | 2026-11-09 19:28:00,944 - INFO -  BUILD LLM ollama http://host.docker.internal:11434 a-kore/Arctic-Text2SQL-R1-7B:latest
+reqa-api  | 2026-11-09 19:28:00,944 - INFO - LLM_PROVIDER OLLAMA
+reqa-api  | 2026-11-09 19:28:01,187 - INFO -  BUILD LLM ollama http://host.docker.internal:11434 mistral:latest
+reqa-api  | 2026-11-09 19:28:01,187 - INFO - LLM_PROVIDER OLLAMA
+reqa-api  | 2026-11-09 19:28:01.206 | ERROR    | fastembed.common.model_management:download_model:248 - Could not download model from HuggingFace: Cannot find an appropriate cached snapshot folder for the specified revision on the local disk and outgoing traffic has been disabled. To enable repo look-ups and downloads online, set 'HF_HUB_OFFLINE=0' as environment variable. Falling back to other sources.
+reqa-api  | 2026-11-09 19:28:01.206 | ERROR    | fastembed.common.model_management:download_model:258 - Could not download model from either source, sleeping for 3.0 seconds, 2 retries left.
+reqa-api  | 2026-11-09 19:28:04.214 | ERROR    | fastembed.common.model_management:download_model:248 - Could not download model from HuggingFace: Cannot find an appropriate cached snapshot folder for the specified revision on the local disk and outgoing traffic has been disabled. To enable repo look-ups and downloads online, set 'HF_HUB_OFFLINE=0' as environment variable. Falling back to other sources.
+reqa-api  | 2026-11-09 19:28:04.214 | ERROR    | fastembed.common.model_management:download_model:258 - Could not download model from either source, sleeping for 9.0 seconds, 1 retries left.
+reqa-api  | 2026-11-09 19:28:13.222 | ERROR    | fastembed.common.model_management:download_model:248 - Could not download model from HuggingFace: Cannot find an appropriate cached snapshot folder for the specified revision on the local disk and outgoing traffic has been disabled. To enable repo look-ups and downloads online, set 'HF_HUB_OFFLINE=0' as environment variable. Falling back to other sources.
+reqa-api  | 2026-11-09 19:28:13.222 | ERROR    | fastembed.common.model_management:download_model:258 - Could not download model from either source, sleeping for 27.0 seconds, 0 retries left.
+Report: C:\Users\f.nkutu\pipeline-reqa-sql-mcp\REQA-Startup-20261109-142741.txt
+PS C:\Users\f.nkutu\pipeline-reqa-sql-mcp>
