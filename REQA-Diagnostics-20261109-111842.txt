@@ -1,0 +1,467 @@
+﻿REQA-SQL-MCP diagnostic report: 11/09/2026 11:18:42
+Project path: C:\Users\f.nkutu\pipeline-reqa-sql-mcp
+
+===== Docker version =====
+Client:
+ Version:           29.9.2
+ API version:       1.56
+ Go version:        go1.26.10
+ Git commit:        a82e528
+ Built:             Tue Oct 20 19:44:07 2026
+ OS/Arch:           windows/amd64
+ Context:           desktop-linux
+
+Server: Docker Desktop 4.97.0 (244584)
+ Engine:
+  Version:          29.9.2
+  API version:      1.56 (minimum version 1.40)
+  Go version:       go1.26.10
+  Git commit:       0367cbe
+  Built:            Tue Oct 20 18:45:02 2026
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          v2.4.2
+  GitCommit:        b7a25261e029d68978bbf290df0a62fc819b3c51
+ runc:
+  Version:          1.5.2
+  GitCommit:        v1.5.2-0-g29dd3dc2
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+
+
+===== Compose services =====
+api
+app
+clickhouse
+qdrant
+ingest
+minio
+postgres
+redis
+langfuse-web
+langfuse-worker
+neo4j
+a2a
+
+
+===== Compose container status =====
+NAME                                      IMAGE                                            COMMAND                  SERVICE           CREATED             STATUS                          PORTS
+neo4j-server                              pipeline-reqa-sql-mcp-neo4j                      "tini -g -- /startupΓÇª"   neo4j             2 days ago          Up 2 days                       0.0.0.0:7474->7474/tcp, [::]:7474->7474/tcp, 0.0.0.0:7687->7687/tcp, [::]:7687->7687/tcp
+pipeline-reqa-sql-mcp-clickhouse-1        docker.io/clickhouse/clickhouse-server:25.12     "/entrypoint.sh"         clickhouse        2 days ago          Up 2 days (healthy)             127.0.0.1:8123->8123/tcp, 127.0.0.1:9000->9000/tcp
+pipeline-reqa-sql-mcp-langfuse-web-1      docker.langfuse.com/langfuse/langfuse:4          "dumb-init -- ./web/ΓÇª"   langfuse-web      2 days ago          Up 2 days                       0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+pipeline-reqa-sql-mcp-langfuse-worker-1   docker.langfuse.com/langfuse/langfuse-worker:4   "dumb-init -- ./workΓÇª"   langfuse-worker   2 days ago          Up 2 days                       127.0.0.1:3030->3030/tcp
+pipeline-reqa-sql-mcp-minio-1             cgr.dev/chainguard/minio                         "sh -c 'mkdir -p /daΓÇª"   minio             2 days ago          Up 2 days (healthy)             0.0.0.0:9090->9000/tcp, [::]:9090->9000/tcp, 127.0.0.1:9091->9001/tcp
+pipeline-reqa-sql-mcp-postgres-1          docker.io/postgres:17                            "docker-entrypoint.sΓÇª"   postgres          2 days ago          Up 2 days (healthy)             127.0.0.1:5432->5432/tcp
+pipeline-reqa-sql-mcp-redis-1             docker.io/redis:7                                "docker-entrypoint.sΓÇª"   redis             2 days ago          Up 2 days (healthy)             127.0.0.1:6379->6379/tcp
+reqa-a2a                                  pipeline-reqa-sql-mcp-a2a                        "python a2a_nl2sql_aΓÇª"   a2a               2 days ago          Restarting (1) 10 seconds ago   
+reqa-api                                  pipeline-reqa-sql-mcp-api                        "uvicorn api:app --hΓÇª"   api               About an hour ago   Up About an hour (unhealthy)    0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+reqa-app                                  pipeline-reqa-sql-mcp-app                        "streamlit run app.pΓÇª"   app               2 days ago          Up 2 days (healthy)             0.0.0.0:8501->8501/tcp, [::]:8501->8501/tcp
+reqa-ingest                               pipeline-reqa-sql-mcp-ingest                     "sh -c 'python ingesΓÇª"   ingest            2 days ago          Exited (2) 2 days ago           
+reqa-qdrant                               qdrant/qdrant:latest                             "./entrypoint.sh"        qdrant            2 days ago          Up 2 days                       0.0.0.0:6333-6334->6333-6334/tcp, [::]:6333-6334->6333-6334/tcp
+
+
+===== API recent logs (last 120 lines) =====
+reqa-api  | 2026-11-09 14:58:25,461 - DEBUG - Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.cancel_task, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,462 - DEBUG - Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.close, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,462 - DEBUG - Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.create_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,462 - DEBUG - Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.delete_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,462 - DEBUG - Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.get_extended_agent_card, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,462 - DEBUG - Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.get_task, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,462 - DEBUG - Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.get_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,462 - DEBUG - Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.list_task_push_notification_configs, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,462 - DEBUG - Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.list_tasks, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,463 - DEBUG - Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.send_message, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,463 - DEBUG - Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.send_message_streaming, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,463 - DEBUG - Start tracing for a2a.client.transports.jsonrpc.JsonRpcTransport.subscribe, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,464 - DEBUG - Trace all class None, None
+reqa-api  | 2026-11-09 14:58:25,464 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport._execute_request, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,465 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport._get_path, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,465 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport._handle_http_error, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,465 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport._handle_sse_error, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,465 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport._send_request, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,465 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport._send_stream_request, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,465 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport.cancel_task, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,465 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport.close, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,465 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport.create_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,465 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport.delete_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,466 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport.get_extended_agent_card, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,466 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport.get_task, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,466 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport.get_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,466 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport.list_task_push_notification_configs, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,466 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport.list_tasks, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,466 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport.send_message, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,466 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport.send_message_streaming, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,466 - DEBUG - Start tracing for a2a.client.transports.rest.RestTransport.subscribe, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,472 - DEBUG - Trace all class None, None
+reqa-api  | 2026-11-09 14:58:25,472 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport._call_grpc, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,472 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport._call_grpc_stream, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,472 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport._get_grpc_metadata, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,472 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport._get_grpc_timeout, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,472 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.cancel_task, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,473 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.close, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,473 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.create_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,473 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.delete_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,473 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.get_extended_agent_card, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,473 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.get_task, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,473 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.get_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,473 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.list_task_push_notification_configs, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,473 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.list_tasks, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,473 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.send_message, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,474 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.send_message_streaming, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,474 - DEBUG - Start tracing for a2a.client.transports.grpc.GrpcTransport.subscribe, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,631 - DEBUG - Trace all class None, None
+reqa-api  | 2026-11-09 14:58:25,632 - DEBUG - Start tracing for a2a.compat.v0_3.grpc_transport.CompatGrpcTransport._get_grpc_metadata, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,632 - DEBUG - Start tracing for a2a.compat.v0_3.grpc_transport.CompatGrpcTransport.cancel_task, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,632 - DEBUG - Start tracing for a2a.compat.v0_3.grpc_transport.CompatGrpcTransport.close, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,632 - DEBUG - Start tracing for a2a.compat.v0_3.grpc_transport.CompatGrpcTransport.create_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,632 - DEBUG - Start tracing for a2a.compat.v0_3.grpc_transport.CompatGrpcTransport.delete_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,632 - DEBUG - Start tracing for a2a.compat.v0_3.grpc_transport.CompatGrpcTransport.get_extended_agent_card, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,633 - DEBUG - Start tracing for a2a.compat.v0_3.grpc_transport.CompatGrpcTransport.get_task, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,633 - DEBUG - Start tracing for a2a.compat.v0_3.grpc_transport.CompatGrpcTransport.get_task_push_notification_config, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,633 - DEBUG - Start tracing for a2a.compat.v0_3.grpc_transport.CompatGrpcTransport.list_task_push_notification_configs, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,633 - DEBUG - Start tracing for a2a.compat.v0_3.grpc_transport.CompatGrpcTransport.list_tasks, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,633 - DEBUG - Start tracing for a2a.compat.v0_3.grpc_transport.CompatGrpcTransport.send_message, is_async_func True
+reqa-api  | 2026-11-09 14:58:25,633 - DEBUG - Start tracing for a2a.compat.v0_3.grpc_transport.CompatGrpcTransport.send_message_streaming, is_async_func False
+reqa-api  | 2026-11-09 14:58:25,633 - DEBUG - Start tracing for a2a.compat.v0_3.grpc_transport.CompatGrpcTransport.subscribe, is_async_func False
+reqa-api  | Process SpawnProcess-1:
+reqa-api  | Traceback (most recent call last):
+reqa-api  |   File "/usr/local/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+reqa-api  |     self.run()
+reqa-api  |   File "/usr/local/lib/python3.11/multiprocessing/process.py", line 108, in run
+reqa-api  |     self._target(*self._args, **self._kwargs)
+reqa-api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+reqa-api  |     target(sockets=sockets)
+reqa-api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 86, in run
+reqa-api  |     return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+reqa-api  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/_compat.py", line 30, in asyncio_run
+reqa-api  |     return runner.run(main)
+reqa-api  |            ^^^^^^^^^^^^^^^^
+reqa-api  |   File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+reqa-api  |     return self._loop.run_until_complete(task)
+reqa-api  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-api  |   File "uvloop/loop.pyx", line 1515, in uvloop.loop.Loop.run_until_complete
+reqa-api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 90, in serve
+reqa-api  |     await self._serve(sockets)
+reqa-api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 97, in _serve
+reqa-api  |     config.load()
+reqa-api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 511, in load
+reqa-api  |     self.loaded_app = self.load_app()
+reqa-api  |                       ^^^^^^^^^^^^^^^
+reqa-api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load_app
+reqa-api  |     return import_from_string(self.app)
+reqa-api  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+reqa-api  |     raise exc from None
+reqa-api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+reqa-api  |     module = importlib.import_module(module_str)
+reqa-api  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-api  |   File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+reqa-api  |     return _bootstrap._gcd_import(name[level:], package, level)
+reqa-api  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-api  |   File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+reqa-api  |   File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+reqa-api  |   File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+reqa-api  |   File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+reqa-api  |   File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+reqa-api  |   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+reqa-api  |   File "/app/api.py", line 49, in <module>
+reqa-api  |     from common_pipeline import get_pipeline_instance as get_pipeline_instance
+reqa-api  |   File "/app/common_pipeline.py", line 17, in <module>
+reqa-api  |     from agent.pipelines.rated_rules_pipeline import RatedRulesPipeline
+reqa-api  |   File "/app/agent/pipelines/rated_rules_pipeline.py", line 31, in <module>
+reqa-api  |     from a2a_base_agent_setup import A2AAgentBaseSetup, init_asyncio
+reqa-api  |   File "/app/a2a_common/a2a_base_agent_setup.py", line 30, in <module>
+reqa-api  |     from a2a.server.apps import A2AStarletteApplication
+reqa-api  | ModuleNotFoundError: No module named 'a2a.server.apps'
+reqa-api  | ======================= get_settings() ==========================================
+reqa-api  | ======================= get_settings() ==========================================
+reqa-api  | ======================= get_settings() ==========================================
+reqa-api  | ======================= get_settings() ==========================================
+reqa-api  | ======================= get_settings() ==========================================
+reqa-api  | ======================= get_settings() ==========================================
+reqa-api  | ======================= get_settings() ==========================================
+
+
+===== APP recent logs (last 80 lines) =====
+reqa-app  | 2026-11-07 06:14:01.806 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-07 06:15:35.681 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-07 06:15:37.689 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-07 06:15:50.154 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-07 06:16:50.819 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-07 06:22:19.945 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-07 06:31:28.604 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-07 06:35:07.230 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-07 06:35:18.108 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-07 06:35:40.349 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-09 13:58:35.959 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-09 13:58:46.561 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-09 14:00:10.306 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-09 14:00:16.422 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-09 14:58:36.122 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+reqa-app  | 2026-11-09 15:08:16.158 Please replace `use_container_width` with `width`.
+reqa-app  | 
+reqa-app  | `use_container_width` will be removed after 2025-12-31.
+reqa-app  | 
+reqa-app  | For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+
+
+===== A2A recent logs (last 80 lines) =====
+reqa-a2a  |   File "/app/a2a_common/a2a_base_agent_setup.py", line 30, in <module>
+reqa-a2a  |     from a2a.server.apps import A2AStarletteApplication
+reqa-a2a  | ModuleNotFoundError: No module named 'a2a.server.apps'
+reqa-a2a  | Traceback (most recent call last):
+reqa-a2a  |   File "/app/a2a_nl2sql_agent.py", line 14, in <module>
+reqa-a2a  |     import a2a_common.a2a_base_agent_setup  # shared A2A server setup 
+reqa-a2a  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-a2a  |   File "/app/a2a_common/a2a_base_agent_setup.py", line 30, in <module>
+reqa-a2a  |     from a2a.server.apps import A2AStarletteApplication
+reqa-a2a  | ModuleNotFoundError: No module named 'a2a.server.apps'
+reqa-a2a  | Traceback (most recent call last):
+reqa-a2a  |   File "/app/a2a_nl2sql_agent.py", line 14, in <module>
+reqa-a2a  |     import a2a_common.a2a_base_agent_setup  # shared A2A server setup 
+reqa-a2a  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-a2a  |   File "/app/a2a_common/a2a_base_agent_setup.py", line 30, in <module>
+reqa-a2a  |     from a2a.server.apps import A2AStarletteApplication
+reqa-a2a  | ModuleNotFoundError: No module named 'a2a.server.apps'
+reqa-a2a  | Traceback (most recent call last):
+reqa-a2a  |   File "/app/a2a_nl2sql_agent.py", line 14, in <module>
+reqa-a2a  |     import a2a_common.a2a_base_agent_setup  # shared A2A server setup 
+reqa-a2a  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-a2a  |   File "/app/a2a_common/a2a_base_agent_setup.py", line 30, in <module>
+reqa-a2a  |     from a2a.server.apps import A2AStarletteApplication
+reqa-a2a  | ModuleNotFoundError: No module named 'a2a.server.apps'
+reqa-a2a  | Traceback (most recent call last):
+reqa-a2a  |   File "/app/a2a_nl2sql_agent.py", line 14, in <module>
+reqa-a2a  |     import a2a_common.a2a_base_agent_setup  # shared A2A server setup 
+reqa-a2a  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-a2a  |   File "/app/a2a_common/a2a_base_agent_setup.py", line 30, in <module>
+reqa-a2a  |     from a2a.server.apps import A2AStarletteApplication
+reqa-a2a  | ModuleNotFoundError: No module named 'a2a.server.apps'
+reqa-a2a  | Traceback (most recent call last):
+reqa-a2a  |   File "/app/a2a_nl2sql_agent.py", line 14, in <module>
+reqa-a2a  |     import a2a_common.a2a_base_agent_setup  # shared A2A server setup 
+reqa-a2a  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-a2a  |   File "/app/a2a_common/a2a_base_agent_setup.py", line 30, in <module>
+reqa-a2a  |     from a2a.server.apps import A2AStarletteApplication
+reqa-a2a  | ModuleNotFoundError: No module named 'a2a.server.apps'
+reqa-a2a  | Traceback (most recent call last):
+reqa-a2a  |   File "/app/a2a_nl2sql_agent.py", line 14, in <module>
+reqa-a2a  |     import a2a_common.a2a_base_agent_setup  # shared A2A server setup 
+reqa-a2a  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-a2a  |   File "/app/a2a_common/a2a_base_agent_setup.py", line 30, in <module>
+reqa-a2a  |     from a2a.server.apps import A2AStarletteApplication
+reqa-a2a  | ModuleNotFoundError: No module named 'a2a.server.apps'
+reqa-a2a  | Traceback (most recent call last):
+reqa-a2a  |   File "/app/a2a_nl2sql_agent.py", line 14, in <module>
+reqa-a2a  |     import a2a_common.a2a_base_agent_setup  # shared A2A server setup 
+reqa-a2a  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-a2a  |   File "/app/a2a_common/a2a_base_agent_setup.py", line 30, in <module>
+reqa-a2a  |     from a2a.server.apps import A2AStarletteApplication
+reqa-a2a  | ModuleNotFoundError: No module named 'a2a.server.apps'
+reqa-a2a  | Traceback (most recent call last):
+reqa-a2a  |   File "/app/a2a_nl2sql_agent.py", line 14, in <module>
+reqa-a2a  |     import a2a_common.a2a_base_agent_setup  # shared A2A server setup 
+reqa-a2a  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-a2a  |   File "/app/a2a_common/a2a_base_agent_setup.py", line 30, in <module>
+reqa-a2a  |     from a2a.server.apps import A2AStarletteApplication
+reqa-a2a  | ModuleNotFoundError: No module named 'a2a.server.apps'
+reqa-a2a  | Traceback (most recent call last):
+reqa-a2a  |   File "/app/a2a_nl2sql_agent.py", line 14, in <module>
+reqa-a2a  |     import a2a_common.a2a_base_agent_setup  # shared A2A server setup 
+reqa-a2a  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-a2a  |   File "/app/a2a_common/a2a_base_agent_setup.py", line 30, in <module>
+reqa-a2a  |     from a2a.server.apps import A2AStarletteApplication
+reqa-a2a  | ModuleNotFoundError: No module named 'a2a.server.apps'
+reqa-a2a  | Traceback (most recent call last):
+reqa-a2a  |   File "/app/a2a_nl2sql_agent.py", line 14, in <module>
+reqa-a2a  |     import a2a_common.a2a_base_agent_setup  # shared A2A server setup 
+reqa-a2a  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-a2a  |   File "/app/a2a_common/a2a_base_agent_setup.py", line 30, in <module>
+reqa-a2a  |     from a2a.server.apps import A2AStarletteApplication
+reqa-a2a  | ModuleNotFoundError: No module named 'a2a.server.apps'
+reqa-a2a  | Traceback (most recent call last):
+reqa-a2a  |   File "/app/a2a_nl2sql_agent.py", line 14, in <module>
+reqa-a2a  |     import a2a_common.a2a_base_agent_setup  # shared A2A server setup 
+reqa-a2a  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+reqa-a2a  |   File "/app/a2a_common/a2a_base_agent_setup.py", line 30, in <module>
+reqa-a2a  |     from a2a.server.apps import A2AStarletteApplication
+reqa-a2a  | ModuleNotFoundError: No module named 'a2a.server.apps'
+
+
+===== Local API TCP connection =====
+
+
+ComputerName            : 127.0.0.1
+RemoteAddress           : 127.0.0.1
+RemotePort              : 8080
+NameResolutionResults   : 127.0.0.1
+                          kubernetes.docker.internal
+MatchingIPsecRules      : 
+NetworkIsolationContext : Loopback
+IsAdmin                 : False
+InterfaceAlias          : Loopback Pseudo-Interface 1
+SourceAddress           : 127.0.0.1
+NetRoute (NextHop)      : 0.0.0.0
+TcpTestSucceeded        : True
+
+
+
+
+
+===== Local API HTTP health =====
+HTTP request failed: The underlying connection was closed: The connection was closed unexpectedly.
+
+
+===== Local APP TCP connection =====
+
+
+ComputerName            : 127.0.0.1
+RemoteAddress           : 127.0.0.1
+RemotePort              : 8501
+NameResolutionResults   : 127.0.0.1
+                          kubernetes.docker.internal
+MatchingIPsecRules      : 
+NetworkIsolationContext : Loopback
+IsAdmin                 : False
+InterfaceAlias          : Loopback Pseudo-Interface 1
+SourceAddress           : 127.0.0.1
+NetRoute (NextHop)      : 0.0.0.0
+TcpTestSucceeded        : True
+
+
+
+
+
+===== A2A SDK dependency references =====
+
+Path                                                           LineNumber Line           
+----                                                           ---------- ----           
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\requirements.ingest.txt         38 a2a-sdk==0.3.22
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\requirements.txt                38 a2a-sdk==1.3.0 
+
+
+
+
+===== A2A import references =====
+
+Path                                                                       LineNumber Line                                                                   
+----                                                                       ---------- ----                                                                   
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_nl2sql_client.py                       100 def on_response_dummy(resp ):                                          
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_nl2sql_client.py                       102     #print("on_response_dummy() ->" +  str(resp) )                     
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_nl2sql_client.py                       103     #jsonresp = extract_json_from_response(resp)                       
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\app.py                                     354                         resp = requests.post(                          
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\app.py                                     360                         resp.raise_for_status()                        
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\app.py                                     361                         data = resp.json()                             
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\AttributeMetaData.py                     12831 				['RESP', 'Is under operational responsibility of'],                
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\run_eval.py                                 93         resp = requests.post(                                          
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\run_eval.py                                 99         resp.raise_for_status()                                        
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\run_eval.py                                100         data = resp.json()                                             
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\squash_run_eval.py                         151         resp = requests.post(                                          
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\squash_run_eval.py                         157         resp.raise_for_status()                                        
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\squash_run_eval.py                         158         data = resp.json()                                             
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_common\a2a_base_agent_setup.py          30 from a2a.server.apps import A2AStarletteApplication                    
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_common\a2a_base_agent_setup.py         107             A2AStarletteApplication instance                           
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_common\a2a_base_agent_setup.py         126         app = A2AStarletteApplication(                                 
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_common\a2a_base_client_setup.py        173         resp = response.model_dump(mode='json', exclude_none=True)     
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_common\a2a_base_client_setup.py        176             callback( resp )                                           
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_common\a2a_base_client_setup.py        192             resp = chunk.model_dump(mode='json', exclude_none=True)    
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_common\a2a_base_client_setup.py        195                 callback( resp )                                       
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_common\a2a_base_client_setup.py        248             resp = response.model_dump(mode='json', exclude_none=True) 
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_common\a2a_base_client_setup.py        251                 callback( resp )                                       
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_common\a2a_base_client_setup.py        267                 resp = chunk.model_dump(mode='json', exclude_none=True)
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\a2a_common\a2a_base_client_setup.py        270                     callback( resp )                                   
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\agent\llm\ollama_llm.py                    187                 resp.status_code,                                      
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\agent\llm\ollama_llm.py                    189                 resp.text[:1000],                                      
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\agent\llm\openai_compat.py                  29         resp = self._client.chat.completions.create(                   
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\agent\llm\openai_compat.py                  34         return resp.choices[0].message.content.strip()                 
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\gen_domain_map.py                      275     resp = ollama.chat(                                                
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\gen_domain_map.py                      283     raw = resp["message"]["content"].strip()                           
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\query_expander.py                       92         resp = ollama.chat(                                            
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\query_expander.py                      100         raw = resp["message"]["content"].strip()                       
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\sample_query_generator.py              262     resp = ollama.chat(                                                
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\sample_query_generator.py              272     if hasattr(resp, "message"):                                       
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\sample_query_generator.py              273         raw = resp.message.content                                     
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\sample_query_generator.py              275         raw = resp["message"]["content"]                               
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\files\generate_table_domains.py        126     with urllib_request.urlopen(req, timeout=timeout) as resp:         
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\files\generate_table_domains.py        127         body = json.loads(resp.read().decode("utf-8"))                 
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\files\generate_table_keyword...        101     with urllib_request.urlopen(req, timeout=timeout) as resp:         
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\files\generate_table_keyword...        102         body = json.loads(resp.read().decode("utf-8"))                 
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\files\rephrase_with_ollama.py           53     with urllib_request.urlopen(req, timeout=timeout) as resp:         
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\RAG\files\rephrase_with_ollama.py           54         body = json.loads(resp.read().decode("utf-8"))                 
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\Testing\MIDAS\run_eval.py                  101     with urllib.request.urlopen(req, timeout=timeout) as resp:         
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\Testing\MIDAS\run_eval.py                  102         return resp.status, json.loads(resp.read().decode("utf-8"))    
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\Testing\MIDAS\run_eval.py                  108     with urllib.request.urlopen(req, timeout=timeout) as resp:         
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\Testing\MIDAS\run_eval.py                  109         return resp.status, json.loads(resp.read().decode("utf-8"))    
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\Testing\nl2sql_evaluation\MIDAS\...        101     with urllib.request.urlopen(req, timeout=timeout) as resp:         
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\Testing\nl2sql_evaluation\MIDAS\...        102         return resp.status, json.loads(resp.read().decode("utf-8"))    
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\Testing\nl2sql_evaluation\MIDAS\...        108     with urllib.request.urlopen(req, timeout=timeout) as resp:         
+C:\Users\f.nkutu\pipeline-reqa-sql-mcp\Testing\nl2sql_evaluation\MIDAS\...        109         return resp.status, json.loads(resp.read().decode("utf-8"))    
+
+
+
+ 
+ R e p o r t   s a v e d :   C : \ U s e r s \ f . n k u t u \ p i p e l i n e - r e q a - s q l - m c p \ R E Q A - D i a g n o s t i c s - 2 0 2 6 1 1 0 9 - 1 1 1 8 4 2 . t x t  
+ 
