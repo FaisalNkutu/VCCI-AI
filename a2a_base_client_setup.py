@@ -1,93 +1,273 @@
-"""A2A SDK 1.3.x shared client adapter. Preserves the legacy project entry points."""
-import json
+#
+#   base client setup
+#   Common base for a client to send mesages to either AgentMap or AgentFragCore  
+#
+#   based on the A2A samples hello world
+#
 import logging
+import pprint
+
+from typing import Any
 from uuid import uuid4
 
 import httpx
-from a2a.client import A2ACardResolver, ClientFactory, ClientConfig
-from a2a.types import Message, Part, TextPart
-from a2a.utils.constants import EXTENDED_AGENT_CARD_PATH
 
-logger = logging.getLogger(__name__)
-
-
-def _base_url(url, port, path=''):
-    return f"{str(url).rstrip('/')}:{port}/{str(path).strip('/')}".rstrip('/')
-
-
-def _message(payload):
-    return Message(role='user', parts=[Part(root=TextPart(text=json.dumps(payload)))], message_id=uuid4().hex)
+from a2a.client import A2ACardResolver, A2AClient
+from a2a.types import (
+    AgentCard,
+    MessageSendParams,
+    SendMessageRequest,
+    SendStreamingMessageRequest,
+)
 
 
-def _json(value):
-    return value.model_dump(mode='json', exclude_none=True) if hasattr(value, 'model_dump') else value
+
+from a2a.utils.constants import (
+    AGENT_CARD_WELL_KNOWN_PATH,
+    EXTENDED_AGENT_CARD_PATH,
+)
+import asyncio
+import json
+
+import sys
 
 
-async def _make_client(url, port, path='', httpx_client=None):
-    if httpx_client is None:
-        raise ValueError('An open httpx.AsyncClient is required')
-    resolver = A2ACardResolver(httpx_client=httpx_client, base_url=_base_url(url, port, path))
-    card = await resolver.get_agent_card()
-    if card.supports_authenticated_extended_card:
-        logger.info('Extended card advertised; using public card unless authenticated credentials are configured')
-    factory = ClientFactory(config=ClientConfig(httpx_client=httpx_client))
-    return factory.create(card)
+# Configure logging to show INFO level messages
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)  # Get a logger instance
+logger.disabled = True
 
 
-async def CreateA2AClient(url: str, port: int, path: str = ''):
-    """Legacy entry point. Caller must close client and underlying HTTP resources."""
-    http = httpx.AsyncClient(timeout=400)
+
+#
+#   CreateA2AClient
+#       Create a client that we can use for a long running time, instead of creating a new one at every call to A2AClientSend()
+#       A2AClientSend() behavior is unchanged, except that it uses this function to create it
+#
+async def CreateA2AClient( url : str, port: int, path: str = ""  ) -> A2AClient:
+
+    base_url = f'{url}:{port}{path}'
+
+
+    # A2A TIMEOUT SETTING IS HERE
+    httpx_client = httpx.AsyncClient(timeout=400) 
+        # Initialize A2ACardResolver
+    resolver = A2ACardResolver(
+            httpx_client=httpx_client,
+            base_url=base_url,
+            # agent_card_path uses default, extended_agent_card_path also uses default
+        )
+        # --8<-- [end:A2ACardResolver]
+
+    # Fetch Public Agent Card and Initialize Client
+    final_agent_card_to_use: AgentCard | None = None
+
     try:
-        client = await _make_client(url, port, path, http)
-        # Keep transport reachable for callers that manage persistent sessions.
-        client._project_httpx_client = http
-        return client
-    except Exception:
-        await http.aclose()
-        raise
+        logger.info(
+            f'Attempting to fetch public agent card from: {base_url}{AGENT_CARD_WELL_KNOWN_PATH}'
+        )
+        _public_card = (
+            await resolver.get_agent_card()
+        )  # Fetches from default public path
+        logger.info('Successfully fetched public agent card:')
+        card_json = _public_card.model_dump()
+        print(  _public_card.model_dump_json(indent=2, exclude_none=True)      )
+        final_agent_card_to_use = _public_card
+        logger.info(
+            '\nUsing PUBLIC agent card for client initialization (default).'
+        )
+
+        if _public_card.supports_authenticated_extended_card:
+            try:
+                logger.info(
+                    f'\nPublic card supports authenticated extended card. Attempting to fetch from: {base_url}{EXTENDED_AGENT_CARD_PATH}'
+                )
+                auth_headers_dict = {
+                    'Authorization': 'Bearer dummy-token-for-extended-card'
+                }
+                _extended_card = await resolver.get_agent_card(
+                    relative_card_path=EXTENDED_AGENT_CARD_PATH,
+                    http_kwargs={'headers': auth_headers_dict},
+                )
+                logger.info(
+                    'Successfully fetched authenticated extended agent card:'
+                )
+                logger.info(
+                    _extended_card.model_dump_json(
+                        indent=2, exclude_none=True
+                    )
+                )
+                final_agent_card_to_use = (
+                    _extended_card  # Update to use the extended card
+                )
+                logger.info(
+                    '\nUsing AUTHENTICATED EXTENDED agent card for client initialization.'
+                )
+            except Exception as e_extended:
+                logger.warning(
+                    f'Failed to fetch extended agent card: {e_extended}. Will proceed with public card.',
+                    exc_info=True,
+                )
+        elif (
+            _public_card
+        ):  # supports_authenticated_extended_card is False or None
+            logger.info(
+                '\nPublic card does not indicate support for an extended card. Using public card.'
+            )
+
+    except Exception as e:
+        logger.error(
+            f'Critical error fetching public agent card: {e}', exc_info=True
+        )
+        raise RuntimeError(
+            'Failed to fetch the public agent card. Cannot continue.'
+        ) from e
+
+    # --8<-- [start:send_message]
+    client = A2AClient(
+        httpx_client=httpx_client, agent_card=final_agent_card_to_use
+    )
+    logger.info('A2AClient initialized.')
 
 
-async def _send(client, payload, streaming=False, callback=None):
-    message = _message(payload)
-    if streaming:
-        async for event in client.send_message(message):
-            if callback is not None:
-                callback(_json(event))
-        if callback is not None:
-            callback('DONE')
-        return None
-    async for event in client.send_message(message):
-        response = _json(event)
-        if callback is not None:
-            callback(response)
-        return event
-    raise RuntimeError('A2A agent returned no response')
+    return client
 
 
-async def A2AClientSend(url: str, port: int, payload: dict, streaming=False, callback=None, **kwargs):
-    async with httpx.AsyncClient(timeout=400) as http:
-        client = await _make_client(url, port, kwargs.get('path', ''), http)
-        try:
-            return await _send(client, payload, streaming, callback)
-        finally:
-            await client.close()
+    
 
 
-class A2AFragCoreClient:
-    def __init__(self, url: str, port: int):
-        self.url, self.port = url, port
-        self.client = None
+#
+#
+#  A2AClientSend()
+#   Create a client , connect to agent, send message, get response.
+#   Encapsulate the whole A2A client workflow in one function
+#   This is ok for our current use case, but a more subtle approach of keeping track
+#   of long and complex requests might be needed in the future.
+#
+async def A2AClientSend( url : str, port: int,  payload : dict, streaming = False, callback  = None, **kwargs ) -> None:
+   
+    # path that goes after HOST:PORT/PATH
+    # 
+    path = kwargs.get('path', "")
+    client = await  CreateA2AClient( url, port, path )         
 
-    async def create_client(self):
+    send_message_payload: dict[str, Any] = {
+        'message': {
+            'role': 'user',
+            'parts': [
+                {'kind': 'text', 'text':  json.dumps( payload )  }
+            ],
+            'messageId': uuid4().hex,
+        },
+    }
+
+
+    #
+    #  No streaming option
+    #  
+    if streaming == False:      
+        request = SendMessageRequest(
+            id=str(uuid4()), params=MessageSendParams(**send_message_payload)
+        )
+        response = await client.send_message(request)
+        resp = response.model_dump(mode='json', exclude_none=True)
+        
+        if callback != None:
+            callback( resp )
+
+        return response
+    else:    
+        #
+        #   Streaming option
+        #
+        # 
+        
+        streaming_request = SendStreamingMessageRequest(
+            id=str(uuid4()), params=MessageSendParams(**send_message_payload)
+        )
+
+        stream_response = client.send_message_streaming(streaming_request)
+
+        async for chunk in stream_response:
+            resp = chunk.model_dump(mode='json', exclude_none=True)
+            
+            if callback != None:
+                callback( resp )                
+                pass  
+    if streaming and callback is not None:
+        callback("DONE")
+    return None
+
+#
+#
+#   class A2AFragCoreClient():
+#       Encapsulate A2AClient functionnality to communicate with an Agent
+#       
+#
+class A2AFragCoreClient():
+
+    #
+    #
+    #
+    def __init__(self, url : str, port: int ):
+        self.url = url 
+        self.port = port        
+        
+    #
+    #  create_client()
+    #       this is not in init because of async
+    #
+    async def create_client(self) -> None:
         self.client = await CreateA2AClient(self.url, self.port)
+        
+    #
+    #
+    #
+    async def send(self, payload : dict, streaming = False, callback  = None):
 
-    async def send(self, payload: dict, streaming=False, callback=None):
-        if self.client is None:
-            await self.create_client()
-        return await _send(self.client, payload, streaming, callback)
 
-    async def close(self):
-        if self.client is not None:
-            await self.client.close()
-            await self.client._project_httpx_client.aclose()
-            self.client = None
+        send_message_payload: dict[str, Any] = {
+                'message': {
+                    'role': 'user',
+                    'parts': [
+                        {'kind': 'text', 'text':  json.dumps( payload )  }
+                    ],
+                    'messageId': uuid4().hex,
+                },
+            }
+
+
+        #
+        #  No streaming option
+        #  
+        if streaming == False:      
+            request = SendMessageRequest(
+                id=str(uuid4()), params=MessageSendParams(**send_message_payload)
+            )
+            response = await self.client.send_message(request)
+            resp = response.model_dump(mode='json', exclude_none=True)
+            
+            if callback != None:
+                callback( resp )
+
+            return response
+        else:
+        
+            #
+            #   Streaming option
+            #
+            #
+            streaming_request = SendStreamingMessageRequest(
+                id=str(uuid4()), params=MessageSendParams(**send_message_payload)
+            )
+
+            stream_response = self.client.send_message_streaming(streaming_request)
+
+            async for chunk in stream_response:
+                resp = chunk.model_dump(mode='json', exclude_none=True)
+                
+                if callback != None:
+                    callback( resp )                
+                    pass  
+        return None       
+
