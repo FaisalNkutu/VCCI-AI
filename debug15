@@ -1,0 +1,143 @@
+import sys
+import time
+import requests
+import logging
+from .base import BaseLLM
+
+logger = logging.getLogger("OLLAMA LLM")
+
+
+from langfuse import get_client, propagate_attributes
+
+#=======================   config.json  ====================================================
+sys.path.insert(0, "../../") # add this path to get the config in root dir
+from config.settings import get_settings
+#===========================================================================================
+
+from a2a_common.a2a_base_agent_setup import A2AAgentBaseSetup, init_asyncio
+from dotenv import load_dotenv
+import json
+
+
+#
+# 1. Configure your Langfuse credentials
+#   These variables should be defined in .env
+
+#os.environ["LANGFUSE_PUBLIC_KEY"] = "pk-lf-62cc52f7-b1f8-4297-800e-e1ef9b30096c"
+#os.environ["LANGFUSE_SECRET_KEY"] = "sk-lf-cfae3a1f-7bf3-4126-ad7d-86c48b4f4e23"
+#os.environ["LANGFUSE_BASE_URL"] = "http://192.168.2.129:3000"  # Or your Cloud URL (e.g., https://cloud.langfuse.com)
+
+
+
+import traceback
+
+
+# 2. Use the modern client initialization method
+langfuse = get_client()
+
+class OllamaLLM(BaseLLM):
+    """
+    Local Ollama backend — 100% local, no data leaves the machine.
+    Recommended models: mistral, codestral, phi4, codellama:7b, llama3.1:8b
+    """
+
+    def __init__(self, model: str = "mistral", base_url: str = "http://ollama:11434"):
+        self.model = model
+        self._url = base_url.rstrip("/") + "/api/chat"
+
+        self.set_langfuse_trace_tag( "test" )
+        self.set_langfuse_trace_query( "not set" )
+        self.set_langfuse_trace_step( "not set" )
+        self.set_langfuse_trace_attempt( 0 )
+
+        settings = get_settings()
+        self.LANGFUSE_ENABLED = settings.LANGFUSE_ENABLED
+
+    def complete(self, system: str, messages: list[dict], max_tokens: int = 1024,
+                 json_mode: bool = False, **kwargs) -> str:
+
+        if self.LANGFUSE_ENABLED == True:
+            return self.complete_with_langfuse( system, messages, max_tokens, json_mode)
+        else:
+            return self._complete( system, messages, max_tokens, json_mode)
+
+
+    #
+    #   complete_priv
+    #
+    def _complete(self, system: str, messages: list[dict], max_tokens: int = 1024,
+                 json_mode: bool = False, **kwargs) -> str:
+
+        payload_messages = []
+        if system:
+            payload_messages.append({"role": "system", "content": system})
+            payload_messages.extend(messages)
+
+        logger.warning(
+            "OLLAMA_MODEL=%s",
+            self.model,
+        )
+
+        logger.warning(
+            "OLLAMA_URL=%s",
+            self._url,
+        )
+
+        logger.warning("OLLAMA_MESSAGE_COUNT=%s", len(messages))
+
+        logger.warning(
+            "OLLAMA_MESSAGE_ROLES=%s",
+            [m.get("role") for m in messages],
+        )
+
+        for i, message in enumerate(messages):
+            logger.warning(
+                "OLLAMA_MESSAGE[%s] role=%s content=%r",
+                i,
+                message.get("role"),
+                message.get("content"),
+            )
+
+        logger.warning(
+            "OLLAMA_HAS_UNIT_DETAILS=%s",
+
+        )
+
+        logger.warning(
+                "OLLAMA_HAS_UNIT_DETAILS=%s",
+                any(
+from openai import OpenAI
+from .base import BaseLLM
+
+
+class OpenAICompatLLM(BaseLLM):
+    """
+    Any OpenAI-compatible REST API:
+      - Mistral API  (https://api.mistral.ai/v1)
+      - LM Studio    (http://localhost:1234/v1)
+      - Groq         (https://api.groq.com/openai/v1)
+      - Together.ai  (https://api.together.xyz/v1)
+      - vLLM / TGI   (http://localhost:8000/v1)
+      - Ollama /v1   (http://ollama:11434/v1)
+
+    Set LLM_PROVIDER=openai_compat in .env and configure the three vars below.
+    """
+
+    def __init__(self, model: str, base_url: str, api_key: str = "local"):
+        self.model = model
+        self._client = OpenAI(base_url=base_url, api_key=api_key)
+
+    def complete(self, system: str, messages: list[dict], max_tokens: int = 1024,
+                 json_mode: bool = False) -> str:
+        all_messages = []
+        if system:
+            all_messages.append({"role": "system", "content": system})
+        all_messages.extend(messages)
+
+        resp = self._client.chat.completions.create(
+            model=self.model,
+            messages=all_messages,
+            max_tokens=max_tokens,
+        )
+        return resp.choices[0].message.content.strip()
+PS C:\Users\f.nkutu\pipeline-reqa-sql-mcp-plan-ai#107>
