@@ -16,3 +16,4 @@ docker exec reqa-a2a sh -c "grep -RnE 'OPENAI|OLLAMA|BASE_URL|MODEL|API_KEY|def 
 
 docker exec reqa-a2a sh -c "sed -n '1,110p' /app/agent/llm/ollama_llm.py; sed -n '1,100p' /app/agent/llm/openai_compat.py"
  docker exec reqa-a2a sh -c 'env | grep -Ei "^(LLM_|OLLAMA_|OPENAI_)"'
+docker exec reqa-a2a python -c "import requests; r=requests.get('http://host.docker.internal:11434/api/tags',timeout=10); print(r.status_code); print([m['name'] for m in r.json().get('models',[])])"
