@@ -6,4 +6,6 @@ docker logs --tail 150 reqa-a2a 2>&1 | Select-String -Pattern "ERROR|Exception|T
 
 docker exec reqa-a2a sh -c "grep -R -n -B 8 -A 12 'json.loads' /app/a2a 2>/dev/null"
 
-docker exec reqa-a2a sh -c "find /app -type f -name '*.py' 2>/dev/null | hea
+docker exec reqa-a2a sh -c "find /app -type f -name '*.py' 2>/dev/null | head" -60
+
+docker exec reqa-a2a sh -c "grep -RnE 'json.loads|json.load|model_validate_json|response.json' /app/agent /app/a2a 2>/dev/null | head -40"
