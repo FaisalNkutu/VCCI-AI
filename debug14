@@ -11,3 +11,5 @@ docker exec reqa-a2a sh -c "find /app -type f -name '*.py' 2>/dev/null | head" -
 docker exec reqa-a2a sh -c "grep -RnE 'json.loads|json.load|model_validate_json|response.json' /app/agent /app/a2a 2>/dev/null | head -40"
 
 docker exec reqa-a2a sh -c "sed -n '235,265p' /app/agent/renderer.py; echo =====SQL_GENERATOR=====; sed -n '730,765p' /app/agent/sql_generator.py"
+
+docker exec reqa-a2a sh -c "grep -RnE 'OPENAI|OLLAMA|BASE_URL|MODEL|API_KEY|def complete' /app/agent/llm /app/agent/sql_generator.py 2>/dev/null | head -60"
