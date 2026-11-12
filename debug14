@@ -29,3 +29,4 @@ Step 2 — Verify
 Get-Content .env | Select-String '^(OLLAMA_BASE_URL|OLLAMA_MODEL)='
 
 docker compose up -d --no-deps --force-recreate reqa-a2a
+docker inspect reqa-a2a --format '{{index .Config.Labels "com.docker.compose.service"}}'
