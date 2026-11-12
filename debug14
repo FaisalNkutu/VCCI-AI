@@ -15,3 +15,4 @@ docker exec reqa-a2a sh -c "sed -n '235,265p' /app/agent/renderer.py; echo =====
 docker exec reqa-a2a sh -c "grep -RnE 'OPENAI|OLLAMA|BASE_URL|MODEL|API_KEY|def complete' /app/agent/llm /app/agent/sql_generator.py 2>/dev/null | head -60"
 
 docker exec reqa-a2a sh -c "sed -n '1,110p' /app/agent/llm/ollama_llm.py; sed -n '1,100p' /app/agent/llm/openai_compat.py"
+ docker exec reqa-a2a sh -c 'env | grep -Ei "^(LLM_|OLLAMA_|OPENAI_)"'
