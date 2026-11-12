@@ -1,0 +1,163 @@
+PS C:\Users\f.nkutu\pipeline-reqa-sql-mcp-plan-ai#107> docker logs --tail 150 reqa-a2a 2>&1 | Select-String -Pattern "ERROR|Exception|Traceback|JSONDecodeError|8080|GenerateSQL" -Context 5,8
+
+> 2026-11-12 14:49:31,954 - ERROR - USING_RELATIONSHIP_VALIDATOR_PY
+  2026-11-12 14:49:32,636 - INFO - ===================================== a2a_nl2sql_agent.py main
+==============================================================
+  2026-11-12 14:49:32,636 - INFO - == CREATING A2A NL2SQL Agent ===
+  2026-11-12 14:49:32,646 - INFO - DB_NAME=vcci_aug_26_dbg_1
+  2026-11-12 14:49:32,646 - INFO - A2A_HOST=http://127.0.0.1
+  2026-11-12 14:49:32,646 - INFO - A2A_PORT=5022
+  2026-11-12 14:49:32,646 - INFO - A2A_PATH=
+  2026-11-12 14:49:32,646 - INFO - =================================================================
+  2026-11-12 14:49:32,646 - INFO - get_agent_card URL=http://127.0.0.1:5022
+  /usr/local/lib/python3.11/site-packages/google/adk/a2a/converters/request_converter.py:109: UserWarning: [EXPERIMENTAL] AgentRunRequest: ADK
+Implementation for A2A support (A2aAgentExecutor, RemoteA2aAgent and corresponding supporting components etc.) is in experimental mode and is subjected to
+breaking changes. A2A protocol and SDK arethemselves not experimental. Once it's stable enough the experimental mode will be removed. Your feedback is
+welcome.
+    return AgentRunRequest(
+  /usr/local/lib/python3.11/site-packages/google/adk/a2a/executor/a2a_agent_executor.py:223: UserWarning: [EXPERIMENTAL] TaskResultAggregator: ADK
+Implementation for A2A support (A2aAgentExecutor, RemoteA2aAgent and corresponding supporting components etc.) is in experimental mode and is subjected to
+breaking changes. A2A protocol and SDK arethemselves not experimental. Once it's stable enough the experimental mode will be removed. Your feedback is
+welcome.
+    task_result_aggregator = TaskResultAggregator()
+  2026-11-12 22:30:18,167 - INFO -
+> System.Management.Automation.RemoteException
+> System.Management.Automation.RemoteException
+> System.Management.Automation.RemoteException
+  ========================== A2ANL2SQLAgent _run_async_impl ============================
+> 2026-11-12 22:30:18,211 - INFO - INVOCATION CONTEXT=artifact_service=InMemoryArtifactService(artifacts={})
+session_service=<google.adk.sessions.in_memory_session_service.InMemorySessionService object at 0x71973630d450>
+memory_service=<google.adk.memory.in_memory_memory_service.InMemoryMemoryService object at 0x71973630c910> credential_service=None
+context_cache_config=None invocation_id='e-dcfbf1c6-e235-4447-a764-1b24377e4a3d' branch=None agent=A2ANL2SQLAgent(name='NL2SQL', description='',
+parent_agent=None, sub_agents=[], before_agent_callback=None, after_agent_callback=None, agent_card=AgentCard(additional_interfaces=None,
+capabilities=AgentCapabilities(extensions=None, push_notifications=None, state_transition_history=None, streaming=True),
+default_input_modes=['text/plain'], default_output_modes=['text/plain'], description='Natural Language to SQL', documentation_url=None, icon_url=None,
+name='NL2SQL', preferred_transport='JSONRPC', protocol_version='0.3.0', provider=None, security=None, security_schemes=None, signatures=None,
+skills=[AgentSkill(description='Converts a natural language question into a SQL query, executes it against MariaDB, and returns a human-readable answer.',
+examples=['{"GenerateSQL": {"Request": "GenerateSQL", "Query": "How many OPFOR units are in this exercise?", "options": {"debug": false, "force":
+false}}}'], id='text-to-sql', input_modes=['text'], name='Natural Language to SQL', output_modes=['text'], security=None, tags=['sql', 'database',
+'mariadb', 'text-to-sql']), AgentSkill(description='Trigger the ingest, to update the database definitionsthis is a maintenance/developper function',
+examples=['{"Ingest": {"Request": "Ingest", "Operation": "Set", "INGEST_OPTIONS": " --verbose --neo4j-import --reindex", "Rules": [{}], "options":
+{"debug": false, "force": false, "langfuse_tag": "ingest"}}}'], id='trigger-ingest', input_modes=['text'], name='Trigger the database ingest',
+output_modes=['text'], security=None, tags=['sql', 'ingest', 'mariadb', 'update'])], supports_authenticated_extended_card=None,
+url='http://127.0.0.1:5022', version='1.0'), used_skill='', tool_invoke_callback=<function run_pipeline at 0x7197365cb420>,
+tool_callback_dict={'GenerateSQL': <function run_pipeline at 0x7197365cb420>, 'default': <function run_pipeline at 0x7197365cb420>, 'Ingest': <function
+run_ingest at 0x7197365cb380>}) user_content=Content(
+    parts=[
+      Part(
+        text='How many OPFOR units are in this exercise?'
+      ),
+    ],
+    role='user'
+  ) session=Session(id='1c4002b2-dc7f-486c-ac03-b6ee079feeb6', app_name='NL2SQL', user_id='A2A_USER_1c4002b2-dc7f-486c-ac03-b6ee079feeb6', state={},
+events=[Event(model_version=None, content=Content(
+    parts=[
+      Part(
+        text='How many OPFOR units are in this exercise?'
+      ),
+    ],
+    role='user'
+> ), grounding_metadata=None, partial=None, turn_complete=None, finish_reason=None, error_code=None, error_message=None, interrupted=None,
+custom_metadata=None, usage_metadata=None, live_session_resumption_update=None, input_transcription=None, output_transcription=None, avg_logprobs=None,
+logprobs_result=None, cache_metadata=None, citation_metadata=None, interaction_id=None, invocation_id='e-dcfbf1c6-e235-4447-a764-1b24377e4a3d',
+author='user', actions=EventActions(skip_summarization=None, state_delta={}, artifact_delta={}, transfer_to_agent=None, escalate=None,
+requested_auth_configs={}, requested_tool_confirmations={}, compaction=None, end_of_agent=None, agent_state=None, rewind_before_invocation_id=None),
+long_running_tool_ids=None, branch=None, id='b344158d-3aa0-4c9a-9534-1c6308dc0100', timestamp=1794522618.157355)], last_update_time=1794522618.157355)
+agent_states={} end_of_agents={} end_invocation=False live_request_queue=None active_streaming_tools=None transcription_cache=None
+live_session_resumption_handle=None input_realtime_cache=None output_realtime_cache=None run_config=RunConfig(speech_config=None,
+response_modalities=None, save_input_blobs_as_artifacts=False, support_cfc=False, streaming_mode=<StreamingMode.NONE: None>,
+output_audio_transcription=AudioTranscriptionConfig(), input_audio_transcription=AudioTranscriptionConfig(), realtime_input_config=None,
+enable_affective_dialog=None, proactivity=None, session_resumption=None, context_window_compression=None, save_live_blob=False,
+tool_thread_pool_config=None, save_live_audio=False, max_llm_calls=500, custom_metadata={}) resumability_config=None
+plugin_manager=<google.adk.plugins.plugin_manager.PluginManager object at 0x71973630c590> canonical_tools_cache=None
+> 2026-11-12 22:30:18,212 - ERROR - Error handling A2A request: Expecting value: line 1 column 1 (char 0)
+> Traceback (most recent call last):
+    File "/usr/local/lib/python3.11/site-packages/google/adk/a2a/executor/a2a_agent_executor.py", line 155, in execute
+      await self._handle_request(context, event_queue)
+    File "/usr/local/lib/python3.11/site-packages/google/adk/a2a/executor/a2a_agent_executor.py", line 225, in _handle_request
+      async for adk_event in agen:
+    File "/usr/local/lib/python3.11/site-packages/google/adk/runners.py", line 561, in run_async
+      async for event in agen:
+    File "/usr/local/lib/python3.11/site-packages/google/adk/runners.py", line 549, in _run_with_trace
+      async for event in agen:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/usr/local/lib/python3.11/json/decoder.py", line 337, in decode
+      obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/usr/local/lib/python3.11/json/decoder.py", line 355, in raw_decode
+>     raise JSONDecodeError("Expecting value", s, err.value) from None
+> json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+  2026-11-12 22:30:18,258 - INFO - Task not found or task_id not set. Creating new task for event (task_id: e4e36c26-36ce-4d65-bad3-f20f2fcbd04f,
+context_id: 1c4002b2-dc7f-486c-ac03-b6ee079feeb6).
+  2026-11-12 22:35:41,555 - INFO -
+> System.Management.Automation.RemoteException
+> System.Management.Automation.RemoteException
+> System.Management.Automation.RemoteException
+  ========================== A2ANL2SQLAgent _run_async_impl ============================
+> 2026-11-12 22:35:41,558 - INFO - INVOCATION CONTEXT=artifact_service=InMemoryArtifactService(artifacts={})
+session_service=<google.adk.sessions.in_memory_session_service.InMemorySessionService object at 0x71973630d450>
+memory_service=<google.adk.memory.in_memory_memory_service.InMemoryMemoryService object at 0x71973630c910> credential_service=None
+context_cache_config=None invocation_id='e-2d7bf36c-2b7c-4b97-b0f2-8ad0c79d1083' branch=None agent=A2ANL2SQLAgent(name='NL2SQL', description='',
+parent_agent=None, sub_agents=[], before_agent_callback=None, after_agent_callback=None, agent_card=AgentCard(additional_interfaces=None,
+capabilities=AgentCapabilities(extensions=None, push_notifications=None, state_transition_history=None, streaming=True),
+default_input_modes=['text/plain'], default_output_modes=['text/plain'], description='Natural Language to SQL', documentation_url=None, icon_url=None,
+name='NL2SQL', preferred_transport='JSONRPC', protocol_version='0.3.0', provider=None, security=None, security_schemes=None, signatures=None,
+skills=[AgentSkill(description='Converts a natural language question into a SQL query, executes it against MariaDB, and returns a human-readable answer.',
+examples=['{"GenerateSQL": {"Request": "GenerateSQL", "Query": "How many OPFOR units are in this exercise?", "options": {"debug": false, "force":
+false}}}'], id='text-to-sql', input_modes=['text'], name='Natural Language to SQL', output_modes=['text'], security=None, tags=['sql', 'database',
+'mariadb', 'text-to-sql']), AgentSkill(description='Trigger the ingest, to update the database definitionsthis is a maintenance/developper function',
+examples=['{"Ingest": {"Request": "Ingest", "Operation": "Set", "INGEST_OPTIONS": " --verbose --neo4j-import --reindex", "Rules": [{}], "options":
+{"debug": false, "force": false, "langfuse_tag": "ingest"}}}'], id='trigger-ingest', input_modes=['text'], name='Trigger the database ingest',
+output_modes=['text'], security=None, tags=['sql', 'ingest', 'mariadb', 'update'])], supports_authenticated_extended_card=None,
+url='http://127.0.0.1:5022', version='1.0'), used_skill='', tool_invoke_callback=<function run_pipeline at 0x7197365cb420>,
+tool_callback_dict={'GenerateSQL': <function run_pipeline at 0x7197365cb420>, 'default': <function run_pipeline at 0x7197365cb420>, 'Ingest': <function
+run_ingest at 0x7197365cb380>}) user_content=Content(
+    parts=[
+      Part(
+        text='SELECT * FROM contxt_oi_assoc LIMIT 1000'
+      ),
+    ],
+    role='user'
+  ) session=Session(id='1a6e72f4-bae3-4a59-b307-60c6414eb21a', app_name='NL2SQL', user_id='A2A_USER_1a6e72f4-bae3-4a59-b307-60c6414eb21a', state={},
+events=[Event(model_version=None, content=Content(
+    parts=[
+      Part(
+        text='SELECT * FROM contxt_oi_assoc LIMIT 1000'
+      ),
+    ],
+    role='user'
+> ), grounding_metadata=None, partial=None, turn_complete=None, finish_reason=None, error_code=None, error_message=None, interrupted=None,
+custom_metadata=None, usage_metadata=None, live_session_resumption_update=None, input_transcription=None, output_transcription=None, avg_logprobs=None,
+logprobs_result=None, cache_metadata=None, citation_metadata=None, interaction_id=None, invocation_id='e-2d7bf36c-2b7c-4b97-b0f2-8ad0c79d1083',
+author='user', actions=EventActions(skip_summarization=None, state_delta={}, artifact_delta={}, transfer_to_agent=None, escalate=None,
+requested_auth_configs={}, requested_tool_confirmations={}, compaction=None, end_of_agent=None, agent_state=None, rewind_before_invocation_id=None),
+long_running_tool_ids=None, branch=None, id='92b40d69-0756-4914-b2e8-091dab380966', timestamp=1794522941.551898)], last_update_time=1794522941.551898)
+agent_states={} end_of_agents={} end_invocation=False live_request_queue=None active_streaming_tools=None transcription_cache=None
+live_session_resumption_handle=None input_realtime_cache=None output_realtime_cache=None run_config=RunConfig(speech_config=None,
+response_modalities=None, save_input_blobs_as_artifacts=False, support_cfc=False, streaming_mode=<StreamingMode.NONE: None>,
+output_audio_transcription=AudioTranscriptionConfig(), input_audio_transcription=AudioTranscriptionConfig(), realtime_input_config=None,
+enable_affective_dialog=None, proactivity=None, session_resumption=None, context_window_compression=None, save_live_blob=False,
+tool_thread_pool_config=None, save_live_audio=False, max_llm_calls=500, custom_metadata={}) resumability_config=None
+plugin_manager=<google.adk.plugins.plugin_manager.PluginManager object at 0x71973630c590> canonical_tools_cache=None
+> 2026-11-12 22:35:41,558 - ERROR - Error handling A2A request: Expecting value: line 1 column 1 (char 0)
+> Traceback (most recent call last):
+    File "/usr/local/lib/python3.11/site-packages/google/adk/a2a/executor/a2a_agent_executor.py", line 155, in execute
+      await self._handle_request(context, event_queue)
+    File "/usr/local/lib/python3.11/site-packages/google/adk/a2a/executor/a2a_agent_executor.py", line 225, in _handle_request
+      async for adk_event in agen:
+    File "/usr/local/lib/python3.11/site-packages/google/adk/runners.py", line 561, in run_async
+      async for event in agen:
+    File "/usr/local/lib/python3.11/site-packages/google/adk/runners.py", line 549, in _run_with_trace
+      async for event in agen:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/usr/local/lib/python3.11/json/decoder.py", line 337, in decode
+      obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/usr/local/lib/python3.11/json/decoder.py", line 355, in raw_decode
+>     raise JSONDecodeError("Expecting value", s, err.value) from None
+> json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+  2026-11-12 22:35:41,565 - INFO - Task not found or task_id not set. Creating new task for event (task_id: c9e8f770-c38f-4cf7-af97-81168d2c4d1d,
+context_id: 1a6e72f4-bae3-4a59-b307-60c6414eb21a).
+
+
+PS C:\Users\f.nkutu\pipeline-reqa-sql-mcp-plan-ai#107>
