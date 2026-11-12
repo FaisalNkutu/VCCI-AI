@@ -1,0 +1,1 @@
+$body = @{jsonrpc="2.0";id="1";method="message/send";params=@{message=@{role="user";messageId=[guid]::NewGuid().ToString();parts=@(@{kind="text";text="How many OPFOR units are in this exercise?"})}}} | ConvertTo-Json -Depth 10; Invoke-RestMethod -Uri "http://localhost:5022" -Method POST -ContentType "application/json" -Body $body | ConvertTo-Json -Depth 10
