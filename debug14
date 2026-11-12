@@ -5,3 +5,5 @@ $body = @{jsonrpc="2.0";id="3";method="message/send";params=@{message=@{role="us
 docker logs --tail 150 reqa-a2a 2>&1 | Select-String -Pattern "ERROR|Exception|Traceback|JSONDecodeError|8080|GenerateSQL" -Context 5,8
 
 docker exec reqa-a2a sh -c "grep -R -n -B 8 -A 12 'json.loads' /app/a2a 2>/dev/null"
+
+docker exec reqa-a2a sh -c "find /app -type f -name '*.py' 2>/dev/null | hea
