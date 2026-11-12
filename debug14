@@ -19,3 +19,4 @@ docker exec reqa-a2a sh -c "sed -n '1,110p' /app/agent/llm/ollama_llm.py; sed -n
 docker exec reqa-a2a python -c "import requests; r=requests.get('http://host.docker.internal:11434/api/tags',timeout=10); print(r.status_code); print([m['name'] for m in r.json().get('models',[])])"
 
 docker compose config | Select-String -Pattern "OLLAMA_BASE_URL|LLM_PROVIDER|OLLAMA_MODEL" -Context 2,2
+Get-ChildItem -File -Include "compose*.yaml","compose*.yml","docker-compose*.yaml","docker-compose*.yml",".env" -Recurse | Select-Object FullName
