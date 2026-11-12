@@ -3,3 +3,5 @@ $body = @{jsonrpc="2.0";id="1";method="message/send";params=@{message=@{role="us
 $body = @{jsonrpc="2.0";id="3";method="message/send";params=@{message=@{role="user";messageId=[guid]::NewGuid().ToString();parts=@(@{kind="text";text="SELECT * FROM contxt_oi_assoc LIMIT 1000"})}}} | ConvertTo-Json -Depth 10; (Invoke-RestMethod -Uri "http://localhost:5022" -Method POST -ContentType "application/json" -Body $body).result.status | ConvertTo-Json -Depth 10
 
 docker logs --tail 150 reqa-a2a 2>&1 | Select-String -Pattern "ERROR|Exception|Traceback|JSONDecodeError|8080|GenerateSQL" -Context 5,8
+
+docker exec reqa-a2a sh -c "grep -R -n -B 8 -A 12 'json.loads' /app/a2a 2>/dev/null"
