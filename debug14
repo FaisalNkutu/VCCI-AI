@@ -27,3 +27,5 @@ Copy-Item .env .env.backup -Force; (Get-Content .env) -replace '^OLLAMA_BASE_URL
 
 Step 2 — Verify
 Get-Content .env | Select-String '^(OLLAMA_BASE_URL|OLLAMA_MODEL)='
+
+docker compose up -d --no-deps --force-recreate reqa-a2a
