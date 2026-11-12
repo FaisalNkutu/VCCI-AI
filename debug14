@@ -20,3 +20,4 @@ docker exec reqa-a2a python -c "import requests; r=requests.get('http://host.doc
 
 docker compose config | Select-String -Pattern "OLLAMA_BASE_URL|LLM_PROVIDER|OLLAMA_MODEL" -Context 2,2
 Get-ChildItem -File -Include "compose*.yaml","compose*.yml","docker-compose*.yaml","docker-compose*.yml",".env" -Recurse | Select-Object FullName
+Get-ChildItem -Path . -File -Include "*.yml","*.yaml",".env" -Recurse | Select-String -Pattern "OLLAMA_BASE_URL|OLLAMA_MODEL|LLM_PROVIDER" | Select-Object Path,LineNumber,Line
