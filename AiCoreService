@@ -1,0 +1,955 @@
+<<<<<<< HEAD
+/*
+ * Copyright 2026 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+
+package com.calian.aicore;
+
+
+import com.calian.aicore.clientagent.ClientAgent;
+import com.calian.aicore.clientagent.ClientAgentHandler;
+import com.calian.aicore.clientagent.IResponseListener;
+import com.calian.aicore.comms.IJSONTCPDataListener;
+import com.calian.aicore.comms.IJSONTCPServerListener;
+import com.calian.aicore.comms.JSONTCPServer;
+import com.calian.aicore.ui.AgentBoard;
+import com.calian.aicore.ui.ClientBoard;
+import com.calian.aicoredata.*;
+import com.calian.basemicroservice.BaseMicroservice;
+import com.calian.common.lib.log.Log;
+import com.calian.common.lib.serialization.JsonObjectParser;
+import com.calian.jdbc.databasemanager.JDBCBaseDBManager;
+import com.calian.common.lib.rabbitmq.comms.ErrorMessage;
+import com.calian.common.lib.rabbitmq.comms.RabbitMQObject;
+import com.calian.common.lib.rabbitmq.comms.DataTransferObject;
+import com.calian.objmodel.base.bto.model.comms.DatabaseBackupMessage;
+import com.calian.objmodel.base.bto.model.comms.TerminateServiceMessage;
+import com.calian.objmodel.base.bto.requests.GetLicenseInfo;
+import com.calian.objmodel.base.bto.requests.GetMSInformationRequest;
+import com.calian.sharedmodel.comms.BindingKey;
+import com.calian.sharedmodel.parameters.DataParameters;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.a2aproject.sdk.spec.AgentCard;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.slf4j.Logger;
+
+/**
+ * <p>
+ * Title: AiCoreService</p>
+ * <p>
+ * Description: </p>
+ *
+ * @author B. Ola
+ */
+@Singleton
+public class AiCoreService extends BaseMicroservice implements IResponseListener, IJSONTCPServerListener, IJSONTCPDataListener {
+    public static Logger jL = Log.getLogger(AiCoreService.class);
+
+    private ClientAgentHandler jClientAgentHandler;
+
+    //Used to send responses back to user as they are ready
+    private final LinkedBlockingQueue<DataTransferObject> jResponseQueue = new LinkedBlockingQueue<>(1000);
+
+    private final LinkedBlockingQueue<DataTransferObject> jTCPReceiverQueue = new LinkedBlockingQueue<>(1000);
+
+    private AtomicBoolean jServiceRunning = new AtomicBoolean(true);
+    private final ExecutorService jTCPExecutor = Executors.newSingleThreadExecutor();
+    private final ExecutorService jResponseExecutor = Executors.newSingleThreadExecutor();
+    private JSONTCPServer jTCPServer;
+    private final String TCP_DELIMITER = "::::";
+
+
+    public DataParameters jDataParameter;
+
+    @Inject
+    public AiCoreMSDBManager jAiCoreDBManager;
+
+    @Inject
+    public AgentBoard jAgentBoardMetrics;
+
+    @Inject
+    public ClientBoard jClientBoardMetrics;
+
+    AgentCard jAgentCard;
+
+    public AiCoreService() {
+        jL.info("AiCoreService is up and running");
+    }
+
+    // Standalone VCCI UI agent discovery.
+    public Map<String, String> getConfiguredAgentRegistry() {
+        if (jClientAgentHandler == null) {
+            return Collections.emptyMap();
+        }
+        return jClientAgentHandler.getAllConfiguredAgents();
+    }
+
+    @Override
+    public JDBCBaseDBManager getDataManager() {
+        return jAiCoreDBManager;
+    }
+
+    @Override
+    public void initializeMicroservice() {
+        jAiCoreDBManager.setMicroService(this);
+        jAiCoreDBManager.loadStoredData();
+        super.initializeMicroservice();
+        jClientAgentHandler = new ClientAgentHandler(this, jAgentBoardMetrics, jClientBoardMetrics);
+        jResponseExecutor.submit(this::processResponseQueueLoop);
+        jTCPExecutor.submit(this::processTCPObjectQueue);
+        startTCPServer();
+    }
+
+    private void startTCPServer() {
+        InetAddress ip = null;
+        try {
+            ip = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            jL.error("Error getting local host: {}", e.getMessage());
+        }
+        if (ip != null) {
+            jTCPServer = new JSONTCPServer(ip.getHostAddress(), AIConstants.TCP_PORT, this);
+            new Thread(jTCPServer).start();
+            jL.info("TCP Server listening on {}:{}", ip.getHostAddress(), AIConstants.TCP_PORT);
+        } else {
+            jL.error("Error starting TCP server - could not retrieve local host.");
+        }
+    }
+
+    @Override
+    public ArrayList<String> getReceiveBindings() {
+        ArrayList<String> args = new ArrayList<>();
+        args.add("#");
+        return args;
+    }
+
+    /***
+     * This method is started by the executor thread to send out
+     * responses.
+     */
+    private void processResponseQueueLoop() {
+
+        while (jServiceRunning.get()) {
+            try {
+                //block until something arrives
+                DataTransferObject dto = jResponseQueue.poll(500, TimeUnit.MILLISECONDS);
+                if (dto != null) {
+                    processSendResponse(dto);
+                    jClientBoardMetrics.requestOut();
+                }
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } catch (IOException e) {
+                jClientBoardMetrics.requestFailed();
+                jL.error("Could not send data transfer object: {}", e.getMessage());
+            }
+        }
+
+    }
+
+    /**
+     * Add worker id to dto message tracker for sending responses later.
+     *
+     * @param dto      - object received via TCP
+     * @param workerID - worker id of the tcp client handler thread
+     */
+    private void addTCPTag(DataTransferObject dto, String workerID) {
+        if (dto.getMessageTracker() != null) {
+            String id = dto.getMessageTracker();
+            dto.setMessageTracker(workerID + TCP_DELIMITER + id);
+        } else {
+            dto.setMessageTracker(workerID + TCP_DELIMITER);
+        }
+    }
+
+    /**
+     * Send response back to user after response has been added by the client agent.
+     *
+     * @param dto - processed object.
+     * @throws IOException
+     */
+    private void processSendResponse(DataTransferObject dto) throws IOException {
+
+        String workerID = checkTCP(dto);
+        if (workerID == null) {
+            //this is a rabbit mq request
+            //TODO: MAKE SURE ALL AICORE OBJECTS HAVE CLONE METHODS!!!!!
+            sendResponse(dto.clone());
+        } else {
+            //this is a tcp request
+            String json = JsonObjectParser.asJSON(dto);
+            jTCPServer.sendObject(workerID, json);
+        }
+        checkDeleteClientAgent(dto);
+    }
+
+    /**
+     * Check if this request came in via TCP.
+     *
+     * @param dto - request processed.
+     * @return - worker id if this was a tcp request, null otherwise.
+     */
+    private String checkTCP(DataTransferObject dto) {
+        String id = dto.getMessageTracker();
+        if (id == null) {
+            //no worker id
+            return null;
+        }
+        int index = id.indexOf(TCP_DELIMITER);
+        if (index == -1) {
+            //This would not be TCP - no worker id
+            return null;
+        }
+
+        String workerID = id.substring(0, index);
+        try {
+            String remaining = id.substring(index + TCP_DELIMITER.length());
+            if (!remaining.isBlank()) {
+                dto.setMessageTracker(remaining);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            //do nothing
+        }
+
+        return workerID;
+    }
+
+    /**
+     * Need to end client agent instance if this was an unregistered request.
+     *
+     * @param dto - object that is/was processing.
+     */
+    private void checkDeleteClientAgent(DataTransferObject dto) {
+        if (dto.getMessage() instanceof UserRequest ur) {
+            if (ur.getClientID() == null && ur.isComplete()) {
+                //if we are here, this was a temp user and the request has been completed, delete agent instance
+                jClientAgentHandler.shutDownTempClientAgent(ur.getMessageTracker());
+            }
+        } else if (dto.getMessage() instanceof GetCommandsRequest gcr) {
+            if (gcr.getClientID() == null) {
+                //if we are here, this was a temp user and the request has been completed, delete agent instance
+                jClientAgentHandler.shutDownTempClientAgent(gcr.getMessageTracker());
+            }
+        }
+
+    }
+
+    @Override
+    public ArrayList<BindingKey> getExchangeWriteBindingKeys() {
+        ArrayList<BindingKey> keys = new ArrayList<>();
+        keys.add(new BindingKey("registration",
+                "registration", true));
+        keys.add(new BindingKey("deregister",
+                "deregister", true));
+        keys.add(new BindingKey("user_request",
+                "user_request", true));
+        return keys;
+    }
+
+    @Override
+    protected void initExchangeCache() {
+    }
+
+    @Override
+    public void performPostInitializationTasks() {
+    }
+
+    @Override
+    protected void setMSInformationData(GetMSInformationRequest getMSInformationRequest) {
+
+    }
+
+    @Override
+    public void processDataTransferObject(DataTransferObject dto) {
+        RabbitMQObject rabbitMQObject = dto.getMessage();
+        try {
+//            if (!licenseIsValid()) {
+//                // send InvalidLicense Message
+//                if (rabbitMQObject instanceof TerminateServiceMessage) {
+//                    terminateCommunication((TerminateServiceMessage) rabbitMQObject);
+//                } else {
+//                    sendInvalidLicenseMessage(dto.getHeader());
+//                }
+//                return;
+//            }
+
+            if (rabbitMQObject instanceof TerminateServiceMessage) {
+                terminateCommunication(getIdentificationId());
+            } else if (rabbitMQObject instanceof DatabaseBackupMessage) {
+                processDBBackupRequest((DatabaseBackupMessage) rabbitMQObject);
+                onResponse(dto);
+            } else if (rabbitMQObject instanceof GetLicenseInfo) {
+                processGetLicenseInfo((GetLicenseInfo) rabbitMQObject);
+                onResponse(dto);
+            } else if (rabbitMQObject instanceof RegistrationRequest rr) {
+                jClientBoardMetrics.requestIn();
+                processRegistration(rr);
+                onResponse(dto);
+            } else if (rabbitMQObject instanceof EndRegistrationRequest err) {
+                jClientBoardMetrics.requestIn();
+                processEndRegistration(err);
+                jL.info("Deregistering: {}", err.getClientID());
+                onResponse(dto);
+            } else if (rabbitMQObject instanceof GetCommandsRequest) {
+                jClientBoardMetrics.requestIn();
+                sendRequestToClientAgent(dto);
+            } else if (rabbitMQObject instanceof UserRequest) {
+                jClientBoardMetrics.requestIn();
+                sendRequestToClientAgent(dto);
+            } else {
+                jL.debug("Unknown data received. It was not processed. {}", dto.getMessage().toString());
+            }
+        } catch (Throwable th) {
+            ErrorMessage errorMessage = new ErrorMessage(rabbitMQObject);
+            errorMessage.addErrorReason(th.getMessage());
+            dto.setMessage(errorMessage);
+            onResponse(dto);
+            jL.debug("Error Encountered. ", th);
+
+        }
+    }
+
+    private void processEndRegistration(EndRegistrationRequest err) {
+        jClientAgentHandler.deregisterClient(err);
+    }
+
+    /***
+     * Process user request.
+     * @param dto - object sent by user.
+     */
+    private void sendRequestToClientAgent(DataTransferObject dto) {
+
+        UUID clientID = null;
+        if (dto.getMessage() instanceof UserRequest ur) {
+            clientID = ur.getClientID();
+        } else if (dto.getMessage() instanceof GetCommandsRequest gcr) {
+            clientID = gcr.getClientID();
+        }
+
+
+        ClientAgent ca;
+
+        //if there is a client id, user is registered - grab client agent
+        if (clientID != null) {
+            ca = jClientAgentHandler.getClientAgent(clientID);
+
+        } else {
+            //else instantiate a new one
+            ca = jClientAgentHandler.createTempClientAgent(dto.getMessage());
+        }
+        if (ca != null) {
+            ca.addTask(dto);
+        } else {
+            jL.error("Client agent could not be retrieved/created - user request could not be processed!");
+            jClientBoardMetrics.requestFailed();
+        }
+
+    }
+
+    /**
+     * Process user registration request.
+     *
+     * @param registrationRequest
+     */
+    private void processRegistration(RegistrationRequest registrationRequest) {
+        jClientAgentHandler.registerClient(registrationRequest);
+    }
+
+    /***
+     * Method used to queue DTO's that have been processed by client agent.
+     * @param response - dto object that has been updated with response(s) by a client agent.
+     */
+    @Override
+    public void onResponse(DataTransferObject response) {
+        try {
+            jResponseQueue.put(response);
+        } catch (InterruptedException e) {
+            jL.error("Error queueing response - cannot send response: {}", e.getMessage());
+        }
+
+    }
+
+    /**
+     * Called by the client agent when there has been an error in completing a user request.
+     *
+     * @param error
+     */
+    @Override
+    public void onError(Throwable error) {
+        jL.error("Error processing user request: {}", error.getMessage());
+    }
+
+    /**
+     * Shutdown the TCP receiver, scanner and response executors.
+     */
+    public void shutdownExecutors() {
+        jServiceRunning.getAndSet(false);
+        jClientAgentHandler.shutdownScannerExecutor();
+    }
+
+    /**
+     * Received json object via TCP - parse and add to receive queue for processing.
+     *
+     * @param workerId   - id of the worker thread that received the object.
+     * @param jsonString - json object
+     */
+    @Override
+    public void receivedObject(String workerId, String jsonString) {
+
+        DataTransferObject dto;
+        try {
+            dto = JsonObjectParser.asObject(jsonString, DataTransferObject.class);
+            if (dto != null) {
+                addTCPTag(dto, workerId);
+                jTCPReceiverQueue.put(dto);
+            }
+
+        } catch (JsonProcessingException e) {
+            jL.error("Could not parse JSON into DataTransferObject: {}", e.getMessage());
+        } catch (InterruptedException e) {
+            jL.error("Could not add JSON object to TCP Queue: {}", e.getMessage());
+        }
+
+
+    }
+
+    /***
+     * Process object received via TCP.
+     */
+    private void processTCPObjectQueue() {
+        while (jServiceRunning.get()) {
+            try {
+                //block until something arrives
+                DataTransferObject dto = jTCPReceiverQueue.poll(500, TimeUnit.MILLISECONDS);
+                if (dto != null) {
+                    processDataTransferObject(dto);
+                }
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    /***
+     * Notification that socket has been closed.
+     * @param workerId - id of the worker thread that has shutdown the stream.
+     */
+    @Override
+    public void streamShutdownNotif(String workerId) {
+        jL.info("Stream closed.");
+    }
+
+    /***
+     * New client connection made - add this as a data listener.
+     * @param id - worker id of the worker thread that has been made for the client connecting.
+     */
+    @Override
+    public void receivedClientConnection(String id) {
+        jTCPServer.addDataListener(id, this);
+    }
+
+    @Override
+    public void serverStatusNotify(String status) {
+        jL.info(status);
+    }
+
+    @Override
+    public void terminateCommunication(String tsm) {
+        jL.debug("Shutting down JSON TCP Server...");
+        jTCPServer.stop();
+        jL.debug("TCP server stopped.");
+        jL.debug("Shutting down executors...");
+        shutdownExecutors();
+        jL.debug("Executors have been shut down.");
+        super.terminateCommunication(tsm);
+    }
+}
+=======
+/*
+ * Copyright 2026 Operational and Training Technology, Calian Learning
+ *                   All rights reserved.
+ */
+
+package com.calian.aicore;
+
+
+import com.calian.aicore.clientagent.ClientAgent;
+import com.calian.aicore.clientagent.ClientAgentHandler;
+import com.calian.aicore.clientagent.IResponseListener;
+import com.calian.aicore.comms.IJSONTCPDataListener;
+import com.calian.aicore.comms.IJSONTCPServerListener;
+import com.calian.aicore.comms.JSONTCPServer;
+import com.calian.aicore.ui.AgentBoard;
+import com.calian.aicore.ui.ClientBoard;
+import com.calian.aicoredata.EndRegistrationRequest;
+import com.calian.aicoredata.GetCommandsRequest;
+import com.calian.aicoredata.RegistrationRequest;
+import com.calian.aicoredata.UserRequest;
+import com.calian.basemicroservice.BaseMicroservice;
+import com.calian.common.lib.log.Log;
+import com.calian.common.lib.rabbitmq.comms.DataTransferObject;
+import com.calian.common.lib.rabbitmq.comms.ErrorMessage;
+import com.calian.common.lib.rabbitmq.comms.RabbitMQObject;
+import com.calian.common.lib.serialization.JsonObjectParser;
+import com.calian.jdbc.databasemanager.JDBCBaseDBManager;
+import com.calian.objmodel.base.bto.model.comms.DatabaseBackupMessage;
+import com.calian.objmodel.base.bto.model.comms.TerminateServiceMessage;
+import com.calian.objmodel.base.bto.requests.GetLicenseInfo;
+import com.calian.objmodel.base.bto.requests.GetMSInformationRequest;
+import com.calian.sharedmodel.comms.BindingKey;
+import com.calian.sharedmodel.parameters.DataParameters;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import org.a2aproject.sdk.spec.AgentCard;
+import org.slf4j.Logger;
+import tools.jackson.core.JacksonException;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+/**
+ * <p>
+ * Title: AiCoreService</p>
+ * <p>
+ * Description: </p>
+ *
+ * @author B. Ola
+ */
+@Singleton
+public class AiCoreService extends BaseMicroservice implements IResponseListener, IJSONTCPServerListener, IJSONTCPDataListener {
+    public static Logger jL = Log.getLogger(AiCoreService.class);
+
+    private ClientAgentHandler jClientAgentHandler;
+
+    //Used to send responses back to user as they are ready
+    private final LinkedBlockingQueue<DataTransferObject> jResponseQueue = new LinkedBlockingQueue<>(1000);
+
+    private final LinkedBlockingQueue<DataTransferObject> jTCPReceiverQueue = new LinkedBlockingQueue<>(1000);
+
+    private AtomicBoolean jServiceRunning = new AtomicBoolean(true);
+    private final ExecutorService jTCPExecutor = Executors.newSingleThreadExecutor();
+    private final ExecutorService jResponseExecutor = Executors.newSingleThreadExecutor();
+    private JSONTCPServer jTCPServer;
+    private final String TCP_DELIMITER = "::::";
+
+
+    public DataParameters jDataParameter;
+
+    @Inject
+    public AiCoreMSDBManager jAiCoreDBManager;
+
+    @Inject
+    public AgentBoard jAgentBoardMetrics;
+
+    @Inject
+    public ClientBoard jClientBoardMetrics;
+
+    AgentCard jAgentCard;
+
+    public AiCoreService() {
+        jL.info("AiCoreService is up and running");
+    }
+
+    @Override
+    public JDBCBaseDBManager getDataManager() {
+        return jAiCoreDBManager;
+    }
+
+    @Override
+    public void initializeMicroservice() {
+        jAiCoreDBManager.setMicroService(this);
+        jAiCoreDBManager.loadStoredData();
+        super.initializeMicroservice();
+        jClientAgentHandler = new ClientAgentHandler(this, jAgentBoardMetrics, jClientBoardMetrics);
+        jResponseExecutor.submit(this::processResponseQueueLoop);
+        jTCPExecutor.submit(this::processTCPObjectQueue);
+        startTCPServer();
+    }
+
+    private void startTCPServer() {
+        InetAddress ip = null;
+        try {
+            ip = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            jL.error("Error getting local host: {}", e.getMessage());
+        }
+        if (ip != null) {
+            jTCPServer = new JSONTCPServer(ip.getHostAddress(), AIConstants.TCP_PORT, this);
+            new Thread(jTCPServer).start();
+            jL.info("TCP Server listening on {}:{}", ip.getHostAddress(), AIConstants.TCP_PORT);
+        } else {
+            jL.error("Error starting TCP server - could not retrieve local host.");
+        }
+    }
+
+    @Override
+    public ArrayList<String> getReceiveBindings() {
+        ArrayList<String> args = new ArrayList<>();
+        args.add("#");
+        return args;
+    }
+
+    /***
+     * This method is started by the executor thread to send out
+     * responses.
+     */
+    private void processResponseQueueLoop() {
+
+        while (jServiceRunning.get()) {
+            try {
+                //block until something arrives
+                DataTransferObject dto = jResponseQueue.poll(500, TimeUnit.MILLISECONDS);
+                if (dto != null) {
+                    processSendResponse(dto);
+                    jClientBoardMetrics.requestOut();
+                }
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } catch (IOException e) {
+                jClientBoardMetrics.requestFailed();
+                jL.error("Could not send data transfer object: {}", e.getMessage());
+            }
+        }
+
+    }
+
+    /**
+     * Add worker id to dto message tracker for sending responses later.
+     *
+     * @param dto      - object received via TCP
+     * @param workerID - worker id of the tcp client handler thread
+     */
+    private void addTCPTag(DataTransferObject dto, String workerID) {
+        if (dto.getMessageTracker() != null) {
+            String id = dto.getMessageTracker();
+            dto.setMessageTracker(workerID + TCP_DELIMITER + id);
+        } else {
+            dto.setMessageTracker(workerID + TCP_DELIMITER);
+        }
+    }
+
+    /**
+     * Send response back to user after response has been added by the client agent.
+     *
+     * @param dto - processed object.
+     * @throws IOException
+     */
+    private void processSendResponse(DataTransferObject dto) throws IOException {
+
+        String workerID = checkTCP(dto);
+        if (workerID == null) {
+            //this is a rabbit mq request
+            //TODO: MAKE SURE ALL AICORE OBJECTS HAVE CLONE METHODS!!!!!
+            sendResponse(dto.clone());
+        } else {
+            //this is a tcp request
+            String json = JsonObjectParser.asJSON(dto);
+            jTCPServer.sendObject(workerID, json);
+        }
+        checkDeleteClientAgent(dto);
+    }
+
+    /**
+     * Check if this request came in via TCP.
+     *
+     * @param dto - request processed.
+     * @return - worker id if this was a tcp request, null otherwise.
+     */
+    private String checkTCP(DataTransferObject dto) {
+        String id = dto.getMessageTracker();
+        if (id == null) {
+            //no worker id
+            return null;
+        }
+        int index = id.indexOf(TCP_DELIMITER);
+        if (index == -1) {
+            //This would not be TCP - no worker id
+            return null;
+        }
+
+        String workerID = id.substring(0, index);
+        try {
+            String remaining = id.substring(index + TCP_DELIMITER.length());
+            if (!remaining.isBlank()) {
+                dto.setMessageTracker(remaining);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            //do nothing
+        }
+
+        return workerID;
+    }
+
+    /**
+     * Need to end client agent instance if this was an unregistered request.
+     *
+     * @param dto - object that is/was processing.
+     */
+    private void checkDeleteClientAgent(DataTransferObject dto) {
+        if (dto.getMessage() instanceof UserRequest ur) {
+            if (ur.getClientID() == null && ur.isComplete()) {
+                //if we are here, this was a temp user and the request has been completed, delete agent instance
+                jClientAgentHandler.shutDownTempClientAgent(ur.getMessageTracker());
+            }
+        } else if (dto.getMessage() instanceof GetCommandsRequest gcr) {
+            if (gcr.getClientID() == null) {
+                //if we are here, this was a temp user and the request has been completed, delete agent instance
+                jClientAgentHandler.shutDownTempClientAgent(gcr.getMessageTracker());
+            }
+        }
+
+    }
+
+    @Override
+    public ArrayList<BindingKey> getExchangeWriteBindingKeys() {
+        ArrayList<BindingKey> keys = new ArrayList<>();
+        keys.add(new BindingKey("registration",
+                "registration", true));
+        keys.add(new BindingKey("deregister",
+                "deregister", true));
+        keys.add(new BindingKey("user_request",
+                "user_request", true));
+        return keys;
+    }
+
+    @Override
+    protected void initExchangeCache() {
+    }
+
+    @Override
+    public void performPostInitializationTasks() {
+    }
+
+    @Override
+    protected void setMSInformationData(GetMSInformationRequest getMSInformationRequest) {
+
+    }
+
+    @Override
+    public void processDataTransferObject(DataTransferObject dto) {
+        RabbitMQObject rabbitMQObject = dto.getMessage();
+        try {
+//            if (!licenseIsValid()) {
+//                // send InvalidLicense Message
+//                if (rabbitMQObject instanceof TerminateServiceMessage) {
+//                    terminateCommunication((TerminateServiceMessage) rabbitMQObject);
+//                } else {
+//                    sendInvalidLicenseMessage(dto.getHeader());
+//                }
+//                return;
+//            }
+
+            if (rabbitMQObject instanceof TerminateServiceMessage) {
+                terminateCommunication(getIdentificationId());
+            } else if (rabbitMQObject instanceof DatabaseBackupMessage) {
+                processDBBackupRequest((DatabaseBackupMessage) rabbitMQObject);
+                onResponse(dto);
+            } else if (rabbitMQObject instanceof GetLicenseInfo) {
+                processGetLicenseInfo((GetLicenseInfo) rabbitMQObject);
+                onResponse(dto);
+            } else if (rabbitMQObject instanceof RegistrationRequest rr) {
+                jClientBoardMetrics.requestIn();
+                processRegistration(rr);
+                onResponse(dto);
+            } else if (rabbitMQObject instanceof EndRegistrationRequest err) {
+                jClientBoardMetrics.requestIn();
+                processEndRegistration(err);
+                jL.info("Deregistering: {}", err.getClientID());
+                onResponse(dto);
+            } else if (rabbitMQObject instanceof GetCommandsRequest) {
+                jClientBoardMetrics.requestIn();
+                sendRequestToClientAgent(dto);
+            } else if (rabbitMQObject instanceof UserRequest) {
+                jClientBoardMetrics.requestIn();
+                sendRequestToClientAgent(dto);
+            } else {
+                jL.debug("Unknown data received. It was not processed. {}", dto.getMessage().toString());
+            }
+        } catch (Throwable th) {
+            ErrorMessage errorMessage = new ErrorMessage(rabbitMQObject);
+            errorMessage.addErrorReason(th.getMessage());
+            dto.setMessage(errorMessage);
+            onResponse(dto);
+            jL.debug("Error Encountered. ", th);
+
+        }
+    }
+
+    private void processEndRegistration(EndRegistrationRequest err) {
+        jClientAgentHandler.deregisterClient(err);
+    }
+
+    /***
+     * Process user request.
+     * @param dto - object sent by user.
+     */
+    private void sendRequestToClientAgent(DataTransferObject dto) {
+
+        UUID clientID = null;
+        if (dto.getMessage() instanceof UserRequest ur) {
+            clientID = ur.getClientID();
+        } else if (dto.getMessage() instanceof GetCommandsRequest gcr) {
+            clientID = gcr.getClientID();
+        }
+
+
+        ClientAgent ca;
+
+        //if there is a client id, user is registered - grab client agent
+        if (clientID != null) {
+            ca = jClientAgentHandler.getClientAgent(clientID);
+
+        } else {
+            //else instantiate a new one
+            ca = jClientAgentHandler.createTempClientAgent(dto.getMessage());
+        }
+        if (ca != null) {
+            ca.addTask(dto);
+        } else {
+            jL.error("Client agent could not be retrieved/created - user request could not be processed!");
+            jClientBoardMetrics.requestFailed();
+        }
+
+    }
+
+    /**
+     * Process user registration request.
+     *
+     * @param registrationRequest
+     */
+    private void processRegistration(RegistrationRequest registrationRequest) {
+        jClientAgentHandler.registerClient(registrationRequest);
+    }
+
+    /***
+     * Method used to queue DTO's that have been processed by client agent.
+     * @param response - dto object that has been updated with response(s) by a client agent.
+     */
+    @Override
+    public void onResponse(DataTransferObject response) {
+        try {
+            jResponseQueue.put(response);
+        } catch (InterruptedException e) {
+            jL.error("Error queueing response - cannot send response: {}", e.getMessage());
+        }
+
+    }
+
+    /**
+     * Called by the client agent when there has been an error in completing a user request.
+     *
+     * @param error
+     */
+    @Override
+    public void onError(Throwable error) {
+        jL.error("Error processing user request: {}", error.getMessage());
+    }
+
+    /**
+     * Shutdown the TCP receiver, scanner and response executors.
+     */
+    public void shutdownExecutors() {
+        jServiceRunning.getAndSet(false);
+        jClientAgentHandler.shutdownScannerExecutor();
+    }
+
+    /**
+     * Received json object via TCP - parse and add to receive queue for processing.
+     *
+     * @param workerId   - id of the worker thread that received the object.
+     * @param jsonString - json object
+     */
+    @Override
+    public void receivedObject(String workerId, String jsonString) {
+
+        DataTransferObject dto;
+        try {
+            dto = JsonObjectParser.asObject(jsonString, DataTransferObject.class);
+            if (dto != null) {
+                addTCPTag(dto, workerId);
+                jTCPReceiverQueue.put(dto);
+            }
+
+        } catch (JacksonException e) {
+            jL.error("Could not parse JSON into DataTransferObject: {}", e.getMessage());
+        } catch (InterruptedException e) {
+            jL.error("Could not add JSON object to TCP Queue: {}", e.getMessage());
+        }
+
+
+    }
+
+    /***
+     * Process object received via TCP.
+     */
+    private void processTCPObjectQueue() {
+        while (jServiceRunning.get()) {
+            try {
+                //block until something arrives
+                DataTransferObject dto = jTCPReceiverQueue.poll(500, TimeUnit.MILLISECONDS);
+                if (dto != null) {
+                    processDataTransferObject(dto);
+                }
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    /***
+     * Notification that socket has been closed.
+     * @param workerId - id of the worker thread that has shutdown the stream.
+     */
+    @Override
+    public void streamShutdownNotif(String workerId) {
+        jL.info("Stream closed.");
+    }
+
+    /***
+     * New client connection made - add this as a data listener.
+     * @param id - worker id of the worker thread that has been made for the client connecting.
+     */
+    @Override
+    public void receivedClientConnection(String id) {
+        jTCPServer.addDataListener(id, this);
+    }
+
+    @Override
+    public void serverStatusNotify(String status) {
+        jL.info(status);
+    }
+
+    @Override
+    public void terminateCommunication(String tsm) {
+        jL.debug("Shutting down JSON TCP Server...");
+        jTCPServer.stop();
+        jL.debug("TCP server stopped.");
+        jL.debug("Shutting down executors...");
+        shutdownExecutors();
+        jL.debug("Executors have been shut down.");
+        super.terminateCommunication(tsm);
+    }
+}
+>>>>>>> origin/master
