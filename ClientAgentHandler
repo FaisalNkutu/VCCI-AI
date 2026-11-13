@@ -1,0 +1,245 @@
+package com.calian.aicore.clientagent;
+
+import com.calian.aicore.AIConstants;
+import com.calian.aicore.clientagent.LLM.LLMService;
+import com.calian.aicoredata.*;
+import com.calian.basemicroservice.ObjectCache;
+import com.calian.common.lib.log.Log;
+import com.calian.rabbitmq.comms.BTO;
+import com.calian.rabbitmq.comms.DataTransferObject;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.a2aproject.sdk.client.http.A2ACardResolver;
+import org.a2aproject.sdk.spec.A2AError;
+
+import org.a2aproject.sdk.spec.AgentCard;
+import io.micronaut.http.client.DefaultHttpClientConfiguration;
+import org.a2aproject.sdk.util.Utils;
+import org.slf4j.Logger;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.time.Duration;
+import java.util.*;
+import java.util.concurrent.*;
+
+import io.micronaut.http.client.HttpClient;
+
+import java.net.URL;
+
+
+public class ClientAgentHandler {
+    public static Logger jL = Log.getLogger(ClientAgentHandler.class);
+    private HashMap<UUID, ClientAgent> jClientAgentInstanceMap = new HashMap<>();
+    private HashMap<String, ClientAgent> jClientAgentTempInstanceMap = new HashMap<>();
+    private IResponseListener jResponseListener;
+    private ConcurrentHashMap<String, ConcurrentHashMap<String, List<String>>> jCommandDependencyMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, List<String>> jCommandToAgentList;
+    private final ConcurrentHashMap<String, String> jAgentURLHashmap = new ConcurrentHashMap<>();
+    private final ArrayList<AgentCard> jAvailableAgents = new ArrayList<>();
+    private final ArrayList<String> jPendingAgents = new ArrayList<>();
+    private LLMService jLLMService;
+    private final ScheduledExecutorService jAgentScannerExecutor = Executors.newSingleThreadScheduledExecutor();
+
+
+    public ClientAgentHandler(IResponseListener listener) {
+        jResponseListener = listener;
+        initializeHandler();
+    }
+
+    private void initializeHandler() {
+        loadCommandAgentData();
+        initializeLLMService();
+        jAgentScannerExecutor.scheduleWithFixedDelay(this::processScannerQueueLoop, 10, 10, TimeUnit.SECONDS);
+    }
+
+    /***
+     * Method to keep checking for available agents. If the agents we know about are not started when
+     * the AIService is started, this method will keep checking until they are all up in which case, it will shut down.
+     */
+    private void processScannerQueueLoop() {
+        Iterator<String> iterator = jPendingAgents.iterator();
+
+        while (iterator.hasNext()) {
+            String agent = iterator.next();
+            String url = jAgentURLHashmap.get(agent);
+            try {
+                //TODO: This was not necessary in earlier versions - might need to get rid of this if upgrading A2A in future
+                URI uri = URI.create(url);
+                String baseURL = uri.getScheme()
+                        + "://"
+                        + uri.getHost()
+                        + (uri.getPort() != -1 ? ":" + uri.getPort() : "");
+
+                AgentCard publicAgentCard = A2ACardResolver.builder().baseUrl(baseURL).build().getAgentCard();
+                jAvailableAgents.add(publicAgentCard);
+                iterator.remove();
+
+            } catch (Exception e) {
+                jL.debug("Failed to get agent card for {}", agent);
+            }
+
+        }
+        if (jPendingAgents.isEmpty()) {
+            jL.debug("All agents are up and running - shutting down the scanner queue...");
+            jAgentScannerExecutor.shutdown();
+        }
+    }
+
+    public void shutdownScannerExecutor() {
+        jAgentScannerExecutor.shutdown();
+    }
+
+    /***
+     * Method to setup connection to the local llm.
+     */
+    private void initializeLLMService() {
+
+        HttpClient client = null;
+        try {
+            DefaultHttpClientConfiguration config =
+                    new DefaultHttpClientConfiguration();
+
+            config.setReadTimeout(
+                    Duration.ofMinutes(5)
+            );
+
+            client =
+                    HttpClient.create(
+                            URI.create(AIConstants.LLM_URL)
+                                    .toURL(),
+                            config
+                    );
+        } catch (Exception e) {
+            jL.warn("Error initializing the LLM Service: {}", e.getMessage());
+        }
+
+        jLLMService =
+                new LLMService(
+                        client,
+                        AIConstants.LLM_MODEL
+                );
+    }
+
+
+    /**
+     * This method loads a list of available agents into a map of agent id to url.
+     */
+    public void loadCommandAgentData() {
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(AIConstants.AGENT_URL_PATH))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                if (line.trim().isEmpty()) continue;
+
+                String[] parts = line.split(",", AIConstants.AGENT_SPLIT_LIMIT);
+                if (parts.length == AIConstants.AGENT_SPLIT_LIMIT) {
+                    String agent = parts[AIConstants.AGENT_SPLIT_INDEX_ZERO].trim();
+                    String url = parts[AIConstants.AGENT_SPLIT_INDEX_ONE].trim();
+                    jAgentURLHashmap.put(agent, url);
+                }
+            }
+
+
+        } catch (IOException e) {
+            jL.error("Could not load agents! Error: {}", e.getMessage());
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            jCommandToAgentList = new ConcurrentHashMap<>(mapper.readValue(
+                    new File(AIConstants.COMMAND_PATH),
+                    new TypeReference<Map<String, List<String>>>() {
+                    }
+            ));
+        } catch (IOException e) {
+            jL.error("Could not read in command to agent list! Error: {}", e.getMessage());
+        }
+
+        try {
+            jCommandDependencyMap = new ConcurrentHashMap<>(mapper.readValue(
+                    new File(AIConstants.COMMAND_DEP_PATH),
+                    new TypeReference<Map<String, ConcurrentHashMap<String, List<String>>>>() {
+                    }
+            ));
+        } catch (IOException e) {
+            jL.error("Could not parse command dependency map! {} ", e.getMessage());
+        }
+
+        for (Map.Entry<String, String> agent : jAgentURLHashmap.entrySet()) {
+            try {
+                AgentCard publicAgentCard = A2ACardResolver.builder().baseUrl(agent.getValue()).build().getAgentCard();
+                jAvailableAgents.add(publicAgentCard);
+            } catch (Exception e) {
+                jL.debug("Adding agent to pending: {} ", agent.getKey());
+                jPendingAgents.add(agent.getKey());
+            }
+        }
+
+    }
+
+    public void registerClient(RegistrationRequest rr) {
+        UUID clientID = UUID.randomUUID();
+        ClientAgent clientAgent = new ClientAgent(
+                clientID,
+                new ObjectCache(),
+                jResponseListener,
+                jCommandDependencyMap,
+                jCommandToAgentList,
+                jAgentURLHashmap,
+                new ArrayList<>(jAvailableAgents),
+                jLLMService);
+        clientAgent.begin();
+        jClientAgentInstanceMap.put(clientID, clientAgent);
+        rr.setClientID(clientID);
+        jL.info("New client registered: {}", clientID);
+    }
+
+    public ClientAgent getClientAgent(UUID id) {
+        return jClientAgentInstanceMap.get(id);
+    }
+
+    public void deregisterClient(EndRegistrationRequest err) {
+        ClientAgent ca = jClientAgentInstanceMap.remove(err.getClientID());
+        if (ca != null) {
+            ca.close();
+            jL.info("Client deregistered: {}", err.getClientID());
+        } else {
+            jL.warn("Could not deregister client - no client agent found.");
+        }
+
+    }
+
+    public ClientAgent createTempClientAgent(BTO bto) {
+        ClientAgent ca = new ClientAgent(
+                jResponseListener,
+                jCommandDependencyMap,
+                jCommandToAgentList,
+                jAgentURLHashmap,
+                new ArrayList<>(jAvailableAgents),
+                jLLMService);
+        ca.begin();
+        if (bto.getMessageTracker() == null) {
+            bto.setMessageTracker(UUID.randomUUID().toString());
+        }
+        jClientAgentTempInstanceMap.put(bto.getMessageTracker(), ca);
+        return ca;
+    }
+
+    public void shutDownTempClientAgent(String messageTracker) {
+        try {
+            ClientAgent ca = jClientAgentTempInstanceMap.remove(messageTracker);
+            ca.close();
+        } catch (Exception e) {
+            jL.warn("Could not shutdown temporary client agent: {}", e.getMessage());
+        }
+    }
+
+}
