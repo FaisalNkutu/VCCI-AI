@@ -1,0 +1,577 @@
+& { $root=(Resolve-Path ..).Path; $pom=Join-Path $root 'aicoredata\pom.xml'; Copy-Item $pom "$pom.bak" -Force; [xml]$xml=Get-Content $pom; $ns=$xml.DocumentElement.NamespaceURI; $deps=$xml.SelectSingleNode("/*[local-name()='project']/*[local-name()='dependencies']"); if(!$deps){$deps=$xml.CreateElement('dependencies',$ns);[void]$xml.DocumentElement.AppendChild($deps)}; foreach($d in @(@('org.slf4j','slf4j-api','2.0.16'),@('com.rabbitmq','amqp-client','5.21.0'),@('com.fasterxml.jackson.core','jackson-annotations','2.17.2'))){if(!($deps.ChildNodes|Where-Object {$_.groupId -eq $d[0] -and $_.artifactId -eq $d[1]})){ $node=$xml.CreateElement('dependency',$ns);foreach($pair in @(@('groupId',$d[0]),@('artifactId',$d[1]),@('version',$d[2]))){$e=$xml.CreateElement($pair[0],$ns);$e.InnerText=$pair[1];[void]$node.AppendChild($e)};[void]$deps.AppendChild($node)}}; $xml.Save($pom); mvn -f (Join-Path $root 'pom.xml') clean install -DskipTests }
+[INFO] Scanning for projects...
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-parent/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-parent/7.0.0-SNAPSHOT/maven-metadata.xml (775 B at 872 B/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.16.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.16.0-SNAPSHOT/maven-metadata.xml (787 B at 12 kB/s)
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO]
+[INFO] AI Core Projects                                                   [pom]
+[INFO] AI Core Data Model                                                 [jar]
+[INFO] AI Core App                                                        [jar]
+[INFO] AI Base Agent                                                      [jar]
+[INFO] AI Core Test Client                                                [jar]
+[INFO] A2A Server                                                         [jar]
+[INFO] locationagent                                                      [jar]
+[INFO]
+[INFO] -------------------------< com.calian:aicore >--------------------------
+[INFO] Building AI Core Projects 1.0.0-SNAPSHOT                           [1/7]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO]
+[INFO] --- clean:3.4.1:clean (default-clean) @ aicore ---
+[INFO] Deleting C:\dev - Copy\ai-core\target
+[INFO] Deleting C:\dev - Copy\ai-core (includes = [null], excludes = [])
+[INFO]
+[INFO] --- git-commit-id:9.0.2:revision (get-the-git-infos) @ aicore ---
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-build-standards) @ aicore ---
+[INFO] Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 3: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] Rule 4: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+[INFO] Rule 5: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+[INFO] Rule 6: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+[INFO] Rule 7: org.apache.maven.enforcer.rules.BannedPlugins passed
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-package-standards) @ aicore ---
+[INFO] Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 3: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+[INFO] Rule 4: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+[INFO] Rule 5: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+[INFO] Rule 6: org.apache.maven.enforcer.rules.BannedPlugins passed
+[INFO]
+[INFO] --- artifactory:3.7.0:publish (attach-properties) @ aicore ---
+[INFO]
+[INFO] --- git-commit-id:9.0.2:revision (write-git-commit-properties-to-file) @ aicore ---
+[INFO]
+[INFO] --- git-commit-id:9.0.2:revision (write-all-git-properties-to-file) @ aicore ---
+[INFO]
+[INFO] --- build-helper:3.6.0:parse-version (parse-version) @ aicore ---
+[INFO]
+[INFO] --- build-helper:3.6.0:timestamp-property (set-date-for-application-version) @ aicore ---
+[INFO]
+[INFO] --- remote-resources:3.3.0:process (process-license-resource) @ aicore ---
+[INFO] Preparing remote bundle com.simfront.ott.license:ott_v1:1.0
+[INFO] Copying 1 resource from 1 bundle.
+[INFO]
+[INFO] --- build-helper:3.6.0:attach-artifact (attach-passport-file) @ aicore ---
+[INFO]
+[INFO] --- install:3.1.4:install (default-install) @ aicore ---
+[INFO] Installing C:\dev - Copy\ai-core\pom.xml to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicore\1.0.0-SNAPSHOT\aicore-1.0.0-SNAPSHOT.pom
+[INFO] Installing C:\dev - Copy\ai-core\target\passport.properties to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicore\1.0.0-SNAPSHOT\aicore-1.0.0-SNAPSHOT.txt
+[INFO]
+[INFO] -----------------------< com.calian:aicoredata >------------------------
+[INFO] Building AI Core Data Model 1.0.0-SNAPSHOT                         [2/7]
+[INFO]   from aicoredata\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-rabbitmq/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-rabbitmq/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 15 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-libs/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-libs/5.2.0-SNAPSHOT/maven-metadata.xml (613 B at 9.7 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml (998 B at 15 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 9.5 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml (601 B at 7.4 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 7.6 kB/s)
+[WARNING] The POM for com.calian.common.lib:common-lib-rabbitmq:jar:5.2.0-20261113.143337-25 is invalid, transitive dependencies (if any) will not be available: 1 problem was encountered while building the effective model for com.calian.common.lib:common-lib-rabbitmq:5.2.0-SNAPSHOT
+[ERROR] 'dependencies.dependency.version' for com.rabbitmq:amqp-client:jar is missing. @
+
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.pom
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.pom (2.8 kB at 30 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/org/slf4j/slf4j-parent/2.0.16/slf4j-parent-2.0.16.pom
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/org/slf4j/slf4j-parent/2.0.16/slf4j-parent-2.0.16.pom (13 kB at 104 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/org/slf4j/slf4j-bom/2.0.16/slf4j-bom-2.0.16.pom
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/org/slf4j/slf4j-bom/2.0.16/slf4j-bom-2.0.16.pom (7.3 kB at 79 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/rabbitmq/amqp-client/5.21.0/amqp-client-5.21.0.pom
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/rabbitmq/amqp-client/5.21.0/amqp-client-5.21.0.pom (41 kB at 107 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/fasterxml/jackson/core/jackson-annotations/2.17.2/jackson-annotations-2.17.2.pom
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/fasterxml/jackson/core/jackson-annotations/2.17.2/jackson-annotations-2.17.2.pom (6.9 kB at 70 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar (69 kB at 694 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/rabbitmq/amqp-client/5.21.0/amqp-client-5.21.0.jar
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/fasterxml/jackson/core/jackson-annotations/2.17.2/jackson-annotations-2.17.2.jar
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/fasterxml/jackson/core/jackson-annotations/2.17.2/jackson-annotations-2.17.2.jar (78 kB at 360 kB/s)
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/rabbitmq/amqp-client/5.21.0/amqp-client-5.21.0.jar (697 kB at 2.2 MB/s)
+[INFO]
+[INFO] --- clean:3.4.1:clean (default-clean) @ aicoredata ---
+[INFO] Deleting C:\dev - Copy\ai-core\aicoredata\target
+[INFO] Deleting C:\dev - Copy\ai-core\aicoredata (includes = [null], excludes = [])
+[INFO]
+[INFO] --- git-commit-id:9.0.2:revision (get-the-git-infos) @ aicoredata ---
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-build-standards) @ aicoredata ---
+[INFO] Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+[INFO] Rule 5: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+[INFO] Rule 6: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+[INFO] Rule 7: org.apache.maven.enforcer.rules.BannedPlugins passed
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-package-standards) @ aicoredata ---
+[INFO] Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+[INFO] Rule 4: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+[INFO] Rule 5: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+[INFO] Rule 6: org.apache.maven.enforcer.rules.BannedPlugins passed
+[INFO]
+[INFO] --- artifactory:3.7.0:publish (attach-properties) @ aicoredata ---
+[INFO]
+[INFO] --- git-commit-id:9.0.2:revision (write-git-commit-properties-to-file) @ aicoredata ---
+[INFO]
+[INFO] --- git-commit-id:9.0.2:revision (write-all-git-properties-to-file) @ aicoredata ---
+[INFO]
+[INFO] --- build-helper:3.6.0:parse-version (parse-version) @ aicoredata ---
+[INFO]
+[INFO] --- build-helper:3.6.0:timestamp-property (set-date-for-application-version) @ aicoredata ---
+[INFO]
+[INFO] --- remote-resources:3.3.0:process (process-license-resource) @ aicoredata ---
+[INFO] Preparing remote bundle com.simfront.ott.license:ott_v1:1.0
+[INFO] Copying 1 resource from 1 bundle.
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ aicoredata ---
+[INFO] skip non existing resourceDirectory C:\dev - Copy\ai-core\aicoredata\src\main\resources
+[INFO] Copying 1 resource from target\maven-shared-archive-resources to target\classes
+[INFO]
+[INFO] --- compiler:3.14.0:compile (default-compile) @ aicoredata ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 17 source files with javac [debug release 21] to target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR :
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/dev - Copy/ai-core/aicoredata/src/main/java/com/calian/aicoredata/datatype/AIObject.java:[11,40] cannot access com.calian.common.lib.system.SystemObject
+  class file for com.calian.common.lib.system.SystemObject not found
+[ERROR] /C:/dev - Copy/ai-core/aicoredata/src/main/java/com/calian/aicoredata/comms/RabbitMQComm.java:[8,33] package com.calian.common.lib.log does not exist
+[ERROR] /C:/dev - Copy/ai-core/aicoredata/src/main/java/com/calian/aicoredata/comms/RabbitMQComm.java:[32,37] cannot find symbol
+  symbol:   variable Log
+  location: class com.calian.aicoredata.comms.RabbitMQComm
+[INFO] 3 errors
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for AI Core Projects 1.0.0-SNAPSHOT:
+[INFO]
+[INFO] AI Core Projects ................................... SUCCESS [ 17.670 s]
+[INFO] AI Core Data Model ................................. FAILURE [  4.880 s]
+[INFO] AI Core App ........................................ SKIPPED
+[INFO] AI Base Agent ...................................... SKIPPED
+[INFO] AI Core Test Client ................................ SKIPPED
+[INFO] A2A Server ......................................... SKIPPED
+[INFO] locationagent ...................................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  24.726 s
+[INFO] Finished at: 2026-11-13T21:08:48-05:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.0:compile (default-compile) on project aicoredata: Compilation failure: Compilation failure:
+[ERROR] /C:/dev - Copy/ai-core/aicoredata/src/main/java/com/calian/aicoredata/datatype/AIObject.java:[11,40] cannot access com.calian.common.lib.system.SystemObject
+[ERROR]   class file for com.calian.common.lib.system.SystemObject not found
+[ERROR] /C:/dev - Copy/ai-core/aicoredata/src/main/java/com/calian/aicoredata/comms/RabbitMQComm.java:[8,33] package com.calian.common.lib.log does not exist
+[ERROR] /C:/dev - Copy/ai-core/aicoredata/src/main/java/com/calian/aicoredata/comms/RabbitMQComm.java:[32,37] cannot find symbol
+[ERROR]   symbol:   variable Log
+[ERROR]   location: class com.calian.aicoredata.comms.RabbitMQComm
+[ERROR] -> [Help 1]
+[ERROR]
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR]
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR]
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :aicoredata
+PS C:\dev - Copy\ai-core\aicoredata> Get-ChildItem 'C:\dev - Copy' -Recurse -File -Include SystemObject.java,Log.java,SystemObject.class,Log.class -ErrorAction SilentlyContinue | Select-Object FullName
+
+FullName
+--------
+C:\dev - Copy\common\lib\common-lib-log\src\main\java\com\calian\common\lib\log\Log.java
+C:\dev - Copy\common\lib\common-lib-log\target\classes\com\calian\common\lib\log\Log.class
+C:\dev - Copy\common\lib\common-lib-system\src\main\java\com\calian\common\lib\system\SystemObject.java
+C:\dev - Copy\common\lib\common-lib-system\target\classes\com\calian\common\lib\system\SystemObject....
+
+
+PS C:\dev - Copy\ai-core\aicoredata> $root='C:\dev - Copy'; $ErrorActionPreference='Stop'; $modules=@('common\lib\common-lib-log','common\lib\common-lib-system'); foreach($m in $modules){$p=Join-Path $root $m; if(!(Test-Path "$p\pom.xml")){throw "Missing Maven project: $p"}; Write-Host "Installing $m"; Push-Location $p; try {mvn clean install -DskipTests; if($LASTEXITCODE -ne 0){throw "Build failed: $m"}} finally {Pop-Location}}; $p=Join-Path $root 'ai-core'; Push-Location $p; try {mvn clean install -DskipTests; if($LASTEXITCODE -ne 0){throw 'AI Core build failed'}} finally {Pop-Location}; Write-Host 'BUILD SUCCESSFUL' -ForegroundColor Green
+Installing common\lib\common-lib-log
+[INFO] Scanning for projects...
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 1.0 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml (601 B at 7.8 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml (998 B at 15 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 5.6 kB/s)
+[INFO]
+[INFO] ----------------< com.calian.common.lib:common-lib-log >----------------
+[INFO] Building common-lib-log 5.2.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- clean:3.4.1:clean (default-clean) @ common-lib-log ---
+[INFO] Deleting C:\dev - Copy\common\lib\common-lib-log\target
+[INFO] Deleting C:\dev - Copy\common\lib\common-lib-log (includes = [null], excludes = [])
+[INFO]
+[INFO] --- git-commit-id:9.0.1:revision (get-the-git-infos) @ common-lib-log ---
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-build-standards) @ common-lib-log ---
+[INFO] Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 3: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] Rule 4: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+[INFO] Rule 5: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+[INFO] Rule 6: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+[INFO] Rule 7: org.apache.maven.enforcer.rules.BannedPlugins passed
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-luciad-ban) @ common-lib-log ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.dependency.BannedDependencies passed
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-package-standards) @ common-lib-log ---
+[INFO] Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 3: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+[INFO] Rule 4: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+[INFO] Rule 5: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+[INFO] Rule 6: org.apache.maven.enforcer.rules.BannedPlugins passed
+[INFO]
+[INFO] --- artifactory:3.7.0:publish (attach-properties) @ common-lib-log ---
+[INFO]
+[INFO] --- git-commit-id:9.0.1:revision (write-git-commit-properties-to-file) @ common-lib-log ---
+[INFO]
+[INFO] --- git-commit-id:9.0.1:revision (write-all-git-properties-to-file) @ common-lib-log ---
+[INFO]
+[INFO] --- build-helper:3.6.0:parse-version (parse-version) @ common-lib-log ---
+[INFO]
+[INFO] --- build-helper:3.6.0:timestamp-property (set-date-for-application-version) @ common-lib-log ---
+[INFO]
+[INFO] --- remote-resources:3.3.0:process (process-license-resource) @ common-lib-log ---
+[INFO] Preparing remote bundle com.simfront.ott.license:ott_v1:1.1-SNAPSHOT
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/ott/license/ott_v1/1.1-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/ott/license/ott_v1/1.1-SNAPSHOT/maven-metadata.xml (990 B at 910 B/s)
+[INFO] Copying 1 resource from 1 bundle.
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ common-lib-log ---
+[INFO] Copying 1 resource from target\maven-shared-archive-resources to target\classes\META-INF
+[INFO] skip non existing resourceDirectory C:\dev - Copy\common\lib\common-lib-log\src\main\resources
+[INFO] Copying 1 resource from target\maven-shared-archive-resources to target\classes
+[INFO]
+[INFO] --- compiler:3.14.0:compile (default-compile) @ common-lib-log ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 3 source files with javac [debug release 21] to target\classes
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ common-lib-log ---
+[INFO] skip non existing resourceDirectory C:\dev - Copy\common\lib\common-lib-log\src\test\resources
+[INFO] Copying 1 resource from target\maven-shared-archive-resources to target\test-classes
+[INFO]
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ common-lib-log ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- surefire:3.5.3:test (default-test) @ common-lib-log ---
+[INFO] Tests are skipped.
+[INFO]
+[INFO] --- jar:3.4.2:jar (default-jar) @ common-lib-log ---
+[INFO] Building jar: C:\dev - Copy\common\lib\common-lib-log\target\common-lib-log-5.2.0-SNAPSHOT.jar
+[INFO]
+[INFO] --- build-helper:3.6.0:attach-artifact (attach-passport-file) @ common-lib-log ---
+[INFO]
+[INFO] --- assembly:3.7.1:single (make-assembly) @ common-lib-log ---
+[INFO] Reading assembly descriptor: src/assembly/assembly.xml
+[INFO] Building zip: C:\dev - Copy\common\lib\common-lib-log\target\common-lib-log-5.2.0-SNAPSHOT-datafiles.zip
+[INFO]
+[INFO] --- install:3.1.4:install (default-install) @ common-lib-log ---
+[INFO] Installing C:\dev - Copy\common\lib\common-lib-log\pom.xml to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-log\5.2.0-SNAPSHOT\common-lib-log-5.2.0-SNAPSHOT.pom
+[INFO] Installing C:\dev - Copy\common\lib\common-lib-log\target\common-lib-log-5.2.0-SNAPSHOT.jar to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-log\5.2.0-SNAPSHOT\common-lib-log-5.2.0-SNAPSHOT.jar
+[INFO] Installing C:\dev - Copy\common\lib\common-lib-log\target\passport.properties to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-log\5.2.0-SNAPSHOT\common-lib-log-5.2.0-SNAPSHOT.txt
+[INFO] Installing C:\dev - Copy\common\lib\common-lib-log\target\common-lib-log-5.2.0-SNAPSHOT-datafiles.zip to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-log\5.2.0-SNAPSHOT\common-lib-log-5.2.0-SNAPSHOT-datafiles.zip
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  15.686 s
+[INFO] Finished at: 2026-11-13T21:17:19-05:00
+[INFO] ------------------------------------------------------------------------
+Installing common\lib\common-lib-system
+[INFO] Scanning for projects...
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 1.0 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml (601 B at 4.0 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml (998 B at 11 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 8.4 kB/s)
+[INFO]
+[INFO] --------------< com.calian.common.lib:common-lib-system >---------------
+[INFO] Building common-lib-system 5.2.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-log/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-log/5.2.0-SNAPSHOT/maven-metadata.xml (1.2 kB at 642 B/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-libs/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-libs/5.2.0-SNAPSHOT/maven-metadata.xml (613 B at 7.0 kB/s)
+[INFO]
+[INFO] --- clean:3.4.1:clean (default-clean) @ common-lib-system ---
+[INFO] Deleting C:\dev - Copy\common\lib\common-lib-system\target
+[INFO] Deleting C:\dev - Copy\common\lib\common-lib-system (includes = [null], excludes = [])
+[INFO]
+[INFO] --- git-commit-id:9.0.1:revision (get-the-git-infos) @ common-lib-system ---
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-build-standards) @ common-lib-system ---
+[INFO] Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 3: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] Rule 4: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+[INFO] Rule 5: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+[INFO] Rule 6: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+[INFO] Rule 7: org.apache.maven.enforcer.rules.BannedPlugins passed
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-luciad-ban) @ common-lib-system ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.dependency.BannedDependencies passed
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-package-standards) @ common-lib-system ---
+[INFO] Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 3: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+[INFO] Rule 4: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+[INFO] Rule 5: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+[INFO] Rule 6: org.apache.maven.enforcer.rules.BannedPlugins passed
+[INFO]
+[INFO] --- artifactory:3.7.0:publish (attach-properties) @ common-lib-system ---
+[INFO]
+[INFO] --- git-commit-id:9.0.1:revision (write-git-commit-properties-to-file) @ common-lib-system ---
+[INFO]
+[INFO] --- git-commit-id:9.0.1:revision (write-all-git-properties-to-file) @ common-lib-system ---
+[INFO]
+[INFO] --- build-helper:3.6.0:parse-version (parse-version) @ common-lib-system ---
+[INFO]
+[INFO] --- build-helper:3.6.0:timestamp-property (set-date-for-application-version) @ common-lib-system ---
+[INFO]
+[INFO] --- remote-resources:3.3.0:process (process-license-resource) @ common-lib-system ---
+[INFO] Preparing remote bundle com.simfront.ott.license:ott_v1:1.1-SNAPSHOT
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/ott/license/ott_v1/1.1-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/ott/license/ott_v1/1.1-SNAPSHOT/maven-metadata.xml (990 B at 15 kB/s)
+[INFO] Copying 1 resource from 1 bundle.
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ common-lib-system ---
+[INFO] Copying 1 resource from target\maven-shared-archive-resources to target\classes\META-INF
+[INFO] skip non existing resourceDirectory C:\dev - Copy\common\lib\common-lib-system\src\main\resources
+[INFO] Copying 1 resource from target\maven-shared-archive-resources to target\classes
+[INFO]
+[INFO] --- compiler:3.14.0:compile (default-compile) @ common-lib-system ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 5 source files with javac [debug release 21] to target\classes
+[INFO] /C:/dev - Copy/common/lib/common-lib-system/src/main/java/com/calian/common/lib/system/NetworkInterfaceUtil.java: C:\dev - Copy\common\lib\common-lib-system\src\main\java\com\calian\common\lib\system\NetworkInterfaceUtil.java uses unchecked or unsafe operations.
+[INFO] /C:/dev - Copy/common/lib/common-lib-system/src/main/java/com/calian/common/lib/system/NetworkInterfaceUtil.java: Recompile with -Xlint:unchecked for details.
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ common-lib-system ---
+[INFO] skip non existing resourceDirectory C:\dev - Copy\common\lib\common-lib-system\src\test\resources
+[INFO] Copying 1 resource from target\maven-shared-archive-resources to target\test-classes
+[INFO]
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ common-lib-system ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- surefire:3.5.3:test (default-test) @ common-lib-system ---
+[INFO] Tests are skipped.
+[INFO]
+[INFO] --- jar:3.4.2:jar (default-jar) @ common-lib-system ---
+[INFO] Building jar: C:\dev - Copy\common\lib\common-lib-system\target\common-lib-system-5.2.0-SNAPSHOT.jar
+[INFO]
+[INFO] --- build-helper:3.6.0:attach-artifact (attach-passport-file) @ common-lib-system ---
+[INFO]
+[INFO] --- install:3.1.4:install (default-install) @ common-lib-system ---
+[INFO] Installing C:\dev - Copy\common\lib\common-lib-system\pom.xml to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-system\5.2.0-SNAPSHOT\common-lib-system-5.2.0-SNAPSHOT.pom
+[INFO] Installing C:\dev - Copy\common\lib\common-lib-system\target\common-lib-system-5.2.0-SNAPSHOT.jar to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-system\5.2.0-SNAPSHOT\common-lib-system-5.2.0-SNAPSHOT.jar
+[INFO] Installing C:\dev - Copy\common\lib\common-lib-system\target\passport.properties to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\common\lib\common-lib-system\5.2.0-SNAPSHOT\common-lib-system-5.2.0-SNAPSHOT.txt
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  16.632 s
+[INFO] Finished at: 2026-11-13T21:17:39-05:00
+[INFO] ------------------------------------------------------------------------
+[INFO] Scanning for projects...
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-parent/7.0.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/ms-parent/7.0.0-SNAPSHOT/maven-metadata.xml (775 B at 1.3 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.16.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/simfront/pom-sf-build-parent/1.16.0-SNAPSHOT/maven-metadata.xml (787 B at 11 kB/s)
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO]
+[INFO] AI Core Projects                                                   [pom]
+[INFO] AI Core Data Model                                                 [jar]
+[INFO] AI Core App                                                        [jar]
+[INFO] AI Base Agent                                                      [jar]
+[INFO] AI Core Test Client                                                [jar]
+[INFO] A2A Server                                                         [jar]
+[INFO] locationagent                                                      [jar]
+[INFO]
+[INFO] -------------------------< com.calian:aicore >--------------------------
+[INFO] Building AI Core Projects 1.0.0-SNAPSHOT                           [1/7]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO]
+[INFO] --- clean:3.4.1:clean (default-clean) @ aicore ---
+[INFO] Deleting C:\dev - Copy\ai-core\target
+[INFO] Deleting C:\dev - Copy\ai-core (includes = [null], excludes = [])
+[INFO]
+[INFO] --- git-commit-id:9.0.2:revision (get-the-git-infos) @ aicore ---
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-build-standards) @ aicore ---
+[INFO] Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 3: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] Rule 4: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+[INFO] Rule 5: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+[INFO] Rule 6: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+[INFO] Rule 7: org.apache.maven.enforcer.rules.BannedPlugins passed
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-package-standards) @ aicore ---
+[INFO] Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 3: org.apache.maven.enforcer.rules.RequireJavaVendor passed
+[INFO] Rule 4: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+[INFO] Rule 5: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+[INFO] Rule 6: org.apache.maven.enforcer.rules.BannedPlugins passed
+[INFO]
+[INFO] --- artifactory:3.7.0:publish (attach-properties) @ aicore ---
+[INFO]
+[INFO] --- git-commit-id:9.0.2:revision (write-git-commit-properties-to-file) @ aicore ---
+[INFO]
+[INFO] --- git-commit-id:9.0.2:revision (write-all-git-properties-to-file) @ aicore ---
+[INFO]
+[INFO] --- build-helper:3.6.0:parse-version (parse-version) @ aicore ---
+[INFO]
+[INFO] --- build-helper:3.6.0:timestamp-property (set-date-for-application-version) @ aicore ---
+[INFO]
+[INFO] --- remote-resources:3.3.0:process (process-license-resource) @ aicore ---
+[INFO] Preparing remote bundle com.simfront.ott.license:ott_v1:1.0
+[INFO] Copying 1 resource from 1 bundle.
+[INFO]
+[INFO] --- build-helper:3.6.0:attach-artifact (attach-passport-file) @ aicore ---
+[INFO]
+[INFO] --- install:3.1.4:install (default-install) @ aicore ---
+[INFO] Installing C:\dev - Copy\ai-core\pom.xml to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicore\1.0.0-SNAPSHOT\aicore-1.0.0-SNAPSHOT.pom
+[INFO] Installing C:\dev - Copy\ai-core\target\passport.properties to C:\Users\f.nkutu\.m2-netbeans\repository\com\calian\aicore\1.0.0-SNAPSHOT\aicore-1.0.0-SNAPSHOT.txt
+[INFO]
+[INFO] -----------------------< com.calian:aicoredata >------------------------
+[INFO] Building AI Core Data Model 1.0.0-SNAPSHOT                         [2/7]
+[INFO]   from aicoredata\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-rabbitmq/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-lib-rabbitmq/5.2.0-SNAPSHOT/maven-metadata.xml (1.0 kB at 17 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-libs/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/lib/common-libs/5.2.0-SNAPSHOT/maven-metadata.xml (613 B at 12 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/common/5.2.0-SNAPSHOT/maven-metadata.xml (998 B at 17 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/internal-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 12 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/bom/5.2.0-SNAPSHOT/maven-metadata.xml (601 B at 11 kB/s)
+Downloading from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml
+Downloaded from artifactory-mirror-all: https://artifactory.ci.simfront.com/artifactory/maven-public/com/calian/common/external-bom/5.2.0-SNAPSHOT/maven-metadata.xml (610 B at 12 kB/s)
+[WARNING] The POM for com.calian.common.lib:common-lib-rabbitmq:jar:5.2.0-20261113.143337-25 is invalid, transitive dependencies (if any) will not be available: 1 problem was encountered while building the effective model for com.calian.common.lib:common-lib-rabbitmq:5.2.0-SNAPSHOT
+[ERROR] 'dependencies.dependency.version' for com.rabbitmq:amqp-client:jar is missing. @
+
+[INFO]
+[INFO] --- clean:3.4.1:clean (default-clean) @ aicoredata ---
+[INFO] Deleting C:\dev - Copy\ai-core\aicoredata\target
+[INFO] Deleting C:\dev - Copy\ai-core\aicoredata (includes = [null], excludes = [])
+[INFO]
+[INFO] --- git-commit-id:9.0.2:revision (get-the-git-infos) @ aicoredata ---
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-build-standards) @ aicoredata ---
+[INFO] Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+[INFO] Rule 5: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+[INFO] Rule 6: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+[INFO] Rule 7: org.apache.maven.enforcer.rules.BannedPlugins passed
+[INFO]
+[INFO] --- enforcer:3.5.0:enforce (enforce-sf-package-standards) @ aicoredata ---
+[INFO] Rule 0: org.codehaus.mojo.extraenforcer.dependencies.BanCircularDependencies passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+[INFO] Rule 4: org.apache.maven.enforcer.rules.BanDistributionManagement passed
+[INFO] Rule 5: org.apache.maven.enforcer.rules.RequireNoRepositories passed
+[INFO] Rule 6: org.apache.maven.enforcer.rules.BannedPlugins passed
+[INFO]
+[INFO] --- artifactory:3.7.0:publish (attach-properties) @ aicoredata ---
+[INFO]
+[INFO] --- git-commit-id:9.0.2:revision (write-git-commit-properties-to-file) @ aicoredata ---
+[INFO]
+[INFO] --- git-commit-id:9.0.2:revision (write-all-git-properties-to-file) @ aicoredata ---
+[INFO]
+[INFO] --- build-helper:3.6.0:parse-version (parse-version) @ aicoredata ---
+[INFO]
+[INFO] --- build-helper:3.6.0:timestamp-property (set-date-for-application-version) @ aicoredata ---
+[INFO]
+[INFO] --- remote-resources:3.3.0:process (process-license-resource) @ aicoredata ---
+[INFO] Preparing remote bundle com.simfront.ott.license:ott_v1:1.0
+[INFO] Copying 1 resource from 1 bundle.
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ aicoredata ---
+[INFO] skip non existing resourceDirectory C:\dev - Copy\ai-core\aicoredata\src\main\resources
+[INFO] Copying 1 resource from target\maven-shared-archive-resources to target\classes
+[INFO]
+[INFO] --- compiler:3.14.0:compile (default-compile) @ aicoredata ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 17 source files with javac [debug release 21] to target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR :
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/dev - Copy/ai-core/aicoredata/src/main/java/com/calian/aicoredata/datatype/AIObject.java:[11,40] cannot access com.calian.common.lib.system.SystemObject
+  class file for com.calian.common.lib.system.SystemObject not found
+[ERROR] /C:/dev - Copy/ai-core/aicoredata/src/main/java/com/calian/aicoredata/comms/RabbitMQComm.java:[8,33] package com.calian.common.lib.log does not exist
+[ERROR] /C:/dev - Copy/ai-core/aicoredata/src/main/java/com/calian/aicoredata/comms/RabbitMQComm.java:[32,37] cannot find symbol
+  symbol:   variable Log
+  location: class com.calian.aicoredata.comms.RabbitMQComm
+[INFO] 3 errors
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for AI Core Projects 1.0.0-SNAPSHOT:
+[INFO]
+[INFO] AI Core Projects ................................... SUCCESS [ 11.466 s]
+[INFO] AI Core Data Model ................................. FAILURE [  3.427 s]
+[INFO] AI Core App ........................................ SKIPPED
+[INFO] AI Base Agent ...................................... SKIPPED
+[INFO] AI Core Test Client ................................ SKIPPED
+[INFO] A2A Server ......................................... SKIPPED
+[INFO] locationagent ...................................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  16.258 s
+[INFO] Finished at: 2026-11-13T21:17:59-05:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.0:compile (default-compile) on project aicoredata: Compilation failure: Compilation failure:
+[ERROR] /C:/dev - Copy/ai-core/aicoredata/src/main/java/com/calian/aicoredata/datatype/AIObject.java:[11,40] cannot access com.calian.common.lib.system.SystemObject
+[ERROR]   class file for com.calian.common.lib.system.SystemObject not found
+[ERROR] /C:/dev - Copy/ai-core/aicoredata/src/main/java/com/calian/aicoredata/comms/RabbitMQComm.java:[8,33] package com.calian.common.lib.log does not exist
+[ERROR] /C:/dev - Copy/ai-core/aicoredata/src/main/java/com/calian/aicoredata/comms/RabbitMQComm.java:[32,37] cannot find symbol
+[ERROR]   symbol:   variable Log
+[ERROR]   location: class com.calian.aicoredata.comms.RabbitMQComm
+[ERROR] -> [Help 1]
+[ERROR]
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR]
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR]
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :aicoredata
+AI Core build failed
+At line:1 char:506
++ ... ipTests; if($LASTEXITCODE -ne 0){throw 'AI Core build failed'}} final ...
++                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (AI Core build failed:String) [], RuntimeException
+    + FullyQualifiedErrorId : AI Core build failed
+
+PS C:\dev - Copy\ai-core\aicoredata>
