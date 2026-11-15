@@ -1,0 +1,24 @@
+{
+  "Success": true,
+  "used_skill": "execute_sql",
+  "Request": {
+    "Request": "execute_sql",
+    "Query": "SELECT * FROM `contxt_oi_assoc` LIMIT 1000",
+    "max_rows": 1000
+  },
+  "Response": {
+    "success": true,
+    "sql": "SELECT * FROM `contxt_oi_assoc` LIMIT 1000",
+    "rows": [
+      {
+        "contxt_id": 1,
+        "obj_item_id": 1,
+        "cat_code": "INCLDE",
+        "time": -1
+      }
+    ],
+    "row_count": 1,
+    "error": "",
+    "answer": "Returned 1 row(s), up to 1000."
+  }
+}
