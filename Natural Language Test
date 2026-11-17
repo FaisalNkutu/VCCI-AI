@@ -1,0 +1,22 @@
+How many records in context_ol_assoc?
+DBAgent
+11:23 AM
+Generated read-only SQL:
+SELECT COUNT(*) AS total_records FROM `context_ol_assoc`;
+
+DBAgent result:
+[]
+
+{"error":"GROUNDING VIOLATION:\nInvalid joins detected: ['o.object_id = i.object_id', 'i.object_unit_id = u.object_unit_id', 'u.object_group_id = g.object_group_id', 'u.object_unit_id = g2.object_unit_id', 'g2.object_group_id = g3.object_group_id', 'g3.object_unit_id = g4.object_unit_id', 'g4.object_group_id = g5.object_group_id', 'g5.object_unit_id = g6.object_unit_id', 'g6.object_group_id = g7.object_group_id', 'g7.object_unit_id = g8.object_unit_id', 'g8.object_group_id = g9.object_group_id', 'g9.object_unit_id = g10.object_unit_id', 'g10.object_group_id = g11.object_group_id', 'g11.object_unit_id = g12.object_unit_id', 'g12.object_group_id = g13.object_group_id', 'g13.object_unit_id = g14.object_unit_id', 'g14.object_group_id = g15.object_group_id', 'g15.object_unit_id = g16.object_unit_id', 'g16.object_group_id = g17.object_group_id', 'g17.object_unit_id = g18.object_unit_id', 'g18.object_group_id = g19.object_group_id', 'g19.object_unit_id = g20.object_unit_id', 'g20.object_group_id = g21.object_group_id', 'g21.object_unit_id = g22.object_unit_id', 'g22.object_group_id = g23.object_group_id', 'g23.object_unit_id = g24.object_unit_id', 'g24.object_group_id = g25.object_group_id', 'g25.object_unit_id = g26.object_unit_id', 'g26.object_group_id = g27.object_group_id', 'g27.object_unit_id = g28.object_unit_id', 'g28.object_group_id = g29.object_group_id', 'g29.object_unit_id = g30.object_unit_id', 'g30.object_group_id = g31.object_group_id', 'g31.object_unit_id = g32.object_unit_id', 'g32.object_group_id = g33.object_group_id', 'g33.object_unit_id = g34.object_unit_id', 'g34.object_group_id = g35.object_group_id', 'g35.object_unit_id = g36.object_unit_id', 'g36.object_group_id = g37.object_group_id', 'g37.object_unit_id = g38.object_unit_id', 'g38.object_group_id = g39.object_group_id']\n\nUse ONLY the validated FK paths.\nDo NOT invent joins.\nDo NOT invent shortcut relationships.\nAll joins MUST appear in VALIDATED FK PATHS."}
+
+
+Show me 10 records from context_ol_assoc.
+DBAgent
+11:31 AM
+Generated read-only SQL:
+SELECT * FROM `context_ol_assoc` LIMIT 10;
+
+DBAgent result:
+[]
+
+{"error":"GROUNDING VIOLATION:\nInvalid tables detected: ['abs_point']\n\nUse ONLY the validated FK paths.\nDo NOT invent joins.\nDo NOT invent shortcut relationships.\nAll joins MUST appear in VALIDATED FK PATHS."}
