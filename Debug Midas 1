@@ -1,0 +1,1068 @@
+Starting MIDAS V4 UI 4201
+Initial chunk files | Names         |  Raw size
+main.js             | main          | 932.47 kB |
+styles.css          | styles        |  53.26 kB |
+polyfills.js        | polyfills     |  95 bytes |
+
+                    | Initial total | 985.82 kB
+
+Application bundle generation complete. [16.527 seconds] - 2026-11-24T18:26:57.180Z
+
+▲ [WARNING] Unable to initialize JavaScript cache storage. [plugin angular-compiler]
+
+  No native build was found for platform=win32 arch=x64 runtime=node abi=137 uv=1 libc=glibc node=24.22.1
+  This will not affect the build output content but may result in slower builds.
+
+
+▲ [WARNING] NG8113: AsyncPipe is not used within the template of CpDashComponent [plugin angular-compiler]
+
+    src/app/dashboards/combat-power/cp-dash.component.ts:49:4:
+      49 │     AsyncPipe,
+         ╵     ~~~~~~~~~
+
+
+▲ [WARNING] NG8113: ChartComponent is not used within the template of EnemyEngageDashComponent [plugin angular-compiler]
+
+    src/app/dashboards/enemy-engagement/enemy-engage-dash.component.ts:41:4:
+      41 │     ChartComponentV3,
+         ╵     ~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] NG8113: NgClass is not used within the template of RomDashComponent [plugin angular-compiler]
+
+    src/app/dashboards/rate-of-movement/rom-dash.component.ts:33:8:
+      33 │         NgClass,
+         ╵         ~~~~~~~
+
+
+▲ [WARNING] Unexpected "/" [plugin angular-compiler] [css-syntax-error]
+
+    angular:styles/component:css;aed52b250090cd367baa7ba7d96d6d87226394018d099e6185ad9c7271dca840;C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/src/app/lvcts/trainee/trainee.component.ts:30:18:
+      30 │     :host-context /deep/ {
+         ╵                   ^
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/@material-design-icons+font@0.14.15/node_modules/@material-design-icons/font/_core.scss:5:10:
+      5 │   $index: str-index($string, $search);
+        ╵           ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use string.index instead.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:1:8:
+      1 │ @import '@material-design-icons/font';
+        ╵         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/@material-design-icons+font@0.14.15/node_modules/@material-design-icons/font/_core.scss:7:12:
+      7 │     @return str-slice($string, 1, $index - 1) + $replace +
+        ╵             ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use string.slice instead.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:1:8:
+      1 │ @import '@material-design-icons/font';
+        ╵         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/@material-design-icons+font@0.14.15/node_modules/@material-design-icons/font/_core.scss:9:8:
+      9 │         str-slice($string, $index + str-length($search)),
+        ╵         ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use string.slice instead.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:1:8:
+      1 │ @import '@material-design-icons/font';
+        ╵         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/@material-design-icons+font@0.14.15/node_modules/@material-design-icons/font/_core.scss:9:36:
+      9 │         str-slice($string, $index + str-length($search)),
+        ╵                                     ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use string.length instead.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:1:8:
+      1 │ @import '@material-design-icons/font';
+        ╵         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/@material-design-icons+font@0.14.15/node_modules/@material-design-icons/font/_core.scss:18:15:
+      18 │   $class-name: to-lower-case($font-family);
+         ╵                ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use string.to-lower-case instead.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:1:8:
+      1 │ @import '@material-design-icons/font';
+        ╵         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/@material-design-icons+font@0.14.15/node_modules/@material-design-icons/font/index.scss:1:8:
+      1 │ @import 'filled';
+        ╵         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:1:8:
+      1 │ @import '@material-design-icons/font';
+        ╵         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/@material-design-icons+font@0.14.15/node_modules/@material-design-icons/font/index.scss:2:8:
+      2 │ @import 'outlined';
+        ╵         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:1:8:
+      1 │ @import '@material-design-icons/font';
+        ╵         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/@material-design-icons+font@0.14.15/node_modules/@material-design-icons/font/index.scss:3:8:
+      3 │ @import 'round';
+        ╵         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:1:8:
+      1 │ @import '@material-design-icons/font';
+        ╵         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/@material-design-icons+font@0.14.15/node_modules/@material-design-icons/font/index.scss:4:8:
+      4 │ @import 'sharp';
+        ╵         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:1:8:
+      1 │ @import '@material-design-icons/font';
+        ╵         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/@material-design-icons+font@0.14.15/node_modules/@material-design-icons/font/index.scss:5:8:
+      5 │ @import 'two-tone';
+        ╵         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:1:8:
+      1 │ @import '@material-design-icons/font';
+        ╵         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/material-symbols@0.45.10/node_modules/material-symbols/_core.scss:5:10:
+      5 │   $index: str-index($string, $search);
+        ╵           ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use string.index instead.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:2:8:
+      2 │ @import 'material-symbols';
+        ╵         ~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/material-symbols@0.45.10/node_modules/material-symbols/_core.scss:7:12:
+      7 │     @return str-slice($string, 1, $index - 1) + $replace +
+        ╵             ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use string.slice instead.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:2:8:
+      2 │ @import 'material-symbols';
+        ╵         ~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/material-symbols@0.45.10/node_modules/material-symbols/_core.scss:9:8:
+      9 │         str-slice($string, $index + str-length($search)),
+        ╵         ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use string.slice instead.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:2:8:
+      2 │ @import 'material-symbols';
+        ╵         ~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/material-symbols@0.45.10/node_modules/material-symbols/_core.scss:9:36:
+      9 │         str-slice($string, $index + str-length($search)),
+        ╵                                     ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use string.length instead.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:2:8:
+      2 │ @import 'material-symbols';
+        ╵         ~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/material-symbols@0.45.10/node_modules/material-symbols/_core.scss:18:15:
+      18 │   $class-name: to-lower-case($font-family);
+         ╵                ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use string.to-lower-case instead.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:2:8:
+      2 │ @import 'material-symbols';
+        ╵         ~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/material-symbols@0.45.10/node_modules/material-symbols/index.scss:1:8:
+      1 │ @import 'outlined';
+        ╵         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:2:8:
+      2 │ @import 'material-symbols';
+        ╵         ~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/material-symbols@0.45.10/node_modules/material-symbols/index.scss:2:8:
+      2 │ @import 'rounded';
+        ╵         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:2:8:
+      2 │ @import 'material-symbols';
+        ╵         ~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/material-symbols@0.45.10/node_modules/material-symbols/index.scss:3:8:
+      3 │ @import 'sharp';
+        ╵         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:2:8:
+      2 │ @import 'material-symbols';
+        ╵         ~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/material-symbols@0.45.10/node_modules/material-symbols/outlined.scss:1:8:
+      1 │ @import 'core';
+        ╵         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:2:8:
+      2 │ @import 'material-symbols';
+        ╵         ~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/.pnpm/material-symbols@0.45.10/node_modules/material-symbols/rounded.scss:1:8:
+      1 │ @import 'core';
+        ╵         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    src/styles.css:2:8:
+      2 │ @import 'material-symbols';
+        ╵         ~~~~~~~~~~~~~~~~~~
+
+
+▲ [WARNING] 5 repetitive deprecation warnings omitted.
+Run in verbose mode to see all warnings. [plugin angular-sass]
+
+    src/styles.css:1:8:
+      1 │ @import '@material-design-icons/font';
+        ╵         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  null
+
+
+▲ [WARNING] 1 repetitive deprecation warnings omitted.
+Run in verbose mode to see all warnings. [plugin angular-sass]
+
+    src/styles.css:2:8:
+      2 │ @import 'material-symbols';
+        ╵         ~~~~~~~~~~~~~~~~~~
+
+  null
+
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+The project root contains the "#" character (C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/vite-root/midas-app), which may not work when running Vite. Consider renaming the directory / file to remove the characters.
+  ➜  Local:   http://127.0.0.1:4201/
+  ➜  press h + enter to show help
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/zone__js.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_platform-browser.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_router.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/chart__js.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/chartjs-plugin-zoom.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/chartjs-plugin-datalabels.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/ng2-charts.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_collections.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_checkbox.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_form-field.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_menu.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_select.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_slide-toggle.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_table.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_tooltip.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@simfront_common-libs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_table.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_menu.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_tooltip.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_form-field.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_select.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_slide-toggle.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs_operators.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button-toggle.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_datepicker.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_form-field.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_input.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_select.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_slider.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_tooltip.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_slider.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button-toggle.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_input.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_form-field.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_text-field.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_datepicker.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_select.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_tooltip.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button-toggle.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_checkbox.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_dialog.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_menu.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_slider.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_dialog.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_table.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@simfront_common-libs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_dialog.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_table.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_dialog.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_dialog.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_dialog.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_slider.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_menu.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_checkbox.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x3)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_entity.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_dialog.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_dialog.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/ng2-charts.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_menu.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_menu.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_list.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_dialog.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_dialog.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x3)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core_rxjs-interop.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@simfront_gis-web-angular.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_tooltip.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_table.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_sort.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_table.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_sort.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@simfront_common-libs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x3)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x4)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x5)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x6)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core_rxjs-interop.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined (x3)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_form-field.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_input.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_select.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_tooltip.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button-toggle.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_form-field.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_select.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_form-field.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_input.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_select.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/chartjs-adapter-date-fns.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_badge.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_grid-list.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_list.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_tooltip.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_router.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_grid-list.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_list.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_tooltip.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_badge.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@simfront_common-libs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_checkbox.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_menu.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_menu.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button-toggle.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_menu.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_tooltip.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button-toggle.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_menu.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_tooltip.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_checkbox.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_chips.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_stepper.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_dialog.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_dialog.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_stepper.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_chips.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_checkbox.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button-toggle.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_checkbox.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button-toggle.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_entity.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_router.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_router.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x3)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x4)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_animations.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_router.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_router.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core_rxjs-interop.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_progress-spinner.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_list.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_card.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_table.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_router.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs_operators.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_tooltip.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_expansion.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_table.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_list.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_expansion.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_checkbox.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_input.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_form-field.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_expansion.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_checkbox.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_input.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_form-field.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_text-field.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_expansion.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_list.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_table.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_router.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_form-field.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_select.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_divider.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_button.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_tooltip.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core_rxjs-interop.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs_operators.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_platform-browser_animations_async.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/ng2-charts.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_router-store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_router-store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store-devtools.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs_operators.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs_operators.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_effects.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_select.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_router.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_icon.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_tooltip.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core_rxjs-interop.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_bidi.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_form-field.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_material_select.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_router.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core_rxjs-interop.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_drag-drop.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_common_http.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_forms.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_scrolling.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_cdk_drag-drop.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_platform-browser.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_router.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/rxjs.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x2)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x3)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@angular_core.js?v=0456e7c1 optimized info should be defined (x4)
+Vite Error, /@fs/C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/.angular/cache/21.2.26/midas-app/vite/deps/@ngrx_store.js?v=0456e7c1 optimized info should be defined
+1:26:59 p.m. [vite] (client) Pre-transform error: Failed to load url C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/node_modules/.pnpm/vite@7.3.6_@types+node@26.1_e09889f5b30dab585137fcedd810b940/node_modules/vite/dist/client/env.mjs (resolved id: C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas#296/midas-frontend/node_modules/.pnpm/vite@7.3.6_@types+node@26.1_e09889f5b30dab585137fcedd810b940/node_modules/vite/dist/client/env.mjs) in C:/Users/f.nkutu/Downloads/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/MIDAS_Calian_AI_Copilot_V4_1_Build_Approval_Windows/midas-plan-midas. Does the file exist?
+
